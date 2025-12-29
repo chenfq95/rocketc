@@ -1,2 +1,4 @@
 # rocketc
-Personal Front End Tool Kit
+Personal Front End Toolkit
+
+![Logo](./assets/rocketc.svg)
