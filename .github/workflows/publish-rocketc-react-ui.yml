@@ -1,0 +1,150 @@
+name: Publish rocketc-react-ui to npm
+
+on:
+  # 手动触发，可以选择版本类型
+  workflow_dispatch:
+    inputs:
+      version_type:
+        description: '版本类型 (patch/minor/major)'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+  # 通过推送 tag 触发（格式：v1.0.0）
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.21.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Determine version
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            # 手动触发：根据选择的版本类型更新版本
+            VERSION_TYPE="${{ github.event.inputs.version_type }}"
+            CURRENT_VERSION=$(node -p "require('./packages/rocketc-react-ui/package.json').version")
+            echo "当前版本: $CURRENT_VERSION"
+
+            # 使用脚本计算新版本（传入当前版本号和版本类型）
+            NEW_VERSION=$(node scripts/calculate-version.js "$CURRENT_VERSION" "$VERSION_TYPE")
+            echo "新版本: $NEW_VERSION"
+          else
+            # 通过 tag 触发：从 tag 中提取版本号
+            TAG_NAME=${GITHUB_REF#refs/tags/}
+            NEW_VERSION=${TAG_NAME#v}  # 移除 'v' 前缀
+            echo "从 tag 获取版本: $NEW_VERSION"
+          fi
+
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Update version in package.json
+        run: |
+          cd packages/rocketc-react-ui
+          # 使用 sed 或 node 来更新版本
+          node -e "
+            const fs = require('fs');
+            const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+            pkg.version = '${{ steps.version.outputs.version }}';
+            fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n');
+          "
+          echo "✅ 版本已更新为: ${{ steps.version.outputs.version }}"
+
+      - name: Install components
+        run: |
+          cd packages/rocketc-react-ui
+          pnpm run install-compoents
+          pnpm run gen-entry
+
+      - name: Build package
+        run: |
+          cd packages/rocketc-react-ui
+          pnpm run build
+
+      - name: Run tests (if available)
+        run: |
+          # 如果有测试，在这里运行
+          echo "⚠️  跳过测试（未配置）"
+        continue-on-error: true
+
+      - name: Check if version already published
+        id: check_version
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          if npm view rocketc-react-ui@$VERSION version > /dev/null 2>&1; then
+            echo "⚠️  版本 $VERSION 已经发布，跳过发布步骤"
+            echo "published=true" >> $GITHUB_OUTPUT
+          else
+            echo "✅ 版本 $VERSION 尚未发布，将继续发布"
+            echo "published=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Publish to npm
+        if: steps.check_version.outputs.published != 'true'
+        run: |
+          cd packages/rocketc-react-ui
+          npm publish --access public --registry https://registry.npmjs.org
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Create Git tag
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add packages/rocketc-react-ui/package.json
+          git commit -m "chore: bump version to ${{ steps.version.outputs.version }}" || exit 0
+          git tag -a "v${{ steps.version.outputs.version }}" -m "Release v${{ steps.version.outputs.version }}"
+          git push origin main --follow-tags || git push origin master --follow-tags || true
+
+      - name: Create GitHub Release
+        if: github.event_name == 'workflow_dispatch'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.version.outputs.version }}
+          name: Release v${{ steps.version.outputs.version }}
+          body: |
+            ## 变更内容
+
+            - 版本更新至 ${{ steps.version.outputs.version }}
+
+            ## 安装
+
+            ```bash
+            npm install rocketc-react-ui@${{ steps.version.outputs.version }}
+            ```
+          draft: false
+          prerelease: ${{ contains(steps.version.outputs.version, '-') }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
