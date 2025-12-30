@@ -13,6 +13,17 @@ on:
           - patch
           - minor
           - major
+      tag:
+        description: '标签 (alpha/beta/rc/latest/next)'
+        required: false
+        default: 'alpha'
+        type: choice
+        options:
+          - alpha
+          - beta
+          - rc
+          - latest
+          - next
   # 通过推送 tag 触发（格式：v1.0.0）
   push:
     tags:
@@ -115,7 +126,7 @@ jobs:
         if: steps.check_version.outputs.published != 'true'
         run: |
           cd packages/rocketc-react-ui
-          npm publish --access public --registry https://registry.npmjs.org --tag ${{ steps.version.outputs.version }}
+          npm publish --access public --registry https://registry.npmjs.org --tag ${{ github.event.inputs.tag }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
