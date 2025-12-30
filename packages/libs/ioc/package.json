@@ -1,0 +1,42 @@
+{
+  "name": "@rocketc/ioc",
+  "version": "0.0.1-alpha.1",
+  "type": "module",
+  "description": "DI implement of IOC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chenfq95/rocketc.git",
+    "directory": "packages/libs/ioc"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "test": "jest",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix"
+  },
+  "author": "chenfq95 <chenfq95@foxmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@microsoft/api-extractor": "^7.55.2",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^25.0.3",
+    "jest": "^30.2.0",
+    "oxlint": "^1.36.0",
+    "ts-jest": "^29.4.6",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3",
+    "unplugin-dts": "1.0.0-beta.6",
+    "vite": "^7.3.0"
+  }
+}
