@@ -8,7 +8,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "rocketc-react-ui"
+} from "@rocketc/react"
 
 export function SectionCards() {
   return (

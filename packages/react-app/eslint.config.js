@@ -22,5 +22,8 @@ export default defineConfig([
 				tsconfigRootDir: process.cwd(),
 			},
 		},
+		rules: {
+			quotes: ["error", "single"],
+		},
 	},
 ]);

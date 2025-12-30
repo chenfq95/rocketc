@@ -1,10 +1,8 @@
 import Dashboard from './pages/dashboard';
-import 'rocketc-react-ui/style.css';
+import '@rocketc/react/style.css';
 
 const App = () => {
-	return (
-		<Dashboard />
-	);
+  return <Dashboard />;
 };
 
 export default App;

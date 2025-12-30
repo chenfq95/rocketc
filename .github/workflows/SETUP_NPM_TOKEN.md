@@ -72,7 +72,7 @@ env:
 ### 3.2 测试发布
 
 1. 前往 GitHub 仓库的 **Actions** 标签页
-2. 选择 **Publish rocketc-react-ui to npm** workflow
+2. 选择 **Publish @rocketc/react to npm** workflow
 3. 点击 **Run workflow**
 4. 选择版本类型（如 `patch`）
 5. 点击 **Run workflow** 按钮

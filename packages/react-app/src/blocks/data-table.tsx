@@ -54,16 +54,16 @@ import { Area, AreaChart, CartesianGrid, XAxis } from "recharts"
 import { toast } from "sonner"
 import { z } from "zod"
 
-import { useIsMobile } from "rocketc-react-ui"
-import { Badge } from "rocketc-react-ui"
-import { Button } from "rocketc-react-ui"
+import { useIsMobile } from "@rocketc/react"
+import { Badge } from "@rocketc/react"
+import { Button } from "@rocketc/react"
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
   type ChartConfig,
-} from "rocketc-react-ui"
-import { Checkbox } from "rocketc-react-ui"
+} from "@rocketc/react"
+import { Checkbox } from "@rocketc/react"
 import {
   Drawer,
   DrawerClose,
@@ -73,7 +73,7 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "rocketc-react-ui"
+} from "@rocketc/react"
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -81,17 +81,17 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "rocketc-react-ui"
-import { Input } from "rocketc-react-ui"
-import { Label } from "rocketc-react-ui"
+} from "@rocketc/react"
+import { Input } from "@rocketc/react"
+import { Label } from "@rocketc/react"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "rocketc-react-ui"
-import { Separator } from "rocketc-react-ui"
+} from "@rocketc/react"
+import { Separator } from "@rocketc/react"
 import {
   Table,
   TableBody,
@@ -99,13 +99,13 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "rocketc-react-ui"
+} from "@rocketc/react"
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "rocketc-react-ui"
+} from "@rocketc/react"
 
 export const schema = z.object({
   id: z.number(),

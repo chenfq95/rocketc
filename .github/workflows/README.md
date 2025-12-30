@@ -57,7 +57,7 @@ git push origin v1.0.0
 1. **检查代码**: 检出最新代码
 2. **安装依赖**: 使用 pnpm 安装依赖
 3. **计算版本**: 根据触发方式计算新版本号
-4. **更新版本**: 更新 `packages/rocketc-react-ui/package.json` 中的版本号
+4. **更新版本**: 更新 `packages/react/package.json` 中的版本号
 5. **构建项目**: 运行 `pnpm run build`
 6. **检查版本**: 检查该版本是否已在 npm 上发布
 7. **发布到 npm**: 如果未发布，则发布到 npm

@@ -1,24 +1,31 @@
 {
-	"name": "rocketc",
-	"version": "1.0.0",
-	"type": "module",
-	"private": true,
-	"description": "Personal Front End Toolkit",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/chenfq95/rocketc.git"
-	},
-	"keywords": [
-		"frontend",
-		"toolkit",
-		"react",
-		"ui components"
-	],
-	"scripts": {},
-	"author": "chenfq95 <chenfq95@foxmail.com>",
-	"license": "MIT",
-	"packageManager": "pnpm@10.21.0",
-	"prettier": {
-		"singleQuote": true
-	}
+  "name": "rocketc",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Personal Front End Toolkit",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chenfq95/rocketc.git"
+  },
+  "keywords": [
+    "frontend",
+    "toolkit",
+    "react",
+    "ui components"
+  ],
+  "scripts": {
+    "prepare": "husky"
+  },
+  "author": "chenfq95 <chenfq95@foxmail.com>",
+  "license": "MIT",
+  "packageManager": "pnpm@10.21.0",
+  "prettier": {
+    "singleQuote": false
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^20.2.0",
+    "@commitlint/config-conventional": "^20.2.0",
+    "husky": "^9.1.7"
+  }
 }

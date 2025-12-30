@@ -29,7 +29,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "rocketc-react-ui"
+} from "@rocketc/react"
 
 const data = {
   user: {

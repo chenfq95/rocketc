@@ -21,7 +21,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "rocketc-react-ui"
+} from "@rocketc/react"
 
 export function NavUser({
   user,

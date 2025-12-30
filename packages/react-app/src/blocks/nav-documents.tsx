@@ -21,7 +21,7 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "rocketc-react-ui"
+} from "@rocketc/react"
 
 export function NavDocuments({
   items,

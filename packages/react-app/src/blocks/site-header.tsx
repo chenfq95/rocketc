@@ -1,4 +1,4 @@
-import { Separator, SidebarTrigger, Switch } from "rocketc-react-ui"
+import { Separator, SidebarTrigger, Switch } from "@rocketc/react"
 
 export function SiteHeader() {
   return (

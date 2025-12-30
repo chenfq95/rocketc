@@ -7,7 +7,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "rocketc-react-ui"
+} from "@rocketc/react"
 
 export function NavMain({
   items,

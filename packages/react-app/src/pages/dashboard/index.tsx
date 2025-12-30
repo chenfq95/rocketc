@@ -1,22 +1,22 @@
-import { AppSidebar } from "../../blocks/app-sidebar"
-import { ChartAreaInteractive } from "../../blocks/chart-area-interactive"
-import { DataTable } from "../../blocks/data-table"
-import { SectionCards } from "../../blocks/section-cards"
-import { SiteHeader } from "../../blocks/site-header"
+import { AppSidebar } from '../../blocks/app-sidebar'
+import { ChartAreaInteractive } from '../../blocks/chart-area-interactive'
+import { DataTable } from '../../blocks/data-table'
+import { SectionCards } from '../../blocks/section-cards'
+import { SiteHeader } from '../../blocks/site-header'
 import {
   SidebarInset,
   SidebarProvider,
-} from "rocketc-react-ui"
+} from '@rocketc/react'
 
-import data from "./data.json"
+import data from './data.json'
 
-export default function Page() {
+export default function Dashboard() {
   return (
     <SidebarProvider
       style={
         {
-          "--sidebar-width": "calc(var(--spacing) * 72)",
-          "--header-height": "calc(var(--spacing) * 12)",
+          '--sidebar-width': 'calc(var(--spacing) * 72)',
+          '--header-height': 'calc(var(--spacing) * 12)',
         } as React.CSSProperties
       }
     >
