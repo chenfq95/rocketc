@@ -1,37 +1,10 @@
-import HeroSection from './blocks/section';
-import Header, { type NavigationSection } from './blocks/header';
+import Dashboard from './pages/dashboard';
+import 'rocketc-react-ui/style.css';
 
-const navigationData: NavigationSection[] = [
-	{
-		title: 'Home',
-		href: '#',
-	},
-	{
-		title: 'Products',
-		href: '#',
-	},
-	{
-		title: 'About Us',
-		href: '#',
-	},
-	{
-		title: 'Contacts',
-		href: '#',
-	},
-];
-
-const HeroSectionPage = () => {
+const App = () => {
 	return (
-		<div className="relative">
-			{/* Header Section */}
-			<Header navigationData={navigationData} />
-
-			{/* Main Content */}
-			<main className="flex flex-col">
-				<HeroSection />
-			</main>
-		</div>
+		<Dashboard />
 	);
 };
 
-export default HeroSectionPage;
+export default App;
