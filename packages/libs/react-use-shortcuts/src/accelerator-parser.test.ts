@@ -1,0 +1,441 @@
+import { AcceleratorParser } from './accelerator-parser';
+
+const parser = new AcceleratorParser();
+
+describe('parseAccelerator', () => {
+  it('parse success', () => {
+    expect(parser.parseAccelerator('Ctrl')).toMatchInlineSnapshot(`
+[
+  [
+    "ControlLeft",
+    "ControlRight",
+  ],
+  [
+    "",
+  ],
+]
+`);
+    expect(parser.parseAccelerator('Control')).toMatchInlineSnapshot(`
+[
+  [
+    "ControlLeft",
+    "ControlRight",
+  ],
+  [
+    "",
+  ],
+]
+`);
+    expect(parser.parseAccelerator('ControlLeft')).toMatchInlineSnapshot(`
+[
+  [
+    "ControlLeft",
+  ],
+  [
+    "",
+  ],
+]
+`);
+    expect(parser.parseAccelerator('ControlRight')).toMatchInlineSnapshot(`
+[
+  [
+    "ControlRight",
+  ],
+  [
+    "",
+  ],
+]
+`);
+    expect(parser.parseAccelerator('ControlOrCommand')).toMatchInlineSnapshot(`
+[
+  [
+    "ControlLeft",
+    "ControlRight",
+    "MetaLeft",
+    "MetaRight",
+    "OSLeft",
+    "OSRight",
+  ],
+  [
+    "",
+  ],
+]
+`);
+    expect(parser.parseAccelerator('Shift')).toMatchInlineSnapshot(`
+[
+  [
+    "ShiftLeft",
+    "ShiftRight",
+  ],
+  [
+    "",
+  ],
+]
+`);
+    expect(parser.parseAccelerator('ShiftLeft')).toMatchInlineSnapshot(`
+[
+  [
+    "ShiftLeft",
+  ],
+  [
+    "",
+  ],
+]
+`);
+    expect(parser.parseAccelerator('ShiftRight')).toMatchInlineSnapshot(`
+[
+  [
+    "ShiftRight",
+  ],
+  [
+    "",
+  ],
+]
+`);
+    expect(parser.parseAccelerator('Alt')).toMatchInlineSnapshot(`
+[
+  [
+    "AltLeft",
+    "AltRight",
+  ],
+  [
+    "",
+  ],
+]
+`);
+    expect(parser.parseAccelerator('AltLeft')).toMatchInlineSnapshot(`
+[
+  [
+    "AltLeft",
+  ],
+  [
+    "",
+  ],
+]
+`);
+    expect(parser.parseAccelerator('AltRight')).toMatchInlineSnapshot(`
+[
+  [
+    "AltRight",
+  ],
+  [
+    "",
+  ],
+]
+`);
+    expect(parser.parseAccelerator('Option')).toMatchInlineSnapshot(`
+[
+  [
+    "AltLeft",
+    "AltRight",
+  ],
+  [
+    "",
+  ],
+]
+`);
+    expect(parser.parseAccelerator('OptionLeft')).toMatchInlineSnapshot(`
+[
+  [
+    "AltLeft",
+  ],
+  [
+    "",
+  ],
+]
+`);
+    expect(parser.parseAccelerator('OptionRight')).toMatchInlineSnapshot(`
+[
+  [
+    "AltRight",
+  ],
+  [
+    "",
+  ],
+]
+`);
+    expect(parser.parseAccelerator('Meta')).toMatchInlineSnapshot(`
+[
+  [
+    "MetaLeft",
+    "MetaRight",
+    "OSLeft",
+    "OSRight",
+  ],
+  [
+    "",
+  ],
+]
+`);
+    expect(parser.parseAccelerator('MetaLeft')).toMatchInlineSnapshot(`
+[
+  [
+    "MetaLeft",
+    "OSLeft",
+  ],
+  [
+    "",
+  ],
+]
+`);
+    expect(parser.parseAccelerator('MetaRight')).toMatchInlineSnapshot(`
+[
+  [
+    "MetaRight",
+    "OSRight",
+  ],
+  [
+    "",
+  ],
+]
+`);
+    expect(parser.parseAccelerator('Command')).toMatchInlineSnapshot(`
+[
+  [
+    "MetaLeft",
+    "MetaRight",
+    "OSLeft",
+    "OSRight",
+  ],
+  [
+    "",
+  ],
+]
+`);
+    expect(parser.parseAccelerator('CommandLeft')).toMatchInlineSnapshot(`
+[
+  [
+    "MetaLeft",
+    "OSLeft",
+  ],
+  [
+    "",
+  ],
+]
+`);
+    expect(parser.parseAccelerator('CommandRight')).toMatchInlineSnapshot(`
+[
+  [
+    "MetaRight",
+    "OSRight",
+  ],
+  [
+    "",
+  ],
+]
+`);
+
+    expect(parser.parseAccelerator('Ctrl+i')).toMatchInlineSnapshot(`
+[
+  [
+    "ControlLeft",
+    "ControlRight",
+  ],
+  [
+    "KeyI",
+  ],
+]
+`);
+    expect(parser.parseAccelerator('ControlLeft+Option')).
+toMatchInlineSnapshot(`
+[
+  [
+    "AltLeft+ControlLeft",
+    "AltRight+ControlLeft",
+  ],
+  [
+    "",
+  ],
+]
+`);
+    expect(parser.parseAccelerator('Command+Option')).toMatchInlineSnapshot(`
+[
+  [
+    "AltLeft+MetaLeft",
+    "AltLeft+MetaRight",
+    "AltLeft+OSLeft",
+    "AltLeft+OSRight",
+    "AltRight+MetaLeft",
+    "AltRight+MetaRight",
+    "AltRight+OSLeft",
+    "AltRight+OSRight",
+  ],
+  [
+    "",
+  ],
+]
+`);
+    expect(parser.parseAccelerator('Command+Option+Shift+=')).
+toMatchInlineSnapshot(`
+[
+  [
+    "AltLeft+MetaLeft+ShiftLeft",
+    "AltLeft+MetaRight+ShiftLeft",
+    "AltLeft+OSLeft+ShiftLeft",
+    "AltLeft+OSRight+ShiftLeft",
+    "AltRight+MetaLeft+ShiftLeft",
+    "AltRight+MetaRight+ShiftLeft",
+    "AltRight+OSLeft+ShiftLeft",
+    "AltRight+OSRight+ShiftLeft",
+    "AltLeft+MetaLeft+ShiftRight",
+    "AltLeft+MetaRight+ShiftRight",
+    "AltLeft+OSLeft+ShiftRight",
+    "AltLeft+OSRight+ShiftRight",
+    "AltRight+MetaLeft+ShiftRight",
+    "AltRight+MetaRight+ShiftRight",
+    "AltRight+OSLeft+ShiftRight",
+    "AltRight+OSRight+ShiftRight",
+  ],
+  [
+    "Equal",
+  ],
+]
+`);
+    expect(parser.parseAccelerator('ControlOrCommand+Option+Shift+i')).
+toMatchInlineSnapshot(`
+[
+  [
+    "AltLeft+ControlLeft+ShiftLeft",
+    "AltLeft+ControlRight+ShiftLeft",
+    "AltLeft+MetaLeft+ShiftLeft",
+    "AltLeft+MetaRight+ShiftLeft",
+    "AltLeft+OSLeft+ShiftLeft",
+    "AltLeft+OSRight+ShiftLeft",
+    "AltRight+ControlLeft+ShiftLeft",
+    "AltRight+ControlRight+ShiftLeft",
+    "AltRight+MetaLeft+ShiftLeft",
+    "AltRight+MetaRight+ShiftLeft",
+    "AltRight+OSLeft+ShiftLeft",
+    "AltRight+OSRight+ShiftLeft",
+    "AltLeft+ControlLeft+ShiftRight",
+    "AltLeft+ControlRight+ShiftRight",
+    "AltLeft+MetaLeft+ShiftRight",
+    "AltLeft+MetaRight+ShiftRight",
+    "AltLeft+OSLeft+ShiftRight",
+    "AltLeft+OSRight+ShiftRight",
+    "AltRight+ControlLeft+ShiftRight",
+    "AltRight+ControlRight+ShiftRight",
+    "AltRight+MetaLeft+ShiftRight",
+    "AltRight+MetaRight+ShiftRight",
+    "AltRight+OSLeft+ShiftRight",
+    "AltRight+OSRight+ShiftRight",
+  ],
+  [
+    "KeyI",
+  ],
+]
+`);
+    expect(parser.parseAccelerator('Control+Shift+1+2+3+4+5+6')).
+toMatchInlineSnapshot(`
+[
+  [
+    "ControlLeft+ShiftLeft",
+    "ControlRight+ShiftLeft",
+    "ControlLeft+ShiftRight",
+    "ControlRight+ShiftRight",
+  ],
+  [
+    "Digit1+Digit2+Digit3+Digit4+Digit5+Digit6",
+    "Numpad1+Digit2+Digit3+Digit4+Digit5+Digit6",
+    "Digit1+Numpad2+Digit3+Digit4+Digit5+Digit6",
+    "Numpad1+Numpad2+Digit3+Digit4+Digit5+Digit6",
+    "Digit1+Digit2+Numpad3+Digit4+Digit5+Digit6",
+    "Numpad1+Digit2+Numpad3+Digit4+Digit5+Digit6",
+    "Digit1+Numpad2+Numpad3+Digit4+Digit5+Digit6",
+    "Numpad1+Numpad2+Numpad3+Digit4+Digit5+Digit6",
+    "Digit1+Digit2+Digit3+Numpad4+Digit5+Digit6",
+    "Numpad1+Digit2+Digit3+Numpad4+Digit5+Digit6",
+    "Digit1+Numpad2+Digit3+Numpad4+Digit5+Digit6",
+    "Numpad1+Numpad2+Digit3+Numpad4+Digit5+Digit6",
+    "Digit1+Digit2+Numpad3+Numpad4+Digit5+Digit6",
+    "Numpad1+Digit2+Numpad3+Numpad4+Digit5+Digit6",
+    "Digit1+Numpad2+Numpad3+Numpad4+Digit5+Digit6",
+    "Numpad1+Numpad2+Numpad3+Numpad4+Digit5+Digit6",
+    "Digit1+Digit2+Digit3+Digit4+Numpad5+Digit6",
+    "Numpad1+Digit2+Digit3+Digit4+Numpad5+Digit6",
+    "Digit1+Numpad2+Digit3+Digit4+Numpad5+Digit6",
+    "Numpad1+Numpad2+Digit3+Digit4+Numpad5+Digit6",
+    "Digit1+Digit2+Numpad3+Digit4+Numpad5+Digit6",
+    "Numpad1+Digit2+Numpad3+Digit4+Numpad5+Digit6",
+    "Digit1+Numpad2+Numpad3+Digit4+Numpad5+Digit6",
+    "Numpad1+Numpad2+Numpad3+Digit4+Numpad5+Digit6",
+    "Digit1+Digit2+Digit3+Numpad4+Numpad5+Digit6",
+    "Numpad1+Digit2+Digit3+Numpad4+Numpad5+Digit6",
+    "Digit1+Numpad2+Digit3+Numpad4+Numpad5+Digit6",
+    "Numpad1+Numpad2+Digit3+Numpad4+Numpad5+Digit6",
+    "Digit1+Digit2+Numpad3+Numpad4+Numpad5+Digit6",
+    "Numpad1+Digit2+Numpad3+Numpad4+Numpad5+Digit6",
+    "Digit1+Numpad2+Numpad3+Numpad4+Numpad5+Digit6",
+    "Numpad1+Numpad2+Numpad3+Numpad4+Numpad5+Digit6",
+    "Digit1+Digit2+Digit3+Digit4+Digit5+Numpad6",
+    "Numpad1+Digit2+Digit3+Digit4+Digit5+Numpad6",
+    "Digit1+Numpad2+Digit3+Digit4+Digit5+Numpad6",
+    "Numpad1+Numpad2+Digit3+Digit4+Digit5+Numpad6",
+    "Digit1+Digit2+Numpad3+Digit4+Digit5+Numpad6",
+    "Numpad1+Digit2+Numpad3+Digit4+Digit5+Numpad6",
+    "Digit1+Numpad2+Numpad3+Digit4+Digit5+Numpad6",
+    "Numpad1+Numpad2+Numpad3+Digit4+Digit5+Numpad6",
+    "Digit1+Digit2+Digit3+Numpad4+Digit5+Numpad6",
+    "Numpad1+Digit2+Digit3+Numpad4+Digit5+Numpad6",
+    "Digit1+Numpad2+Digit3+Numpad4+Digit5+Numpad6",
+    "Numpad1+Numpad2+Digit3+Numpad4+Digit5+Numpad6",
+    "Digit1+Digit2+Numpad3+Numpad4+Digit5+Numpad6",
+    "Numpad1+Digit2+Numpad3+Numpad4+Digit5+Numpad6",
+    "Digit1+Numpad2+Numpad3+Numpad4+Digit5+Numpad6",
+    "Numpad1+Numpad2+Numpad3+Numpad4+Digit5+Numpad6",
+    "Digit1+Digit2+Digit3+Digit4+Numpad5+Numpad6",
+    "Numpad1+Digit2+Digit3+Digit4+Numpad5+Numpad6",
+    "Digit1+Numpad2+Digit3+Digit4+Numpad5+Numpad6",
+    "Numpad1+Numpad2+Digit3+Digit4+Numpad5+Numpad6",
+    "Digit1+Digit2+Numpad3+Digit4+Numpad5+Numpad6",
+    "Numpad1+Digit2+Numpad3+Digit4+Numpad5+Numpad6",
+    "Digit1+Numpad2+Numpad3+Digit4+Numpad5+Numpad6",
+    "Numpad1+Numpad2+Numpad3+Digit4+Numpad5+Numpad6",
+    "Digit1+Digit2+Digit3+Numpad4+Numpad5+Numpad6",
+    "Numpad1+Digit2+Digit3+Numpad4+Numpad5+Numpad6",
+    "Digit1+Numpad2+Digit3+Numpad4+Numpad5+Numpad6",
+    "Numpad1+Numpad2+Digit3+Numpad4+Numpad5+Numpad6",
+    "Digit1+Digit2+Numpad3+Numpad4+Numpad5+Numpad6",
+    "Numpad1+Digit2+Numpad3+Numpad4+Numpad5+Numpad6",
+    "Digit1+Numpad2+Numpad3+Numpad4+Numpad5+Numpad6",
+    "Numpad1+Numpad2+Numpad3+Numpad4+Numpad5+Numpad6",
+  ],
+]
+`);
+    expect(parser.parseAccelerator('Control+i+i')).toMatchInlineSnapshot(`
+[
+  [
+    "ControlLeft",
+    "ControlRight",
+  ],
+  [
+    "KeyI+KeyI",
+  ],
+]
+`);
+  });
+
+  it('parse error', () => {
+    expect(() =>
+      parser.parseAccelerator('ctrl+i')
+    ).toThrowErrorMatchingInlineSnapshot(
+      '"parse accelerator failed in position 0."'
+    );
+    expect(() =>
+      parser.parseAccelerator('Control+i+Option')
+    ).toThrowErrorMatchingInlineSnapshot(
+      '"parse accelerator failed in position 11."'
+    );
+    expect(() =>
+      parser.parseAccelerator('Control+')
+    ).toThrowErrorMatchingInlineSnapshot(
+      '"parse accelerator failed in position 8."'
+    );
+  });
+
+  it('shortcut alias', () => {
+    expect(parser.parseAccelerator('Meta+Option')).toEqual(
+      parser.parseAccelerator('Command+Alt')
+    );
+  });
+});

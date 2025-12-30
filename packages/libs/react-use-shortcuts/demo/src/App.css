@@ -1,0 +1,35 @@
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+}
+
+.header {
+  margin: 0 16px;
+}
+
+.body {
+  display: flex;
+  height: 100%;
+}
+
+.main {
+  margin: 16px;
+  padding: 16px;
+  width: 50%;
+  border: 1px solid salmon;
+  display: flex;
+  flex-direction: column;
+}
+
+h2 {
+  border-bottom: 1px solid gainsboro;
+}
+
+.display-area {
+  background-color: antiquewhite;
+  border-radius: 16px;
+  flex-grow: 1;
+  padding: 16px;
+}

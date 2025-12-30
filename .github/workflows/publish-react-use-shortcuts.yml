@@ -1,4 +1,4 @@
-name: Publish @rocketc/react to npm
+name: Publish @rocketc/react-use-shortcuts to npm
 
 on:
   # 手动触发，可以选择版本类型
@@ -64,7 +64,7 @@ jobs:
           if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
             # 手动触发：根据选择的版本类型更新版本
             VERSION_TYPE="${{ github.event.inputs.version_type }}"
-            CURRENT_VERSION=$(node -p "require('./packages/libs/react/package.json').version")
+            CURRENT_VERSION=$(node -p "require('./packages/libs/react-use-shortcuts/package.json').version")
             echo "当前版本: $CURRENT_VERSION"
             echo "更新类型: $VERSION_TYPE"
 
@@ -83,7 +83,7 @@ jobs:
 
       - name: Update version in package.json
         run: |
-          cd packages/libs/react
+          cd packages/libs/react-use-shortcuts
           # 使用 sed 或 node 来更新版本
           node -e "
             const fs = require('fs');
@@ -93,15 +93,9 @@ jobs:
           "
           echo "✅ 版本已更新为: ${{ steps.version.outputs.version }}"
 
-      - name: Install components
-        run: |
-          cd packages/libs/react
-          pnpm run install-components
-          pnpm run gen-entry
-
       - name: Build package
         run: |
-          cd packages/libs/react
+          cd packages/libs/react-use-shortcuts
           pnpm run build
 
       - name: Run tests (if available)
@@ -114,7 +108,7 @@ jobs:
         id: check_version
         run: |
           VERSION="${{ steps.version.outputs.version }}"
-          if npm view @rocketc/react@$VERSION version > /dev/null 2>&1; then
+          if npm view @rocketc/react-use-shortcuts@$VERSION version > /dev/null 2>&1; then
             echo "⚠️  版本 $VERSION 已经发布，跳过发布步骤"
             echo "published=true" >> $GITHUB_OUTPUT
           else
@@ -125,7 +119,7 @@ jobs:
       - name: Publish to npm
         if: steps.check_version.outputs.published != 'true'
         run: |
-          cd packages/libs/react
+          cd packages/libs/react-use-shortcuts
           npm publish --access public --registry https://registry.npmjs.org --tag ${{ github.event.inputs.tag }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -137,7 +131,7 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add packages/libs/react/package.json
           git commit -m "chore: bump version to ${{ steps.version.outputs.version }}" || exit 0
-          git tag -a "react-v${{ steps.version.outputs.version }}" -m "Release v${{ steps.version.outputs.version }}"
+          git tag -a "react-use-shortcuts-v${{ steps.version.outputs.version }}" -m "Release v${{ steps.version.outputs.version }}"
           git push origin main --follow-tags || git push origin master --follow-tags || true
 
       - name: Create GitHub Release
@@ -154,7 +148,7 @@ jobs:
             ## 安装
 
             ```bash
-            npm install @rocketc/react@${{ steps.version.outputs.version }}
+            npm install @rocketc/react-use-shortcuts@${{ steps.version.outputs.version }}
             ```
           draft: false
           prerelease: ${{ contains(steps.version.outputs.version, '-') }}
