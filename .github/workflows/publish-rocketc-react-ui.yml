@@ -115,7 +115,7 @@ jobs:
         if: steps.check_version.outputs.published != 'true'
         run: |
           cd packages/rocketc-react-ui
-          npm publish --access public --registry https://registry.npmjs.org
+          npm publish --access public --registry https://registry.npmjs.org --tag ${{ steps.version.outputs.version }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
