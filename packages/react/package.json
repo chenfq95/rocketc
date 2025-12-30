@@ -34,6 +34,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "preview": "vite preview",
     "gen-entry": "node scripts/gen-entry.js",
     "install-components": "pnpm dlx shadcn@latest add -ay"

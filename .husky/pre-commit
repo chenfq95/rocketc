@@ -1,0 +1,4 @@
+
+pnpm run --filter react lint:fix
+pnpm run --filter react-app lint:fix
+git add .
