@@ -1,0 +1,64 @@
+{
+  "name": "@electron-tools/ipc",
+  "version": "0.0.1-alpha.1",
+  "description": "electron ipc toolkit",
+  "type": "module",
+  "keywords": [
+    "electron",
+    "ipc"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chenfq95/rocketc.git",
+    "directory": "packages/libs/electron-ipc"
+  },
+  "author": "chenfq95 <chenfq95@foxmail.com>",
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./*": {
+      "import": "./dist/*.js",
+      "types": "./dist/*.d.ts",
+      "default": "./dist/*.js"
+    }
+  },
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "clean": "rimraf dist",
+    "dev": "tsc -b && vite",
+    "build": "tsc -b && vite build",
+    "test": "jest",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
+  "dependencies": {
+    "rxjs": "^7.8.2"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.2",
+    "@microsoft/api-extractor": "^7.55.2",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^25.0.3",
+    "electron": "^39.2.7",
+    "eslint": "^9.39.2",
+    "globals": "^16.5.0",
+    "jest": "^30.2.0",
+    "rimraf": "^6.1.2",
+    "ts-jest": "^29.4.6",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.51.0",
+    "unplugin-dts": "1.0.0-beta.6",
+    "vite": "^7.3.0"
+  },
+  "peerDependencies": {
+    "electron": "*"
+  }
+}
