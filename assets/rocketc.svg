@@ -1,59 +1,70 @@
 <svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <!-- 橙色渐变 -->
-    <linearGradient id="rocketGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" style="stop-color:#FF8C42;stop-opacity:1" />
-      <stop offset="50%" style="stop-color:#FF6B35;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#FF8C42;stop-opacity:1" />
+    <!-- 品牌渐变 -->
+    <linearGradient id="brandGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF8A65"/>
+      <stop offset="100%" style="stop-color:#FF5722"/>
     </linearGradient>
     
-    <!-- 火焰渐变 -->
-    <linearGradient id="flameGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" style="stop-color:#FFB84D;stop-opacity:1" />
-      <stop offset="50%" style="stop-color:#FF9500;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#FF6B35;stop-opacity:0.9" />
-    </linearGradient>
-    
-    <!-- 高光渐变 -->
-    <radialGradient id="highlightGradient" cx="50%" cy="30%">
-      <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:0.4" />
-      <stop offset="100%" style="stop-color:#FFFFFF;stop-opacity:0" />
+    <!-- 月球渐变 -->
+    <radialGradient id="moonGrad" cx="40%" cy="40%" r="60%">
+      <stop offset="0%" style="stop-color:#FFFEF5"/>
+      <stop offset="100%" style="stop-color:#FFF9C4"/>
     </radialGradient>
+    
+    <!-- 裁剪月球 -->
+    <clipPath id="moonClip">
+      <circle cx="100" cy="100" r="80"/>
+    </clipPath>
   </defs>
   
-  <!-- 火箭主体（圆润的椭圆形） -->
-  <ellipse cx="100" cy="90" rx="35" ry="55" fill="url(#rocketGradient)"/>
+  <!-- 月球主体 (缩小至 r=80) -->
+  <circle cx="100" cy="100" r="80" fill="url(#moonGrad)"/>
   
-  <!-- 火箭头部（圆润的顶部） -->
-  <ellipse cx="100" cy="40" rx="25" ry="20" fill="#FF6B35"/>
-  <circle cx="100" cy="35" r="18" fill="#FF8C42"/>
+  <!-- 月球陨石坑 -->
+  <g clip-path="url(#moonClip)" opacity="0.4">
+    <circle cx="70" cy="70" r="10" fill="#FFE082" opacity="0.5"/>
+    <circle cx="120" cy="120" r="15" fill="#FFE082" opacity="0.4"/>
+    <circle cx="85" cy="135" r="7" fill="#FFE082" opacity="0.6"/>
+    <circle cx="140" cy="85" r="5" fill="#FFE082" opacity="0.5"/>
+    <circle cx="50" cy="110" r="8" fill="#FFE082" opacity="0.3"/>
+  </g>
   
-  <!-- 高光效果 -->
-  <ellipse cx="100" cy="70" rx="25" ry="40" fill="url(#highlightGradient)"/>
+  <!-- 速度拖影组 (整体内缩) -->
+  <!-- 1. 最外层淡拖影 -->
+  <path d="M 148 75 A 68 66 0 1 0 148 125" 
+        fill="none" stroke="#FFAB91" stroke-width="4" stroke-linecap="round" opacity="0.3"/>
   
-  <!-- 火箭窗户 -->
-  <circle cx="100" cy="80" r="14" fill="#87CEEB" opacity="0.9" stroke="#4A90E2" stroke-width="2"/>
-  <circle cx="100" cy="80" r="10" fill="#E0F6FF"/>
-  <circle cx="100" cy="80" r="6" fill="#B0E0E6" opacity="0.5"/>
+  <!-- 2. 主 C 轨道 -->
+  <path d="M 145 70 A 65 62 0 1 0 145 130" 
+        fill="none" stroke="#FFAB91" stroke-width="12" stroke-linecap="round" opacity="0.9"/>
   
-  <!-- 火箭侧翼（左，圆润） -->
-  <ellipse cx="65" cy="105" rx="12" ry="20" fill="url(#rocketGradient)" transform="rotate(-20 65 105)"/>
+  <!-- 3. 内层高速亮线 -->
+  <path d="M 140 78 A 58 55 0 1 0 140 122" 
+        fill="none" stroke="#FFE0B2" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
   
-  <!-- 火箭侧翼（右，圆润） -->
-  <ellipse cx="135" cy="105" rx="12" ry="20" fill="url(#rocketGradient)" transform="rotate(20 135 105)"/>
-  
-  <!-- 火焰（主火焰，更柔和） -->
-  <ellipse cx="100" cy="150" rx="18" ry="28" fill="url(#flameGradient)" opacity="0.85"/>
-  <ellipse cx="100" cy="160" rx="14" ry="22" fill="#FF9500" opacity="0.7"/>
-  
-  <!-- 火焰（左侧，圆润） -->
-  <ellipse cx="88" cy="155" rx="10" ry="20" fill="url(#flameGradient)" opacity="0.8"/>
-  
-  <!-- 火焰（右侧，圆润） -->
-  <ellipse cx="112" cy="155" rx="10" ry="20" fill="url(#flameGradient)" opacity="0.8"/>
-  
-  <!-- 小装饰点 -->
-  <circle cx="100" cy="105" r="3" fill="#FFB84D" opacity="0.6"/>
-  <circle cx="100" cy="115" r="2.5" fill="#FFB84D" opacity="0.5"/>
-</svg>
+  <!-- 4. 速度粒子 -->
+  <circle cx="100" cy="35" r="2" fill="#FFAB91" opacity="0.6"/>
+  <circle cx="55" cy="65" r="1.5" fill="#FFAB91" opacity="0.4"/>
+  <circle cx="45" cy="130" r="2" fill="#FFAB91" opacity="0.5"/>
 
+  <!-- 主体：RocketC 火箭 (重新定位至缩小后的轨道) -->
+  <g transform="translate(145, 70) rotate(40)">
+    <!-- 火箭尾烟 -->
+    <path d="M 0 18 Q -6 30 0 45 Q 6 30 0 18" fill="#FFAB91" opacity="0.6"/>
+    
+    <!-- 火箭身 -->
+    <path d="M 0 -35 
+             C -12 -22, -15 8, -15 22
+             L 15 22
+             C 15 8, 12 -22, 0 -35 Z" 
+          fill="url(#brandGrad)" stroke="#E64A19" stroke-width="2.2"/>
+    
+    <!-- 窗口 -->
+    <circle cx="0" cy="-10" r="8" fill="white" stroke="#E64A19" stroke-width="1.8"/>
+    
+    <!-- 翼 -->
+    <path d="M -15 8 L -25 22 L -15 18" fill="#E64A19"/>
+    <path d="M 15 8 L 25 22 L 15 18" fill="#E64A19"/>
+  </g>
+</svg>
