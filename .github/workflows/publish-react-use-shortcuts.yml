@@ -138,8 +138,8 @@ jobs:
         if: github.event_name == 'workflow_dispatch'
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v${{ steps.version.outputs.version }}
-          name: Release v${{ steps.version.outputs.version }}
+          tag_name: react-use-shortcuts-v${{ steps.version.outputs.version }}
+          name: Release react-use-shortcuts-v${{ steps.version.outputs.version }}
           body: |
             ## 变更内容
 
