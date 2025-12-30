@@ -84,26 +84,28 @@ function calculateNextVersion(currentVersion, versionType) {
 	return newVersion;
 }
 
-// 如果作为脚本直接运行
-if (import.meta.main) {
-	const currentVersion = process.argv[2];
-	const versionType = process.argv[3];
+try {
+	// 如果作为脚本直接运行
+	if (import.meta.main) {
+		const currentVersion = process.argv[2];
+		const versionType = process.argv[3];
 
-	if (!currentVersion || !versionType) {
-		console.error(
-			'Usage: node calculate-version.js <currentVersion> <versionType>',
-		);
-		console.error('Example: node calculate-version.js 0.0.1-alpha.4 patch');
-		process.exit(1);
-	}
+		if (!currentVersion || !versionType) {
+			console.error(
+				'Usage: node calculate-version.js <currentVersion> <versionType>',
+			);
+			console.error('Example: node calculate-version.js 0.0.1-alpha.4 patch');
+			process.exit(1);
+		}
 
-	try {
 		const newVersion = calculateNextVersion(currentVersion, versionType);
 		console.log(newVersion);
-	} catch (error) {
-		console.error('Error:', error.message);
-		process.exit(1);
+	} else {
+		console.log('run as not main module, ignore');
 	}
+} catch (error) {
+	console.error('Error:', error.message);
+	process.exit(1);
 }
 
 // 导出函数供其他模块使用
