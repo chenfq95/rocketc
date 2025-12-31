@@ -21,7 +21,7 @@
   "license": "MIT",
   "packageManager": "pnpm@10.21.0",
   "prettier": {
-    "singleQuote": false
+    "singleQuote": true
   },
   "devDependencies": {
     "@commitlint/cli": "^20.2.0",

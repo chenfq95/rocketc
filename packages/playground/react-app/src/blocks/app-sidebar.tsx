@@ -9,7 +9,6 @@ import {
   IconFileWord,
   IconFolder,
   IconHelp,
-  IconInnerShadowTop,
   IconListDetails,
   IconReport,
   IconSearch,
@@ -30,6 +29,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@rocketc/react'
+
+import RocketcIcon from '../assets/rocketc.svg?react';
 
 const data = {
   user: {
@@ -159,8 +160,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
               <a href="#">
-                <IconInnerShadowTop className="!size-5" />
-                <span className="text-base font-semibold">Acme Inc.</span>
+                <RocketcIcon className="!size-5" />
+                <span className="text-base font-semibold">Rocketc React App</span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>

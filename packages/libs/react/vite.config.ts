@@ -10,35 +10,35 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // https://vite.dev/config/
 export default defineConfig({
-	plugins: [
-		react(),
-		dts({
-			tsconfigPath: './tsconfig.lib.json',
-			bundleTypes: true,
-		}),
-		tailwindcss(),
-	],
-	build: {
-		sourcemap: true,
-		minify: false,
-		cssMinify: false,
-		lib: {
-			entry: 'src/index.ts',
-			formats: ['es'],
-			fileName: 'index',
-			cssFileName: 'style',
-		},
-		rollupOptions: {
-			external: [
-				'react/jsx-runtime',
-				...Object.keys(packageJson.dependencies || {}),
-				...Object.keys(packageJson.peerDependencies || {}),
-			],
-		},
-	},
-	resolve: {
-		alias: {
-			'@': path.resolve(__dirname, 'src'),
-		},
-	},
+  plugins: [
+    react(),
+    dts({
+      tsconfigPath: './tsconfig.lib.json',
+      bundleTypes: true,
+    }),
+    tailwindcss(),
+  ],
+  build: {
+    sourcemap: true,
+    minify: false,
+    cssMinify: false,
+    lib: {
+      entry: 'src/index.ts',
+      formats: ['es'],
+      fileName: 'index',
+      cssFileName: 'style',
+    },
+    rollupOptions: {
+      external: [
+        'react/jsx-runtime',
+        ...Object.keys(packageJson.dependencies || {}),
+        ...Object.keys(packageJson.peerDependencies || {}),
+      ],
+    },
+  },
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, 'src'),
+    },
+  },
 });
