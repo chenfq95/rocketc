@@ -293,7 +293,70 @@ function Main() {
 }
 ```
 
-### 6. Custom event filter.
+### 6. Multiple callbacks for the same shortcut.
+
+You can register multiple callbacks for the same accelerator and manage them individually:
+
+```tsx
+import React, { useEffect, useCallback } from 'react';
+import {
+  ReactShortcutProvider,
+  useShortcut,
+} from '@rocketc/react-use-shortcuts';
+
+function App() {
+  return (
+    <ReactShortcutProvider>
+      <Main />
+    </ReactShortcutProvider>
+  );
+}
+
+function Main() {
+  const {
+    registerShortcut,
+    unregisterShortcut,
+    enableShortcut,
+    disableShortcut,
+  } = useShortcut();
+
+  useEffect(() => {
+    const handler1 = () => console.log('Handler 1');
+    const handler2 = () => console.log('Handler 2');
+
+    // Register multiple handlers for the same shortcut
+    registerShortcut('Ctrl+a', handler1);
+    registerShortcut('Ctrl+a', handler2);
+
+    // Disable only handler1
+    disableShortcut('Ctrl+a', handler1);
+
+    // Enable handler1 again
+    enableShortcut('Ctrl+a', handler1);
+
+    // Unregister only handler1
+    unregisterShortcut('Ctrl+a', handler1);
+
+    return () => {
+      // Unregister all handlers for Ctrl+a
+      unregisterShortcut('Ctrl+a');
+    };
+  }, []);
+
+  return <h1>Hello World!</h1>;
+}
+```
+
+### 7. Custom event filter.
+
+The default filter automatically filters out:
+
+- `event.repeat` (key repeat events)
+- `event.isComposing` (IME composition events, e.g., when typing Chinese/Japanese/Korean)
+- Events from `INPUT`, `TEXTAREA`, `SELECT` elements
+- Events from `contentEditable` elements
+
+You can provide a custom filter to override this behavior:
 
 ```tsx
 import React, { useEffect, useCallback, useState } from 'react';
@@ -335,6 +398,113 @@ function Main() {
 }
 ```
 
+### 8. Custom key aliases.
+
+You can define custom key name aliases to use in your shortcuts. This is useful for creating domain-specific shortcuts or mapping custom names to actual key names:
+
+```tsx
+import React, { useEffect } from 'react';
+import {
+  ReactShortcutProvider,
+  useShortcut,
+} from '@rocketc/react-use-shortcuts';
+
+function App() {
+  return (
+    <ReactShortcutProvider
+      options={{
+        alias: {
+          // Map custom alias 'Save' to 'Ctrl'
+          // When you use 'Save' in accelerator, it will be treated as 'Ctrl'
+          Save: 'Ctrl',
+          // Map 'I' to 'i' (uppercase I)
+          // When you use 'I' in accelerator, it will be treated as 'i'
+          I: 'i',
+        },
+      }}
+    >
+      <Main />
+    </ReactShortcutProvider>
+  );
+}
+
+function Main() {
+  const { registerShortcut, unregisterShortcut } = useShortcut();
+
+  useEffect(() => {
+    // Use the custom alias 'Save' instead of 'Ctrl'
+    // This will work the same as 'Ctrl+s'
+    registerShortcut('Save+s', () => {
+      console.log('Save shortcut triggered');
+    });
+
+    // Use the mapped 'i' which will be treated as 'I'
+    // This will work the same as 'Ctrl+I'
+    registerShortcut('Ctrl+I', () => {
+      console.log('Ctrl+I shortcut triggered');
+    });
+
+    return () => {
+      unregisterShortcut('Save+s');
+      unregisterShortcut('Ctrl+I');
+    };
+  }, []);
+
+  return <h1>Hello World!</h1>;
+}
+```
+
+**Note**:
+
+- The alias mapping works by replacing the alias key (left side) with the actual key name (right side) during parsing.
+- If you define `'Save': 'Ctrl'`, then using `'Save'` in your accelerator string will be resolved to `'Ctrl'`.
+- The alias value (right side) must be a valid key name that exists in the supported keys list.
+- Aliases are useful for creating more readable or domain-specific shortcut names.
+
+### 9. Custom debug function.
+
+You can provide a custom debug function instead of using the default debug logger:
+
+```tsx
+import React, { useEffect } from 'react';
+import {
+  ReactShortcutProvider,
+  useShortcut,
+} from '@rocketc/react-use-shortcuts';
+
+function App() {
+  return (
+    <ReactShortcutProvider
+      options={{
+        debug: (...args) => {
+          // Custom debug logging
+          console.log('[Shortcut Debug]', ...args);
+          // Or send to your logging service
+          // logToService(...args);
+        },
+      }}
+    >
+      <Main />
+    </ReactShortcutProvider>
+  );
+}
+
+function Main() {
+  const { registerShortcut, unregisterShortcut } = useShortcut();
+
+  useEffect(() => {
+    registerShortcut('Ctrl+a', () => {
+      console.log('You pressed Control and A');
+    });
+    return () => {
+      unregisterShortcut('Ctrl+a');
+    };
+  }, []);
+
+  return <h1>Hello World!</h1>;
+}
+```
+
 ### Some shortcut match rules example.
 
 | **Actions**                                                    | **Accelerator**      | **Matched** |
@@ -360,13 +530,27 @@ interface ReactShortcutOptions {
   // work mode, default to true.
   strict?: boolean;
   // print the debug message, default to false.
-  debug?: boolean;
+  // can be a boolean or a custom debug function.
+  debug?: boolean | ((...args: any[]) => void);
   // auto attach to window, default to true.
   // if set to false, you need to call attachElement manually.
   auto?: boolean;
   // filter some event which does not want to handled.
-  // default behavior is filter event triggered by input/textarea/select or contentEditable element.
+  // default behavior is filter:
+  // - event.repeat (key repeat events)
+  // - event.isComposing (IME composition events)
+  // - event triggered by input/textarea/select or contentEditable element.
   filter?: Filter;
+  // custom key name aliases.
+  // allows you to define custom key names that map to actual key names.
+  // key: custom alias name, value: actual key name.
+  alias?: Record<string, string>;
+}
+
+interface ShortcutRegister {
+  accelerator: Accelerator;
+  enabled: boolean;
+  callback: KeyboardEventListener;
 }
 
 interface ReactShortcutProviderProps {
@@ -379,14 +563,23 @@ interface ReactShortcutContextValue {
     accelerator: Accelerator,
     callback: KeyboardEventListener
   ): boolean;
-  unregisterShortcut(accelerator: Accelerator): boolean;
-  enableShortcut(accelerator: Accelerator): boolean;
-  disableShortcut(accelerator: Accelerator): boolean;
+  unregisterShortcut(
+    accelerator: Accelerator,
+    cb?: KeyboardEventListener
+  ): boolean;
+  enableShortcut(accelerator: Accelerator, cb?: KeyboardEventListener): boolean;
+  disableShortcut(
+    accelerator: Accelerator,
+    cb?: KeyboardEventListener
+  ): boolean;
   isShortcutRegistered(accelerator: Accelerator): boolean;
   getCurrentKeyPressed(): Accelerator;
   onKeydown(listener: KeyboardEventListener): Dispose;
   onKeyup(listener: KeyboardEventListener): Dispose;
   attachElement(ele: Window | HTMLElement): Dispose;
+  updateOptions(options: Partial<ReactShortcutOptions>): void;
+  getOptions(): ReactShortcutOptions;
+  getShortcutRegisters(accelerator?: Accelerator): Array<ShortcutRegister>;
 }
 ```
 
@@ -406,17 +599,17 @@ React Hook, used to get `@rocketc/react-use-shortcuts` API.
 
 Register shortcut handler, return false if current shortcut has registered or current shortcut is invalid.
 
-### `ReactShortcutContextValue.unregisterShortcut: (accelerator: Accelerator) => boolean;`
+### `ReactShortcutContextValue.unregisterShortcut: (accelerator: Accelerator, cb?: KeyboardEventListener) => boolean;`
 
-Unregister shortcut handler, return false if current shortcut has not registered or shortcut is invalid.
+Unregister shortcut handler. If `cb` is provided, only unregister the specific callback for the accelerator. Otherwise, unregister all callbacks for the accelerator. Returns `false` if the shortcut has not been registered or the shortcut is invalid.
 
-### `ReactShortcutContextValue.enableShortcut: (accelerator: Accelerator) => boolean;`
+### `ReactShortcutContextValue.enableShortcut: (accelerator: Accelerator, cb?: KeyboardEventListener) => boolean;`
 
-enable shortcut, return false if current shortcut has not registered or shortcut is invalid.
+Enable shortcut. If `cb` is provided, only enable the specific callback for the accelerator. Otherwise, enable all callbacks for the accelerator. Returns `false` if the shortcut has not been registered or the shortcut is invalid.
 
-### `ReactShortcutContextValue.disableShortcut: (accelerator: Accelerator) => boolean;`
+### `ReactShortcutContextValue.disableShortcut: (accelerator: Accelerator, cb?: KeyboardEventListener) => boolean;`
 
-disable shortcut, return false if current shortcut has not registered or shortcut is invalid.
+Disable shortcut. If `cb` is provided, only disable the specific callback for the accelerator. Otherwise, disable all callbacks for the accelerator. Returns `false` if the shortcut has not been registered or the shortcut is invalid.
 
 ### `ReactShortcutContextValue.isShortcutRegistered: (accelerator: Accelerator) => boolean;`
 
@@ -437,6 +630,99 @@ Register `keyup` keyboardEvent listener on element attached, unlike `registerSho
 ### `ReactShortcutContextValue.attachElement: (ele: Window | HTMLElement) => Dispose;`
 
 Attach keyboard event listener to specified element. Only available when `auto` option is set to `false`. Returns a dispose function to detach the listener.
+
+### `ReactShortcutContextValue.updateOptions: (options: Partial<ReactShortcutOptions>) => void;`
+
+Update the options of the shortcut registry dynamically. This allows you to change `strict`, `debug`, or `filter` options at runtime.
+
+**Example:**
+
+```tsx
+const { updateOptions } = useShortcut();
+
+// Enable debug mode dynamically
+updateOptions({ debug: true });
+
+// Change to loose mode
+updateOptions({ strict: false });
+```
+
+### `ReactShortcutContextValue.getOptions: () => ReactShortcutOptions;`
+
+Get the current options of the shortcut registry.
+
+**Example:**
+
+```tsx
+const { getOptions } = useShortcut();
+
+const options = getOptions();
+console.log(options.strict); // true or false
+console.log(options.debug); // boolean or function
+console.log(options.alias); // Record<string, string> or undefined
+```
+
+### `ReactShortcutContextValue.getShortcutRegisters: (accelerator?: Accelerator) => Array<ShortcutRegister>;`
+
+Get all registered shortcuts, or get shortcuts for a specific accelerator if provided. Returns an array of `ShortcutRegister` objects containing `accelerator`, `enabled`, and `callback` properties.
+
+**Example:**
+
+```tsx
+const { getShortcutRegisters, registerShortcut } = useShortcut();
+
+useEffect(() => {
+  registerShortcut('Ctrl+a', () => console.log('Handler 1'));
+  registerShortcut('Ctrl+a', () => console.log('Handler 2'));
+
+  // Get all shortcuts
+  const all = getShortcutRegisters();
+  console.log(all.length); // 2
+
+  // Get shortcuts for specific accelerator
+  const ctrlA = getShortcutRegisters('Ctrl+a');
+  console.log(ctrlA.length); // 2
+}, []);
+```
+
+### `acceleratorParser`
+
+Utility object for parsing and validating accelerator strings. Can be imported directly from the package.
+
+#### `acceleratorParser.validateAccelerator: (accelerator: Accelerator) => boolean;`
+
+Validate if an accelerator string is valid. Returns `true` if the accelerator is valid, `false` otherwise.
+
+**Example:**
+
+```tsx
+import { acceleratorParser } from '@rocketc/react-use-shortcuts';
+
+// Returns true
+acceleratorParser.validateAccelerator('Ctrl+a');
+acceleratorParser.validateAccelerator('ControlOrCommand+Shift+k');
+
+// Returns false
+acceleratorParser.validateAccelerator('invalid+shortcut');
+acceleratorParser.validateAccelerator('a+Ctrl'); // modifiers must precede normal keys
+```
+
+#### `acceleratorParser.convertAcceleratorToLooseMode: (accelerator: Accelerator) => Accelerator;`
+
+Convert an accelerator string to loose mode format. In loose mode, modifier keys are normalized (e.g., `ControlLeft` and `ControlRight` both become `Ctrl`).
+
+**Example:**
+
+```tsx
+import { acceleratorParser } from '@rocketc/react-use-shortcuts';
+
+// Returns 'Ctrl+a'
+acceleratorParser.convertAcceleratorToLooseMode('ControlLeft+a');
+acceleratorParser.convertAcceleratorToLooseMode('ControlRight+a');
+
+// Returns 'Ctrl+Alt+a'
+acceleratorParser.convertAcceleratorToLooseMode('ControlLeft+AltLeft+a');
+```
 
 ## Browser Compatibility
 

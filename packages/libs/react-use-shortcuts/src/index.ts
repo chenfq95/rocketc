@@ -1,7 +1,12 @@
-export { type Accelerator } from './accelerator-parser';
+export {
+  default as acceleratorParser,
+  type Accelerator,
+} from './accelerator-parser';
 export { type KeyboardEventListener, type Filter } from './shortcut-context';
 export {
+  default as ReactShortcutProvider,
   type ReactShortcutProviderProps,
-  ReactShortcutProvider,
+  type ReactShortcutOptions,
+  type ShortcutRegister,
 } from './shortcut-provider';
-export { useShortcut } from './use-shortcut';
+export { default as useShortcut } from './use-shortcut';

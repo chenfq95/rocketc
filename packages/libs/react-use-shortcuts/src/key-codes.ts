@@ -460,4 +460,31 @@ export const keyCode2KeyCodeName = new Map<KeyCode, KeyCodeName>([
   ['Insert', 'Insert'],
 ]);
 
+export const keyCodeName2LooseModeKeyCodeName = new Map<
+  ModifierKeyCodeName,
+  ModifierKeyCodeName
+>([
+  ['Ctrl', 'Ctrl'],
+  ['CtrlLeft', 'Ctrl'],
+  ['CtrlRight', 'Ctrl'],
+  ['Control', 'Ctrl'],
+  ['ControlLeft', 'Ctrl'],
+  ['ControlRight', 'Ctrl'],
+  ['Shift', 'Shift'],
+  ['ShiftLeft', 'Shift'],
+  ['ShiftRight', 'Shift'],
+  ['Option', 'Option'],
+  ['OptionLeft', 'Option'],
+  ['OptionRight', 'Option'],
+  ['Alt', 'Alt'],
+  ['AltLeft', 'Alt'],
+  ['AltRight', 'Alt'],
+  ['Command', 'Command'],
+  ['CommandLeft', 'Command'],
+  ['CommandRight', 'Command'],
+  ['Meta', 'Meta'],
+  ['MetaLeft', 'Meta'],
+  ['MetaRight', 'Meta'],
+]);
+
 export const KeyCodesSupported = [...keyCode2KeyCodeName.keys()];

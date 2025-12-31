@@ -4,6 +4,8 @@ import {
   type ReactShortcutContextValue,
 } from './shortcut-context';
 
-export const useShortcut = () => {
+const useShortcut = () => {
   return useContext<ReactShortcutContextValue>(ReactShortcutContext);
 };
+
+export default useShortcut;

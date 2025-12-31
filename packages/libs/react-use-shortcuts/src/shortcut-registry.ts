@@ -7,27 +7,32 @@ import {
   keyCode2KeyCodeName,
   type ModifierKeyCodeName,
   type KeyCodeName,
+  keyCodeName2LooseModeKeyCodeName,
 } from './key-codes';
 import {
   type Dispose,
   type Filter,
   type KeyboardEventListener,
 } from './shortcut-context';
-import { AcceleratorParser, type Accelerator } from './accelerator-parser';
-import { noop } from './utils';
+import acceleratorParser, { type Accelerator } from './accelerator-parser';
 
-interface ShortcutRegister {
+export interface ShortcutRegister {
   accelerator: Accelerator;
-  modifiers: Array<Array<Accelerator>>;
-  normalKeys: Array<Accelerator>;
   enabled: boolean;
   callback: KeyboardEventListener;
 }
 
+interface InternalShortcutRegister extends ShortcutRegister {
+  modifiers: Array<Array<Accelerator>>;
+  normalKeys: Array<Accelerator>;
+}
+
 interface ShortcutRegisterOptions {
+  separator?: string;
   strict?: boolean;
-  debug?: boolean;
+  debug?: boolean | ((...args: any[]) => void);
   filter?: Filter;
+  alias?: Record<string, string>;
 }
 
 export class ShortcutRegistry {
@@ -41,19 +46,6 @@ export class ShortcutRegistry {
     'MetaLeft',
     'MetaRight',
   ]);
-  private static LooseModifiersName = new Map<
-    ModifierKeyCode,
-    ModifierKeyCodeName
-  >([
-    ['ControlLeft', 'Ctrl'],
-    ['ControlRight', 'Ctrl'],
-    ['AltLeft', 'Alt'],
-    ['AltRight', 'Alt'],
-    ['ShiftLeft', 'Shift'],
-    ['ShiftRight', 'Shift'],
-    ['MetaLeft', 'Meta'],
-    ['MetaRight', 'Meta'],
-  ]);
 
   private static keyCodeIsModifiers(
     keycode: string,
@@ -63,6 +55,7 @@ export class ShortcutRegistry {
 
   private static defaultFilter: Filter = (event) => {
     if (event.repeat) return false;
+    if (event.isComposing) return false;
     if (event.target && event.target instanceof HTMLElement) {
       return (
         !['INPUT', 'TEXTAREA', 'SELECT'].includes(event.target.tagName) &&
@@ -72,28 +65,59 @@ export class ShortcutRegistry {
     return true;
   };
 
-  private readonly debug: (...args: any[]) => void;
-  private readonly options: ShortcutRegisterOptions;
-  private readonly parser = new AcceleratorParser();
+  private readonly parser = acceleratorParser;
   private readonly eventTarget = new EventTarget();
-  private shortcutRegistered: Array<ShortcutRegister> = [];
+  private readonly defaultDebug = debug('ReactUseShortcuts');
+  private options: ShortcutRegisterOptions;
+  private shortcutRegistered: Array<InternalShortcutRegister> = [];
   private modifiersPressed: Array<ModifierKeyCode> = [];
   private normalKeyPressed: NormalKeyCode | undefined;
 
   constructor(options?: ShortcutRegisterOptions) {
+    debug.enable('ReactUseShortcuts');
     this.options = options ?? {};
-    this.options.strict = this.options.strict ?? true;
+    this.options.strict = this.options.strict ?? false;
     this.options.filter = this.options.filter ?? ShortcutRegistry.defaultFilter;
-    if (this.options.debug) {
-      if (typeof this.options.debug === 'function') {
-        this.debug = this.options.debug;
-      } else {
-        this.debug = debug('ReactUseShortcuts');
-        debug.enable('ReactUseShortcuts');
-      }
-    } else {
-      this.debug = noop;
+  }
+
+  private debug(...args: any[]) {
+    if (this.options.debug === true) {
+      this.defaultDebug.apply(null, args as any);
+    } else if (typeof this.options.debug === 'function') {
+      this.options.debug.apply(null, args);
     }
+  }
+
+  getOptions(): ShortcutRegisterOptions {
+    return this.options;
+  }
+
+  updateOptions(options: ShortcutRegisterOptions) {
+    this.options = options;
+  }
+
+  getShortcutRegisters(accelerator?: Accelerator): Array<ShortcutRegister> {
+    if (accelerator) {
+      return this.matchShortcut(
+        ...this.parser.__internal_decodeAccelerator(accelerator, {
+          separator: this.options.separator ?? this.parser.defaultSeparator,
+          alias: this.options.alias ?? {},
+        }),
+      ).map((item) => {
+        return {
+          accelerator: item.accelerator,
+          callback: item.callback,
+          enabled: item.enabled,
+        };
+      });
+    }
+    return this.shortcutRegistered.map((item) => {
+      return {
+        accelerator: item.accelerator,
+        callback: item.callback,
+        enabled: item.enabled,
+      };
+    });
   }
 
   registerShortcut(
@@ -101,7 +125,13 @@ export class ShortcutRegistry {
     callback: KeyboardEventListener,
   ): boolean {
     try {
-      const [modifiers, normalKeys] = this.parser.parseAccelerator(accelerator);
+      const [modifiers, normalKeys] = this.parser.__internal_decodeAccelerator(
+        accelerator,
+        {
+          separator: this.options.separator ?? this.parser.defaultSeparator,
+          alias: this.options.alias ?? {},
+        },
+      );
       this.shortcutRegistered.push({
         accelerator,
         modifiers,
@@ -116,14 +146,29 @@ export class ShortcutRegistry {
     }
   }
 
-  unregisterShortcut(accelerator: Accelerator): boolean {
+  unregisterShortcut(
+    accelerator: Accelerator,
+    cb?: KeyboardEventListener,
+  ): boolean {
     try {
-      const shortcutRegisters = this.matchShortcut(
-        ...this.parser.parseAccelerator(accelerator),
+      let shortcutRegisters = this.matchShortcut(
+        ...this.parser.__internal_decodeAccelerator(accelerator, {
+          separator: this.options.separator ?? this.parser.defaultSeparator,
+          alias: this.options.alias ?? {},
+        }),
       );
       if (shortcutRegisters.length === 0) {
         this.debug(`Shortcut ${accelerator} is not register yet.`);
         return false;
+      }
+      if (cb) {
+        shortcutRegisters = shortcutRegisters.filter(
+          (item) => item.callback === cb,
+        );
+        if (shortcutRegisters.length === 0) {
+          this.debug(`Callback ${cb.toString()} is not register yet.`);
+          return false;
+        }
       }
       this.shortcutRegistered = this.shortcutRegistered.filter(
         (item) => !shortcutRegisters.includes(item),
@@ -135,14 +180,27 @@ export class ShortcutRegistry {
     }
   }
 
-  disableShortcut(accelerator: Accelerator): boolean {
+  disableShortcut(
+    accelerator: Accelerator,
+    cb?: KeyboardEventListener,
+  ): boolean {
     try {
-      const matchShortcuts = this.matchShortcut(
-        ...this.parser.parseAccelerator(accelerator),
+      let matchShortcuts = this.matchShortcut(
+        ...this.parser.__internal_decodeAccelerator(accelerator, {
+          separator: this.options.separator ?? this.parser.defaultSeparator,
+          alias: this.options.alias ?? {},
+        }),
       );
-      if (!matchShortcuts) {
+      if (matchShortcuts.length === 0) {
         this.debug(`Shortcut ${accelerator} is not register yet.`);
         return false;
+      }
+      if (cb) {
+        matchShortcuts = matchShortcuts.filter((item) => item.callback === cb);
+        if (matchShortcuts.length === 0) {
+          this.debug(`Callback ${cb.toString()} is not register yet.`);
+          return false;
+        }
       }
       matchShortcuts.forEach((item) => {
         item.enabled = false;
@@ -154,14 +212,27 @@ export class ShortcutRegistry {
     }
   }
 
-  enableShortcut(accelerator: Accelerator): boolean {
+  enableShortcut(
+    accelerator: Accelerator,
+    cb?: KeyboardEventListener,
+  ): boolean {
     try {
-      const matchShortcuts = this.matchShortcut(
-        ...this.parser.parseAccelerator(accelerator),
+      let matchShortcuts = this.matchShortcut(
+        ...this.parser.__internal_decodeAccelerator(accelerator, {
+          separator: this.options.separator ?? this.parser.defaultSeparator,
+          alias: this.options.alias ?? {},
+        }),
       );
       if (matchShortcuts.length === 0) {
         this.debug(`Shortcut ${accelerator} is not register yet.`);
         return false;
+      }
+      if (cb) {
+        matchShortcuts = matchShortcuts.filter((item) => item.callback === cb);
+        if (matchShortcuts.length === 0) {
+          this.debug(`Callback ${cb.toString()} is not register yet.`);
+          return false;
+        }
       }
       matchShortcuts.forEach((item) => {
         item.enabled = true;
@@ -176,8 +247,12 @@ export class ShortcutRegistry {
   isShortcutRegistered(accelerator: Accelerator): boolean {
     try {
       return (
-        this.matchShortcut(...this.parser.parseAccelerator(accelerator))
-          .length > 0
+        this.matchShortcut(
+          ...this.parser.__internal_decodeAccelerator(accelerator, {
+            separator: this.options.separator ?? this.parser.defaultSeparator,
+            alias: this.options.alias ?? {},
+          }),
+        ).length > 0
       );
     } catch (e: any) {
       this.debug(e.message);
@@ -189,22 +264,29 @@ export class ShortcutRegistry {
     return [
       ...this.modifiersPressed
         .map((item) => {
-          if (!this.options.strict) {
-            return ShortcutRegistry.LooseModifiersName.get(item)!;
+          const keyCodeName = keyCode2KeyCodeName.get(item)!;
+          if (this.options.strict) {
+            return keyCodeName;
           }
-          return keyCode2KeyCodeName.get(item)!;
+          return keyCodeName2LooseModeKeyCodeName.get(
+            keyCodeName as ModifierKeyCodeName,
+          )!;
         })
-        .reduce<Array<KeyCodeName>>((memo, item) => {
-          if (memo.includes(item)) {
-            return memo;
+        .reduce<Array<KeyCodeName>>((prev, item) => {
+          if (prev.includes(item)) {
+            return prev;
           }
-          memo.push(item);
-          return memo;
+          prev.push(item);
+          return prev;
         }, []),
       ...(this.normalKeyPressed
         ? [keyCode2KeyCodeName.get(this.normalKeyPressed)!]
         : []),
-    ].join(AcceleratorParser.separator);
+    ]
+      .map((keyCodeName) => {
+        return this.options.alias?.[keyCodeName] ?? keyCodeName;
+      })
+      .join(this.options.separator ?? this.parser.defaultSeparator);
   }
 
   onKeydown(cb: KeyboardEventListener): Dispose {
@@ -224,7 +306,7 @@ export class ShortcutRegistry {
   private matchShortcut(
     modifiers: Array<Array<Accelerator>>,
     normalKeys: Array<Accelerator>,
-  ): Array<ShortcutRegister> {
+  ): Array<InternalShortcutRegister> {
     return this.shortcutRegistered.filter((item) => {
       const isModifierMatch = !!item.modifiers.find((item) => {
         return !!modifiers.find((modifier) => {
@@ -260,7 +342,7 @@ export class ShortcutRegistry {
   }
 
   private handleKeydown(event: KeyboardEvent) {
-    if (!this.options.filter!(event)) return;
+    if (!(this.options.filter ?? ShortcutRegistry.defaultFilter)(event)) return;
     const keycode = event.code as KeyCode;
     if (!KeyCodesSupported.includes(keycode)) {
       this.debug(`Unsupported keyCode: ${event.code}!`);
@@ -271,10 +353,6 @@ export class ShortcutRegistry {
       // reset keycode record when modifiers change
       this.normalKeyPressed = undefined;
     } else {
-      const modifiers = [];
-      if (event.ctrlKey) {
-        modifiers.push('ControlLeft');
-      }
       this.normalKeyPressed = keycode;
     }
     this.triggerShortcutEventIfHandlerFound(event);
@@ -291,7 +369,7 @@ export class ShortcutRegistry {
   }
 
   private handleKeyup(event: KeyboardEvent) {
-    if (!this.options.filter!(event)) return;
+    if (!(this.options.filter ?? ShortcutRegistry.defaultFilter)(event)) return;
     const keycode = event.code as KeyCode;
     if (ShortcutRegistry.keyCodeIsModifiers(keycode)) {
       this.modifiersPressed = this.modifiersPressed.filter((code) => {
@@ -326,13 +404,13 @@ export class ShortcutRegistry {
               modifiersSet.size === item.length &&
               modifiersSet.size === this.modifiersPressed.length
             );
-          }) && item.normalKeys.includes(this.normalKeyPressed!)
+          }) &&
+          item.normalKeys.includes(this.normalKeyPressed!) &&
+          item.enabled
         );
       });
       shortcutRegisters.forEach((item) => {
-        if (item.enabled) {
-          item.callback(event);
-        }
+        item.callback(event);
       });
     }
   }
