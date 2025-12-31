@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/refs */
-import {
-  type ReactNode,
+import React, {
   type FC,
   useEffect,
   useMemo,
   useRef,
   useCallback,
+  type PropsWithChildren,
 } from 'react';
 import {
   ReactShortcutContext,
@@ -25,10 +25,9 @@ export interface ReactShortcutOptions {
   alias?: Record<string, string>;
 }
 
-export interface ReactShortcutProviderProps {
+export type ReactShortcutProviderProps = PropsWithChildren<{
   options?: ReactShortcutOptions;
-  children?: ReactNode;
-}
+}>;
 
 const ReactShortcutProvider: FC<ReactShortcutProviderProps> =
   function ReactShortcutProvider(props) {
