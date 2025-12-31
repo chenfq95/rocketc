@@ -1,10 +1,27 @@
-import { FC, useEffect, useRef, useState } from 'react';
-import { ReactShortcutProvider, useShortcut } from '../../src';
+/* eslint-disable react-hooks/refs */
+
+import { type FC, useEffect, useRef, useState } from 'react';
+import {
+  ReactShortcutProvider,
+  useShortcut,
+} from '@rocketc/react-use-shortcuts';
+import {
+  Card,
+  CardContent,
+  CardTitle,
+  Input,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  Switch,
+  Textarea,
+} from '@rocketc/react';
 import './App.css';
+import '@rocketc/react/style.css';
 
 function App() {
-  const scope1 = useRef<HTMLDivElement>(null);
-  const scope2 = useRef<HTMLDivElement>(null);
   return (
     <>
       <header className="header">
@@ -12,23 +29,15 @@ function App() {
       </header>
       <main className="body">
         <ReactShortcutProvider options={{ debug: true }}>
-          <div className="main" ref={scope2} tabIndex={-1}>
-            <Main title="Global" />
-          </div>
+          <Main title="Global strict mode" enable={true} />
+        </ReactShortcutProvider>
+        <ReactShortcutProvider options={{ debug: true, strict: false }}>
+          <Main title="Global loose mode" enable={true} />
         </ReactShortcutProvider>
         <ReactShortcutProvider
-          options={{ debug: true, strict: true, scope: scope1 }}
+          options={{ debug: true, strict: false, auto: false }}
         >
-          <div className="main" ref={scope1} tabIndex={-1}>
-            <Main title="Strict Mode" />
-          </div>
-        </ReactShortcutProvider>
-        <ReactShortcutProvider
-          options={{ debug: true, strict: false, scope: scope2 }}
-        >
-          <div className="main" ref={scope2} tabIndex={-1}>
-            <Main title="Loose Mode" />
-          </div>
+          <ScopedShortcutRegistry />
         </ReactShortcutProvider>
       </main>
     </>
@@ -37,40 +46,86 @@ function App() {
 
 interface MainProps {
   title: string;
+  enable: boolean;
 }
 
 const Main: FC<MainProps> = function Main(props) {
   const [keyPressed, setKeyPressed] = useState<string>('');
 
   const { onKeydown, getCurrentKeyPressed } = useShortcut();
+
   useEffect(() => {
-    return onKeydown(() => {
-      setKeyPressed(getCurrentKeyPressed());
-    });
-  }, [onKeydown, getCurrentKeyPressed]);
+    if (props.enable) {
+      return onKeydown(() => {
+        setKeyPressed(getCurrentKeyPressed());
+      });
+    }
+  }, [props.enable, onKeydown, getCurrentKeyPressed]);
 
   return (
-    <div>
-      <h2>{props.title}</h2>
-      <div className="display-area">
+    <Card>
+      <CardTitle>{props.title}</CardTitle>
+      <CardContent>
         <h3>You Pressed: {keyPressed}.</h3>
-        <div className="filter-area">
-          <input />
-          <br />
-          <textarea />
-          <br />
-          <select>
-            <option>Option1</option>
-            <option>Option2</option>
-          </select>
-          <br />
-          <div
-            style={{ width: '100%', height: '100px', border: '1px solid red' }}
-            contentEditable={true}
-          ></div>
-        </div>
+        <Input />
+        <Textarea />
+        <Select>
+          <SelectTrigger>
+            <SelectValue placeholder="Select an option" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="1">Option1</SelectItem>
+            <SelectItem value="2">Option1</SelectItem>
+          </SelectContent>
+        </Select>
+        <div
+          style={{ width: '100%', height: '100px', border: '1px solid red' }}
+          contentEditable={true}
+        ></div>
+      </CardContent>
+    </Card>
+  );
+};
+
+const ScopedShortcutRegistry = () => {
+  const { attachElement } = useShortcut();
+  const [scope, setScope] = useState<HTMLElement | null>(null);
+  const ref1 = useRef<HTMLDivElement>(null);
+  const ref2 = useRef<HTMLDivElement>(null);
+
+  const handleSwitch = (ref: React.RefObject<HTMLDivElement | null>) => {
+    if (ref.current) {
+      setScope(ref.current);
+    }
+  };
+
+  useEffect(() => {
+    setScope(ref1.current as HTMLElement);
+  }, []);
+
+  useEffect(() => {
+    if (scope) {
+      return attachElement(scope);
+    }
+  }, [scope, attachElement]);
+
+  return (
+    <>
+      <div ref={ref1} tabIndex={-1}>
+        <Switch
+          onCheckedChange={(checked) => handleSwitch(checked ? ref1 : ref2)}
+          checked={!!scope && scope === ref1.current!}
+        />
+        <Main title="Scope 1" enable={scope === ref1.current!} />
       </div>
-    </div>
+      <div ref={ref2} tabIndex={-1}>
+        <Switch
+          onCheckedChange={(checked) => handleSwitch(checked ? ref2 : ref1)}
+          checked={!!scope && scope === ref2.current!}
+        />
+        <Main title="Scope 2" enable={scope === ref2.current!} />
+      </div>
+    </>
   );
 };
 

@@ -62,7 +62,6 @@
     "react-dom": "^16.8.0"
   },
   "dependencies": {
-    "debug": "^4.4.3",
-    "events": "^3.3.0"
+    "debug": "^4.4.3"
   }
 }

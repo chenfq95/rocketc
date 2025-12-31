@@ -36,16 +36,16 @@ describe('registerShortcut', () => {
     const ctrla = jest.fn();
     let result = false;
     result = shortRegistry.registerShortcut('Ctrl+a+a', ctrla);
-    expect(result).toBe(true);
+    expect(result).toBe(false);
     dispatchEvent('keydown', 'ControlLeft');
     dispatchEvent('keydown', 'KeyA');
     dispatchEvent('keydown', 'KeyA');
-    expect(ctrla).toHaveBeenCalledTimes(1);
+    expect(ctrla).toHaveBeenCalledTimes(0);
     dispatchEvent('keydown', 'KeyA');
     dispatchEvent('keydown', 'KeyA', true);
-    expect(ctrla).toHaveBeenCalledTimes(1);
+    expect(ctrla).toHaveBeenCalledTimes(0);
     dispatchEvent('keydown', 'KeyA');
-    expect(ctrla).toHaveBeenCalledTimes(2);
+    expect(ctrla).toHaveBeenCalledTimes(0);
   });
 
   it('register invalid shortcut', () => {
@@ -71,7 +71,7 @@ describe('registerShortcut', () => {
     dispatchEvent('keydown', 'KeyA');
     expect(ctrla).toHaveBeenCalledTimes(1);
     result = shortRegistry.registerShortcut('Ctrl+b+c+d', ctrla);
-    expect(result).toBe(true);
+    expect(result).toBe(false);
     result = shortRegistry.registerShortcut('Ctrl+c+d', ctrla);
     expect(result).toBe(false);
     result = shortRegistry.registerShortcut('Ctrl+b+c', ctrla);
@@ -82,21 +82,21 @@ describe('registerShortcut', () => {
     const ctrlabcd = jest.fn();
     let result = false;
     result = shortRegistry.registerShortcut('Option+a+b+c+d', ctrlabcd);
-    expect(result).toBe(true);
+    expect(result).toBe(false);
     dispatchEvent('keydown', 'AltLeft');
     dispatchEvent('keydown', 'KeyA');
     dispatchEvent('keydown', 'KeyB');
     dispatchEvent('keydown', 'KeyC');
     dispatchEvent('keydown', 'KeyD');
-    expect(ctrlabcd).toHaveBeenCalledTimes(1);
+    expect(ctrlabcd).toHaveBeenCalledTimes(0);
 
     const ctrlaaa = jest.fn();
     result = shortRegistry.registerShortcut('Option+a+a+a', ctrlaaa);
-    expect(result).toBe(true);
+    expect(result).toBe(false);
     dispatchEvent('keydown', 'KeyA');
     dispatchEvent('keydown', 'KeyA');
     dispatchEvent('keydown', 'KeyA');
-    expect(ctrlaaa).toHaveBeenCalledTimes(1);
+    expect(ctrlaaa).toHaveBeenCalledTimes(0);
   });
 });
 
@@ -131,47 +131,47 @@ describe('unregisterShortcut', () => {
     const ctrlaa = jest.fn();
     let result = false;
     result = shortRegistry.registerShortcut('Ctrl+a+a', ctrlaa);
-    expect(result).toBe(true);
+    expect(result).toBe(false);
     dispatchEvent('keydown', 'ControlLeft');
     dispatchEvent('keydown', 'KeyA');
     dispatchEvent('keydown', 'KeyA');
-    expect(ctrlaa).toHaveBeenCalledTimes(1);
+    expect(ctrlaa).toHaveBeenCalledTimes(0);
     result = shortRegistry.unregisterShortcut('Ctrl+a+a');
     dispatchEvent('keydown', 'KeyA');
     dispatchEvent('keydown', 'KeyA');
-    expect(ctrlaa).toHaveBeenCalledTimes(1);
+    expect(ctrlaa).toHaveBeenCalledTimes(0);
   });
 
   it('complex compose shortcut', () => {
     const altabcd = jest.fn();
     let result = false;
     result = shortRegistry.registerShortcut('Option+a+b+c+d', altabcd);
-    expect(result).toBe(true);
+    expect(result).toBe(false);
     dispatchEvent('keydown', 'AltLeft');
     dispatchEvent('keydown', 'KeyA');
     dispatchEvent('keydown', 'KeyB');
     dispatchEvent('keydown', 'KeyC');
     dispatchEvent('keydown', 'KeyD');
-    expect(altabcd).toHaveBeenCalledTimes(1);
+    expect(altabcd).toHaveBeenCalledTimes(0);
     result = shortRegistry.unregisterShortcut('Option+a+b+c+d');
     dispatchEvent('keydown', 'KeyA');
     dispatchEvent('keydown', 'KeyB');
     dispatchEvent('keydown', 'KeyC');
     dispatchEvent('keydown', 'KeyD');
-    expect(altabcd).toHaveBeenCalledTimes(1);
+    expect(altabcd).toHaveBeenCalledTimes(0);
 
     const altaaa = jest.fn();
     result = shortRegistry.registerShortcut('Option+a+a+a', altaaa);
-    expect(result).toBe(true);
+    expect(result).toBe(false);
     dispatchEvent('keydown', 'KeyA');
     dispatchEvent('keydown', 'KeyA');
     dispatchEvent('keydown', 'KeyA');
-    expect(altaaa).toHaveBeenCalledTimes(1);
+    expect(altaaa).toHaveBeenCalledTimes(0);
     result = shortRegistry.unregisterShortcut('Option+a+a+a');
     dispatchEvent('keydown', 'KeyA');
     dispatchEvent('keydown', 'KeyA');
     dispatchEvent('keydown', 'KeyA');
-    expect(altaaa).toHaveBeenCalledTimes(1);
+    expect(altaaa).toHaveBeenCalledTimes(0);
   });
 
   it('unregister shortcut which is not exist or invalid', () => {
@@ -309,10 +309,6 @@ describe('loose mode', () => {
     dispatchEvent('keydown', 'KeyA', true);
     expect(shortRegistry.getCurrentKeyPressed()).toMatchInlineSnapshot(
       '"Ctrl+Alt+a"',
-    );
-    dispatchEvent('keydown', 'KeyA');
-    expect(shortRegistry.getCurrentKeyPressed()).toMatchInlineSnapshot(
-      '"Ctrl+Alt+a+a"',
     );
   });
 });

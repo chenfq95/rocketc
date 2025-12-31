@@ -4,49 +4,50 @@ const parser = new AcceleratorParser();
 
 describe('parseAccelerator', () => {
   it('parse success', () => {
-    expect(parser.parseAccelerator('Ctrl')).toMatchInlineSnapshot(`
+    expect(parser.parseAccelerator('Ctrl+a')).toMatchInlineSnapshot(`
 [
   [
     "ControlLeft",
     "ControlRight",
   ],
   [
-    "",
+    "a",
   ],
 ]
 `);
-    expect(parser.parseAccelerator('Control')).toMatchInlineSnapshot(`
+    expect(parser.parseAccelerator('Control+a')).toMatchInlineSnapshot(`
 [
   [
     "ControlLeft",
     "ControlRight",
   ],
   [
-    "",
+    "a",
   ],
 ]
 `);
-    expect(parser.parseAccelerator('ControlLeft')).toMatchInlineSnapshot(`
+    expect(parser.parseAccelerator('ControlLeft+a')).toMatchInlineSnapshot(`
 [
   [
     "ControlLeft",
   ],
   [
-    "",
+    "KeyA",
   ],
 ]
 `);
-    expect(parser.parseAccelerator('ControlRight')).toMatchInlineSnapshot(`
+    expect(parser.parseAccelerator('ControlRight+a')).toMatchInlineSnapshot(`
 [
   [
     "ControlRight",
   ],
   [
-    "",
+    "KeyA",
   ],
 ]
 `);
-    expect(parser.parseAccelerator('ControlOrCommand')).toMatchInlineSnapshot(`
+    expect(parser.parseAccelerator('ControlOrCommand+a'))
+      .toMatchInlineSnapshot(`
 [
   [
     "ControlLeft",
@@ -57,104 +58,104 @@ describe('parseAccelerator', () => {
     "OSRight",
   ],
   [
-    "",
+    "KeyA",
   ],
 ]
 `);
-    expect(parser.parseAccelerator('Shift')).toMatchInlineSnapshot(`
+    expect(parser.parseAccelerator('Shift+a')).toMatchInlineSnapshot(`
 [
   [
     "ShiftLeft",
     "ShiftRight",
   ],
   [
-    "",
+    "KeyA",
   ],
 ]
 `);
-    expect(parser.parseAccelerator('ShiftLeft')).toMatchInlineSnapshot(`
+    expect(parser.parseAccelerator('ShiftLeft+a')).toMatchInlineSnapshot(`
 [
   [
     "ShiftLeft",
   ],
   [
-    "",
+    "KeyA",
   ],
 ]
 `);
-    expect(parser.parseAccelerator('ShiftRight')).toMatchInlineSnapshot(`
+    expect(parser.parseAccelerator('ShiftRight+a')).toMatchInlineSnapshot(`
 [
   [
     "ShiftRight",
   ],
   [
-    "",
+    "KeyA",
   ],
 ]
 `);
-    expect(parser.parseAccelerator('Alt')).toMatchInlineSnapshot(`
+    expect(parser.parseAccelerator('Alt+a')).toMatchInlineSnapshot(`
 [
   [
     "AltLeft",
     "AltRight",
   ],
   [
-    "",
+    "KeyA",
   ],
 ]
 `);
-    expect(parser.parseAccelerator('AltLeft')).toMatchInlineSnapshot(`
+    expect(parser.parseAccelerator('AltLeft+a')).toMatchInlineSnapshot(`
 [
   [
     "AltLeft",
   ],
   [
-    "",
+    "KeyA",
   ],
 ]
 `);
-    expect(parser.parseAccelerator('AltRight')).toMatchInlineSnapshot(`
+    expect(parser.parseAccelerator('AltRight+a')).toMatchInlineSnapshot(`
 [
   [
     "AltRight",
   ],
   [
-    "",
+    "KeyA",
   ],
 ]
 `);
-    expect(parser.parseAccelerator('Option')).toMatchInlineSnapshot(`
+    expect(parser.parseAccelerator('Option+a')).toMatchInlineSnapshot(`
 [
   [
     "AltLeft",
     "AltRight",
   ],
   [
-    "",
+    "KeyA",
   ],
 ]
 `);
-    expect(parser.parseAccelerator('OptionLeft')).toMatchInlineSnapshot(`
+    expect(parser.parseAccelerator('OptionLeft+a')).toMatchInlineSnapshot(`
 [
   [
     "AltLeft",
   ],
   [
-    "",
+    "KeyA",
   ],
 ]
 `);
-    expect(parser.parseAccelerator('OptionRight')).toMatchInlineSnapshot(`
+    expect(parser.parseAccelerator('OptionRight+a')).toMatchInlineSnapshot(`
 [
   [
     "AltRight",
   ],
   [
-    "",
+    "KeyA",
   ],
 ]
 `);
-    expect(parser.parseAccelerator('Meta')).toMatchInlineSnapshot(`
+    expect(parser.parseAccelerator('Meta+a')).toMatchInlineSnapshot(`
 [
   [
     "MetaLeft",
@@ -163,33 +164,33 @@ describe('parseAccelerator', () => {
     "OSRight",
   ],
   [
-    "",
+    "KeyA",
   ],
 ]
 `);
-    expect(parser.parseAccelerator('MetaLeft')).toMatchInlineSnapshot(`
+    expect(parser.parseAccelerator('MetaLeft+a')).toMatchInlineSnapshot(`
 [
   [
     "MetaLeft",
     "OSLeft",
   ],
   [
-    "",
+    "KeyA",
   ],
 ]
 `);
-    expect(parser.parseAccelerator('MetaRight')).toMatchInlineSnapshot(`
+    expect(parser.parseAccelerator('MetaRight+a')).toMatchInlineSnapshot(`
 [
   [
     "MetaRight",
     "OSRight",
   ],
   [
-    "",
+    "KeyA",
   ],
 ]
 `);
-    expect(parser.parseAccelerator('Command')).toMatchInlineSnapshot(`
+    expect(parser.parseAccelerator('Command+a')).toMatchInlineSnapshot(`
 [
   [
     "MetaLeft",
@@ -198,29 +199,29 @@ describe('parseAccelerator', () => {
     "OSRight",
   ],
   [
-    "",
+    "KeyA",
   ],
 ]
 `);
-    expect(parser.parseAccelerator('CommandLeft')).toMatchInlineSnapshot(`
+    expect(parser.parseAccelerator('CommandLeft+a')).toMatchInlineSnapshot(`
 [
   [
     "MetaLeft",
     "OSLeft",
   ],
   [
-    "",
+    "KeyA",
   ],
 ]
 `);
-    expect(parser.parseAccelerator('CommandRight')).toMatchInlineSnapshot(`
+    expect(parser.parseAccelerator('CommandRight+a')).toMatchInlineSnapshot(`
 [
   [
     "MetaRight",
     "OSRight",
   ],
   [
-    "",
+    "KeyA",
   ],
 ]
 `);
@@ -236,7 +237,7 @@ describe('parseAccelerator', () => {
   ],
 ]
 `);
-    expect(parser.parseAccelerator('ControlLeft+Option'))
+    expect(parser.parseAccelerator('ControlLeft+Option+a'))
       .toMatchInlineSnapshot(`
 [
   [
@@ -244,11 +245,11 @@ describe('parseAccelerator', () => {
     "AltRight+ControlLeft",
   ],
   [
-    "",
+    "KeyA",
   ],
 ]
 `);
-    expect(parser.parseAccelerator('Command+Option')).toMatchInlineSnapshot(`
+    expect(parser.parseAccelerator('Command+Option+a')).toMatchInlineSnapshot(`
 [
   [
     "AltLeft+MetaLeft",
@@ -261,7 +262,7 @@ describe('parseAccelerator', () => {
     "AltRight+OSRight",
   ],
   [
-    "",
+    "KeyA",
   ],
 ]
 `);
@@ -325,97 +326,19 @@ describe('parseAccelerator', () => {
   ],
 ]
 `);
-    expect(parser.parseAccelerator('Control+Shift+1+2+3+4+5+6'))
-      .toMatchInlineSnapshot(`
-[
-  [
-    "ControlLeft+ShiftLeft",
-    "ControlRight+ShiftLeft",
-    "ControlLeft+ShiftRight",
-    "ControlRight+ShiftRight",
-  ],
-  [
-    "Digit1+Digit2+Digit3+Digit4+Digit5+Digit6",
-    "Numpad1+Digit2+Digit3+Digit4+Digit5+Digit6",
-    "Digit1+Numpad2+Digit3+Digit4+Digit5+Digit6",
-    "Numpad1+Numpad2+Digit3+Digit4+Digit5+Digit6",
-    "Digit1+Digit2+Numpad3+Digit4+Digit5+Digit6",
-    "Numpad1+Digit2+Numpad3+Digit4+Digit5+Digit6",
-    "Digit1+Numpad2+Numpad3+Digit4+Digit5+Digit6",
-    "Numpad1+Numpad2+Numpad3+Digit4+Digit5+Digit6",
-    "Digit1+Digit2+Digit3+Numpad4+Digit5+Digit6",
-    "Numpad1+Digit2+Digit3+Numpad4+Digit5+Digit6",
-    "Digit1+Numpad2+Digit3+Numpad4+Digit5+Digit6",
-    "Numpad1+Numpad2+Digit3+Numpad4+Digit5+Digit6",
-    "Digit1+Digit2+Numpad3+Numpad4+Digit5+Digit6",
-    "Numpad1+Digit2+Numpad3+Numpad4+Digit5+Digit6",
-    "Digit1+Numpad2+Numpad3+Numpad4+Digit5+Digit6",
-    "Numpad1+Numpad2+Numpad3+Numpad4+Digit5+Digit6",
-    "Digit1+Digit2+Digit3+Digit4+Numpad5+Digit6",
-    "Numpad1+Digit2+Digit3+Digit4+Numpad5+Digit6",
-    "Digit1+Numpad2+Digit3+Digit4+Numpad5+Digit6",
-    "Numpad1+Numpad2+Digit3+Digit4+Numpad5+Digit6",
-    "Digit1+Digit2+Numpad3+Digit4+Numpad5+Digit6",
-    "Numpad1+Digit2+Numpad3+Digit4+Numpad5+Digit6",
-    "Digit1+Numpad2+Numpad3+Digit4+Numpad5+Digit6",
-    "Numpad1+Numpad2+Numpad3+Digit4+Numpad5+Digit6",
-    "Digit1+Digit2+Digit3+Numpad4+Numpad5+Digit6",
-    "Numpad1+Digit2+Digit3+Numpad4+Numpad5+Digit6",
-    "Digit1+Numpad2+Digit3+Numpad4+Numpad5+Digit6",
-    "Numpad1+Numpad2+Digit3+Numpad4+Numpad5+Digit6",
-    "Digit1+Digit2+Numpad3+Numpad4+Numpad5+Digit6",
-    "Numpad1+Digit2+Numpad3+Numpad4+Numpad5+Digit6",
-    "Digit1+Numpad2+Numpad3+Numpad4+Numpad5+Digit6",
-    "Numpad1+Numpad2+Numpad3+Numpad4+Numpad5+Digit6",
-    "Digit1+Digit2+Digit3+Digit4+Digit5+Numpad6",
-    "Numpad1+Digit2+Digit3+Digit4+Digit5+Numpad6",
-    "Digit1+Numpad2+Digit3+Digit4+Digit5+Numpad6",
-    "Numpad1+Numpad2+Digit3+Digit4+Digit5+Numpad6",
-    "Digit1+Digit2+Numpad3+Digit4+Digit5+Numpad6",
-    "Numpad1+Digit2+Numpad3+Digit4+Digit5+Numpad6",
-    "Digit1+Numpad2+Numpad3+Digit4+Digit5+Numpad6",
-    "Numpad1+Numpad2+Numpad3+Digit4+Digit5+Numpad6",
-    "Digit1+Digit2+Digit3+Numpad4+Digit5+Numpad6",
-    "Numpad1+Digit2+Digit3+Numpad4+Digit5+Numpad6",
-    "Digit1+Numpad2+Digit3+Numpad4+Digit5+Numpad6",
-    "Numpad1+Numpad2+Digit3+Numpad4+Digit5+Numpad6",
-    "Digit1+Digit2+Numpad3+Numpad4+Digit5+Numpad6",
-    "Numpad1+Digit2+Numpad3+Numpad4+Digit5+Numpad6",
-    "Digit1+Numpad2+Numpad3+Numpad4+Digit5+Numpad6",
-    "Numpad1+Numpad2+Numpad3+Numpad4+Digit5+Numpad6",
-    "Digit1+Digit2+Digit3+Digit4+Numpad5+Numpad6",
-    "Numpad1+Digit2+Digit3+Digit4+Numpad5+Numpad6",
-    "Digit1+Numpad2+Digit3+Digit4+Numpad5+Numpad6",
-    "Numpad1+Numpad2+Digit3+Digit4+Numpad5+Numpad6",
-    "Digit1+Digit2+Numpad3+Digit4+Numpad5+Numpad6",
-    "Numpad1+Digit2+Numpad3+Digit4+Numpad5+Numpad6",
-    "Digit1+Numpad2+Numpad3+Digit4+Numpad5+Numpad6",
-    "Numpad1+Numpad2+Numpad3+Digit4+Numpad5+Numpad6",
-    "Digit1+Digit2+Digit3+Numpad4+Numpad5+Numpad6",
-    "Numpad1+Digit2+Digit3+Numpad4+Numpad5+Numpad6",
-    "Digit1+Numpad2+Digit3+Numpad4+Numpad5+Numpad6",
-    "Numpad1+Numpad2+Digit3+Numpad4+Numpad5+Numpad6",
-    "Digit1+Digit2+Numpad3+Numpad4+Numpad5+Numpad6",
-    "Numpad1+Digit2+Numpad3+Numpad4+Numpad5+Numpad6",
-    "Digit1+Numpad2+Numpad3+Numpad4+Numpad5+Numpad6",
-    "Numpad1+Numpad2+Numpad3+Numpad4+Numpad5+Numpad6",
-  ],
-]
-`);
-    expect(parser.parseAccelerator('Control+i+i')).toMatchInlineSnapshot(`
-[
-  [
-    "ControlLeft",
-    "ControlRight",
-  ],
-  [
-    "KeyI+KeyI",
-  ],
-]
-`);
   });
 
   it('parse error', () => {
+    expect(() =>
+      parser.parseAccelerator('Control+Shift+1+2+3+4+5+6'),
+    ).toThrowErrorMatchingInlineSnapshot(
+      '"parse accelerator failed in position 16."',
+    );
+    expect(() =>
+      parser.parseAccelerator('Control+i+i'),
+    ).toThrowErrorMatchingInlineSnapshot(
+      '"parse accelerator failed in position 10."',
+    );
     expect(() =>
       parser.parseAccelerator('ctrl+i'),
     ).toThrowErrorMatchingInlineSnapshot(

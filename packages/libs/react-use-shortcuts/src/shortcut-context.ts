@@ -1,4 +1,4 @@
-import React from 'react';
+import { createContext } from 'react';
 import { type Accelerator } from './accelerator-parser';
 
 export type Dispose = () => void;
@@ -17,19 +17,20 @@ export interface ReactShortcutContextValue {
   getCurrentKeyPressed(): Accelerator;
   onKeydown(listener: KeyboardEventListener): Dispose;
   onKeyup(listener: KeyboardEventListener): Dispose;
+  attachElement(ele: Window | HTMLElement): Dispose;
 }
 
-export const ReactShortcutContext =
-  React.createContext<ReactShortcutContextValue>({
-    registerShortcut: () => throwProviderNotFoundError(),
-    unregisterShortcut: () => throwProviderNotFoundError(),
-    enableShortcut: () => throwProviderNotFoundError(),
-    disableShortcut: () => throwProviderNotFoundError(),
-    isShortcutRegistered: () => throwProviderNotFoundError(),
-    getCurrentKeyPressed: () => throwProviderNotFoundError(),
-    onKeydown: () => throwProviderNotFoundError(),
-    onKeyup: () => throwProviderNotFoundError(),
-  });
+export const ReactShortcutContext = createContext<ReactShortcutContextValue>({
+  registerShortcut: () => throwProviderNotFoundError(),
+  unregisterShortcut: () => throwProviderNotFoundError(),
+  enableShortcut: () => throwProviderNotFoundError(),
+  disableShortcut: () => throwProviderNotFoundError(),
+  isShortcutRegistered: () => throwProviderNotFoundError(),
+  getCurrentKeyPressed: () => throwProviderNotFoundError(),
+  onKeydown: () => throwProviderNotFoundError(),
+  onKeyup: () => throwProviderNotFoundError(),
+  attachElement: () => throwProviderNotFoundError(),
+});
 
 function throwProviderNotFoundError(): never {
   throw new Error('ShortcutProvider is not found!');

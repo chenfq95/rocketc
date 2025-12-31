@@ -1,10 +1,5 @@
 # @rocketc/react-use-shortcuts
 
-![](https://img.shields.io/github/license/heychenfq/react-shortcut)
-![](https://img.shields.io/github/issues/heychenfq/react-shortcut)
-![](https://img.shields.io/github/stars/heychenfq/react-shortcut)
-![](https://img.shields.io/github/forks/heychenfq/react-shortcut)
-
 ---
 
 Full shortcut solution for react app.
@@ -12,19 +7,12 @@ Full shortcut solution for react app.
 ## Features
 
 - Strict/Loose mode.
-
 - Page scoped register.
-
 - Dynamic register shortcut.
-
 - Dynamic enable/disable shortcut registered.
-
 - Flexible normal key combinations.
-
 - Use modern browser API.
-
 - Full types supported.
-
 - Shortcut validation.
 
 ## Installation
@@ -42,16 +30,16 @@ pnpm add @rocketc/react-use-shortcuts
 
 ### Modfiers
 
-| Key            | Alias                                     | Notes                                    |
-| -------------- | ----------------------------------------- | ---------------------------------------- |
-| `ControlLeft`  | `Ctrl` `Control` `ControlOrCommand`       |                                          |
-| `ControlRight` | `Ctrl` `Control` `ControlOrCommand`       |                                          |
-| `MetaLeft`     | `Command` `ConmandLeft ControlOrCommand`  | `Windows` on Windows, `Command` on MacOS |
-| `MetaRight`    | `Command` `ConmandRight ControlOrCommand` | `Windows` on Windows, `Command` on MacOS |
-| `ShiftLeft`    | `Shift`                                   |                                          |
-| `ShiftRight`   | `Shift`                                   |                                          |
-| `AltLeft`      | `Option` `OptionLeft`                     | `Option` is only available on MacOS.     |
-| `AltRight`     | `Option` `OptionRight`                    | `Option` is only available on MacOS.     |
+| Key            | Alias                                       | Notes                                    |
+| -------------- | ------------------------------------------- | ---------------------------------------- |
+| `ControlLeft`  | `Ctrl` `Control` `ControlOrCommand`         |                                          |
+| `ControlRight` | `Ctrl` `Control` `ControlOrCommand`         |                                          |
+| `MetaLeft`     | `Command` `CommandLeft` `ControlOrCommand`  | `Windows` on Windows, `Command` on MacOS |
+| `MetaRight`    | `Command` `CommandRight` `ControlOrCommand` | `Windows` on Windows, `Command` on MacOS |
+| `ShiftLeft`    | `Shift`                                     |                                          |
+| `ShiftRight`   | `Shift`                                     |                                          |
+| `AltLeft`      | `Option` `OptionLeft`                       | `Option` is only available on MacOS.     |
+| `AltRight`     | `Option` `OptionRight`                      | `Option` is only available on MacOS.     |
 
 ### Normal Keys
 
@@ -69,13 +57,13 @@ pnpm add @rocketc/react-use-shortcuts
 | `]`          | BracketRight                                      |
 | `\`          | Backslash                                         |
 | `` ` ``      | Backquote                                         |
-| `Escape`     | Alias `Esc`                                       |
+| `Escape`     | Alias`Esc`                                        |
 | `-`          | Minus                                             |
 | `=`          | Equal                                             |
 | `+`          | `Add` on numpad. not `Shift+=`                    |
 | `*`          | `Multiple` on numpad. not `Shift+8`               |
 | `Backspace`  | Backspace                                         |
-| `Delete`     | Alias `Del`                                       |
+| `Delete`     | Alias`Del`                                        |
 | `Tab`        | Tab                                               |
 | `CapsLock`   | Capslock                                          |
 | `Enter`      | Enter or Enter on numpad.                         |
@@ -122,7 +110,7 @@ function Main() {
       console.log('You pressed A');
     });
     return () => {
-      unregisterShortcut('Ctrl+a');
+      unregisterShortcut('a');
     };
   }, []);
 
@@ -174,19 +162,13 @@ import {
 } from '@rocketc/react-use-shortcuts';
 
 function App() {
-  const scope1 = useRef<HTMLDivElement>(null);
-  const scope2 = useRef<HTMLDivElement>(null);
   return (
     <div id="root">
-      <ReactShortcutProvider options={{ scope: scope1 }}>
-        <div ref={scope1} tabIndex={-1}>
-          <Main />
-        </div>
+      <ReactShortcutProvider options={{ auto: false }}>
+        <Main />
       </ReactShortcutProvider>
-      <ReactShortcutProvider options={{ scope: scope2 }}>
-        <div ref={scope2} tabIndex={-1}>
-          <Main />
-        </div>
+      <ReactShortcutProvider options={{ auto: false }}>
+        <Main />
         <Main />
       </ReactShortcutProvider>
     </div>
@@ -194,7 +176,15 @@ function App() {
 }
 
 function Main() {
-  const { registerShortcut, unregisterShortcut } = useShortcut();
+  const { registerShortcut, unregisterShortcut, attachElement } = useShortcut();
+
+  const root = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (root.current) {
+      return attachElement(root.current);
+    }
+  }, []);
 
   useEffect(() => {
     registerShortcut('Ctrl+a', (event) => {
@@ -206,7 +196,11 @@ function Main() {
     };
   }, []);
 
-  return <h1>Hello World!</h1>;
+  return (
+    <h1 ref={root} tabIndex={-1}>
+      Hello World!
+    </h1>
+  );
 }
 ```
 
@@ -232,66 +226,22 @@ function App() {
 }
 
 function Main() {
-  const { getElement, getCurrentKeyPressed } = useShortcut();
+  const { onKeydown, getCurrentKeyPressed } = useShortcut();
 
   useEffect(() => {
-    const cb = () => {
+    return onKeydown(() => {
       // if you pressed ControlLeft and A.
       // print ControlLeft+a in strict mode.
-      // print Control+a in loose mode.
+      // print Ctrl+a in loose mode.
       console.log(getCurrentKeyPressed());
-    };
-    getElement()!.addEventListener('keydown', cb);
-    return () => {
-      getElement()!.removeEventListener('keydown', cb);
-    };
+    });
   }, []);
 
   return <h1>Hello World!</h1>;
 }
 ```
 
-### 5. Normal keys combinations.
-
-```tsx
-import React, { useEffect } from 'react';
-import {
-  ReactShortcutProvider,
-  useShortcut,
-} from '@rocketc/react-use-shortcuts';
-
-function App() {
-  return (
-    <ReactShortcutProvider>
-      <Main />
-    </ReactShortcutProvider>
-  );
-}
-
-function Main() {
-  const { registerShortcut, unregisterShortcut } = useShortcut();
-
-  // RegisterShortcut should be invoked in useEffect.
-  useEffect(() => {
-    registerShortcut('a+b', (event) => {
-      // invoked whenever key A pressed.
-      console.log('You pressed A and B');
-    });
-    registerShortcut('a+a', (event) => {
-      // invoked whenever key A pressed twice.
-      console.log('You pressed A twice');
-    });
-    return () => {
-      unregisterShortcut('a+b');
-      unregisterShortcut('a+a');
-    };
-  }, []);
-
-  return <h1>Hello World!</h1>;
-}
-```
-
-### 6. Dynamic enable/disable shortcut.
+### 5. Dynamic enable/disable shortcut.
 
 ```tsx
 import React, { useEffect, useCallback, useState } from 'react';
@@ -343,7 +293,7 @@ function Main() {
 }
 ```
 
-### 6. Custom event filter, default behavior is filter event triggered by input/textarea/select or contentEditable element.
+### 6. Custom event filter.
 
 ```tsx
 import React, { useEffect, useCallback, useState } from 'react';
@@ -355,7 +305,9 @@ import {
 function App() {
   return (
     <ReactShortcutProvider
-      options={{ filter: (event) => event.target.tagName !== 'INPUT' }}
+      options={{
+        filter: (event) => (event.target as HTMLElement)?.tagName !== 'INPUT',
+      }}
     >
       <Main />
     </ReactShortcutProvider>
@@ -385,17 +337,15 @@ function Main() {
 
 ### Some shortcut match rules example.
 
-| **Actions**                                                                                                                                 | **Accelerator**      | **Matched** |
-| ------------------------------------------------------------------------------------------------------------------------------------------- | -------------------- | ----------- |
-| press `ControlLeft` press `AltLeft` release `AltLeft` press `A`                                                                             | `Control+a`          | ✅          |
-| press `ControlLeft` press `AltLeft` press `A`                                                                                               | `Control+a`          | ❌          |
-| press `ControlRight` press `A`                                                                                                              | `Control+a`          | ✅          |
-| press `ControlRight` press `B` release `B` press `A`                                                                                        | `Control+a`          | ✅          |
-| press `ControlLeft` press `A`                                                                                                               | `ControlOrCommand+a` | ✅          |
-| press `MetaLeft` press `A`                                                                                                                  | `ControlOrCommand+a` | ✅          |
-| press `ControlLeft` press `1` press `2` release `1` release `2` press `A` release `A` press `B` release `B` press `C` release `C` press `D` | `Control+a+b+c+d`    | ✅          |
-| press `ControlLeft` press `A` release `A` press `1` release `1` press `B` release `B` press `C` release `C` press `D`                       | `Control+a+b+c+d`    | ❌          |
-| press `ControlLeft` press `A` release `A` press `A` release `A`                                                                             | `Control+a+a`        | ✅          |
+| **Actions**                                                    | **Accelerator**      | **Matched** |
+| :------------------------------------------------------------- | -------------------- | ----------- |
+| press`ControlLeft` press `AltLeft` release `AltLeft` press `A` | `Control+a`          | ✅          |
+| press`ControlLeft` press `AltLeft` press `A`                   | `Control+a`          | ❌          |
+| press`ControlRight` press `A`                                  | `Control+a`          | ✅          |
+| press`ControlRight` press `B` release `B` press `A`            | `Control+a`          | ✅          |
+| press`ControlLeft` press `A`                                   | `ControlOrCommand+a` | ✅          |
+| press`MetaLeft` press `A`                                      | `ControlOrCommand+a` | ✅          |
+| press`ControlLeft` press `A` release `A` press `A` release `A` | `Control+a+a`        | ✅          |
 
 ## API Reference
 
@@ -411,11 +361,12 @@ interface ReactShortcutOptions {
   strict?: boolean;
   // print the debug message, default to false.
   debug?: boolean;
+  // auto attach to window, default to true.
+  // if set to false, you need to call attachElement manually.
+  auto?: boolean;
   // filter some event which does not want to handled.
   // default behavior is filter event triggered by input/textarea/select or contentEditable element.
   filter?: Filter;
-  // the element to listen keyboard event. fallback to window if this options is not set.
-  scope?: React.RefObject<HTMLElement>;
 }
 
 interface ReactShortcutProviderProps {
@@ -426,7 +377,7 @@ interface ReactShortcutProviderProps {
 interface ReactShortcutContextValue {
   registerShortcut(
     accelerator: Accelerator,
-    callback: KeyboardEventListener,
+    callback: KeyboardEventListener
   ): boolean;
   unregisterShortcut(accelerator: Accelerator): boolean;
   enableShortcut(accelerator: Accelerator): boolean;
@@ -435,6 +386,7 @@ interface ReactShortcutContextValue {
   getCurrentKeyPressed(): Accelerator;
   onKeydown(listener: KeyboardEventListener): Dispose;
   onKeyup(listener: KeyboardEventListener): Dispose;
+  attachElement(ele: Window | HTMLElement): Dispose;
 }
 ```
 
@@ -480,22 +432,22 @@ Register `keydown` keyboardEvent listener on element attached, unlike `registerS
 
 ### `ReactShortcutContextValue.onKeyup: (listener: KeyboardEventListener) => Dispose;`
 
-Register `keyup` keyboardEvent listener on element attached, unlike `registerShortcut`, listener will be invoked whenever key released.If you pressed `Command` key on MacOS, the `keyup` event may be not triggered because it is a browser default behavior, more detail see: [https://github.com/electron/electron/issues/5188](https://github.com/electron/electron/issues/5188 'https://github.com/electron/electron/issues/5188').
+Register `keyup` keyboardEvent listener on element attached, unlike `registerShortcut`, listener will be invoked whenever key released. If you pressed `Command` key on MacOS, the `keyup` event may be not triggered because it is a browser default behavior, more detail see: [https://github.com/electron/electron/issues/5188](https://github.com/electron/electron/issues/5188 'https://github.com/electron/electron/issues/5188').
+
+### `ReactShortcutContextValue.attachElement: (ele: Window | HTMLElement) => Dispose;`
+
+Attach keyboard event listener to specified element. Only available when `auto` option is set to `false`. Returns a dispose function to detach the listener.
 
 ## Browser Compatibility
 
 - Chrome ≥ 48
-
 - Firefox ≥ 38
-
 - Safari ≥ 10.1
-
 - Edge ≥ 79
 
 ## Alternatives
 
 - [react-hotkeys-hook](https://www.npmjs.com/package/react-hotkeys-hook 'react-hotkeys-hook')
-
 - [react-hot-keys](https://www.npmjs.com/package/react-hot-keys 'react-hot-keys')
 
 ## Comparisons
@@ -506,7 +458,7 @@ Register `keyup` keyboardEvent listener on element attached, unlike `registerSho
 | Page scoped register                       | ✅                               | ✅                     | ❌                 |
 | Strict/Loose mode                          | ✅                               | ❌                     | ❌                 |
 | Dynamic enable/disable shortcut registered | ✅                               | ✅                     | ❌                 |
-| Normal key combinations                    | ✅                               | ✅                     | ✅                 |
+| Normal key combinations                    | ❌                               | ✅                     | ✅                 |
 | Namespace                                  | ❌                               | ❌                     | ✅                 |
 | Shortcuts validation                       | ✅                               | ❌                     | ❌                 |
 | Used React ≤ 16.8.0                        | ❌                               | ❌                     | ✅                 |

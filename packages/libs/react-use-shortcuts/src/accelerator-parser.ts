@@ -4,7 +4,6 @@ import {
   type ModifierKeyCodeName,
   type NormalKeyCodeName,
 } from './key-codes';
-import { isEmpty } from './utils';
 
 export type Accelerator = string;
 
@@ -46,15 +45,14 @@ export class AcceleratorParser {
 
   parseAccelerator(
     accelerator: Accelerator,
-  ): [Array<Accelerator>, Array<Accelerator>] {
+  ): [Array<Array<Accelerator>>, Array<Accelerator>] {
     // remove all space
     accelerator = accelerator.replaceAll(/\s/gi, '');
     const keyCodeNames = accelerator.split(AcceleratorParser.separator);
     let position = 0;
     const modifiers: ModifierKeyCodeName[] = [];
-    const normalKeys: NormalKeyCodeName[] = [];
+    let normalKey: NormalKeyCodeName | undefined;
     for (let i = 0; i < keyCodeNames.length; i++) {
-      // resolve alias
       let keyCodeName = keyCodeNames[i];
       if (keyCodeName === '') {
         if (keyCodeNames[i + 1] === '') {
@@ -69,46 +67,36 @@ export class AcceleratorParser {
         throwParseError(position);
       }
       if (AcceleratorParser.keyCodeNameIsModifiers(keyCodeName)) {
-        if (!isEmpty(normalKeys)) {
-          throwParseError(position + 1);
+        if (normalKey) {
+          throwParseError(position);
         }
         modifiers.push(keyCodeName);
       } else {
-        normalKeys.push(keyCodeName as NormalKeyCodeName);
+        if (normalKey) {
+          throwParseError(position);
+        }
+        normalKey = keyCodeName as NormalKeyCodeName;
       }
       position += keyCodeName.length + 1;
     }
+    if (!normalKey) {
+      throwParseError(position - 1);
+    }
     return [
-      modifiers
-        .reduce<Array<Array<string>>>(
-          (prev, item) => {
-            const next: Array<Array<string>> = [];
-            const keyCodes = keyCodeName2KeyCode.get(item)!;
-            keyCodes.forEach((keycode) => {
-              prev.forEach((resolved) => {
-                next.push([...resolved, keycode]);
-              });
+      modifiers.reduce<Array<Array<string>>>(
+        (prev, item) => {
+          const next: Array<Array<string>> = [];
+          const keyCodes = keyCodeName2KeyCode.get(item)!;
+          keyCodes.forEach((keycode) => {
+            prev.forEach((resolved) => {
+              next.push([...resolved, keycode]);
             });
-            return next;
-          },
-          [[]],
-        )
-        .map((item) => item.sort().join(AcceleratorParser.separator)),
-      normalKeys
-        .reduce<Array<Array<string>>>(
-          (prev, item) => {
-            const next: Array<Array<string>> = [];
-            const keyCodes = keyCodeName2KeyCode.get(item)!;
-            keyCodes.forEach((keycode) => {
-              prev.forEach((resolved) => {
-                next.push([...resolved, keycode]);
-              });
-            });
-            return next;
-          },
-          [[]],
-        )
-        .map((item) => item.join(AcceleratorParser.separator)),
+          });
+          return next;
+        },
+        [[]],
+      ),
+      keyCodeName2KeyCode.get(normalKey)!,
     ];
 
     function throwParseError(position: number): never {

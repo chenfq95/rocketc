@@ -9,8 +9,8 @@ import { ShortcutRegistry } from './shortcut-registry';
 export interface ReactShortcutOptions {
   strict?: boolean;
   debug?: boolean;
+  auto?: boolean;
   filter?: Filter;
-  scope?: React.RefObject<HTMLElement>;
 }
 
 export interface ReactShortcutProviderProps {
@@ -22,7 +22,7 @@ export const ReactShortcutProvider: FC<ReactShortcutProviderProps> =
   function ReactShortcutProvider(props) {
     const {
       children,
-      options: { strict = true, debug = false, filter, scope } = {},
+      options: { strict = true, debug = false, auto = true, filter } = {},
     } = props;
 
     const shortcutRegistry = useMemo(() => {
@@ -44,16 +44,21 @@ export const ReactShortcutProvider: FC<ReactShortcutProviderProps> =
           shortcutRegistry.getCurrentKeyPressed.bind(shortcutRegistry),
         onKeydown: shortcutRegistry.onKeydown.bind(shortcutRegistry),
         onKeyup: shortcutRegistry.onKeyup.bind(shortcutRegistry),
+        attachElement: auto
+          ? () => {
+              throw new Error(
+                'attachElement is not supported when auto is true',
+              );
+            }
+          : shortcutRegistry.attachElement.bind(shortcutRegistry),
       };
-    }, [shortcutRegistry, scope?.current]);
+    }, [shortcutRegistry, auto]);
 
     useEffect(() => {
-      if (!scope) {
+      if (auto) {
         return shortcutRegistry.attachElement(window);
-      } else if (scope.current) {
-        return shortcutRegistry.attachElement(scope.current);
       }
-    }, [scope?.current]);
+    }, [auto, shortcutRegistry]);
 
     return (
       <ReactShortcutContext.Provider value={contextValue}>
