@@ -236,8 +236,8 @@ describe('parseAccelerator', () => {
   ],
 ]
 `);
-    expect(parser.parseAccelerator('ControlLeft+Option')).
-toMatchInlineSnapshot(`
+    expect(parser.parseAccelerator('ControlLeft+Option'))
+      .toMatchInlineSnapshot(`
 [
   [
     "AltLeft+ControlLeft",
@@ -265,8 +265,8 @@ toMatchInlineSnapshot(`
   ],
 ]
 `);
-    expect(parser.parseAccelerator('Command+Option+Shift+=')).
-toMatchInlineSnapshot(`
+    expect(parser.parseAccelerator('Command+Option+Shift+='))
+      .toMatchInlineSnapshot(`
 [
   [
     "AltLeft+MetaLeft+ShiftLeft",
@@ -291,8 +291,8 @@ toMatchInlineSnapshot(`
   ],
 ]
 `);
-    expect(parser.parseAccelerator('ControlOrCommand+Option+Shift+i')).
-toMatchInlineSnapshot(`
+    expect(parser.parseAccelerator('ControlOrCommand+Option+Shift+i'))
+      .toMatchInlineSnapshot(`
 [
   [
     "AltLeft+ControlLeft+ShiftLeft",
@@ -325,8 +325,8 @@ toMatchInlineSnapshot(`
   ],
 ]
 `);
-    expect(parser.parseAccelerator('Control+Shift+1+2+3+4+5+6')).
-toMatchInlineSnapshot(`
+    expect(parser.parseAccelerator('Control+Shift+1+2+3+4+5+6'))
+      .toMatchInlineSnapshot(`
 [
   [
     "ControlLeft+ShiftLeft",
@@ -417,25 +417,25 @@ toMatchInlineSnapshot(`
 
   it('parse error', () => {
     expect(() =>
-      parser.parseAccelerator('ctrl+i')
+      parser.parseAccelerator('ctrl+i'),
     ).toThrowErrorMatchingInlineSnapshot(
-      '"parse accelerator failed in position 0."'
+      '"parse accelerator failed in position 0."',
     );
     expect(() =>
-      parser.parseAccelerator('Control+i+Option')
+      parser.parseAccelerator('Control+i+Option'),
     ).toThrowErrorMatchingInlineSnapshot(
-      '"parse accelerator failed in position 11."'
+      '"parse accelerator failed in position 11."',
     );
     expect(() =>
-      parser.parseAccelerator('Control+')
+      parser.parseAccelerator('Control+'),
     ).toThrowErrorMatchingInlineSnapshot(
-      '"parse accelerator failed in position 8."'
+      '"parse accelerator failed in position 8."',
     );
   });
 
   it('shortcut alias', () => {
     expect(parser.parseAccelerator('Meta+Option')).toEqual(
-      parser.parseAccelerator('Command+Alt')
+      parser.parseAccelerator('Command+Alt'),
     );
   });
 });

@@ -63,7 +63,7 @@ async function installComponentsBatch(componentNames) {
       stdio: 'inherit',
       env: {
         ...process.env,
-      }
+      },
     });
 
     console.log(`\n✅ 所有组件安装成功`);
@@ -88,7 +88,7 @@ async function installComponent(componentName) {
       stdio: 'inherit',
       env: {
         ...process.env,
-      }
+      },
     });
 
     console.log(`✅ 组件 ${componentName} 安装成功`);
@@ -168,7 +168,8 @@ async function installComponents() {
 
     // 检查哪些组件已安装，哪些需要安装
     console.log('🔍 检查组件安装状态...\n');
-    const { toInstall, alreadyInstalled } = await filterComponentsToInstall(components);
+    const { toInstall, alreadyInstalled } =
+      await filterComponentsToInstall(components);
 
     if (alreadyInstalled.length > 0) {
       console.log(`⏭️  已安装的组件（跳过）: ${alreadyInstalled.length} 个\n`);
@@ -196,13 +197,13 @@ async function installComponents() {
     let results = [];
 
     // 先添加已安装的组件到结果中
-    alreadyInstalled.forEach(comp => {
+    alreadyInstalled.forEach((comp) => {
       results.push({ component: comp, success: true, skipped: true });
     });
 
     if (batchResult.success) {
       // 批量安装成功
-      toInstall.forEach(comp => {
+      toInstall.forEach((comp) => {
         results.push({ component: comp, success: true, skipped: false });
       });
     } else {
@@ -217,9 +218,9 @@ async function installComponents() {
 
     // 输出安装结果摘要
     console.log('\n📊 安装结果摘要:');
-    const successCount = results.filter(r => r.success && !r.skipped).length;
-    const skippedCount = results.filter(r => r.skipped).length;
-    const failCount = results.filter(r => !r.success && !r.skipped).length;
+    const successCount = results.filter((r) => r.success && !r.skipped).length;
+    const skippedCount = results.filter((r) => r.skipped).length;
+    const failCount = results.filter((r) => !r.success && !r.skipped).length;
 
     results.forEach(({ component, success, skipped }) => {
       if (skipped) {
@@ -230,7 +231,9 @@ async function installComponents() {
       }
     });
 
-    console.log(`\n✨ 完成! 新安装: ${successCount}, 跳过: ${skippedCount}, 失败: ${failCount}`);
+    console.log(
+      `\n✨ 完成! 新安装: ${successCount}, 跳过: ${skippedCount}, 失败: ${failCount}`,
+    );
 
     if (successCount > 0) {
       console.log('\n💡 提示: 运行 `pnpm gen-entry` 来更新入口文件');
@@ -243,4 +246,3 @@ async function installComponents() {
 
 // 执行安装
 installComponents();
-

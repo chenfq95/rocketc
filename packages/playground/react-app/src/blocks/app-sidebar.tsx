@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import {
   IconCamera,
   IconChartBar,
@@ -14,12 +14,12 @@ import {
   IconSearch,
   IconSettings,
   IconUsers,
-} from '@tabler/icons-react'
+} from '@tabler/icons-react';
 
-import { NavDocuments } from './nav-documents'
-import { NavMain } from './nav-main'
-import { NavSecondary } from './nav-secondary'
-import { NavUser } from './nav-user'
+import { NavDocuments } from './nav-documents';
+import { NavMain } from './nav-main';
+import { NavSecondary } from './nav-secondary';
+import { NavUser } from './nav-user';
 import {
   Sidebar,
   SidebarContent,
@@ -28,7 +28,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from '@rocketc/react'
+} from '@rocketc/react';
 
 import RocketcIcon from '../assets/rocketc.svg?react';
 
@@ -147,7 +147,7 @@ const data = {
       icon: IconFileWord,
     },
   ],
-}
+};
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
@@ -161,7 +161,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             >
               <a href="#">
                 <RocketcIcon className="!size-5" />
-                <span className="text-base font-semibold">Rocketc React App</span>
+                <span className="text-base font-semibold">
+                  Rocketc React App
+                </span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -176,5 +178,5 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavUser user={data.user} />
       </SidebarFooter>
     </Sidebar>
-  )
+  );
 }

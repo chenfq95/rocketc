@@ -1,14 +1,11 @@
-import { AppSidebar } from '../../blocks/app-sidebar'
-import { ChartAreaInteractive } from '../../blocks/chart-area-interactive'
-import { DataTable } from '../../blocks/data-table'
-import { SectionCards } from '../../blocks/section-cards'
-import { SiteHeader } from '../../blocks/site-header'
-import {
-  SidebarInset,
-  SidebarProvider,
-} from '@rocketc/react'
+import { AppSidebar } from '../../blocks/app-sidebar';
+import { ChartAreaInteractive } from '../../blocks/chart-area-interactive';
+import { DataTable } from '../../blocks/data-table';
+import { SectionCards } from '../../blocks/section-cards';
+import { SiteHeader } from '../../blocks/site-header';
+import { SidebarInset, SidebarProvider } from '@rocketc/react';
 
-import data from './data.json'
+import data from './data.json';
 
 export default function Dashboard() {
   return (
@@ -36,5 +33,5 @@ export default function Dashboard() {
         </div>
       </SidebarInset>
     </SidebarProvider>
-  )
+  );
 }

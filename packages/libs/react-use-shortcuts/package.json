@@ -1,68 +1,68 @@
 {
-	"name": "@rocketc/react-use-shortcuts",
-	"version": "0.0.1-alpha.3",
-	"type": "module",
-	"description": "a full react shortcut solution",
-	"files": [
-		"LICENSE",
-		"README.md",
-		"dist"
-	],
-	"exports": {
-		".": {
-			"types": "./dist/index.d.ts",
-			"import": "./dist/index.js",
-			"default": "./dist/index.js"
-		}
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/chenfq95/rocketc.git",
-		"directory": "packages/libs/react-use-shortcuts"
-	},
-	"sideEffects": false,
-	"scripts": {
-		"dev": "vite",
-		"build": "tsc -b && vite build",
-		"lint": "eslint .",
-		"lint:fix": "eslint . --fix",
-		"test": "jest"
-	},
-	"keywords": [
-		"react",
-		"shortcut"
-	],
-	"author": "chenfq95 <chenfq95@foxmail.com>",
-	"license": "MIT",
-	"devDependencies": {
-		"@eslint/js": "^9.39.2",
-		"@microsoft/api-extractor": "^7.55.2",
-		"@types/debug": "^4.1.12",
-		"@types/events": "^3.0.3",
-		"@types/jest": "^30.0.0",
-		"@types/node": "^24.10.4",
-		"@types/react": "^18.0.14",
-		"@vitejs/plugin-react-swc": "^4.2.2",
-		"eslint": "^9.39.2",
-		"eslint-plugin-react-hooks": "^7.0.1",
-		"eslint-plugin-react-refresh": "^0.4.26",
-		"globals": "^16.5.0",
-		"jest": "^30.2.0",
-		"jest-environment-jsdom": "^30.2.0",
-		"rimraf": "^6.1.2",
-		"ts-jest": "^29.4.6",
-		"ts-node": "^10.9.2",
-		"typescript": "^5.9.3",
-		"typescript-eslint": "^8.51.0",
-		"unplugin-dts": "1.0.0-beta.6",
-		"vite": "^7.3.0"
-	},
-	"peerDependencies": {
-		"react": "^16.8.0",
-		"react-dom": "^16.8.0"
-	},
-	"dependencies": {
-		"debug": "^4.4.3",
-		"events": "^3.3.0"
-	}
+  "name": "@rocketc/react-use-shortcuts",
+  "version": "0.0.1-alpha.3",
+  "type": "module",
+  "description": "a full react shortcut solution",
+  "files": [
+    "LICENSE",
+    "README.md",
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chenfq95/rocketc.git",
+    "directory": "packages/libs/react-use-shortcuts"
+  },
+  "sideEffects": false,
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "test": "jest"
+  },
+  "keywords": [
+    "react",
+    "shortcut"
+  ],
+  "author": "chenfq95 <chenfq95@foxmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@eslint/js": "^9.39.2",
+    "@microsoft/api-extractor": "^7.55.2",
+    "@types/debug": "^4.1.12",
+    "@types/events": "^3.0.3",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^24.10.4",
+    "@types/react": "^18.0.14",
+    "@vitejs/plugin-react-swc": "^4.2.2",
+    "eslint": "^9.39.2",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.4.26",
+    "globals": "^16.5.0",
+    "jest": "^30.2.0",
+    "jest-environment-jsdom": "^30.2.0",
+    "rimraf": "^6.1.2",
+    "ts-jest": "^29.4.6",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.51.0",
+    "unplugin-dts": "1.0.0-beta.6",
+    "vite": "^7.3.0"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0"
+  },
+  "dependencies": {
+    "debug": "^4.4.3",
+    "events": "^3.3.0"
+  }
 }

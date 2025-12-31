@@ -194,7 +194,8 @@ export type NormalKeyCodeName =
   | '.'
   | '/'
   | ';'
-  | '\''
+  // eslint-disable-next-line quotes
+  | "'"
   | '['
   | ']'
   | '\\'
@@ -315,7 +316,8 @@ export const keyCodeName2KeyCode = new Map<KeyCodeName, Array<KeyCode>>([
   ['.', ['Period', 'NumpadDecimal']],
   ['/', ['Slash', 'NumpadDivide']],
   [';', ['Semicolon']],
-  ['\'', ['Quote']],
+  // eslint-disable-next-line quotes
+  ["'", ['Quote']],
   ['[', ['BracketLeft']],
   [']', ['BracketRight']],
   ['\\', ['Backslash']],
@@ -431,7 +433,8 @@ export const keyCode2KeyCodeName = new Map<KeyCode, KeyCodeName>([
   ['Period', '.'],
   ['Slash', '/'],
   ['Semicolon', ';'],
-  ['Quote', '\''],
+  // eslint-disable-next-line quotes
+  ['Quote', "'"],
   ['BracketLeft', '['],
   ['BracketRight', ']'],
   ['Backslash', '\\'],

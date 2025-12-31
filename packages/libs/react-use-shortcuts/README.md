@@ -96,7 +96,10 @@ pnpm add @rocketc/react-use-shortcuts
 
 ```tsx
 import React, { useEffect } from 'react';
-import { ReactShortcutProvider, useShortcut } from '@rocketc/react-use-shortcuts';
+import {
+  ReactShortcutProvider,
+  useShortcut,
+} from '@rocketc/react-use-shortcuts';
 
 function App() {
   return (
@@ -131,7 +134,10 @@ function Main() {
 
 ```tsx
 import React, { useEffect } from 'react';
-import { ReactShortcutProvider, useShortcut } from '@rocketc/react-use-shortcuts';
+import {
+  ReactShortcutProvider,
+  useShortcut,
+} from '@rocketc/react-use-shortcuts';
 
 function App() {
   return (
@@ -162,7 +168,10 @@ function Main() {
 
 ```tsx
 import React, { useEffect, useRef } from 'react';
-import { ReactShortcutProvider, useShortcut } from '@rocketc/react-use-shortcuts';
+import {
+  ReactShortcutProvider,
+  useShortcut,
+} from '@rocketc/react-use-shortcuts';
 
 function App() {
   const scope1 = useRef<HTMLDivElement>(null);
@@ -209,7 +218,10 @@ function Main() {
 
 ```tsx
 import React, { useEffect } from 'react';
-import { ReactShortcutProvider, useShortcut } from '@rocketc/react-use-shortcuts';
+import {
+  ReactShortcutProvider,
+  useShortcut,
+} from '@rocketc/react-use-shortcuts';
 
 function App() {
   return (
@@ -243,7 +255,10 @@ function Main() {
 
 ```tsx
 import React, { useEffect } from 'react';
-import { ReactShortcutProvider, useShortcut } from '@rocketc/react-use-shortcuts';
+import {
+  ReactShortcutProvider,
+  useShortcut,
+} from '@rocketc/react-use-shortcuts';
 
 function App() {
   return (
@@ -280,7 +295,10 @@ function Main() {
 
 ```tsx
 import React, { useEffect, useCallback, useState } from 'react';
-import { ReactShortcutProvider, useShortcut } from '@rocketc/react-use-shortcuts';
+import {
+  ReactShortcutProvider,
+  useShortcut,
+} from '@rocketc/react-use-shortcuts';
 
 function App() {
   return (
@@ -291,7 +309,12 @@ function App() {
 }
 
 function Main() {
-  const { registerShortcut, unregisterShortcut, enableShortcut, disableShortcut } = useShortcut();
+  const {
+    registerShortcut,
+    unregisterShortcut,
+    enableShortcut,
+    disableShortcut,
+  } = useShortcut();
   const [enable, setEnable] = useState<boolean>(true);
 
   const handleClick = useCallback(() => {
@@ -324,11 +347,16 @@ function Main() {
 
 ```tsx
 import React, { useEffect, useCallback, useState } from 'react';
-import { ReactShortcutProvider, useShortcut } from '@rocketc/react-use-shortcuts';
+import {
+  ReactShortcutProvider,
+  useShortcut,
+} from '@rocketc/react-use-shortcuts';
 
 function App() {
   return (
-    <ReactShortcutProvider options={{ filter: (event) => event.target.tagName !== 'INPUT' }}>
+    <ReactShortcutProvider
+      options={{ filter: (event) => event.target.tagName !== 'INPUT' }}
+    >
       <Main />
     </ReactShortcutProvider>
   );
@@ -396,7 +424,10 @@ interface ReactShortcutProviderProps {
 }
 
 interface ReactShortcutContextValue {
-  registerShortcut(accelerator: Accelerator, callback: KeyboardEventListener): boolean;
+  registerShortcut(
+    accelerator: Accelerator,
+    callback: KeyboardEventListener,
+  ): boolean;
   unregisterShortcut(accelerator: Accelerator): boolean;
   enableShortcut(accelerator: Accelerator): boolean;
   disableShortcut(accelerator: Accelerator): boolean;
@@ -470,15 +501,15 @@ Register `keyup` keyboardEvent listener on element attached, unlike `registerSho
 ## Comparisons
 
 | **Features**                               | **@rocketc/react-use-shortcuts** | **react-hotkeys-hook** | **react-hot-keys** |
-| ------------------------------------------ | ----------------------- | ---------------------- | ------------------ |
-| Dynamic register                           | ✅                      | ❌                     | ❌                 |
-| Page scoped register                       | ✅                      | ✅                     | ❌                 |
-| Strict/Loose mode                          | ✅                      | ❌                     | ❌                 |
-| Dynamic enable/disable shortcut registered | ✅                      | ✅                     | ❌                 |
-| Normal key combinations                    | ✅                      | ✅                     | ✅                 |
-| Namespace                                  | ❌                      | ❌                     | ✅                 |
-| Shortcuts validation                       | ✅                      | ❌                     | ❌                 |
-| Used React ≤ 16.8.0                        | ❌                      | ❌                     | ✅                 |
+| ------------------------------------------ | -------------------------------- | ---------------------- | ------------------ |
+| Dynamic register                           | ✅                               | ❌                     | ❌                 |
+| Page scoped register                       | ✅                               | ✅                     | ❌                 |
+| Strict/Loose mode                          | ✅                               | ❌                     | ❌                 |
+| Dynamic enable/disable shortcut registered | ✅                               | ✅                     | ❌                 |
+| Normal key combinations                    | ✅                               | ✅                     | ✅                 |
+| Namespace                                  | ❌                               | ❌                     | ✅                 |
+| Shortcuts validation                       | ✅                               | ❌                     | ❌                 |
+| Used React ≤ 16.8.0                        | ❌                               | ❌                     | ✅                 |
 
 ## License
 

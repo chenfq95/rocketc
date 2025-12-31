@@ -1,4 +1,5 @@
 
+pnpm prettier -w "**/*.{html,css,scss,js,ts,jsx,tsx,json}"
 pnpm run --filter react lint:fix
 pnpm run --filter react-app lint:fix
 git add .

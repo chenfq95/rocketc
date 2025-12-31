@@ -35,17 +35,17 @@ export class AcceleratorParser {
   ]);
 
   private static keyCodeNameIsModifiers(
-    keycode: string
+    keycode: string,
   ): keycode is ModifierKeyCodeName {
     return AcceleratorParser.ModifierKeyCodeNames.has(
-      keycode as ModifierKeyCodeName
+      keycode as ModifierKeyCodeName,
     );
   }
 
   static separator = '+';
 
   parseAccelerator(
-    accelerator: Accelerator
+    accelerator: Accelerator,
   ): [Array<Accelerator>, Array<Accelerator>] {
     // remove all space
     accelerator = accelerator.replaceAll(/\s/gi, '');
@@ -91,7 +91,7 @@ export class AcceleratorParser {
             });
             return next;
           },
-          [[]]
+          [[]],
         )
         .map((item) => item.sort().join(AcceleratorParser.separator)),
       normalKeys
@@ -106,7 +106,7 @@ export class AcceleratorParser {
             });
             return next;
           },
-          [[]]
+          [[]],
         )
         .map((item) => item.join(AcceleratorParser.separator)),
     ];
