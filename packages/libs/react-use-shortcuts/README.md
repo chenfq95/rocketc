@@ -561,16 +561,16 @@ interface ReactShortcutProviderProps {
 interface ReactShortcutContextValue {
   registerShortcut(
     accelerator: Accelerator,
-    callback: KeyboardEventListener
+    callback: KeyboardEventListener,
   ): boolean;
   unregisterShortcut(
     accelerator: Accelerator,
-    cb?: KeyboardEventListener
+    cb?: KeyboardEventListener,
   ): boolean;
   enableShortcut(accelerator: Accelerator, cb?: KeyboardEventListener): boolean;
   disableShortcut(
     accelerator: Accelerator,
-    cb?: KeyboardEventListener
+    cb?: KeyboardEventListener,
   ): boolean;
   isShortcutRegistered(accelerator: Accelerator): boolean;
   getCurrentKeyPressed(): Accelerator;
@@ -747,7 +747,7 @@ acceleratorParser.convertAcceleratorToLooseMode('ControlLeft+AltLeft+a');
 | Normal key combinations                    | ❌                               | ✅                     | ✅                 |
 | Namespace                                  | ❌                               | ❌                     | ✅                 |
 | Shortcuts validation                       | ✅                               | ❌                     | ❌                 |
-| Used React ≤ 16.8.0                        | ❌                               | ❌                     | ✅                 |
+| Used React ≤ 18.0.0                        | ❌                               | ❌                     | ✅                 |
 
 ## License
 

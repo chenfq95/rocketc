@@ -1,6 +1,6 @@
 {
   "name": "@rocketc/react-use-shortcuts",
-  "version": "0.0.1-alpha.4",
+  "version": "0.0.1-alpha.5",
   "type": "module",
   "description": "a full react shortcut solution",
   "files": [
@@ -41,7 +41,7 @@
     "@types/events": "^3.0.3",
     "@types/jest": "^30.0.0",
     "@types/node": "^24.10.4",
-    "@types/react": "^18.0.14",
+    "@types/react": "^18.0.0",
     "@vitejs/plugin-react-swc": "^4.2.2",
     "eslint": "^9.39.2",
     "eslint-plugin-react-hooks": "^7.0.1",
@@ -58,8 +58,8 @@
     "vite": "^7.3.0"
   },
   "peerDependencies": {
-    "react": "^16.8.0",
-    "react-dom": "^16.8.0"
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
   },
   "dependencies": {
     "debug": "^4.4.3"
