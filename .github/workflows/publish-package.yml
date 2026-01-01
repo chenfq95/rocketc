@@ -122,7 +122,7 @@ jobs:
       - name: Build package
         run: |
           # 先构建依赖的 workspace 包，然后再构建当前包
-          pnpm build --filter ${{ inputs.package_name }}^...
+          pnpm --filter ${{ inputs.package_name }}^... build
           cd ${{ inputs.package_path }}
           pnpm run build
 
