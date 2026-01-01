@@ -1,17 +1,11 @@
-import {
-  type ComponentProps,
-  type FC,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { type FC, useCallback, useEffect, useRef, useState } from 'react';
 import {
   ReactShortcutProvider,
   useShortcut,
   type ReactShortcutOptions,
   type ShortcutRegister,
   type KeyboardEventListener,
+  acceleratorParser,
 } from '@rocketc/react-use-shortcuts';
 import { toast } from 'sonner';
 import {
@@ -28,8 +22,8 @@ import {
   ItemTitle,
   Label,
   Switch,
+  Toaster,
 } from '@rocketc/react';
-import { Toaster } from 'sonner';
 import '@rocketc/react/style.css';
 
 function App() {
@@ -63,9 +57,10 @@ const Main: FC<MainProps> = function Main(props) {
   const [keyPressed, setKeyPressed] = useState<string>('');
 
   const {
+    onKeyup,
     onKeydown,
     getCurrentKeyPressed,
-    updateOptions,
+    setOptions,
     getOptions,
     attachElement,
     registerShortcut,
@@ -86,13 +81,14 @@ const Main: FC<MainProps> = function Main(props) {
     setShortcutRegisters(getShortcutRegisters());
   }, [getShortcutRegisters]);
 
-  const [options, setOptions] = useState<ReactShortcutOptions>(getOptions());
+  const [options, setOptionsState] =
+    useState<ReactShortcutOptions>(getOptions());
   const handleUpdateOptions = useCallback(
     (options: Partial<ReactShortcutOptions>) => {
-      setOptions((prev) => ({ ...prev, ...options }));
-      updateOptions({ ...getOptions(), ...options });
+      setOptionsState((prev) => ({ ...prev, ...options }));
+      setOptions({ ...getOptions(), ...options });
     },
-    [updateOptions, getOptions],
+    [setOptions, setOptionsState, getOptions],
   );
 
   const root = useRef<HTMLDivElement>(null);
@@ -107,11 +103,20 @@ const Main: FC<MainProps> = function Main(props) {
 
   useEffect(() => {
     if (props.enable) {
-      return onKeydown(() => {
+      const dispose1 = onKeydown(() => {
         setKeyPressed(getCurrentKeyPressed());
       });
+      const dispose2 = onKeyup(() => {
+        if (acceleratorParser.validate(getCurrentKeyPressed())) {
+          setKeyPressed(getCurrentKeyPressed());
+        }
+      });
+      return () => {
+        dispose1();
+        dispose2();
+      };
     }
-  }, [props.enable, onKeydown, getCurrentKeyPressed]);
+  }, [props.enable, onKeydown, getCurrentKeyPressed, onKeyup]);
 
   const handleRegisterShortcut = useCallback(() => {
     registerShortcut(keyPressed, (event) => {
@@ -188,11 +193,7 @@ const Main: FC<MainProps> = function Main(props) {
         <CardContent>
           <div className="flex flex-col gap-2">
             <h3>You Pressed: {keyPressed}</h3>
-            <ShortcutInput
-              readOnly
-              value={keyPressed}
-              onChange={(value) => setKeyPressed(value)}
-            />
+            <Input value={keyPressed} readOnly />
             <Button onClick={handleRegisterShortcut}>register shortcut</Button>
             <Button onClick={() => handleUnregisterShortcut(keyPressed)}>
               unregister shortcut
@@ -250,31 +251,6 @@ const Main: FC<MainProps> = function Main(props) {
           </div>
         </CardContent>
       </Card>
-    </div>
-  );
-};
-
-const ShortcutInput: FC<
-  Omit<ComponentProps<'input'>, 'onChange'> & {
-    onChange: (value: string) => void;
-  }
-> = function ShortcutInput(props) {
-  const { onChange, ...restProps } = props;
-  const { onKeydown, getCurrentKeyPressed, attachElement } = useShortcut();
-  const rootRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    if (rootRef.current) {
-      return attachElement(rootRef.current);
-    }
-  }, [attachElement]);
-  useEffect(() => {
-    return onKeydown(() => {
-      onChange?.(getCurrentKeyPressed());
-    });
-  }, [onKeydown, getCurrentKeyPressed, onChange]);
-  return (
-    <div ref={rootRef} tabIndex={-1}>
-      <Input {...restProps} />
     </div>
   );
 };

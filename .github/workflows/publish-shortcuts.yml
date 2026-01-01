@@ -1,4 +1,4 @@
-name: Publish @rocketc/react-use-shortcuts to npm
+name: Publish @rocketc/shortcuts to npm
 
 on:
   # 手动触发，可以选择版本类型
@@ -24,10 +24,10 @@ on:
           - rc
           - latest
           - next
-  # 通过推送 tag 触发（格式：react-use-shortcuts-v1.0.0）
+  # 通过推送 tag 触发（格式：shortcuts-v1.0.0）
   push:
     tags:
-      - 'react-use-shortcuts-v*'
+      - 'shortcuts-v*'
 
 jobs:
   extract-version-from-tag:
@@ -38,9 +38,9 @@ jobs:
       - name: Extract version from tag
         id: extract
         run: |
-          if [ "${{ github.event_name }}" == "push" ] && [[ "${{ github.ref }}" == refs/tags/react-use-shortcuts-v* ]]; then
+          if [ "${{ github.event_name }}" == "push" ] && [[ "${{ github.ref }}" == refs/tags/shortcuts-v* ]]; then
             TAG_NAME=${GITHUB_REF#refs/tags/}
-            VERSION=${TAG_NAME#react-use-shortcuts-v}
+            VERSION=${TAG_NAME#shortcuts-v}
             echo "version=$VERSION" >> $GITHUB_OUTPUT
           else
             echo "version=" >> $GITHUB_OUTPUT
@@ -50,14 +50,14 @@ jobs:
     needs: extract-version-from-tag
     uses: ./.github/workflows/publish-package.yml
     with:
-      package_name: '@rocketc/react-use-shortcuts'
-      package_path: 'packages/libs/react-use-shortcuts'
-      tag_prefix: 'react-use-shortcuts-v'
+      package_name: '@rocketc/shortcuts'
+      package_path: 'packages/libs/shortcuts'
+      tag_prefix: 'shortcuts-v'
       version_type: ${{ github.event.inputs.version_type }}
       version_from_tag: ${{ needs.extract-version-from-tag.outputs.version }}
       npm_tag: ${{ github.event.inputs.tag || 'alpha' }}
-      run_tests: false
-      commit_message_prefix: 'react-use-shortcuts'
+      run_tests: true
+      commit_message_prefix: 'shortcuts'
       create_tag: ${{ github.event_name == 'workflow_dispatch' }}
     secrets:
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

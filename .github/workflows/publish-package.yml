@@ -1,0 +1,200 @@
+name: Publish Package to npm (Reusable)
+
+on:
+  workflow_call:
+    inputs:
+      package_name:
+        description: 'Package name (e.g., @rocketc/shortcuts)'
+        required: true
+        type: string
+      package_path:
+        description: 'Package path (e.g., packages/libs/shortcuts)'
+        required: true
+        type: string
+      tag_prefix:
+        description: 'Tag prefix (e.g., shortcuts-v, react-v)'
+        required: true
+        type: string
+      version_type:
+        description: 'Version type (patch/minor/major) - used for workflow_dispatch'
+        required: false
+        type: string
+      version_from_tag:
+        description: 'Version from tag - used for tag push'
+        required: false
+        type: string
+      npm_tag:
+        description: 'NPM tag (alpha/beta/rc/latest/next)'
+        required: false
+        type: string
+        default: 'alpha'
+      pre_build_steps:
+        description: 'Pre-build steps (comma-separated commands)'
+        required: false
+        type: string
+        default: ''
+      run_tests:
+        description: 'Whether to run tests'
+        required: false
+        type: boolean
+        default: true
+      commit_message_prefix:
+        description: 'Commit message prefix (e.g., shortcuts, react)'
+        required: false
+        type: string
+        default: ''
+      create_tag:
+        description: 'Whether to create Git tag (false for tag push events)'
+        required: false
+        type: boolean
+        default: true
+    secrets:
+      NPM_TOKEN:
+        required: true
+      GITHUB_TOKEN:
+        required: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.21.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Determine version
+        id: version
+        run: |
+          if [ -n "${{ inputs.version_from_tag }}" ]; then
+            # 从 tag 中提取版本号
+            NEW_VERSION="${{ inputs.version_from_tag }}"
+            echo "从 tag 获取版本: $NEW_VERSION"
+          else
+            # 手动触发：根据版本类型计算新版本
+            VERSION_TYPE="${{ inputs.version_type }}"
+            CURRENT_VERSION=$(node -p "require('./${{ inputs.package_path }}/package.json').version")
+            echo "当前版本: $CURRENT_VERSION"
+            echo "更新类型: $VERSION_TYPE"
+
+            # 使用脚本计算新版本（传入当前版本号和版本类型）
+            NEW_VERSION=$(node scripts/calculate-version.js "$CURRENT_VERSION" "$VERSION_TYPE")
+            echo "新版本: $NEW_VERSION"
+          fi
+
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Update version in package.json
+        run: |
+          cd ${{ inputs.package_path }}
+          node -e "
+            const fs = require('fs');
+            const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+            pkg.version = '${{ steps.version.outputs.version }}';
+            fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n');
+          "
+          echo "✅ 版本已更新为: ${{ steps.version.outputs.version }}"
+
+      - name: Run pre-build steps
+        if: inputs.pre_build_steps != ''
+        run: |
+          cd ${{ inputs.package_path }}
+          IFS=',' read -ra STEPS <<< "${{ inputs.pre_build_steps }}"
+          for step in "${STEPS[@]}"; do
+            echo "Running: $step"
+            eval "$step"
+          done
+
+      - name: Build package
+        run: |
+          cd ${{ inputs.package_path }}
+          pnpm run build
+
+      - name: Run tests
+        if: inputs.run_tests == true
+        run: |
+          cd ${{ inputs.package_path }}
+          pnpm run test
+        continue-on-error: false
+
+      - name: Check if version already published
+        id: check_version
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          if npm view ${{ inputs.package_name }}@$VERSION version > /dev/null 2>&1; then
+            echo "⚠️  版本 $VERSION 已经发布，跳过发布步骤"
+            echo "published=true" >> $GITHUB_OUTPUT
+          else
+            echo "✅ 版本 $VERSION 尚未发布，将继续发布"
+            echo "published=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Publish to npm
+        if: steps.check_version.outputs.published != 'true'
+        run: |
+          cd ${{ inputs.package_path }}
+          npm publish --access public --registry https://registry.npmjs.org --tag ${{ inputs.npm_tag }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Create Git tag
+        if: inputs.create_tag == true
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add ${{ inputs.package_path }}/package.json
+          COMMIT_PREFIX="${{ inputs.commit_message_prefix }}"
+          if [ -n "$COMMIT_PREFIX" ]; then
+            COMMIT_MSG="chore($COMMIT_PREFIX): bump version to ${{ steps.version.outputs.version }}"
+          else
+            COMMIT_MSG="chore: bump version to ${{ steps.version.outputs.version }}"
+          fi
+          git commit -m "$COMMIT_MSG" || exit 0
+          git tag -a "${{ inputs.tag_prefix }}${{ steps.version.outputs.version }}" -m "Release ${{ inputs.tag_prefix }}${{ steps.version.outputs.version }}"
+          git push origin main --follow-tags || git push origin master --follow-tags || true
+
+      - name: Create GitHub Release
+        if: inputs.create_tag == true
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ inputs.tag_prefix }}${{ steps.version.outputs.version }}
+          name: Release ${{ inputs.tag_prefix }}${{ steps.version.outputs.version }}
+          body: |
+            ## 变更内容
+
+            - 版本更新至 ${{ steps.version.outputs.version }}
+
+            ## 安装
+
+            ```bash
+            npm install ${{ inputs.package_name }}@${{ steps.version.outputs.version }}
+            ```
+
+            ## 文档
+
+            查看 [README.md](https://github.com/chenfq95/rocketc/tree/main/${{ inputs.package_path }}#readme) 了解更多信息。
+          draft: false
+          prerelease: ${{ contains(steps.version.outputs.version, '-') }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

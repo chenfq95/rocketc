@@ -5,18 +5,18 @@ on:
   workflow_dispatch:
     inputs:
       version_type:
-        description: "版本类型 (patch/minor/major)"
+        description: '版本类型 (patch/minor/major)'
         required: true
-        default: "patch"
+        default: 'patch'
         type: choice
         options:
           - patch
           - minor
           - major
       tag:
-        description: "标签 (alpha/beta/rc/latest/next)"
+        description: '标签 (alpha/beta/rc/latest/next)'
         required: false
-        default: "alpha"
+        default: 'alpha'
         type: choice
         options:
           - alpha
@@ -24,139 +24,42 @@ on:
           - rc
           - latest
           - next
-  # 通过推送 tag 触发（格式：v1.0.0）
+  # 通过推送 tag 触发（格式：react-v1.0.0）
   push:
     tags:
-      - "v*"
+      - 'react-v*'
 
 jobs:
-  publish:
+  extract-version-from-tag:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      id-token: write
-
+    outputs:
+      version: ${{ steps.extract.outputs.version }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10.21.0
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "24"
-          registry-url: "https://registry.npmjs.org"
-          cache: "pnpm"
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Determine version
-        id: version
+      - name: Extract version from tag
+        id: extract
         run: |
-          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
-            # 手动触发：根据选择的版本类型更新版本
-            VERSION_TYPE="${{ github.event.inputs.version_type }}"
-            CURRENT_VERSION=$(node -p "require('./packages/libs/react/package.json').version")
-            echo "当前版本: $CURRENT_VERSION"
-            echo "更新类型: $VERSION_TYPE"
-
-            # 使用脚本计算新版本（传入当前版本号和版本类型）
-            NEW_VERSION=$(node scripts/calculate-version.js "$CURRENT_VERSION" "$VERSION_TYPE")
-            echo "新版本: $NEW_VERSION"
-          else
-            # 通过 tag 触发：从 tag 中提取版本号
+          if [ "${{ github.event_name }}" == "push" ] && [[ "${{ github.ref }}" == refs/tags/react-v* ]]; then
             TAG_NAME=${GITHUB_REF#refs/tags/}
-            NEW_VERSION=${TAG_NAME#v}  # 移除 'v' 前缀
-            echo "从 tag 获取版本: $NEW_VERSION"
-          fi
-
-          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
-          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
-
-      - name: Update version in package.json
-        run: |
-          cd packages/libs/react
-          # 使用 sed 或 node 来更新版本
-          node -e "
-            const fs = require('fs');
-            const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
-            pkg.version = '${{ steps.version.outputs.version }}';
-            fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n');
-          "
-          echo "✅ 版本已更新为: ${{ steps.version.outputs.version }}"
-
-      - name: Install components
-        run: |
-          cd packages/libs/react
-          pnpm run install-components
-          pnpm run gen-entry
-
-      - name: Build package
-        run: |
-          cd packages/libs/react
-          pnpm run build
-
-      - name: Run tests (if available)
-        run: |
-          # 如果有测试，在这里运行
-          echo "⚠️  跳过测试（未配置）"
-        continue-on-error: true
-
-      - name: Check if version already published
-        id: check_version
-        run: |
-          VERSION="${{ steps.version.outputs.version }}"
-          if npm view @rocketc/react@$VERSION version > /dev/null 2>&1; then
-            echo "⚠️  版本 $VERSION 已经发布，跳过发布步骤"
-            echo "published=true" >> $GITHUB_OUTPUT
+            VERSION=${TAG_NAME#react-v}
+            echo "version=$VERSION" >> $GITHUB_OUTPUT
           else
-            echo "✅ 版本 $VERSION 尚未发布，将继续发布"
-            echo "published=false" >> $GITHUB_OUTPUT
+            echo "version=" >> $GITHUB_OUTPUT
           fi
 
-      - name: Publish to npm
-        if: steps.check_version.outputs.published != 'true'
-        run: |
-          cd packages/libs/react
-          npm publish --access public --registry https://registry.npmjs.org --tag ${{ github.event.inputs.tag }}
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Create Git tag
-        if: github.event_name == 'workflow_dispatch'
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add packages/libs/react/package.json
-          git commit -m "chore: bump version to ${{ steps.version.outputs.version }}" || exit 0
-          git tag -a "react-v${{ steps.version.outputs.version }}" -m "Release v${{ steps.version.outputs.version }}"
-          git push origin main --follow-tags || git push origin master --follow-tags || true
-
-      - name: Create GitHub Release
-        if: github.event_name == 'workflow_dispatch'
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: react-v${{ steps.version.outputs.version }}
-          name: Release react-v${{ steps.version.outputs.version }}
-          body: |
-            ## 变更内容
-
-            - 版本更新至 ${{ steps.version.outputs.version }}
-
-            ## 安装
-
-            ```bash
-            npm install @rocketc/react@${{ steps.version.outputs.version }}
-            ```
-          draft: false
-          prerelease: ${{ contains(steps.version.outputs.version, '-') }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  publish:
+    needs: extract-version-from-tag
+    uses: ./.github/workflows/publish-package.yml
+    with:
+      package_name: '@rocketc/react'
+      package_path: 'packages/libs/react'
+      tag_prefix: 'react-v'
+      version_type: ${{ github.event.inputs.version_type }}
+      version_from_tag: ${{ needs.extract-version-from-tag.outputs.version }}
+      npm_tag: ${{ github.event.inputs.tag || 'alpha' }}
+      pre_build_steps: 'pnpm run install-components,pnpm run gen-entry'
+      run_tests: false
+      commit_message_prefix: 'react'
+      create_tag: ${{ github.event_name == 'workflow_dispatch' }}
+    secrets:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
