@@ -9,6 +9,9 @@ import acceleratorParser, { type Accelerator } from './accelerator-parser';
 export type Dispose = () => void;
 export type Filter = (event: KeyboardEvent) => boolean;
 export type KeyboardEventListener = (event: KeyboardEvent) => void;
+export type KeyPressedChangedEventListener = (
+  event: CustomEvent<'keyup' | 'keydown'>,
+) => void;
 
 export interface ShortcutRegister {
   accelerator: Accelerator;
@@ -37,7 +40,13 @@ class ShortcutRegistry {
     return true;
   };
 
-  private readonly elementAttached = new Map<Window | HTMLElement, Dispose>();
+  private readonly elementAttached = new Map<
+    Window | HTMLElement,
+    {
+      dispose: Dispose;
+      attachCount: number;
+    }
+  >();
   private readonly parser = acceleratorParser;
   private readonly eventTarget = new EventTarget();
   private options: ShortcutRegisterOptions;
@@ -206,44 +215,50 @@ class ShortcutRegistry {
     return this.getCurrentAccelerator(this.options.strict ?? false);
   }
 
-  onKeydown(cb: (event: CustomEvent<KeyboardEvent>) => void): Dispose {
-    this.eventTarget.addEventListener('keydown', cb as EventListener);
+  onKeyPressedChanged(cb: KeyPressedChangedEventListener): Dispose {
+    this.eventTarget.addEventListener('keyPressedChanged', cb as EventListener);
     return () => {
-      this.eventTarget.removeEventListener('keydown', cb as EventListener);
-    };
-  }
-
-  onKeyup(cb: (event: CustomEvent<KeyboardEvent>) => void): Dispose {
-    this.eventTarget.addEventListener('keyup', cb as EventListener);
-    return () => {
-      this.eventTarget.removeEventListener('keyup', cb as EventListener);
+      this.eventTarget.removeEventListener(
+        'keyPressedChanged',
+        cb as EventListener,
+      );
     };
   }
 
   attachElement(ele: Window | HTMLElement): Dispose {
-    if (this.elementAttached.has(ele)) {
-      return this.elementAttached.get(ele)!;
-    }
-    const handleKeydown = this.handleKeydown.bind(this);
-    const handleKeyup = this.handleKeyup.bind(this);
-    ele.addEventListener('keydown', handleKeydown as any);
-    ele.addEventListener('keyup', handleKeyup as any);
-    if (this.elementAttached.size === 0) {
-      window.addEventListener('blur', this.clear);
+    const attached = this.elementAttached.get(ele);
+    let dispose: Dispose;
+    if (attached) {
+      attached.attachCount++;
+      dispose = attached.dispose;
+    } else {
+      const handleKeydown = this.handleKeydown.bind(this);
+      const handleKeyup = this.handleKeyup.bind(this);
+      ele.addEventListener('keydown', handleKeydown as any);
+      ele.addEventListener('keyup', handleKeyup as any);
+      if (this.elementAttached.size === 0) {
+        window.addEventListener('blur', this.clear);
+      }
+      dispose = () => {
+        const attached = this.elementAttached.get(ele);
+        if (!attached) return; // Already disposed
+        attached.attachCount--;
+        if (attached.attachCount !== 0) return;
+        ele.removeEventListener('keydown', handleKeydown as any);
+        ele.removeEventListener('keyup', handleKeyup as any);
+        this.elementAttached.delete(ele);
+        if (this.elementAttached.size === 0) {
+          window.removeEventListener('blur', this.clear);
+        }
+      };
+      this.elementAttached.set(ele, { dispose, attachCount: 1 });
     }
     let disposed = false;
-    const dispose = () => {
+    return () => {
       if (disposed) return;
       disposed = true;
-      ele.removeEventListener('keydown', handleKeydown as any);
-      ele.removeEventListener('keyup', handleKeyup as any);
-      this.elementAttached.delete(ele);
-      if (this.elementAttached.size === 0) {
-        window.removeEventListener('blur', this.clear);
-      }
+      dispose();
     };
-    this.elementAttached.set(ele, dispose);
-    return dispose;
   }
 
   private matchShortcut(accelerator: Accelerator): Array<ShortcutRegister> {
@@ -276,7 +291,7 @@ class ShortcutRegistry {
     }
     this.triggerShortcutEventIfHandlerFound(event);
     this.eventTarget.dispatchEvent(
-      new CustomEvent<KeyboardEvent>('keydown', { detail: event }),
+      new CustomEvent<'keydown'>('keyPressedChanged', { detail: 'keydown' }),
     );
   }
 
@@ -297,7 +312,7 @@ class ShortcutRegistry {
     }
     if (!(this.options.filter ?? ShortcutRegistry.defaultFilter)(event)) return;
     this.eventTarget.dispatchEvent(
-      new CustomEvent<KeyboardEvent>('keyup', { detail: event }),
+      new CustomEvent<'keyup'>('keyPressedChanged', { detail: 'keyup' }),
     );
   }
 
@@ -319,7 +334,7 @@ class ShortcutRegistry {
   }
 
   private triggerShortcutEventIfHandlerFound(event: KeyboardEvent) {
-    if (this.normalKeyPressed) {
+    if (this.normalKeyPressed && this.shortcutRegistered.length > 0) {
       const currentAccelerator = this.getCurrentAccelerator(true);
       this.matchShortcut(currentAccelerator).forEach((shortcutRegister) => {
         if (!shortcutRegister.enabled) return;

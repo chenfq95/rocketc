@@ -22,46 +22,83 @@ import {
   ItemTitle,
   Label,
   Switch,
-  Toaster,
 } from '@rocketc/react';
 import '@rocketc/react/style.css';
 
 function App() {
+  const [options, setOptionsState] = useState<ReactShortcutOptions>({
+    strict: false,
+    debug: false,
+    auto: true,
+  });
+  const handleUpdateOptions = useCallback(
+    (options: Partial<ReactShortcutOptions>) => {
+      setOptionsState((prev) => ({ ...prev, ...options }));
+    },
+    [setOptionsState],
+  );
+
+  const filter = useCallback((event: KeyboardEvent) => {
+    return !event.repeat && !event.isComposing;
+  }, []);
+
   return (
     <main className="body">
-      <ReactShortcutProvider
-        options={{
-          debug: true,
-          strict: true,
-          auto: false,
-          alias: {
-            Ctrl: 'Ct',
-            i: 'I',
-            p: 'o',
-          },
-        }}
-      >
-        <Main title="Global strict mode" enable={true} />
-        <Toaster />
-      </ReactShortcutProvider>
+      <Item>
+        <ItemContent>
+          <ItemTitle>React Use Shortcuts</ItemTitle>
+        </ItemContent>
+        <ItemActions>
+          <Label>
+            Strict:
+            <Switch
+              onCheckedChange={(checked) =>
+                handleUpdateOptions({ strict: checked })
+              }
+              checked={options.strict}
+            />
+          </Label>
+          <Label>
+            Debug:
+            <Switch
+              onCheckedChange={(checked) =>
+                handleUpdateOptions({ debug: checked })
+              }
+              checked={!!options.debug}
+            />
+          </Label>
+          <Label>
+            Auto:
+            <Switch
+              onCheckedChange={(checked) =>
+                handleUpdateOptions({ auto: checked })
+              }
+              checked={!!options.auto}
+            />
+          </Label>
+        </ItemActions>
+      </Item>
+      <div className="flex flex-row gap-4">
+        <Main title="Without Provider" auto={options.auto ?? false} />
+        <ReactShortcutProvider options={{ ...options, filter }}>
+          <Main title="With Provider" auto={options.auto ?? false} />
+        </ReactShortcutProvider>
+      </div>
     </main>
   );
 }
 
 interface MainProps {
   title: string;
-  enable: boolean;
+  auto: boolean;
 }
 
 const Main: FC<MainProps> = function Main(props) {
   const [keyPressed, setKeyPressed] = useState<string>('');
 
   const {
-    onKeyup,
-    onKeydown,
+    onKeyPressedChanged,
     getCurrentKeyPressed,
-    setOptions,
-    getOptions,
     attachElement,
     registerShortcut,
     unregisterShortcut,
@@ -81,47 +118,36 @@ const Main: FC<MainProps> = function Main(props) {
     setShortcutRegisters(getShortcutRegisters());
   }, [getShortcutRegisters]);
 
-  const [options, setOptionsState] =
-    useState<ReactShortcutOptions>(getOptions());
-  const handleUpdateOptions = useCallback(
-    (options: Partial<ReactShortcutOptions>) => {
-      setOptionsState((prev) => ({ ...prev, ...options }));
-      setOptions({ ...getOptions(), ...options });
-    },
-    [setOptions, setOptionsState, getOptions],
-  );
-
   const root = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (options.auto) {
-      return attachElement(window);
-    } else if (root.current) {
+    if (root.current && !props.auto) {
       return attachElement(root.current);
     }
-  }, [options.auto, attachElement]);
+  }, [attachElement, props.auto]);
 
   useEffect(() => {
-    if (props.enable) {
-      const dispose1 = onKeydown(() => {
-        setKeyPressed(getCurrentKeyPressed());
-      });
-      const dispose2 = onKeyup(() => {
-        if (acceleratorParser.validate(getCurrentKeyPressed())) {
-          setKeyPressed(getCurrentKeyPressed());
+    return onKeyPressedChanged((event) => {
+      const currentKeyPressed = getCurrentKeyPressed();
+      // if (currentKeyPressed) {
+      //   toast.info(`Key pressed: ${currentKeyPressed}`);
+      // } else {
+      //   toast.info('No key pressed');
+      // }
+      if (event.detail === 'keydown') {
+        setKeyPressed(currentKeyPressed);
+      } else if (event.detail === 'keyup') {
+        if (acceleratorParser.validate(currentKeyPressed)) {
+          setKeyPressed(currentKeyPressed);
         }
-      });
-      return () => {
-        dispose1();
-        dispose2();
-      };
-    }
-  }, [props.enable, onKeydown, getCurrentKeyPressed, onKeyup]);
+      }
+    });
+  }, [onKeyPressedChanged, getCurrentKeyPressed]);
 
   const handleRegisterShortcut = useCallback(() => {
     registerShortcut(keyPressed, (event) => {
       console.log(event);
-      toast.success(`You pressed: ${keyPressed}`);
+      toast.error(`You pressed: ${keyPressed}`);
     });
     refreshShortcutRegisters();
   }, [keyPressed, registerShortcut, refreshShortcutRegisters]);
@@ -160,35 +186,7 @@ const Main: FC<MainProps> = function Main(props) {
       <Card className="w-full" tabIndex={-1}>
         <CardHeader>
           <CardTitle>{props.title}</CardTitle>
-          <CardAction className="flex items-center gap-2">
-            <Label>
-              Scoped:
-              <Switch
-                onCheckedChange={(checked) =>
-                  handleUpdateOptions({ auto: !checked })
-                }
-                checked={!options.auto}
-              />
-            </Label>
-            <Label>
-              Strict:
-              <Switch
-                onCheckedChange={(checked) =>
-                  handleUpdateOptions({ strict: checked })
-                }
-                checked={options.strict}
-              />
-            </Label>
-            <Label>
-              Debug:
-              <Switch
-                onCheckedChange={(checked) =>
-                  handleUpdateOptions({ debug: checked })
-                }
-                checked={!!options.debug}
-              />
-            </Label>
-          </CardAction>
+          <CardAction className="flex items-center gap-2"></CardAction>
         </CardHeader>
         <CardContent>
           <div className="flex flex-col gap-2">

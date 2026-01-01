@@ -347,14 +347,14 @@ import { ShortcutRegistry } from '@rocketc/shortcuts';
 const registry = new ShortcutRegistry();
 registry.attachElement(window);
 
-// Listen to all keydown events
-const disposeKeydown = registry.onKeydown((event) => {
-  console.log('Key pressed:', event.code);
-});
+// Listen to key state changes (triggered on both keydown and keyup)
+const disposeListener = registry.onKeyPressedChanged((event) => {
+  // event.detail indicates the event type: 'keydown' or 'keyup'
+  console.log('Key state changed:', event.detail); // 'keydown' or 'keyup'
 
-// Listen to all keyup events
-const disposeKeyup = registry.onKeyup((event) => {
-  console.log('Key released:', event.code);
+  // Get current pressed keys when state changes
+  const currentKeys = registry.getCurrentKeyPressed();
+  console.log('Current keys:', currentKeys);
 });
 
 // Get current pressed keys
@@ -362,8 +362,7 @@ const currentKeys = registry.getCurrentKeyPressed();
 console.log('Current keys:', currentKeys);
 
 // Clean up
-disposeKeydown();
-disposeKeyup();
+disposeListener();
 ```
 
 ### 6.1. Clear State
@@ -441,7 +440,7 @@ const registry = new ShortcutRegistry({
 registry.attachElement(window);
 
 // In loose mode, getCurrentKeyPressed returns normalized keys
-registry.onKeydown(() => {
+registry.onKeyPressedChanged(() => {
   // If ControlLeft+A is pressed, returns 'Ctrl+a' instead of 'ControlLeft+A'
   console.log(registry.getCurrentKeyPressed()); // 'Ctrl+a'
 });
@@ -510,10 +509,18 @@ interface ShortcutRegisterOptions {
 
 Attach keyboard event listeners to the specified element. Returns a dispose function to detach listeners.
 
+**Reference Counting:**
+
+- If the same element is attached multiple times, the library uses reference counting to track the number of attachments.
+- Each call to `attachElement` on the same element returns a **different** dispose function to avoid interference between different parts of your code.
+- Each dispose function can only be called once (subsequent calls are no-ops).
+- The dispose functions must be called the same number of times as `attachElement` was called to fully detach the listeners.
+- This design allows multiple parts of your code to attach to the same element independently, and each part can safely dispose its own reference without affecting others.
+
 **Note:**
 
 - Automatically attaches a global `window` blur event listener to clear the internal state when the window loses focus. This listener is attached only once when the first element is attached, and removed when the last element is disposed.
-- All listeners (keydown, keyup, and window blur) are properly cleaned up when the dispose function is called.
+- All listeners (keydown, keyup, and window blur) are properly cleaned up when all dispose functions have been called (reference count reaches zero).
 
 ##### `registerShortcut(accelerator: Accelerator, callback: KeyboardEventListener): boolean`
 
@@ -544,15 +551,34 @@ Get the current pressed keys as an accelerator string.
 - Returns an empty string (`''`) when no keys are currently pressed (no modifiers and no normal key).
 - The internal state (`modifiersPressed` and `normalKeyPressed`) is automatically cleared when the window loses focus (via a global `window` blur event listener attached by `attachElement`). If you need to manually clear the state, you can call `clear()`.
 
-##### `onKeydown(listener: KeyboardEventListener): Dispose`
+##### `onKeyPressedChanged(cb: (event: CustomEvent<'keydown' | 'keyup'>) => void): Dispose`
 
-Register a `keydown` event listener. Returns a dispose function.
+Register a listener for key state changes. This listener is triggered whenever the pressed keys state changes, which occurs on both `keydown` and `keyup` events (after filtering). Returns a dispose function.
 
-##### `onKeyup(listener: KeyboardEventListener): Dispose`
+**Event Details:**
 
-Register a `keyup` event listener. Returns a dispose function.
+- `event.detail`: Indicates the event type, either `'keydown'` or `'keyup'`
+- `event.type`: Always `'keyPressedChanged'`
 
-**Note:** In `handleKeyup`, the internal state is updated before the filter check. This ensures that the state remains consistent even if the filter returns `false` for the event. However, the `eventTarget.dispatchEvent` (which triggers `onKeyup` listeners) only occurs if the filter returns `true`. This design ensures state consistency while respecting the filter configuration.
+**Note:**
+
+- The listener is triggered when the internal state (`modifiersPressed` or `normalKeyPressed`) changes.
+- In `handleKeyup`, the internal state is updated before the filter check. This ensures that the state remains consistent even if the filter returns `false` for the event. However, the `keyPressedChanged` event only occurs if the filter returns `true`. This design ensures state consistency while respecting the filter configuration.
+- To get the current pressed keys when the state changes, call `getCurrentKeyPressed()` inside the listener callback.
+
+**Example:**
+
+```typescript
+registry.onKeyPressedChanged((event) => {
+  if (event.detail === 'keydown') {
+    console.log('Key pressed');
+  } else if (event.detail === 'keyup') {
+    console.log('Key released');
+  }
+  const currentKeys = registry.getCurrentKeyPressed();
+  console.log('Current keys:', currentKeys);
+});
+```
 
 ##### `getOptions(): ShortcutRegisterOptions`
 
@@ -682,7 +708,7 @@ import type { KeyCodeName } from '@rocketc/shortcuts';
 
 - **Window Focus:** The internal state (`modifiersPressed` and `normalKeyPressed`) is automatically cleared when the window loses focus. This is handled by a global `window` blur event listener that is automatically attached when you call `attachElement()` for the first time, and removed when the last element is disposed. You don't need to manually handle this unless you're not using `attachElement()`.
 
-- **Keyup Event Filtering:** In `handleKeyup`, the internal state is updated before the filter check. This ensures that the state remains consistent even if the filter returns `false` for the event. However, the `eventTarget.dispatchEvent` (which triggers `onKeyup` listeners) only occurs if the filter returns `true`. This design ensures state consistency while respecting the filter configuration.
+- **Key State Change Events:** The `onKeyPressedChanged` listener is triggered whenever the pressed keys state changes, which occurs on both `keydown` and `keyup` events (after filtering). In `handleKeyup`, the internal state is updated before the filter check. This ensures that the state remains consistent even if the filter returns `false` for the event. However, the `keyPressedChanged` event only occurs if the filter returns `true`. This design ensures state consistency while respecting the filter configuration.
 
 - **Empty State:** When no keys are pressed, `getCurrentKeyPressed()` returns an empty string (`''`). This is the expected behavior and indicates that no keys are currently being tracked.
 

@@ -327,38 +327,123 @@ describe('ShortcutRegistry', () => {
     });
   });
 
-  describe('onKeydown and onKeyup', () => {
-    it('should register keydown listener', () => {
+  describe('onKeyPressedChanged', () => {
+    it('should register keyPressedChanged listener and trigger on keydown', () => {
       const listener = jest.fn();
-      const disposeListener = registry.onKeydown(listener);
+      const disposeListener = registry.onKeyPressedChanged(listener);
 
       dispatchEvent('keydown', 'KeyA');
       expect(listener).toHaveBeenCalledTimes(1);
+      expect(listener).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          detail: 'keydown',
+        }),
+      );
 
       dispatchEvent('keydown', 'KeyA', true); // repeat
-      expect(listener).toHaveBeenCalledTimes(1); // Should not be called for repeat
+      expect(listener).toHaveBeenCalledTimes(1); // Should not be called for repeat (filtered)
 
-      dispatchEvent('keydown', 'KeyA');
+      dispatchEvent('keydown', 'KeyB');
       expect(listener).toHaveBeenCalledTimes(2);
+      expect(listener).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          detail: 'keydown',
+        }),
+      );
 
       disposeListener();
       dispatchEvent('keydown', 'KeyA');
       expect(listener).toHaveBeenCalledTimes(2); // Should not be called after dispose
     });
 
-    it('should register keyup listener', () => {
+    it('should register keyPressedChanged listener and trigger on keyup', () => {
       const listener = jest.fn();
-      const disposeListener = registry.onKeyup(listener);
+      const disposeListener = registry.onKeyPressedChanged(listener);
 
-      dispatchEvent('keyup', 'KeyA');
+      dispatchEvent('keydown', 'KeyA');
       expect(listener).toHaveBeenCalledTimes(1);
+      expect(listener).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          detail: 'keydown',
+        }),
+      );
 
       dispatchEvent('keyup', 'KeyA');
-      expect(listener).toHaveBeenCalledTimes(2);
+      expect(listener).toHaveBeenCalledTimes(2); // Once for keydown, once for keyup
+      expect(listener).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          detail: 'keyup',
+        }),
+      );
 
       disposeListener();
+      dispatchEvent('keydown', 'KeyA');
       dispatchEvent('keyup', 'KeyA');
       expect(listener).toHaveBeenCalledTimes(2); // Should not be called after dispose
+    });
+
+    it('should trigger when key state changes with correct event detail', () => {
+      const listener = jest.fn();
+      const disposeListener = registry.onKeyPressedChanged(listener);
+
+      // Press modifier
+      dispatchEvent('keydown', 'ControlLeft');
+      expect(listener).toHaveBeenCalledTimes(1);
+      expect(listener).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          detail: 'keydown',
+        }),
+      );
+
+      // Press normal key
+      dispatchEvent('keydown', 'KeyA');
+      expect(listener).toHaveBeenCalledTimes(2);
+      expect(listener).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          detail: 'keydown',
+        }),
+      );
+
+      // Release normal key
+      dispatchEvent('keyup', 'KeyA');
+      expect(listener).toHaveBeenCalledTimes(3);
+      expect(listener).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          detail: 'keyup',
+        }),
+      );
+
+      // Release modifier
+      dispatchEvent('keyup', 'ControlLeft');
+      expect(listener).toHaveBeenCalledTimes(4);
+      expect(listener).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          detail: 'keyup',
+        }),
+      );
+
+      disposeListener();
+    });
+
+    it('should provide event detail indicating keydown or keyup', () => {
+      const listener = jest.fn();
+      const disposeListener = registry.onKeyPressedChanged(listener);
+
+      // Test keydown events
+      dispatchEvent('keydown', 'KeyA');
+      expect(listener).toHaveBeenCalledTimes(1);
+      const keydownEvent = listener.mock.calls[0][0];
+      expect(keydownEvent.detail).toBe('keydown');
+      expect(keydownEvent.type).toBe('keyPressedChanged');
+
+      // Test keyup events
+      dispatchEvent('keyup', 'KeyA');
+      expect(listener).toHaveBeenCalledTimes(2);
+      const keyupEvent = listener.mock.calls[1][0];
+      expect(keyupEvent.detail).toBe('keyup');
+      expect(keyupEvent.type).toBe('keyPressedChanged');
+
+      disposeListener();
     });
   });
 
@@ -919,17 +1004,30 @@ describe('ShortcutRegistry', () => {
       });
     });
 
-    describe('onKeydown and onKeyup in loose mode', () => {
-      it('should work the same in loose mode', () => {
+    describe('onKeyPressedChanged in loose mode', () => {
+      it('should work the same in loose mode with correct event detail', () => {
         const listener = jest.fn();
-        const disposeListener = looseRegistry.onKeydown(listener);
+        const disposeListener = looseRegistry.onKeyPressedChanged(listener);
 
         dispatchEvent('keydown', 'KeyA');
         expect(listener).toHaveBeenCalledTimes(1);
+        expect(listener).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            detail: 'keydown',
+          }),
+        );
+
+        dispatchEvent('keyup', 'KeyA');
+        expect(listener).toHaveBeenCalledTimes(2);
+        expect(listener).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            detail: 'keyup',
+          }),
+        );
 
         disposeListener();
         dispatchEvent('keydown', 'KeyA');
-        expect(listener).toHaveBeenCalledTimes(1);
+        expect(listener).toHaveBeenCalledTimes(2);
       });
     });
 
@@ -1111,31 +1209,124 @@ describe('ShortcutRegistry', () => {
       expect(registry.getCurrentKeyPressed()).toBe('');
     });
 
-    it('should handle multiple attachElement calls on same element', () => {
+    it('should handle multiple attachElement calls on same element with reference counting', () => {
       const element = document.createElement('div');
       element.tabIndex = -1;
       document.body.appendChild(element);
 
+      const handler = jest.fn();
+      registry.registerShortcut('Ctrl+a', handler);
+
+      // First attach
       const dispose1 = registry.attachElement(element);
+      element.focus();
+      dispatchEvent('keydown', 'ControlLeft', false, element);
+      dispatchEvent('keydown', 'KeyA', false, element);
+      dispatchEvent('keyup', 'ControlLeft', false, element);
+      dispatchEvent('keyup', 'KeyA', false, element);
+      expect(handler).toHaveBeenCalledTimes(1);
+
+      // Second attach on same element - returns different dispose function
+      // to avoid interference between different code parts
       const dispose2 = registry.attachElement(element);
+      expect(dispose1).not.toBe(dispose2); // Different dispose functions
 
-      // Should return the same dispose function
-      expect(dispose1).toBe(dispose2);
-
+      // After first dispose, should still work (attachCount > 0)
       dispose1();
+      dispatchEvent('keydown', 'ControlLeft', false, element);
+      dispatchEvent('keydown', 'KeyA', false, element);
+      dispatchEvent('keyup', 'ControlLeft', false, element);
+      dispatchEvent('keyup', 'KeyA', false, element);
+      expect(handler).toHaveBeenCalledTimes(2); // Still works
+
+      // Multiple calls to same dispose should be safe (no-op after first call)
+      dispose1();
+      dispatchEvent('keydown', 'ControlLeft', false, element);
+      dispatchEvent('keydown', 'KeyA', false, element);
+      dispatchEvent('keyup', 'ControlLeft', false, element);
+      dispatchEvent('keyup', 'KeyA', false, element);
+      expect(handler).toHaveBeenCalledTimes(3);
+
+      // After second dispose, should be detached (attachCount === 0)
+      dispose2();
+      dispatchEvent('keydown', 'ControlLeft', false, element);
+      dispatchEvent('keydown', 'KeyA', false, element);
+      dispatchEvent('keyup', 'ControlLeft', false, element);
+      dispatchEvent('keyup', 'KeyA', false, element);
+      expect(handler).toHaveBeenCalledTimes(3); // No longer works
+
       document.body.removeChild(element);
     });
 
-    it('should handle multiple dispose calls', () => {
+    it('should handle multiple dispose calls safely', () => {
       const element = document.createElement('div');
       element.tabIndex = -1;
       document.body.appendChild(element);
 
-      const dispose = registry.attachElement(element);
+      const handler = jest.fn();
+      registry.registerShortcut('Ctrl+a', handler);
 
-      // First dispose should work
+      const dispose = registry.attachElement(element);
+      element.focus();
+
+      // First dispose should detach
       dispose();
-      expect(() => dispose()).not.toThrow(); // Second dispose should be safe
+      dispatchEvent('keydown', 'ControlLeft', false, element);
+      dispatchEvent('keydown', 'KeyA', false, element);
+      expect(handler).not.toHaveBeenCalled(); // Should not work after dispose
+
+      // Second dispose should be safe (no-op)
+      expect(() => dispose()).not.toThrow();
+      dispatchEvent('keydown', 'ControlLeft', false, element);
+      dispatchEvent('keydown', 'KeyA', false, element);
+      expect(handler).not.toHaveBeenCalled(); // Still not working
+
+      document.body.removeChild(element);
+    });
+
+    it('should handle dispose after multiple attaches correctly', () => {
+      const element = document.createElement('div');
+      element.tabIndex = -1;
+      document.body.appendChild(element);
+
+      const handler = jest.fn();
+      registry.registerShortcut('Ctrl+a', handler);
+
+      // Attach multiple times
+      const dispose1 = registry.attachElement(element);
+      const dispose2 = registry.attachElement(element);
+      const dispose3 = registry.attachElement(element);
+      expect(dispose1).not.toBe(dispose2);
+      expect(dispose2).not.toBe(dispose3);
+
+      element.focus();
+
+      // First dispose - should still work (attachCount: 3 -> 2)
+      dispose1();
+      dispatchEvent('keydown', 'ControlLeft', false, element);
+      dispatchEvent('keydown', 'KeyA', false, element);
+      dispatchEvent('keyup', 'ControlLeft', false, element);
+      dispatchEvent('keyup', 'KeyA', false, element);
+      expect(handler).toHaveBeenCalledTimes(1);
+
+      // Second dispose - should still work (attachCount: 2 -> 1)
+      dispose2();
+      dispatchEvent('keydown', 'ControlLeft', false, element);
+      dispatchEvent('keydown', 'KeyA', false, element);
+      dispatchEvent('keyup', 'ControlLeft', false, element);
+      dispatchEvent('keyup', 'KeyA', false, element);
+      expect(handler).toHaveBeenCalledTimes(2);
+
+      // Third dispose - should detach (attachCount: 1 -> 0)
+      dispose3();
+      dispatchEvent('keydown', 'ControlLeft', false, element);
+      dispatchEvent('keydown', 'KeyA', false, element);
+      dispatchEvent('keyup', 'ControlLeft', false, element);
+      dispatchEvent('keyup', 'KeyA', false, element);
+      expect(handler).toHaveBeenCalledTimes(2); // No longer works
+
+      // Fourth dispose - should be safe (no-op)
+      expect(() => dispose1()).not.toThrow();
 
       document.body.removeChild(element);
     });

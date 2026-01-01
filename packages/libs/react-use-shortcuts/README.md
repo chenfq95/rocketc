@@ -213,14 +213,16 @@ function App() {
 }
 
 function Main() {
-  const { onKeydown, getCurrentKeyPressed } = useShortcut();
+  const { onKeyPressedChanged, getCurrentKeyPressed } = useShortcut();
 
   useEffect(() => {
-    return onKeydown(() => {
+    return onKeyPressedChanged((event) => {
       // If you pressed ControlLeft and A:
       // - strict mode: prints 'ControlLeft+A'
       // - loose mode: prints 'Ctrl+A'
       console.log(getCurrentKeyPressed());
+      // event.detail indicates the event type: 'keydown' or 'keyup'
+      console.log('Event type:', event.detail);
     });
   }, []);
 
@@ -514,10 +516,8 @@ interface ReactShortcutContextValue {
   ): boolean;
   isShortcutRegistered(accelerator: Accelerator): boolean;
   getCurrentKeyPressed(): Accelerator;
-  onKeydown(listener: KeyboardEventListener): Dispose;
-  onKeyup(listener: KeyboardEventListener): Dispose;
+  onKeyPressedChanged(listener: KeyPressedChangedEventListener): Dispose;
   attachElement(ele: Window | HTMLElement): Dispose;
-  setOptions(options: ReactShortcutOptions): void;
   getOptions(): ReactShortcutOptions;
   getShortcutRegisters(accelerator?: Accelerator): Array<ShortcutRegister>;
 }
@@ -531,15 +531,29 @@ Utility object for parsing and validating accelerator strings. Re-exported from 
 import { acceleratorParser } from '@rocketc/react-use-shortcuts';
 
 // Validate accelerator
-const isValid = acceleratorParser.utils.validateAccelerator('Ctrl+a');
+const isValid = acceleratorParser.validate('Ctrl+a');
 
 // Convert to loose mode
-const loose =
-  acceleratorParser.utils.convertAcceleratorToLooseMode('ControlLeft+a');
+const loose = acceleratorParser.convertAcceleratorToLooseMode('ControlLeft+a');
 
 // Parse accelerator
-const parsed = acceleratorParser.parseAccelerator('Ctrl+Shift+a');
+const parsed = acceleratorParser.parse('Ctrl+Shift+a');
 console.log(parsed); // ['Ctrl', 'Shift', 'a']
+
+// Check if key code name is supported
+const isSupported = acceleratorParser.isKeyCodeNameSupported('Ctrl');
+console.log(isSupported); // true
+
+// Check if accelerators match
+const isMatched = acceleratorParser.isAcceleratorMatched(
+  'Ctrl+a',
+  'ControlLeft+KeyA',
+);
+console.log(isMatched); // true
+
+// Get default separator
+const separator = acceleratorParser.defaultSeparator;
+console.log(separator); // '+'
 ```
 
 For complete API documentation, see [`@rocketc/shortcuts`](../shortcuts/README.md#api-reference).

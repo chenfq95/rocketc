@@ -51,9 +51,6 @@ const ReactShortcutProvider = function ReactShortcutProvider(
     Omit<ReactShortcutContextValue, 'attachElement'>
   >(() => {
     return {
-      setOptions: shortcutRegistry.current.setOptions.bind(
-        shortcutRegistry.current,
-      ),
       getOptions: shortcutRegistry.current.getOptions.bind(
         shortcutRegistry.current,
       ),
@@ -78,10 +75,9 @@ const ReactShortcutProvider = function ReactShortcutProvider(
       getCurrentKeyPressed: shortcutRegistry.current.getCurrentKeyPressed.bind(
         shortcutRegistry.current,
       ),
-      onKeydown: shortcutRegistry.current.onKeydown.bind(
+      onKeyPressedChanged: shortcutRegistry.current.onKeyPressedChanged.bind(
         shortcutRegistry.current,
       ),
-      onKeyup: shortcutRegistry.current.onKeyup.bind(shortcutRegistry.current),
     };
   }, []);
 
@@ -94,9 +90,9 @@ const ReactShortcutProvider = function ReactShortcutProvider(
 
   useEffect(() => {
     if (auto) {
-      return attachElement(window);
+      return shortcutRegistry.current.attachElement(window);
     }
-  }, [auto, attachElement]);
+  }, [auto]);
 
   useEffect(() => {
     shortcutRegistry.current.setOptions({
