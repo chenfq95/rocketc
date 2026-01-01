@@ -145,6 +145,58 @@ jobs:
             echo "published=false" >> $GITHUB_OUTPUT
           fi
 
+      - name: Clean package.json for publishing
+        if: steps.check_version.outputs.published != 'true'
+        run: |
+          cd ${{ inputs.package_path }}
+          # 备份原始 package.json
+          cp package.json package.json.bak
+          # 清理开发配置（pnpm 会自动处理 workspace 依赖的替换）
+          node -e "
+            const fs = require('fs');
+            const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+            let changed = false;
+            
+            // 删除开发相关的字段
+            if (pkg.devDependencies) {
+              delete pkg.devDependencies;
+              changed = true;
+            }
+            if (pkg.scripts) {
+              delete pkg.scripts;
+              changed = true;
+            }
+            
+            // 删除其他开发相关字段（如果存在）
+            if (pkg.eslintConfig) { 
+              delete pkg.eslintConfig; 
+              changed = true; 
+            }
+            if (pkg.prettier) { 
+              delete pkg.prettier; 
+              changed = true; 
+            }
+            if (pkg.jest) { 
+              delete pkg.jest; 
+              changed = true; 
+            }
+            if (pkg.tsconfig) {
+              delete pkg.tsconfig; 
+              changed = true;
+            }
+            if (pkg.tsconfigBuild) {
+              delete pkg.tsconfigBuild; 
+              changed = true;
+            }
+            
+            if (changed) {
+              fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n');
+              console.log('✅ package.json 已清理（移除了 devDependencies 和 scripts）');
+            } else {
+              console.log('ℹ️  package.json 无需清理');
+            }
+          "
+
       - name: Publish to npm
         if: steps.check_version.outputs.published != 'true'
         run: |
@@ -152,6 +204,16 @@ jobs:
           pnpm publish --access public --no-git-checks --registry https://registry.npmjs.org --tag ${{ inputs.npm_tag }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Restore package.json
+        if: steps.check_version.outputs.published != 'true'
+        run: |
+          cd ${{ inputs.package_path }}
+          # 恢复原始 package.json
+          if [ -f package.json.bak ]; then
+            mv package.json.bak package.json
+            echo "✅ package.json 已恢复"
+          fi
 
       - name: Create Git tag
         if: inputs.create_tag == true
