@@ -121,6 +121,8 @@ jobs:
 
       - name: Build package
         run: |
+          # 先构建依赖的 workspace 包，然后再构建当前包
+          pnpm build --filter ${{ inputs.package_name }}^...
           cd ${{ inputs.package_path }}
           pnpm run build
 
@@ -147,7 +149,7 @@ jobs:
         if: steps.check_version.outputs.published != 'true'
         run: |
           cd ${{ inputs.package_path }}
-          npm publish --access public --registry https://registry.npmjs.org --tag ${{ inputs.npm_tag }}
+          pnpm publish --access public --registry https://registry.npmjs.org --tag ${{ inputs.npm_tag }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
