@@ -51,22 +51,15 @@ on:
     secrets:
       NPM_TOKEN:
         required: true
-      GITHUB_TOKEN:
-        required: true
 
 jobs:
   publish:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      id-token: write
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -196,5 +189,3 @@ jobs:
             查看 [README.md](https://github.com/chenfq95/rocketc/tree/main/${{ inputs.package_path }}#readme) 了解更多信息。
           draft: false
           prerelease: ${{ contains(steps.version.outputs.version, '-') }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
