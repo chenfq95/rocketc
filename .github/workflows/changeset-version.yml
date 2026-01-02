@@ -88,7 +88,7 @@ jobs:
             ### 变更内容
             - 更新包版本号
             - 更新 CHANGELOG 文件
-            ${{ inputs.tag != '' && format('### Pre-release 模式\n\n使用 tag: **{0}**', inputs.tag) || '' }}
+            ${{ inputs.tag != '' && format('### Pre-release 模式: **{0}**', inputs.tag) || '' }}
 
             ### 下一步
             合并此 PR 后，可以手动触发发布流程。
