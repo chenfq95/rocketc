@@ -15,6 +15,8 @@ export const ModifierKeyCodes = {
 export type ModifierKeyCode =
   (typeof ModifierKeyCodes)[keyof typeof ModifierKeyCodes];
 
+export const ModifierKeyCodeLookupTable = new Set<ModifierKeyCode>(Object.values(ModifierKeyCodes));
+
 export const NormalKeyCodes = {
   // functions keys
   F1: 'F1',
@@ -118,6 +120,8 @@ export const NormalKeyCodes = {
 
 export type NormalKeyCode = keyof typeof NormalKeyCodes;
 
+export const NormalKeyCodeLookupTable = new Set<NormalKeyCode>(Object.values(NormalKeyCodes));
+
 export type KeyCode = ModifierKeyCode | NormalKeyCode;
 
 export const ModifierKeyCodeNames = {
@@ -160,6 +164,8 @@ export const ModifierKeyCodeNames = {
 
 export type ModifierKeyCodeName =
   (typeof ModifierKeyCodeNames)[keyof typeof ModifierKeyCodeNames];
+
+export const ModifierKeyCodeNameLookupTable = new Set<ModifierKeyCodeName>(Object.values(ModifierKeyCodeNames));
 
 export const NormalKeyCodeNames = {
   // functions keys
@@ -294,6 +300,8 @@ export const NormalKeyCodeNames = {
 
 export type NormalKeyCodeName =
   (typeof NormalKeyCodeNames)[keyof typeof NormalKeyCodeNames];
+
+export const NormalKeyCodeNameLookupTable = new Set<NormalKeyCodeName>(Object.values(NormalKeyCodeNames));
 
 export type KeyCodeName = ModifierKeyCodeName | NormalKeyCodeName;
 

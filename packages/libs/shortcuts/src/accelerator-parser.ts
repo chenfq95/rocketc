@@ -2,11 +2,11 @@ import {
   keyCode2KeyCodeName,
   keyCodeName2KeyCode,
   keyCodeName2LooseModeKeyCodeName,
-  ModifierKeyCodeNames,
+  ModifierKeyCodeLookupTable,
+  ModifierKeyCodeNameLookupTable,
   ModifierKeyCodeOrder,
-  ModifierKeyCodes,
-  NormalKeyCodeNames,
-  NormalKeyCodes,
+  NormalKeyCodeLookupTable,
+  NormalKeyCodeNameLookupTable,
   type KeyCode,
   type KeyCodeName,
   type ModifierKeyCode,
@@ -187,33 +187,28 @@ function convertAcceleratorToLooseMode(
     .join(separator);
 }
 
-function isModifierKeyCode(keyCode: KeyCode): keyCode is ModifierKeyCode {
-  return Object.values(ModifierKeyCodes).includes(keyCode as ModifierKeyCode);
+function isModifierKeyCode(keyCode: string): keyCode is ModifierKeyCode {
+  return ModifierKeyCodeLookupTable.has(keyCode as ModifierKeyCode);
 }
 
 function isModifierKeyCodeName(
   keyCodeName: string,
 ): keyCodeName is ModifierKeyCodeName {
-  return Object.values(ModifierKeyCodeNames).includes(
-    keyCodeName as ModifierKeyCodeName,
-  );
+  return ModifierKeyCodeNameLookupTable.has(keyCodeName as ModifierKeyCodeName);
 }
 
 function isKeyCodeSupported(keyCode: string): keyCode is KeyCode {
-  return (
-    Object.values(ModifierKeyCodes).includes(keyCode as ModifierKeyCode) ||
-    Object.values(NormalKeyCodes).includes(keyCode as NormalKeyCode)
-  );
+  return ModifierKeyCodeLookupTable.has(keyCode as ModifierKeyCode) || NormalKeyCodeLookupTable.has(keyCode as NormalKeyCode);
 }
 
 function isKeyCodeNameSupported(
   keyCodeName: string,
 ): keyCodeName is KeyCodeName {
   return (
-    Object.values(ModifierKeyCodeNames).includes(
+    ModifierKeyCodeNameLookupTable.has(
       keyCodeName as ModifierKeyCodeName,
     ) ||
-    Object.values(NormalKeyCodeNames).includes(keyCodeName as NormalKeyCodeName)
+    NormalKeyCodeNameLookupTable.has(keyCodeName as NormalKeyCodeName)
   );
 }
 

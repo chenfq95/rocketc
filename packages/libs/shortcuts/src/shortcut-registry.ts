@@ -1,5 +1,4 @@
 import {
-  type KeyCode,
   type ModifierKeyCode,
   type NormalKeyCode,
 } from './key-codes';
@@ -296,7 +295,7 @@ class ShortcutRegistry {
   }
 
   private handleKeyup(event: KeyboardEvent) {
-    const keycode = event.code as KeyCode;
+    const keycode = event.code;
     if (!this.parser.__internal_isKeyCodeSupported(keycode)) {
       this.debug(`Unsupported keyCode: ${event.code}!`);
       return;
