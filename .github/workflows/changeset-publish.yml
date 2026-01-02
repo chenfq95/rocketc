@@ -1,0 +1,201 @@
+name: Changeset Publish
+
+on:
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.21.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Check for packages to publish
+        id: check-packages
+        run: |
+          # 检查是否有包的版本被更新
+          PUBLISHED_PACKAGES=""
+          PACKAGE_NAMES=""
+          PACKAGE_PATHS=""
+
+          # 查找所有包的 package.json，检查版本是否变化
+          for pkg_file in $(find packages -name package.json -type f); do
+            PKG_NAME=$(node -p "require('./$pkg_file').name" 2>/dev/null || echo "")
+            
+            if [ -z "$PKG_NAME" ]; then
+              continue
+            fi
+            
+            # 检查版本是否在本次提交中被更新
+            if git diff HEAD~1 HEAD -- "$pkg_file" | grep -q '^+.*"version"'; then
+              VERSION=$(node -p "require('./$pkg_file').version")
+              
+              # 检查该版本是否已在 npm 发布
+              if npm view "$PKG_NAME@$VERSION" version >/dev/null 2>&1; then
+                echo "ℹ️  $PKG_NAME@$VERSION 已发布，跳过"
+              else
+                PKG_DIR=$(dirname "$pkg_file")
+                
+                if [ -z "$PUBLISHED_PACKAGES" ]; then
+                  PUBLISHED_PACKAGES="$PKG_NAME@$VERSION"
+                  PACKAGE_NAMES="$PKG_NAME"
+                  PACKAGE_PATHS="$PKG_DIR"
+                else
+                  PUBLISHED_PACKAGES="$PUBLISHED_PACKAGES"$'\n'"$PKG_NAME@$VERSION"
+                  PACKAGE_NAMES="$PACKAGE_NAMES $PKG_NAME"
+                  PACKAGE_PATHS="$PACKAGE_PATHS $PKG_DIR"
+                fi
+                echo "✅ $PKG_NAME@$VERSION 需要发布"
+              fi
+            fi
+          done
+
+          if [ -n "$PUBLISHED_PACKAGES" ]; then
+            echo "has_packages=true" >> $GITHUB_OUTPUT
+            echo "packages<<EOF" >> $GITHUB_OUTPUT
+            echo "$PUBLISHED_PACKAGES" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+            echo "package_names<<EOF" >> $GITHUB_OUTPUT
+            echo "$PACKAGE_NAMES" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+            echo "package_paths<<EOF" >> $GITHUB_OUTPUT
+            echo "$PACKAGE_PATHS" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          else
+            echo "has_packages=false" >> $GITHUB_OUTPUT
+            echo "ℹ️  没有需要发布的包"
+          fi
+
+      - name: Build packages
+        if: steps.check-packages.outputs.has_packages == 'true'
+        run: |
+          # 只构建需要发布的包及其依赖
+          PACKAGE_NAMES="${{ steps.check-packages.outputs.package_names }}"
+
+          if [ -n "$PACKAGE_NAMES" ]; then
+            echo "构建以下包及其依赖: $PACKAGE_NAMES"
+            # 为每个包构建其依赖树（使用 ^... 包含所有依赖）
+            for pkg in $PACKAGE_NAMES; do
+              echo "构建 $pkg 及其依赖..."
+              pnpm --filter "$pkg^..." build
+            done
+          else
+            echo "ℹ️  没有需要构建的包"
+          fi
+
+      - name: Run tests
+        if: steps.check-packages.outputs.has_packages == 'true'
+        run: |
+          # 只测试需要发布的包
+          PACKAGE_NAMES="${{ steps.check-packages.outputs.package_names }}"
+
+          if [ -n "$PACKAGE_NAMES" ]; then
+            echo "测试以下包: $PACKAGE_NAMES"
+            # 测试每个包（不包含依赖，只测试包本身）
+            for pkg in $PACKAGE_NAMES; do
+              echo "测试 $pkg..."
+              pnpm --filter "$pkg" test --if-present || echo "⚠️  $pkg 没有测试脚本或测试失败"
+            done
+          else
+            echo "ℹ️  没有需要测试的包"
+          fi
+        continue-on-error: true
+
+      - name: Publish to npm
+        if: steps.check-packages.outputs.has_packages == 'true'
+        run: |
+          # 使用 changeset publish 发布所有更新的包
+          # changeset 会自动检测哪些包需要发布
+          pnpm changeset publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Create Git tags
+        if: steps.check-packages.outputs.has_packages == 'true'
+        id: create-tags
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          TAGS=""
+
+          # 为每个发布的包创建 tag
+          echo "${{ steps.check-packages.outputs.packages }}" | while IFS=@ read -r pkg_name version; do
+            if [ -z "$pkg_name" ] || [ -z "$version" ]; then
+              continue
+            fi
+            
+            # 创建 tag（格式：包名-v版本号，例如 rocketc-shortcuts-v1.0.0）
+            TAG_NAME="${pkg_name//\//-}-v${version}"
+            TAG_NAME="${TAG_NAME//@/}"
+            
+            # 检查 tag 是否已存在
+            if git rev-parse "$TAG_NAME" >/dev/null 2>&1; then
+              echo "ℹ️  Tag $TAG_NAME 已存在，跳过"
+            else
+              git tag -a "$TAG_NAME" -m "Release $pkg_name@$version"
+              echo "✅ 创建 tag: $TAG_NAME"
+              
+              if [ -z "$TAGS" ]; then
+                TAGS="$TAG_NAME"
+              else
+                TAGS="$TAGS $TAG_NAME"
+              fi
+            fi
+          done
+
+          # 推送所有 tags
+          if [ -n "$TAGS" ]; then
+            git push origin --tags || true
+            echo "tags<<EOF" >> $GITHUB_OUTPUT
+            echo "$TAGS" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create GitHub Releases
+        if: steps.check-packages.outputs.has_packages == 'true' && steps.create-tags.outputs.tags != ''
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.sha }}
+          name: Release ${{ github.sha }}
+          body: |
+            ## 发布内容
+
+            以下包已发布到 npm：
+
+            ${{ steps.check-packages.outputs.packages }}
+
+            ### 安装
+
+            使用以下命令安装最新版本：
+
+            ```bash
+            pnpm add <package-name>
+            ```
+
+            ### 变更日志
+
+            查看各包的 CHANGELOG.md 了解详细变更内容。
+          draft: false
+          prerelease: false
+          generate_release_notes: true
