@@ -44,6 +44,7 @@
     "globals": "^16.5.0",
     "jest": "^30.2.0",
     "jest-environment-jsdom": "^30.2.0",
+    "prettier": "^3.7.4",
     "rimraf": "^6.1.2",
     "ts-jest": "^29.4.6",
     "ts-node": "^10.9.2",
@@ -51,5 +52,14 @@
     "typescript-eslint": "^8.51.0",
     "unplugin-dts": "1.0.0-beta.6",
     "vite": "^7.3.0"
+  },
+  "lint-staged": {
+    "**/*.(json|css|scss|md|yaml|yml)": [
+      "prettier --write"
+    ],
+    "!**/*lock.yaml": [],
+    "**/*.{js,jsx,ts,tsx}": [
+      "pnpm lint:fix"
+    ]
   }
 }

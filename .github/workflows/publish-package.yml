@@ -188,6 +188,10 @@ jobs:
               delete pkg.tsconfigBuild; 
               changed = true;
             }
+            if (pkg.lint-staged) {
+              delete pkg.lint-staged;
+              changed = true;
+            }
             
             if (changed) {
               fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n');
