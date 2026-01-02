@@ -43,15 +43,6 @@ jobs:
       - name: Version packages
         if: steps.changesets.outputs.has_changesets == 'true'
         run: |
-          # 运行 changeset version 来更新版本和 CHANGELOG
-          TAG="${{ inputs.tag }}"
-
-          if [ -n "$TAG" ]; then
-            echo "使用 pre 模式生成版本，tag: $TAG"
-          else
-            echo "使用正常模式生成版本"
-          fi
-
           pnpm changeset version
 
       - name: Create Pull Request
