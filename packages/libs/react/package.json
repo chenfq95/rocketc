@@ -28,16 +28,17 @@
       "import": "./dist/index.js",
       "default": "./dist/index.js"
     },
-    "./style.css": "./dist/style.css"
+    "./style.css": "./dist/style.css",
+    "./tailwind.css": "./dist/tailwind.css"
   },
   "scripts": {
     "dev": "vite",
-    "build": "pnpm install-components && pnpm gen-entry && tsc -b && vite build",
+    "build": "node scripts/build.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "preview": "vite preview",
     "gen-entry": "node scripts/gen-entry.js",
-    "install-components": "pnpm dlx shadcn@latest add -ay"
+    "install-components": "node scripts/install-components.js"
   },
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0",

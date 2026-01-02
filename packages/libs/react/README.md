@@ -36,17 +36,13 @@ npm install react react-dom
 
 ## Quick Start
 
-### 1. Import Styles
-
-First, import the CSS file in your application:
+Import the styles and start using components:
 
 ```typescript
+// Import styles
 import '@rocketc/react/style.css';
-```
 
-### 2. Use Components
-
-```typescript
+// Use components
 import { Button } from '@rocketc/react';
 
 function App() {
@@ -58,11 +54,7 @@ function App() {
 }
 ```
 
-### 3. Important: Tailwind CSS is Built-in
-
-**⚠️ Important**: This package includes Tailwind CSS styles built-in. **Do not configure Tailwind CSS in your project**, as it will cause style conflicts and override the component styles.
-
-The components are pre-styled and ready to use without any additional Tailwind CSS setup.
+For more styling options, including using with your own Tailwind CSS setup, see the [Styling](#styling) section below.
 
 ## Available Components
 
@@ -262,13 +254,65 @@ function Example() {
 
 ## Styling
 
-### Built-in Tailwind CSS
+This package supports two usage modes:
 
-This package includes Tailwind CSS styles built-in. **You should NOT configure Tailwind CSS in your consuming project**, as it will cause style conflicts and override the component styles.
+### Standalone Mode (Built-in Tailwind CSS)
+
+By default, this package includes Tailwind CSS styles built-in. Simply import `style.css`:
+
+```typescript
+import '@rocketc/react/style.css';
+```
+
+This is the simplest way to get started - no additional Tailwind CSS setup required.
+
+### With Your Own Tailwind CSS Setup
+
+If you want to use this package alongside your own Tailwind CSS configuration:
+
+1. **Install Tailwind CSS** (if not already installed):
+
+```bash
+npm install -D tailwindcss
+```
+
+1. **Import styles in the correct order** (important: `tailwind.css` must come **before** `style.css`):
+
+```typescript
+// Import tailwind.css first, then style.css
+import '@rocketc/react/tailwind.css';
+import '@rocketc/react/style.css';
+
+import { Button, Card } from '@rocketc/react';
+
+function App() {
+  return (
+    <div className="container mx-auto p-4">
+      <Card className="mb-4">
+        <Button className="w-full sm:w-auto">
+          Responsive Button
+        </Button>
+      </Card>
+      {/* You can use Tailwind CSS classes freely */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="bg-blue-100 p-4 rounded">Item 1</div>
+        <div className="bg-green-100 p-4 rounded">Item 2</div>
+        <div className="bg-purple-100 p-4 rounded">Item 3</div>
+      </div>
+    </div>
+  );
+}
+```
+
+This allows you to use both the pre-styled components and your own Tailwind CSS classes in the same project.
+
+**⚠️ Important**: When using with your own Tailwind CSS setup, **do not configure custom Tailwind variables** (such as colors, spacing, fonts, etc. in your `tailwind.config.js`). Custom Tailwind variable configurations may conflict with the component theme and cause unexpected styling issues. You can still use Tailwind utility classes freely, but avoid overriding the default Tailwind configuration variables.
 
 ### Customization
 
-While you cannot use Tailwind CSS directly in your project, you can still customize components by:
+You can customize components in several ways:
+
+**⚠️ Important**: **Do not configure custom Tailwind variables** in your `tailwind.config.js` (colors, spacing, fonts, etc.), as this may conflict with the component theme. Use the customization methods below instead.
 
 **Using CSS variables**: Components use CSS variables for theming. You can override these variables in your global CSS:
 
@@ -284,6 +328,12 @@ While you cannot use Tailwind CSS directly in your project, you can still custom
 
 ```typescript
 <Button className="my-custom-class">Click me</Button>
+```
+
+**Using Tailwind CSS classes** (when using with your own Tailwind setup):
+
+```typescript
+<Button className="mt-4 px-6 py-2">Click me</Button>
 ```
 
 **CSS overrides**: You can override component styles using CSS specificity:

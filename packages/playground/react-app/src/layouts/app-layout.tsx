@@ -3,6 +3,9 @@ import { SidebarInset, SidebarProvider } from '@rocketc/react';
 import { AppSidebar } from '../components/app-sidebar';
 import { SiteHeader } from '../components/site-header';
 
+import '@rocketc/react/tailwind.css';
+import '@rocketc/react/style.css';
+
 type AppLayoutProps = React.PropsWithChildren<{
   title: string;
 }>;
