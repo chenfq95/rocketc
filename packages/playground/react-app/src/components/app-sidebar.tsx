@@ -1,19 +1,16 @@
 import * as React from 'react';
 import {
   IconCamera,
-  IconChartBar,
   IconDashboard,
   IconDatabase,
   IconFileAi,
   IconFileDescription,
   IconFileWord,
-  IconFolder,
   IconHelp,
   IconListDetails,
   IconReport,
   IconSearch,
   IconSettings,
-  IconUsers,
 } from '@tabler/icons-react';
 
 import { NavDocuments } from './nav-documents';
@@ -31,38 +28,24 @@ import {
 } from '@rocketc/react';
 
 import RocketcIcon from '../assets/rocketc.svg?react';
+import RocketcLogo from '../assets/rocketc.svg';
 
 const data = {
   user: {
-    name: 'shadcn',
-    email: 'm@example.com',
-    avatar: '/avatars/shadcn.jpg',
+    name: 'chenfq95',
+    email: 'chenfq95@foxmail.com',
+    avatar: RocketcLogo,
   },
   navMain: [
     {
       title: 'Dashboard',
-      url: '#',
+      url: '/dashboard',
       icon: IconDashboard,
     },
     {
-      title: 'Lifecycle',
-      url: '#',
+      title: 'Shortcuts',
+      url: '/shortcuts',
       icon: IconListDetails,
-    },
-    {
-      title: 'Analytics',
-      url: '#',
-      icon: IconChartBar,
-    },
-    {
-      title: 'Projects',
-      url: '#',
-      icon: IconFolder,
-    },
-    {
-      title: 'Team',
-      url: '#',
-      icon: IconUsers,
     },
   ],
   navClouds: [

@@ -1,3 +1,4 @@
+
 import { type FC, useCallback, useEffect, useRef, useState } from 'react';
 import {
   ReactShortcutProvider,
@@ -23,9 +24,9 @@ import {
   Label,
   Switch,
 } from '@rocketc/react';
-import '@rocketc/react/style.css';
+import AppLayout from '../../layouts/app-layout';
 
-function App() {
+export default function Shortcuts() {
   const [options, setOptionsState] = useState<ReactShortcutOptions>({
     strict: false,
     debug: false,
@@ -43,7 +44,7 @@ function App() {
   }, []);
 
   return (
-    <main className="body">
+    <AppLayout title="Shortcuts">
       <Item>
         <ItemContent>
           <ItemTitle>React Use Shortcuts</ItemTitle>
@@ -84,7 +85,7 @@ function App() {
           <Main title="With Provider" auto={options.auto ?? false} />
         </ReactShortcutProvider>
       </div>
-    </main>
+    </AppLayout>
   );
 }
 
@@ -253,4 +254,3 @@ const Main: FC<MainProps> = function Main(props) {
   );
 };
 
-export default App;

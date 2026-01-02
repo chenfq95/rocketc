@@ -10,6 +10,15 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss(), svg()],
+  build: {
+    rollupOptions: {
+      input: {
+        main: 'index.html',
+        dashboard: 'dashboard.html',
+        shortcuts: 'shortcuts.html',
+      },
+    },
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
