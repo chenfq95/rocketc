@@ -1,0 +1,101 @@
+name: Changeset Version
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Pre-release tag。如果选择，将使用 pre 模式发布'
+        required: false
+        type: choice
+        default: ''
+        options:
+          - ''
+          - alpha
+          - beta
+          - rc
+          - next
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.21.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Check for changesets
+        id: changesets
+        run: |
+          if [ -n "$(find .changeset -name '*.md' -type f ! -name 'README.md' 2>/dev/null)" ]; then
+            echo "has_changesets=true" >> $GITHUB_OUTPUT
+            echo "✅ 发现 changeset 文件"
+          else
+            echo "has_changesets=false" >> $GITHUB_OUTPUT
+            echo "ℹ️  未发现 changeset 文件，跳过版本更新"
+          fi
+
+      - name: Enter pre mode (if tag provided)
+        if: steps.changesets.outputs.has_changesets == 'true' && inputs.tag != ''
+        run: |
+          TAG="${{ inputs.tag }}"
+          echo "进入 pre 模式，tag: $TAG"
+          pnpm changeset pre enter "$TAG"
+
+      - name: Version packages
+        if: steps.changesets.outputs.has_changesets == 'true'
+        run: |
+          # 运行 changeset version 来更新版本和 CHANGELOG
+          TAG="${{ inputs.tag }}"
+
+          if [ -n "$TAG" ]; then
+            echo "使用 pre 模式生成版本，tag: $TAG"
+          else
+            echo "使用正常模式生成版本"
+          fi
+
+          pnpm changeset version
+
+      - name: Create Pull Request
+        if: steps.changesets.outputs.has_changesets == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: changeset-release/main
+          title: 'chore: version packages'
+          body: |
+            ## 版本更新
+
+            此 PR 由 Changeset 自动创建，用于更新包版本和 CHANGELOG。
+
+            ### 变更内容
+            - 更新包版本号
+            - 更新 CHANGELOG 文件
+            ${{ inputs.tag != '' && format('### Pre-release 模式: **{0}**', inputs.tag) || '' }}
+
+            ### 下一步
+            合并此 PR 后，可以手动触发发布流程。
+          labels: |
+            changeset
+            version
+          commit-message: 'chore: version packages'
+          delete-branch: true
+          author: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
+          committer: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
