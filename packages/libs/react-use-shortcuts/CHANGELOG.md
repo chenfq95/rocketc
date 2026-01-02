@@ -1,5 +1,13 @@
 # @rocketc/react-use-shortcuts
 
+## 0.0.1
+
+### Patch Changes
+
+- 7edcc5b: release 1.0.0
+- Updated dependencies [7edcc5b]
+  - @rocketc/shortcuts@0.0.1
+
 ## 0.0.1-alpha.13
 
 ### Patch Changes
