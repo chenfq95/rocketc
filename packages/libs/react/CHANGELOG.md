@@ -1,5 +1,11 @@
 # @rocketc/react
 
+## 0.0.2
+
+### Patch Changes
+
+- 34b5b0d: add tailwindcss support
+
 ## 0.0.1
 
 ### Patch Changes
