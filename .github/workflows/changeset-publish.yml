@@ -50,11 +50,19 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Push Git tags
+      - name: Commit and push changes
         run: |
-          # 推送 changeset publish 自动创建的 tags
+          # 配置 git 用户信息
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          # 推送所有 tags（包括 changeset 自动创建的）
-          git push origin --tags || echo "⚠️  推送 tags 失败或没有新 tags"
+          # 检查是否有文件变更（changeset publish 可能会删除已处理的 changeset 文件）
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "检测到文件变更，准备提交..."
+            git add .
+            git commit -m "chore: update after publish" || echo "没有需要提交的变更"
+          fi
+
+          # 使用 --follow-tags 推送提交和相关的 tags
+          # 这会推送当前分支的提交以及指向这些提交的 tags
+          git push origin HEAD --follow-tags || echo "⚠️  推送失败或没有新内容"
