@@ -97,7 +97,7 @@ jobs:
             # 为每个包构建其依赖树（使用 ^... 包含所有依赖）
             for pkg in $PACKAGE_NAMES; do
               echo "构建 $pkg 及其依赖..."
-              pnpm --filter "$pkg^..." build
+              pnpm --filter "$pkg..." build
             done
           else
             echo "ℹ️  没有需要构建的包"
@@ -114,7 +114,7 @@ jobs:
             # 测试每个包（不包含依赖，只测试包本身）
             for pkg in $PACKAGE_NAMES; do
               echo "测试 $pkg..."
-              pnpm --filter "$pkg" test --if-present || echo "⚠️  $pkg 没有测试脚本或测试失败"
+              pnpm --filter "$pkg" test || echo "⚠️  $pkg 没有测试脚本或测试失败"
             done
           else
             echo "ℹ️  没有需要测试的包"
