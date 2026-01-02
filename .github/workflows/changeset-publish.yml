@@ -140,22 +140,40 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
           TAGS=""
+          PACKAGE_NAMES="${{ steps.check-packages.outputs.package_names }}"
 
           # 为每个发布的包创建 tag
-          echo "${{ steps.check-packages.outputs.packages }}" | while IFS=@ read -r pkg_name version; do
-            if [ -z "$pkg_name" ] || [ -z "$version" ]; then
+          # 直接从 package.json 读取版本信息
+          for pkg_name in $PACKAGE_NAMES; do
+            if [ -z "$pkg_name" ]; then
+              continue
+            fi
+            
+            # 查找包的 package.json 文件
+            PKG_FILE=$(find packages -name package.json -type f -exec grep -l "\"name\": *\"$pkg_name\"" {} \; | head -n 1)
+            
+            if [ -z "$PKG_FILE" ]; then
+              echo "⚠️  未找到包 $pkg_name 的 package.json"
+              continue
+            fi
+            
+            # 读取版本号
+            VERSION=$(node -p "require('./$PKG_FILE').version")
+            
+            if [ -z "$VERSION" ]; then
+              echo "⚠️  无法读取 $pkg_name 的版本号"
               continue
             fi
             
             # 创建 tag（格式：包名-v版本号，例如 rocketc-shortcuts-v1.0.0）
-            TAG_NAME="${pkg_name//\//-}-v${version}"
+            TAG_NAME="${pkg_name//\//-}-v${VERSION}"
             TAG_NAME="${TAG_NAME//@/}"
             
             # 检查 tag 是否已存在
             if git rev-parse "$TAG_NAME" >/dev/null 2>&1; then
               echo "ℹ️  Tag $TAG_NAME 已存在，跳过"
             else
-              git tag -a "$TAG_NAME" -m "Release $pkg_name@$version"
+              git tag -a "$TAG_NAME" -m "Release $pkg_name@$VERSION"
               echo "✅ 创建 tag: $TAG_NAME"
               
               if [ -z "$TAGS" ]; then
@@ -168,10 +186,16 @@ jobs:
 
           # 推送所有 tags
           if [ -n "$TAGS" ]; then
-            git push origin --tags || true
+            echo "推送 tags: $TAGS"
+            # 逐个推送 tag，确保每个都成功
+            for tag in $TAGS; do
+              git push origin "$tag" || echo "⚠️  推送 $tag 失败"
+            done
             echo "tags<<EOF" >> $GITHUB_OUTPUT
             echo "$TAGS" >> $GITHUB_OUTPUT
             echo "EOF" >> $GITHUB_OUTPUT
+          else
+            echo "ℹ️  没有需要推送的 tags"
           fi
 
       - name: Create GitHub Releases
