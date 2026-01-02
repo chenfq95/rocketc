@@ -1,6 +1,6 @@
 {
   "name": "@rocketc/react-use-shortcuts",
-  "version": "0.0.1-alpha.10",
+  "version": "0.0.1-alpha.11",
   "type": "module",
   "description": "a full react shortcut solution",
   "files": [
