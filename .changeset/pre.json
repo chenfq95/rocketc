@@ -1,0 +1,13 @@
+{
+  "mode": "exit",
+  "tag": "alpha",
+  "initialVersions": {
+    "@rocketc/cli": "0.0.1-alpha.1",
+    "@rocketc/react": "0.0.1",
+    "@rocketc/react-use-shortcuts": "0.0.1",
+    "demo": "0.0.0",
+    "@rocketc/shortcuts": "0.0.1",
+    "@rocketc/react-app": "0.0.0"
+  },
+  "changesets": ["three-masks-retire"]
+}
