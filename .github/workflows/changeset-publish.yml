@@ -89,16 +89,18 @@ jobs:
       - name: Build packages
         if: steps.check-packages.outputs.has_packages == 'true'
         run: |
-          # 只构建需要发布的包及其依赖
+          # 使用 filter 统一构建需要发布的包及其依赖
           PACKAGE_NAMES="${{ steps.check-packages.outputs.package_names }}"
 
           if [ -n "$PACKAGE_NAMES" ]; then
             echo "构建以下包及其依赖: $PACKAGE_NAMES"
-            # 为每个包构建其依赖树（使用 ^... 包含所有依赖）
+            # 为每个包添加 --filter 参数，统一构建所有包及其依赖
+            FILTER_ARGS=""
             for pkg in $PACKAGE_NAMES; do
-              echo "构建 $pkg 及其依赖..."
-              pnpm --filter "$pkg..." build
+              FILTER_ARGS="$FILTER_ARGS --filter $pkg..."
             done
+            echo "执行: pnpm$FILTER_ARGS build"
+            pnpm $FILTER_ARGS build
           else
             echo "ℹ️  没有需要构建的包"
           fi
@@ -121,14 +123,14 @@ jobs:
           fi
         continue-on-error: true
 
-      - name: Publish to npm
-        if: steps.check-packages.outputs.has_packages == 'true'
-        run: |
-          # 使用 changeset publish 发布所有更新的包
-          # changeset 会自动检测哪些包需要发布
-          pnpm changeset publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      # - name: Publish to npm
+      #   if: steps.check-packages.outputs.has_packages == 'true'
+      #   run: |
+      #     # 使用 changeset publish 发布所有更新的包
+      #     # changeset 会自动检测哪些包需要发布
+      #     pnpm changeset publish
+      #   env:
+      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Create Git tags
         if: steps.check-packages.outputs.has_packages == 'true'

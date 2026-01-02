@@ -36,11 +36,5 @@
     "react-dom": "^18.0.0",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0"
-  },
-  "lint-staged": {
-    "**/*.(js|jsx|ts|tsx|json|css|scss|md|yaml|yml)": [
-      "prettier --write"
-    ],
-    "!**/*lock.yaml": []
   }
 }
