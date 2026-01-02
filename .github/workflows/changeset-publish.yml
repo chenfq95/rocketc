@@ -1,0 +1,81 @@
+name: Changeset Publish
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'packages/**/package.json'
+      - '**/CHANGELOG.md'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+    # 只在版本更新 PR 合并后运行（通过检查 commit message）
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'push' &&
+       github.event.head_commit.message != null &&
+       (contains(github.event.head_commit.message, 'chore: version packages') ||
+        contains(github.event.head_commit.message, 'version packages')))
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.21.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build packages
+        run: |
+          pnpm --recursive --if-present build
+
+      - name: Run tests
+        run: |
+          pnpm --recursive --if-present test
+
+      - name: Publish to npm
+        run: |
+          # 配置 git 用户信息（changeset publish 需要）
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # 使用 changeset publish 发布所有更新的包
+          # changeset 会自动检测哪些包需要发布，并自动创建 Git tags
+          pnpm changeset publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Commit and push changes
+        run: |
+          # 配置 git 用户信息
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # 检查是否有文件变更（changeset publish 可能会删除已处理的 changeset 文件）
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "检测到文件变更，准备提交..."
+            git add .
+            git commit -m "chore: update after publish" || echo "没有需要提交的变更"
+          fi
+
+          # 使用 --follow-tags 推送提交和相关的 tags
+          # 这会推送当前分支的提交以及指向这些提交的 tags
+          git push origin HEAD --follow-tags || echo "⚠️  推送失败或没有新内容"
