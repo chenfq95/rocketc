@@ -1,5 +1,13 @@
 # @rocketc/react-use-shortcuts
 
+## 0.0.1-alpha.13
+
+### Patch Changes
+
+- ca3afa1: changeset test
+- Updated dependencies [ca3afa1]
+  - @rocketc/shortcuts@0.0.1-alpha.7
+
 ## 0.0.1-alpha.12
 
 ### Patch Changes
