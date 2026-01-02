@@ -1,5 +1,11 @@
 # @rocketc/react
 
+## 0.0.1-alpha.9
+
+### Patch Changes
+
+- ca3afa1: changeset test
+
 ## 0.0.1-alpha.8
 
 ### Patch Changes

@@ -8,5 +8,5 @@
     "@rocketc/shortcuts": "0.0.1-alpha.4",
     "@rocketc/react-app": "0.0.0"
   },
-  "changesets": ["blue-mirrors-tease", "five-numbers-joke"]
+  "changesets": ["blue-mirrors-tease", "five-numbers-joke", "plain-chairs-lick"]
 }

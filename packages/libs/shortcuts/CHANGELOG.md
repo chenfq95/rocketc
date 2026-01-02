@@ -1,5 +1,11 @@
 # @rocketc/shortcuts
 
+## 0.0.1-alpha.7
+
+### Patch Changes
+
+- ca3afa1: changeset test
+
 ## 0.0.1-alpha.6
 
 ### Patch Changes
