@@ -24,7 +24,6 @@ import {
   Label,
   Switch,
 } from '@rocketc/react';
-import AppLayout from '../../layouts/app-layout';
 
 export default function Shortcuts() {
   const [options, setOptionsState] = useState<ReactShortcutOptions>({
@@ -44,7 +43,7 @@ export default function Shortcuts() {
   }, []);
 
   return (
-    <AppLayout title="Shortcuts">
+    <>
       <Item>
         <ItemContent>
           <ItemTitle>React Use Shortcuts</ItemTitle>
@@ -85,7 +84,7 @@ export default function Shortcuts() {
           <Main title="With Provider" auto={options.auto ?? false} />
         </ReactShortcutProvider>
       </div>
-    </AppLayout>
+    </>
   );
 }
 

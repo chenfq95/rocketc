@@ -2,26 +2,18 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 import svg from 'vite-plugin-svgr';
 import tailwindcss from '@tailwindcss/vite';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+import tsconfigPaths from 'vite-tsconfig-paths';
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), tailwindcss(), svg()],
+  plugins: [react(), tailwindcss(), svg(), tsconfigPaths()],
   build: {
     rollupOptions: {
-      input: {
-        main: 'index.html',
-        dashboard: 'dashboard.html',
-        shortcuts: 'shortcuts.html',
+      output: {
+        manualChunks: {
+          react: ['react', 'react-dom'],
+        },
       },
-    },
-  },
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
     },
   },
 });

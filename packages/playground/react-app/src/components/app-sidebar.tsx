@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {
+  IconAlertCircle,
   IconCamera,
   IconDashboard,
   IconDatabase,
@@ -41,6 +42,11 @@ const data = {
       title: 'Dashboard',
       url: '/dashboard',
       icon: IconDashboard,
+    },
+    {
+      title: '404',
+      url: '/404',
+      icon: IconAlertCircle,
     },
     {
       title: 'Shortcuts',
