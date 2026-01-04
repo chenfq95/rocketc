@@ -25,7 +25,7 @@ function exec(command, options = {}) {
       ...options,
     });
   } catch (error) {
-    console.error(`❌ Command failed: ${command}`);
+    console.error(`❌ Command: ${command} failed: ${error.message}`);
     process.exit(1);
   }
 }
@@ -82,10 +82,11 @@ async function build() {
 
   // Write to destination
   writeFileSync(distCssPath, cssContent, 'utf-8');
-  console.log(`✅ Copied ${srcCssPath} to ${distCssPath} (removed @source directive)`);
+  console.log(
+    `✅ Copied ${srcCssPath} to ${distCssPath} (removed @source directive)`,
+  );
 
   console.log('\n✨ Build completed successfully!');
 }
 
 build();
-

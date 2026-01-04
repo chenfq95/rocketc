@@ -23,10 +23,12 @@ async function getFiles(dir, baseDir, fileList = []) {
 
     for (const file of files) {
       const filePath = join(dir, file);
+      // oxlint-disable-next-line no-await-in-loop
       const statResult = await stat(filePath);
 
       if (statResult.isDirectory()) {
         // 递归扫描子目录
+        // oxlint-disable-next-line no-await-in-loop
         await getFiles(filePath, baseDir, fileList);
       } else if (statResult.isFile()) {
         // 只处理 .tsx 和 .ts 文件，排除 index.ts

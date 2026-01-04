@@ -8,7 +8,6 @@
 import { execSync } from 'child_process';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
-import { platform } from 'os';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -28,26 +27,17 @@ function installComponents() {
       FORCE_COLOR: '1',
     };
 
-    // Use shell command with yes to auto-answer all prompts
-    // On Windows, use PowerShell's equivalent, on Unix use yes command
-    const isWindows = platform() === 'win32';
-    let command;
-
-    if (isWindows) {
-      // Windows: use PowerShell to pipe yes
-      command = 'powershell -Command "$yes = \'y\' * 100; $yes | pnpm dlx shadcn@latest add -ay"';
-    } else {
-      // Unix/Linux/macOS: use yes command to pipe y answers
-      command = 'yes | pnpm dlx shadcn@latest add -ay';
-    }
+    // Use execSync with input option to auto-answer all prompts cross-platform
+    const command = 'pnpm dlx shadcn@latest add -ay';
 
     // Execute shadcn add with all components
     // -a: accept all
     // -y: yes to all prompts
-    // yes command pipes 'y' to handle any remaining interactive prompts
+    // input handles any remaining interactive prompts cross-platform
     execSync(command, {
       cwd: projectRoot,
-      stdio: 'inherit',
+      stdio: ['pipe', 'inherit', 'inherit'],
+      // input: 'y\n'.repeat(100),
       env,
       shell: true,
     });
@@ -60,4 +50,3 @@ function installComponents() {
 }
 
 installComponents();
-
