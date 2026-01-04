@@ -6,3 +6,5 @@ onlyBuiltDependencies:
   - esbuild
   - unrs-resolver
   - electron
+
+sharedWorkspaceLockfile: false

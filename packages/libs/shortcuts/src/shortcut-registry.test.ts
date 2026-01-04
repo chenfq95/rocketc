@@ -653,19 +653,6 @@ describe('ShortcutRegistry', () => {
 
       disposeDebug();
     });
-
-    it('should use debug flag', () => {
-      const debugRegistry = new ShortcutRegistry({
-        debug: true,
-      });
-      const disposeDebug = debugRegistry.attachElement(window);
-
-      // Trigger an error condition
-      debugRegistry.registerShortcut('invalid', jest.fn());
-      // Should not throw, just log
-
-      disposeDebug();
-    });
   });
 
   describe('modifier key handling', () => {

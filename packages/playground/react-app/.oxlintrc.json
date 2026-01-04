@@ -1,0 +1,28 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["unicorn", "typescript", "oxc", "react", "vitest"],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn",
+    "perf": "warn"
+    // "style": "warn",
+    // "restriction": "warn"
+  },
+  "rules": {
+    "react-hooks/exhaustive-deps": "warn",
+    "react-in-jsx-scope": "off"
+  },
+  "settings": {
+    "vitest": {
+      "typecheck": false
+    },
+    "react": {
+      "version": "18.2.0"
+    }
+  },
+  "env": {
+    "builtin": true
+  },
+  "globals": {},
+  "ignorePatterns": []
+}
