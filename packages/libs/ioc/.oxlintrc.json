@@ -1,0 +1,34 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["unicorn", "typescript", "oxc"],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn",
+    "perf": "warn"
+    // "style": "warn",
+    // "restriction": "warn"
+  },
+  "rules": {
+    "require-to-throw-message": "off"
+  },
+  "overrides": [
+    {
+      "files": ["**/*.test.ts"],
+      "plugins": ["vitest"],
+      "rules": {
+        "no-extraneous-class": "off",
+        "no-new": "off"
+      }
+    }
+  ],
+  "settings": {
+    "vitest": {
+      "typecheck": false
+    }
+  },
+  "env": {
+    "builtin": true
+  },
+  "globals": {},
+  "ignorePatterns": []
+}
