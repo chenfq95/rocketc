@@ -1,4 +1,4 @@
-name: Changeset Publish
+name: Publish packages
 
 on:
   workflow_dispatch:
@@ -43,17 +43,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build packages
-        run: |
-          pnpm --recursive --if-present build
-
-      - name: Lint packages
-        run: |
-          pnpm --recursive --if-present lint
-
-      - name: Run tests
-        run: |
-          pnpm --recursive --if-present test
+      - name: Check
+        uses: ./.github/actions/check
 
       - name: Publish to npm
         run: |

@@ -1,4 +1,4 @@
-name: Changeset Version
+name: Version packages
 
 on:
   workflow_dispatch:
@@ -28,6 +28,9 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: Check
+        uses: ./.github/actions/check
 
       - name: Check for changesets
         id: changesets

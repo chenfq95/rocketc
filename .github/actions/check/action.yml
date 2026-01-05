@@ -1,0 +1,17 @@
+name: Check
+description: Run lint, build and test
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Lint packages
+      run: pnpm --recursive --if-present lint
+      shell: bash
+
+    - name: Build packages
+      run: pnpm --recursive --if-present build
+      shell: bash
+
+    - name: Run tests
+      run: pnpm --recursive --if-present test
+      shell: bash
