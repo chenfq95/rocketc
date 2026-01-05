@@ -1,3 +1,4 @@
+import { describe, expect, beforeEach, test } from 'vitest';
 import { createContainer } from './index';
 
 describe('RocketC IOC Container', () => {

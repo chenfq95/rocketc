@@ -47,6 +47,10 @@ jobs:
         run: |
           pnpm --recursive --if-present build
 
+      - name: Lint packages
+        run: |
+          pnpm --recursive --if-present lint
+
       - name: Run tests
         run: |
           pnpm --recursive --if-present test
