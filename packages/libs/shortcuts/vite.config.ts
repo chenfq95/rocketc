@@ -1,3 +1,4 @@
+/// <reference types="vitest/config" />
 import { defineConfig } from 'vite';
 import dts from 'unplugin-dts/vite';
 
@@ -17,5 +18,8 @@ export default defineConfig({
       formats: ['es'],
       fileName: 'index',
     },
+  },
+  test: {
+    environment: 'happy-dom',
   },
 });

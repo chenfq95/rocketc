@@ -26,7 +26,7 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
-    "test": "jest"
+    "test": "vitest"
   },
   "keywords": [
     "javascript",
@@ -36,20 +36,14 @@
   "license": "MIT",
   "devDependencies": {
     "@microsoft/api-extractor": "^7.55.2",
-    "@types/events": "^3.0.3",
-    "@types/jest": "^30.0.0",
     "@types/node": "^24.10.4",
-    "globals": "^16.5.0",
-    "jest": "^30.2.0",
-    "jest-environment-jsdom": "^30.2.0",
+    "happy-dom": "^20.0.11",
     "oxlint": "^1.36.0",
     "prettier": "^3.7.4",
-    "rimraf": "^6.1.2",
-    "ts-jest": "^29.4.6",
-    "ts-node": "^10.9.2",
     "typescript": "^5.9.3",
     "unplugin-dts": "1.0.0-beta.6",
-    "vite": "^7.3.0"
+    "vite": "^7.3.0",
+    "vitest": "^4.0.16"
   },
   "lint-staged": {
     "**/*.(json|css|scss|md)": [

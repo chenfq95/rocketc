@@ -1,3 +1,4 @@
+import { expect, describe, it } from 'vitest';
 import parser from './accelerator-parser';
 
 describe('acceleratorParser', () => {
