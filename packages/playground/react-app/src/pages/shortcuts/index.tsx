@@ -1,4 +1,3 @@
-
 import { type FC, useCallback, useEffect, useRef, useState } from 'react';
 import {
   ReactShortcutProvider,
@@ -52,27 +51,21 @@ export default function Shortcuts() {
           <Label>
             Strict:
             <Switch
-              onCheckedChange={(checked) =>
-                handleUpdateOptions({ strict: checked })
-              }
+              onCheckedChange={(checked) => handleUpdateOptions({ strict: checked })}
               checked={options.strict}
             />
           </Label>
           <Label>
             Debug:
             <Switch
-              onCheckedChange={(checked) =>
-                handleUpdateOptions({ debug: checked })
-              }
+              onCheckedChange={(checked) => handleUpdateOptions({ debug: checked })}
               checked={!!options.debug}
             />
           </Label>
           <Label>
             Auto:
             <Switch
-              onCheckedChange={(checked) =>
-                handleUpdateOptions({ auto: checked })
-              }
+              onCheckedChange={(checked) => handleUpdateOptions({ auto: checked })}
               checked={!!options.auto}
             />
           </Label>
@@ -108,9 +101,7 @@ const Main: FC<MainProps> = function Main(props) {
     disableShortcut,
   } = useShortcut();
 
-  const [shortcutRegisters, setShortcutRegisters] = useState<
-    Array<ShortcutRegister>
-  >(() => {
+  const [shortcutRegisters, setShortcutRegisters] = useState<Array<ShortcutRegister>>(() => {
     return getShortcutRegisters();
   });
 
@@ -162,9 +153,7 @@ const Main: FC<MainProps> = function Main(props) {
 
   const handleIsShortcutRegistered = useCallback(
     (accelerator: string) => {
-      toast.success(
-        `Is shortcut registered: ${isShortcutRegistered(accelerator)}`,
-      );
+      toast.success(`Is shortcut registered: ${isShortcutRegistered(accelerator)}`);
     },
     [isShortcutRegistered],
   );
@@ -199,19 +188,13 @@ const Main: FC<MainProps> = function Main(props) {
             <Button onClick={() => handleIsShortcutRegistered(keyPressed)}>
               is register shortcut
             </Button>
-            <Button
-              onClick={() => handleToggleEnableShortcut(true, keyPressed)}
-            >
+            <Button onClick={() => handleToggleEnableShortcut(true, keyPressed)}>
               enable shortcut
             </Button>
-            <Button
-              onClick={() => handleToggleEnableShortcut(false, keyPressed)}
-            >
+            <Button onClick={() => handleToggleEnableShortcut(false, keyPressed)}>
               disable shortcut
             </Button>
-            <Button onClick={refreshShortcutRegisters}>
-              refresh shortcut registers
-            </Button>
+            <Button onClick={refreshShortcutRegisters}>refresh shortcut registers</Button>
             {shortcutRegisters.map((shortcut, index) => (
               <Item variant="outline" size="sm" key={index}>
                 <ItemContent>
@@ -222,10 +205,7 @@ const Main: FC<MainProps> = function Main(props) {
                     variant="outline"
                     size="sm"
                     onClick={() =>
-                      handleUnregisterShortcut(
-                        shortcut.accelerator,
-                        shortcut.callback,
-                      )
+                      handleUnregisterShortcut(shortcut.accelerator, shortcut.callback)
                     }
                   >
                     unregister
@@ -252,4 +232,3 @@ const Main: FC<MainProps> = function Main(props) {
     </div>
   );
 };
-

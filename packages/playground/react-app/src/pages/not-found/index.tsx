@@ -10,18 +10,16 @@ export default function NotFoundPage() {
         <div className="flex items-center justify-center">
           <NotFoundIllustration className="w-64 h-64 md:w-80 md:h-80" />
         </div>
-        
+
         {/* 404 文字 */}
         <div className="flex flex-col gap-2">
           <h1 className="text-6xl font-bold text-foreground md:text-8xl">404</h1>
-          <h2 className="text-xl font-semibold text-muted-foreground md:text-2xl">
-            页面未找到
-          </h2>
+          <h2 className="text-xl font-semibold text-muted-foreground md:text-2xl">页面未找到</h2>
           <p className="text-sm text-muted-foreground md:text-base">
             抱歉，您访问的页面不存在或已被移动
           </p>
         </div>
-        
+
         {/* 返回按钮 */}
         <div className="flex gap-4">
           <Button asChild>
@@ -35,4 +33,3 @@ export default function NotFoundPage() {
     </div>
   );
 }
-

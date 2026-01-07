@@ -1,13 +1,25 @@
 {
   "name": "@rocketc/shortcuts",
   "version": "0.0.1",
-  "type": "module",
   "description": "pure javascript shortcut solution",
-  "files": [
-    "LICENSE",
-    "README.md",
-    "dist"
+  "keywords": [
+    "javascript",
+    "shortcut"
   ],
+  "license": "MIT",
+  "author": "chenfq95 <chenfq95@foxmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chenfq95/rocketc.git",
+    "directory": "packages/libs/shortcuts"
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "type": "module",
+  "sideEffects": false,
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -15,31 +27,20 @@
       "default": "./dist/index.js"
     }
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/chenfq95/rocketc.git",
-    "directory": "packages/libs/shortcuts"
-  },
-  "sideEffects": false,
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
+    "format": "oxfmt",
     "test": "vitest"
   },
-  "keywords": [
-    "javascript",
-    "shortcut"
-  ],
-  "author": "chenfq95 <chenfq95@foxmail.com>",
-  "license": "MIT",
   "devDependencies": {
     "@microsoft/api-extractor": "^7.55.2",
     "@types/node": "^24.10.4",
     "happy-dom": "^20.0.11",
+    "oxfmt": "^0.23.0",
     "oxlint": "^1.36.0",
-    "prettier": "^3.7.4",
     "typescript": "^5.9.3",
     "unplugin-dts": "1.0.0-beta.6",
     "vite": "^7.3.0",
@@ -47,7 +48,7 @@
   },
   "lint-staged": {
     "**/*.(json|css|scss|md)": [
-      "prettier --write"
+      "pnpm format"
     ],
     "**/*.{js,jsx,ts,tsx}": [
       "pnpm lint:fix"

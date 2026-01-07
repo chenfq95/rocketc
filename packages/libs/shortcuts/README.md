@@ -468,10 +468,7 @@ const isSupported = acceleratorParser.isKeyCodeNameSupported('Ctrl');
 console.log(isSupported); // true
 
 // Check if accelerators match
-const isMatched = acceleratorParser.isAcceleratorMatched(
-  'Ctrl+a',
-  'ControlLeft+KeyA',
-);
+const isMatched = acceleratorParser.isAcceleratorMatched('Ctrl+a', 'ControlLeft+KeyA');
 console.log(isMatched); // true
 
 // Get default separator

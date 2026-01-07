@@ -9,7 +9,7 @@ const LoginPage = lazy(() => import('./pages/login'));
 const DashboardPage = lazy(async () => {
   await new Promise((resolve) => {
     setTimeout(resolve, 5000);
-  })
+  });
   return import('./pages/dashboard');
 });
 const ShortcutsPage = lazy(() => import('./pages/shortcuts'));
@@ -21,7 +21,7 @@ const AppRoute = () => {
   const [shortcutsMatched] = useRoute('/shortcuts');
   const [pathname] = useLocation();
   let component: React.ReactNode = null;
-  
+
   if (loginMatched) {
     component = (
       <EmptyLayout>
@@ -50,11 +50,7 @@ const AppRoute = () => {
     );
   }
 
-  return (
-    <Suspense fallback={<Loading />}>
-      {component}
-    </Suspense>
-  )
-}
+  return <Suspense fallback={<Loading />}>{component}</Suspense>;
+};
 
 export default AppRoute;

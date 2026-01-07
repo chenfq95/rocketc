@@ -19,10 +19,7 @@ export function createContainer() {
       }
   >();
 
-  function register(
-    id: ObjectUniqueId,
-    { eager = false }: { eager?: boolean } = {},
-  ) {
+  function register(id: ObjectUniqueId, { eager = false }: { eager?: boolean } = {}) {
     return (Value: unknown, context: DecoratorContext) => {
       if (context.kind !== 'class') {
         throw new Error('object decorator can only be used on a class');
@@ -89,9 +86,7 @@ export function createContainer() {
       throw objectInfo.error;
     }
     if (objectInfo.status === 'initializing') {
-      throw new Error(
-        `object ${String(id)} is already initializing, this maybe a cycle reference`,
-      );
+      throw new Error(`object ${String(id)} is already initializing, this maybe a cycle reference`);
     }
     if (objectInfo.status === 'uninitialized') {
       if (objectInfo.ObjectCtor === undefined) {

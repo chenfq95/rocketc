@@ -669,9 +669,7 @@ describe('ShortcutRegistry', () => {
       dispatchEvent('keydown', 'ShiftLeft');
       dispatchEvent('keydown', 'AltLeft');
       dispatchEvent('keydown', 'KeyA');
-      expect(registry.getCurrentKeyPressed()).toBe(
-        'ControlLeft+ShiftLeft+AltLeft+A',
-      );
+      expect(registry.getCurrentKeyPressed()).toBe('ControlLeft+ShiftLeft+AltLeft+A');
     });
   });
 
@@ -737,9 +735,7 @@ describe('ShortcutRegistry', () => {
           // Allow keydown, block keyup in input
           if (event.type === 'keydown') return true;
           if (event.target && event.target instanceof HTMLElement) {
-            return !['INPUT', 'TEXTAREA', 'SELECT'].includes(
-              event.target.tagName,
-            );
+            return !['INPUT', 'TEXTAREA', 'SELECT'].includes(event.target.tagName);
           }
           return true;
         },
@@ -954,9 +950,7 @@ describe('ShortcutRegistry', () => {
         dispatchEvent('keydown', 'AltLeft');
         dispatchEvent('keydown', 'MetaLeft');
         dispatchEvent('keydown', 'KeyA');
-        expect(looseRegistry.getCurrentKeyPressed()).toBe(
-          'Ctrl+Meta+Shift+Alt+A',
-        );
+        expect(looseRegistry.getCurrentKeyPressed()).toBe('Ctrl+Meta+Shift+Alt+A');
       });
     });
 
@@ -1129,9 +1123,7 @@ describe('ShortcutRegistry', () => {
           // Allow keydown, block keyup in input
           if (event.type === 'keydown') return true;
           if (event.target && event.target instanceof HTMLElement) {
-            return !['INPUT', 'TEXTAREA', 'SELECT'].includes(
-              event.target.tagName,
-            );
+            return !['INPUT', 'TEXTAREA', 'SELECT'].includes(event.target.tagName);
           }
           return true;
         },

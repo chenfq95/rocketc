@@ -40,10 +40,7 @@ See the [Supported Keys section](../shortcuts/README.md#supported-keys) in `@roc
 
 ```tsx
 import React, { useEffect } from 'react';
-import {
-  ReactShortcutProvider,
-  useShortcut,
-} from '@rocketc/react-use-shortcuts';
+import { ReactShortcutProvider, useShortcut } from '@rocketc/react-use-shortcuts';
 
 function App() {
   return (
@@ -77,10 +74,7 @@ function Main() {
 
 ```tsx
 import React, { useEffect } from 'react';
-import {
-  ReactShortcutProvider,
-  useShortcut,
-} from '@rocketc/react-use-shortcuts';
+import { ReactShortcutProvider, useShortcut } from '@rocketc/react-use-shortcuts';
 
 function App() {
   return (
@@ -111,10 +105,7 @@ function Main() {
 
 ```tsx
 import React, { useEffect } from 'react';
-import {
-  ReactShortcutProvider,
-  useShortcut,
-} from '@rocketc/react-use-shortcuts';
+import { ReactShortcutProvider, useShortcut } from '@rocketc/react-use-shortcuts';
 
 function App() {
   return (
@@ -144,10 +135,7 @@ function Main() {
 
 ```tsx
 import React, { useEffect, useRef } from 'react';
-import {
-  ReactShortcutProvider,
-  useShortcut,
-} from '@rocketc/react-use-shortcuts';
+import { ReactShortcutProvider, useShortcut } from '@rocketc/react-use-shortcuts';
 
 function App() {
   return (
@@ -199,10 +187,7 @@ function Main() {
 
 ```tsx
 import React, { useEffect } from 'react';
-import {
-  ReactShortcutProvider,
-  useShortcut,
-} from '@rocketc/react-use-shortcuts';
+import { ReactShortcutProvider, useShortcut } from '@rocketc/react-use-shortcuts';
 
 function App() {
   return (
@@ -234,10 +219,7 @@ function Main() {
 
 ```tsx
 import React, { useEffect, useCallback, useState } from 'react';
-import {
-  ReactShortcutProvider,
-  useShortcut,
-} from '@rocketc/react-use-shortcuts';
+import { ReactShortcutProvider, useShortcut } from '@rocketc/react-use-shortcuts';
 
 function App() {
   return (
@@ -248,12 +230,7 @@ function App() {
 }
 
 function Main() {
-  const {
-    registerShortcut,
-    unregisterShortcut,
-    enableShortcut,
-    disableShortcut,
-  } = useShortcut();
+  const { registerShortcut, unregisterShortcut, enableShortcut, disableShortcut } = useShortcut();
   const [enable, setEnable] = useState<boolean>(true);
 
   const handleClick = useCallback(() => {
@@ -286,10 +263,7 @@ You can register multiple callbacks for the same accelerator and manage them ind
 
 ```tsx
 import React, { useEffect, useCallback } from 'react';
-import {
-  ReactShortcutProvider,
-  useShortcut,
-} from '@rocketc/react-use-shortcuts';
+import { ReactShortcutProvider, useShortcut } from '@rocketc/react-use-shortcuts';
 
 function App() {
   return (
@@ -300,12 +274,7 @@ function App() {
 }
 
 function Main() {
-  const {
-    registerShortcut,
-    unregisterShortcut,
-    enableShortcut,
-    disableShortcut,
-  } = useShortcut();
+  const { registerShortcut, unregisterShortcut, enableShortcut, disableShortcut } = useShortcut();
 
   useEffect(() => {
     const handler1 = () => console.log('Handler 1');
@@ -347,10 +316,7 @@ You can provide a custom filter to override this behavior:
 
 ```tsx
 import React, { useEffect } from 'react';
-import {
-  ReactShortcutProvider,
-  useShortcut,
-} from '@rocketc/react-use-shortcuts';
+import { ReactShortcutProvider, useShortcut } from '@rocketc/react-use-shortcuts';
 
 function App() {
   return (
@@ -390,10 +356,7 @@ You can define custom key name aliases to use in your shortcuts:
 
 ```tsx
 import React, { useEffect } from 'react';
-import {
-  ReactShortcutProvider,
-  useShortcut,
-} from '@rocketc/react-use-shortcuts';
+import { ReactShortcutProvider, useShortcut } from '@rocketc/react-use-shortcuts';
 
 function App() {
   return (
@@ -434,10 +397,7 @@ You can provide a custom debug function instead of using the default debug logge
 
 ```tsx
 import React, { useEffect } from 'react';
-import {
-  ReactShortcutProvider,
-  useShortcut,
-} from '@rocketc/react-use-shortcuts';
+import { ReactShortcutProvider, useShortcut } from '@rocketc/react-use-shortcuts';
 
 function App() {
   return (
@@ -501,19 +461,10 @@ React Hook to access shortcut APIs.
 
 ```typescript
 interface ReactShortcutContextValue {
-  registerShortcut(
-    accelerator: Accelerator,
-    callback: KeyboardEventListener,
-  ): boolean;
-  unregisterShortcut(
-    accelerator: Accelerator,
-    cb?: KeyboardEventListener,
-  ): boolean;
+  registerShortcut(accelerator: Accelerator, callback: KeyboardEventListener): boolean;
+  unregisterShortcut(accelerator: Accelerator, cb?: KeyboardEventListener): boolean;
   enableShortcut(accelerator: Accelerator, cb?: KeyboardEventListener): boolean;
-  disableShortcut(
-    accelerator: Accelerator,
-    cb?: KeyboardEventListener,
-  ): boolean;
+  disableShortcut(accelerator: Accelerator, cb?: KeyboardEventListener): boolean;
   isShortcutRegistered(accelerator: Accelerator): boolean;
   getCurrentKeyPressed(): Accelerator;
   onKeyPressedChanged(listener: KeyPressedChangedEventListener): Dispose;
@@ -545,10 +496,7 @@ const isSupported = acceleratorParser.isKeyCodeNameSupported('Ctrl');
 console.log(isSupported); // true
 
 // Check if accelerators match
-const isMatched = acceleratorParser.isAcceleratorMatched(
-  'Ctrl+a',
-  'ControlLeft+KeyA',
-);
+const isMatched = acceleratorParser.isAcceleratorMatched('Ctrl+a', 'ControlLeft+KeyA');
 console.log(isMatched); // true
 
 // Get default separator

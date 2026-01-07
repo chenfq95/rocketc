@@ -144,15 +144,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton
-              asChild
-              className="data-[slot=sidebar-menu-button]:!p-1.5"
-            >
+            <SidebarMenuButton asChild className="data-[slot=sidebar-menu-button]:!p-1.5">
               <a href="#">
                 <RocketcIcon className="!size-5" />
-                <span className="text-base font-semibold">
-                  Rocketc React App
-                </span>
+                <span className="text-base font-semibold">Rocketc React App</span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>

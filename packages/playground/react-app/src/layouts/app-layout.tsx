@@ -23,9 +23,7 @@ export default function AppLayout({ children, title }: AppLayoutProps) {
       <AppSidebar variant="inset" />
       <SidebarInset>
         <SiteHeader title={title} />
-        <div className="p-4">
-          {children}
-        </div>
+        <div className="p-4">{children}</div>
       </SidebarInset>
     </SidebarProvider>
   );

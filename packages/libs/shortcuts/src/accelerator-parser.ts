@@ -52,9 +52,7 @@ function parseAccelerator(
     }
     let keyCodeName = keyCodeNames[i];
     if (alias) {
-      const aliasKey = Object.keys(alias).find(
-        (key) => alias[key] === keyCodeName,
-      );
+      const aliasKey = Object.keys(alias).find((key) => alias[key] === keyCodeName);
       if (aliasKey) {
         keyCodeName = aliasKey;
       }
@@ -62,10 +60,7 @@ function parseAccelerator(
     if (!isKeyCodeNameSupported(keyCodeName)) {
       throwParseError(position);
     }
-    if (
-      result.length > 0 &&
-      !isModifierKeyCodeName(result[result.length - 1])
-    ) {
+    if (result.length > 0 && !isModifierKeyCodeName(result[result.length - 1])) {
       throwParseError(position);
     }
     result.push(keyCodeName);
@@ -103,10 +98,7 @@ function serializeAccelerator(
 ): Accelerator {
   const { separator = defaultSeparator, alias = {}, strict = false } = options;
   const modifierKeyCodeNames = modifiers
-    .sort(
-      (a, b) =>
-        ModifierKeyCodeOrder.indexOf(a) - ModifierKeyCodeOrder.indexOf(b),
-    )
+    .sort((a, b) => ModifierKeyCodeOrder.indexOf(a) - ModifierKeyCodeOrder.indexOf(b))
     .map((modifier) => {
       const keyCodeName = keyCode2KeyCodeName[modifier];
       if (!keyCodeName) {
@@ -137,17 +129,13 @@ function decodeAccelerator(
 ): AcceleratorObject {
   const { separator = defaultSeparator, alias = {} } = options;
   const keyCodeNames = parseAccelerator(accelerator, { separator, alias });
-  const modifiers = keyCodeNames.filter((keyCodeName) =>
-    isModifierKeyCodeName(keyCodeName),
-  );
+  const modifiers = keyCodeNames.filter((keyCodeName) => isModifierKeyCodeName(keyCodeName));
   const keyCodeName = keyCodeNames[keyCodeNames.length - 1];
   return {
     modifiersList: modifiers.reduce<Array<Array<ModifierKeyCode>>>(
       (prev, keyCodeName) => {
         const next: Array<Array<ModifierKeyCode>> = [];
-        const keyCodes = keyCodeName2KeyCode[
-          keyCodeName
-        ] as Array<ModifierKeyCode>;
+        const keyCodes = keyCodeName2KeyCode[keyCodeName] as Array<ModifierKeyCode>;
         keyCodes.forEach((keycode) => {
           prev.forEach((resolved) => {
             next.push([...resolved, keycode]);
@@ -191,23 +179,20 @@ function isModifierKeyCode(keyCode: string): keyCode is ModifierKeyCode {
   return ModifierKeyCodeLookupTable.has(keyCode as ModifierKeyCode);
 }
 
-function isModifierKeyCodeName(
-  keyCodeName: string,
-): keyCodeName is ModifierKeyCodeName {
+function isModifierKeyCodeName(keyCodeName: string): keyCodeName is ModifierKeyCodeName {
   return ModifierKeyCodeNameLookupTable.has(keyCodeName as ModifierKeyCodeName);
 }
 
 function isKeyCodeSupported(keyCode: string): keyCode is KeyCode {
-  return ModifierKeyCodeLookupTable.has(keyCode as ModifierKeyCode) || NormalKeyCodeLookupTable.has(keyCode as NormalKeyCode);
+  return (
+    ModifierKeyCodeLookupTable.has(keyCode as ModifierKeyCode) ||
+    NormalKeyCodeLookupTable.has(keyCode as NormalKeyCode)
+  );
 }
 
-function isKeyCodeNameSupported(
-  keyCodeName: string,
-): keyCodeName is KeyCodeName {
+function isKeyCodeNameSupported(keyCodeName: string): keyCodeName is KeyCodeName {
   return (
-    ModifierKeyCodeNameLookupTable.has(
-      keyCodeName as ModifierKeyCodeName,
-    ) ||
+    ModifierKeyCodeNameLookupTable.has(keyCodeName as ModifierKeyCodeName) ||
     NormalKeyCodeNameLookupTable.has(keyCodeName as NormalKeyCodeName)
   );
 }
@@ -217,26 +202,17 @@ function isAcceleratorMatched(
   target: Accelerator,
   options: { separator?: string; alias?: Record<string, string> } = {},
 ): boolean {
-  const {
-    modifiersList: sourceModifiersList,
-    normalKeyCodes: sourceNormalKeyCodes,
-  } = decodeAccelerator(source, options);
-  const {
-    modifiersList: targetModifiersList,
-    normalKeyCodes: targetNormalKeyCodes,
-  } = decodeAccelerator(target, options);
+  const { modifiersList: sourceModifiersList, normalKeyCodes: sourceNormalKeyCodes } =
+    decodeAccelerator(source, options);
+  const { modifiersList: targetModifiersList, normalKeyCodes: targetNormalKeyCodes } =
+    decodeAccelerator(target, options);
   const isModifierMatched = sourceModifiersList.some((sourceModifier) =>
     targetModifiersList.some((targetModifier) => {
       const set = new Set([...targetModifier, ...sourceModifier]);
-      return (
-        set.size === sourceModifier.length && set.size === targetModifier.length
-      );
+      return set.size === sourceModifier.length && set.size === targetModifier.length;
     }),
   );
-  const normalKeyCodesSet = new Set([
-    ...targetNormalKeyCodes,
-    ...sourceNormalKeyCodes,
-  ]);
+  const normalKeyCodesSet = new Set([...targetNormalKeyCodes, ...sourceNormalKeyCodes]);
   const isNormalKeyCodeMatched =
     normalKeyCodesSet.size === sourceNormalKeyCodes.length &&
     normalKeyCodesSet.size === targetNormalKeyCodes.length;

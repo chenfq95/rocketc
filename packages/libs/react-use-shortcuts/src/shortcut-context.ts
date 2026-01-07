@@ -10,19 +10,10 @@ import type {
 } from '@rocketc/shortcuts';
 
 export interface ReactShortcutContextValue {
-  registerShortcut(
-    accelerator: Accelerator,
-    callback: KeyboardEventListener,
-  ): boolean;
-  unregisterShortcut(
-    accelerator: Accelerator,
-    cb?: KeyboardEventListener,
-  ): boolean;
+  registerShortcut(accelerator: Accelerator, callback: KeyboardEventListener): boolean;
+  unregisterShortcut(accelerator: Accelerator, cb?: KeyboardEventListener): boolean;
   enableShortcut(accelerator: Accelerator, cb?: KeyboardEventListener): boolean;
-  disableShortcut(
-    accelerator: Accelerator,
-    cb?: KeyboardEventListener,
-  ): boolean;
+  disableShortcut(accelerator: Accelerator, cb?: KeyboardEventListener): boolean;
   isShortcutRegistered(accelerator: Accelerator): boolean;
   getCurrentKeyPressed(): Accelerator;
   onKeyPressedChanged(listener: KeyPressedChangedEventListener): Dispose;
@@ -50,27 +41,15 @@ if (typeof window !== 'undefined') {
 // Create default context value
 const createDefaultContextValue = (): ReactShortcutContextValue => {
   return {
-    registerShortcut: defaultShortcutRegistry.registerShortcut.bind(
-      defaultShortcutRegistry,
-    ),
-    unregisterShortcut: defaultShortcutRegistry.unregisterShortcut.bind(
-      defaultShortcutRegistry,
-    ),
-    enableShortcut: defaultShortcutRegistry.enableShortcut.bind(
-      defaultShortcutRegistry,
-    ),
-    disableShortcut: defaultShortcutRegistry.disableShortcut.bind(
-      defaultShortcutRegistry,
-    ),
-    isShortcutRegistered: defaultShortcutRegistry.isShortcutRegistered.bind(
-      defaultShortcutRegistry,
-    ),
-    getCurrentKeyPressed: defaultShortcutRegistry.getCurrentKeyPressed.bind(
-      defaultShortcutRegistry,
-    ),
-    onKeyPressedChanged: defaultShortcutRegistry.onKeyPressedChanged.bind(
-      defaultShortcutRegistry,
-    ),
+    registerShortcut: defaultShortcutRegistry.registerShortcut.bind(defaultShortcutRegistry),
+    unregisterShortcut: defaultShortcutRegistry.unregisterShortcut.bind(defaultShortcutRegistry),
+    enableShortcut: defaultShortcutRegistry.enableShortcut.bind(defaultShortcutRegistry),
+    disableShortcut: defaultShortcutRegistry.disableShortcut.bind(defaultShortcutRegistry),
+    isShortcutRegistered:
+      defaultShortcutRegistry.isShortcutRegistered.bind(defaultShortcutRegistry),
+    getCurrentKeyPressed:
+      defaultShortcutRegistry.getCurrentKeyPressed.bind(defaultShortcutRegistry),
+    onKeyPressedChanged: defaultShortcutRegistry.onKeyPressedChanged.bind(defaultShortcutRegistry),
     attachElement: (ele: Window | HTMLElement) => {
       // Simply delegate to the registry
       // The registry handles reference counting internally
@@ -87,9 +66,8 @@ const createDefaultContextValue = (): ReactShortcutContextValue => {
         separator: options.separator,
       };
     },
-    getShortcutRegisters: defaultShortcutRegistry.getShortcutRegisters.bind(
-      defaultShortcutRegistry,
-    ),
+    getShortcutRegisters:
+      defaultShortcutRegistry.getShortcutRegisters.bind(defaultShortcutRegistry),
   };
 };
 

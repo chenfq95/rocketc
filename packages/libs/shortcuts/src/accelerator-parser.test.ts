@@ -55,24 +55,14 @@ describe('acceleratorParser', () => {
 
   describe('convertAcceleratorToLooseMode', () => {
     it('should convert modifiers to loose mode', () => {
-      expect(parser.convertAcceleratorToLooseMode('ControlLeft+a')).toBe(
-        'Ctrl+a',
-      );
-      expect(parser.convertAcceleratorToLooseMode('ControlRight+a')).toBe(
-        'Ctrl+a',
-      );
+      expect(parser.convertAcceleratorToLooseMode('ControlLeft+a')).toBe('Ctrl+a');
+      expect(parser.convertAcceleratorToLooseMode('ControlRight+a')).toBe('Ctrl+a');
       expect(parser.convertAcceleratorToLooseMode('AltLeft+a')).toBe('Alt+a');
       expect(parser.convertAcceleratorToLooseMode('AltRight+a')).toBe('Alt+a');
-      expect(parser.convertAcceleratorToLooseMode('ShiftLeft+a')).toBe(
-        'Shift+a',
-      );
-      expect(parser.convertAcceleratorToLooseMode('ShiftRight+a')).toBe(
-        'Shift+a',
-      );
+      expect(parser.convertAcceleratorToLooseMode('ShiftLeft+a')).toBe('Shift+a');
+      expect(parser.convertAcceleratorToLooseMode('ShiftRight+a')).toBe('Shift+a');
       expect(parser.convertAcceleratorToLooseMode('MetaLeft+a')).toBe('Meta+a');
-      expect(parser.convertAcceleratorToLooseMode('MetaRight+a')).toBe(
-        'Meta+a',
-      );
+      expect(parser.convertAcceleratorToLooseMode('MetaRight+a')).toBe('Meta+a');
     });
 
     it('should keep normal keys unchanged', () => {
@@ -82,23 +72,17 @@ describe('acceleratorParser', () => {
     });
 
     it('should handle multiple modifiers', () => {
-      expect(
-        parser.convertAcceleratorToLooseMode('ControlLeft+AltLeft+ShiftLeft+a'),
-      ).toBe('Ctrl+Alt+Shift+a');
-      expect(
-        parser.convertAcceleratorToLooseMode(
-          'ControlRight+AltRight+ShiftRight+a',
-        ),
-      ).toBe('Ctrl+Alt+Shift+a');
+      expect(parser.convertAcceleratorToLooseMode('ControlLeft+AltLeft+ShiftLeft+a')).toBe(
+        'Ctrl+Alt+Shift+a',
+      );
+      expect(parser.convertAcceleratorToLooseMode('ControlRight+AltRight+ShiftRight+a')).toBe(
+        'Ctrl+Alt+Shift+a',
+      );
     });
 
     it('should remove duplicate modifiers', () => {
-      expect(
-        parser.convertAcceleratorToLooseMode('ControlLeft+ControlRight+a'),
-      ).toBe('Ctrl+a');
-      expect(
-        parser.convertAcceleratorToLooseMode('ShiftLeft+ShiftRight+a'),
-      ).toBe('Shift+a');
+      expect(parser.convertAcceleratorToLooseMode('ControlLeft+ControlRight+a')).toBe('Ctrl+a');
+      expect(parser.convertAcceleratorToLooseMode('ShiftLeft+ShiftRight+a')).toBe('Shift+a');
     });
 
     it('should handle alias parameter', () => {
@@ -110,41 +94,25 @@ describe('acceleratorParser', () => {
       // 4. Finally, if result keyCodeName is in alias keys, replace with alias value
       const alias = { Ctrl: 'Control', i: 'I' };
       // 'Control' -> 'Ctrl' (from alias) -> 'Ctrl' (loose mode) -> 'Control' (final alias replacement)
-      expect(parser.convertAcceleratorToLooseMode('Control+s', { alias })).toBe(
-        'Control+s',
-      );
+      expect(parser.convertAcceleratorToLooseMode('Control+s', { alias })).toBe('Control+s');
       // 'Ctrl' -> stays 'Ctrl' -> 'Ctrl' (loose mode) -> 'Control' (final alias replacement)
-      expect(parser.convertAcceleratorToLooseMode('Ctrl+s', { alias })).toBe(
-        'Control+s',
-      );
+      expect(parser.convertAcceleratorToLooseMode('Ctrl+s', { alias })).toBe('Control+s');
       // 'I' -> 'i' (from alias) -> 'i' (not a modifier, no loose mode) -> 'I' (final alias replacement)
-      expect(parser.convertAcceleratorToLooseMode('Ctrl+I', { alias })).toBe(
-        'Control+I',
-      );
+      expect(parser.convertAcceleratorToLooseMode('Ctrl+I', { alias })).toBe('Control+I');
     });
 
     it('should handle Option alias', () => {
       // Option stays as Option in loose mode (not converted to Alt)
       expect(parser.convertAcceleratorToLooseMode('Option+a')).toBe('Option+a');
-      expect(parser.convertAcceleratorToLooseMode('OptionLeft+a')).toBe(
-        'Option+a',
-      );
-      expect(parser.convertAcceleratorToLooseMode('OptionRight+a')).toBe(
-        'Option+a',
-      );
+      expect(parser.convertAcceleratorToLooseMode('OptionLeft+a')).toBe('Option+a');
+      expect(parser.convertAcceleratorToLooseMode('OptionRight+a')).toBe('Option+a');
     });
 
     it('should handle Command alias', () => {
       // Command stays as Command in loose mode (not converted to Meta)
-      expect(parser.convertAcceleratorToLooseMode('Command+a')).toBe(
-        'Command+a',
-      );
-      expect(parser.convertAcceleratorToLooseMode('CommandLeft+a')).toBe(
-        'Command+a',
-      );
-      expect(parser.convertAcceleratorToLooseMode('CommandRight+a')).toBe(
-        'Command+a',
-      );
+      expect(parser.convertAcceleratorToLooseMode('Command+a')).toBe('Command+a');
+      expect(parser.convertAcceleratorToLooseMode('CommandLeft+a')).toBe('Command+a');
+      expect(parser.convertAcceleratorToLooseMode('CommandRight+a')).toBe('Command+a');
     });
 
     it('should handle custom separator', () => {
@@ -204,9 +172,7 @@ describe('acceleratorParser', () => {
   describe('isAcceleratorMatched', () => {
     it('should match identical accelerators', () => {
       expect(parser.isAcceleratorMatched('Ctrl+a', 'Ctrl+a')).toBe(true);
-      expect(
-        parser.isAcceleratorMatched('Control+Shift+a', 'Control+Shift+a'),
-      ).toBe(true);
+      expect(parser.isAcceleratorMatched('Control+Shift+a', 'Control+Shift+a')).toBe(true);
     });
 
     it('should match loose mode accelerators', () => {
@@ -216,9 +182,7 @@ describe('acceleratorParser', () => {
       // They don't match because isAcceleratorMatched requires exact key code match
       // This is expected behavior - ControlLeft and ControlRight are distinct
       // To match them, use the loose mode key name (Ctrl) instead
-      expect(
-        parser.isAcceleratorMatched('ControlLeft+a', 'ControlRight+a'),
-      ).toBe(false);
+      expect(parser.isAcceleratorMatched('ControlLeft+a', 'ControlRight+a')).toBe(false);
     });
 
     it('should not match different accelerators', () => {
@@ -228,9 +192,7 @@ describe('acceleratorParser', () => {
     });
 
     it('should handle custom separator', () => {
-      expect(
-        parser.isAcceleratorMatched('Ctrl-a', 'Ctrl-a', { separator: '-' }),
-      ).toBe(true);
+      expect(parser.isAcceleratorMatched('Ctrl-a', 'Ctrl-a', { separator: '-' })).toBe(true);
       expect(
         parser.isAcceleratorMatched('ControlLeft-a', 'Ctrl-a', {
           separator: '-',
@@ -240,12 +202,8 @@ describe('acceleratorParser', () => {
 
     it('should handle alias', () => {
       const alias = { Ctrl: 'Control', i: 'I' };
-      expect(
-        parser.isAcceleratorMatched('Control+s', 'Ctrl+s', { alias }),
-      ).toBe(true);
-      expect(
-        parser.isAcceleratorMatched('Ctrl+I', 'Control+i', { alias }),
-      ).toBe(true);
+      expect(parser.isAcceleratorMatched('Control+s', 'Ctrl+s', { alias })).toBe(true);
+      expect(parser.isAcceleratorMatched('Ctrl+I', 'Control+i', { alias })).toBe(true);
     });
   });
 
@@ -270,11 +228,7 @@ describe('acceleratorParser', () => {
     it('should parse valid accelerators', () => {
       expect(parser.parse('a')).toEqual(['a']);
       expect(parser.parse('Ctrl+a')).toEqual(['Ctrl', 'a']);
-      expect(parser.parse('Control+Shift+a')).toEqual([
-        'Control',
-        'Shift',
-        'a',
-      ]);
+      expect(parser.parse('Control+Shift+a')).toEqual(['Control', 'Shift', 'a']);
     });
 
     it('should throw on invalid accelerators', () => {

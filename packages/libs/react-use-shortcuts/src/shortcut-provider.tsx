@@ -1,15 +1,6 @@
 /* eslint-disable react-hooks/refs */
-import React, {
-  useEffect,
-  useMemo,
-  useRef,
-  useCallback,
-  type PropsWithChildren,
-} from 'react';
-import {
-  ReactShortcutContext,
-  type ReactShortcutContextValue,
-} from './shortcut-context';
+import React, { useEffect, useMemo, useRef, useCallback, type PropsWithChildren } from 'react';
+import { ReactShortcutContext, type ReactShortcutContextValue } from './shortcut-context';
 import { ShortcutRegistry, type Filter } from '@rocketc/shortcuts';
 
 export interface ReactShortcutOptions {
@@ -25,19 +16,10 @@ export type ReactShortcutProviderProps = PropsWithChildren<{
   options?: ReactShortcutOptions;
 }>;
 
-const ReactShortcutProvider = function ReactShortcutProvider(
-  props: ReactShortcutProviderProps,
-) {
+const ReactShortcutProvider = function ReactShortcutProvider(props: ReactShortcutProviderProps) {
   const {
     children,
-    options: {
-      strict = false,
-      debug = false,
-      auto = true,
-      filter,
-      separator,
-      alias,
-    } = {},
+    options: { strict = false, debug = false, auto = true, filter, separator, alias } = {},
   } = props;
 
   const autoRef = useRef(auto);
@@ -47,28 +29,18 @@ const ReactShortcutProvider = function ReactShortcutProvider(
     new ShortcutRegistry({ strict, debug, filter, alias }),
   );
 
-  const staticsContextValue = useMemo<
-    Omit<ReactShortcutContextValue, 'attachElement'>
-  >(() => {
+  const staticsContextValue = useMemo<Omit<ReactShortcutContextValue, 'attachElement'>>(() => {
     return {
-      getOptions: shortcutRegistry.current.getOptions.bind(
-        shortcutRegistry.current,
-      ),
+      getOptions: shortcutRegistry.current.getOptions.bind(shortcutRegistry.current),
       getShortcutRegisters: shortcutRegistry.current.getShortcutRegisters.bind(
         shortcutRegistry.current,
       ),
-      registerShortcut: shortcutRegistry.current.registerShortcut.bind(
-        shortcutRegistry.current,
-      ),
+      registerShortcut: shortcutRegistry.current.registerShortcut.bind(shortcutRegistry.current),
       unregisterShortcut: shortcutRegistry.current.unregisterShortcut.bind(
         shortcutRegistry.current,
       ),
-      enableShortcut: shortcutRegistry.current.enableShortcut.bind(
-        shortcutRegistry.current,
-      ),
-      disableShortcut: shortcutRegistry.current.disableShortcut.bind(
-        shortcutRegistry.current,
-      ),
+      enableShortcut: shortcutRegistry.current.enableShortcut.bind(shortcutRegistry.current),
+      disableShortcut: shortcutRegistry.current.disableShortcut.bind(shortcutRegistry.current),
       isShortcutRegistered: shortcutRegistry.current.isShortcutRegistered.bind(
         shortcutRegistry.current,
       ),

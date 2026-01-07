@@ -2,26 +2,23 @@
   "name": "rocketc",
   "version": "1.0.0",
   "private": true,
-  "type": "module",
   "description": "Personal Front End Toolkit",
+  "keywords": [
+    "frontend",
+    "react",
+    "toolkit",
+    "ui components"
+  ],
+  "license": "MIT",
+  "author": "chenfq95 <chenfq95@foxmail.com>",
   "repository": {
     "type": "git",
     "url": "https://github.com/chenfq95/rocketc.git"
   },
-  "keywords": [
-    "frontend",
-    "toolkit",
-    "react",
-    "ui components"
-  ],
+  "type": "module",
   "scripts": {
-    "prepare": "husky"
-  },
-  "author": "chenfq95 <chenfq95@foxmail.com>",
-  "license": "MIT",
-  "packageManager": "pnpm@10.21.0",
-  "prettier": {
-    "singleQuote": true
+    "prepare": "husky",
+    "format": "oxfmt"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.8",
@@ -29,12 +26,18 @@
     "@commitlint/config-conventional": "^20.2.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.7",
-    "prettier": "^3.7.4"
+    "oxfmt": "^0.23.0"
   },
   "resolutions": {
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
     "@types/react": "^18.0.0",
-    "@types/react-dom": "^18.0.0"
-  }
+    "@types/react-dom": "^18.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "lint-staged": {
+    "**/*.{js|ts|jsx|tsx|cjs|mjs|cts|mts|json,css,scss,md}": [
+      "pnpm format"
+    ]
+  },
+  "packageManager": "pnpm@10.21.0"
 }

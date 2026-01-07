@@ -1,7 +1,5 @@
-
-
 const Loading = () => {
-  return (  
+  return (
     <div className="flex flex-1 flex-col gap-4 p-4 h-[100vh]">
       <div className="grid auto-rows-min gap-4 md:grid-cols-3">
         <div className="bg-secondary/90 aspect-video rounded-xl" />
@@ -11,6 +9,6 @@ const Loading = () => {
       <div className="bg-secondary/90 min-h-[100vh] flex-1 rounded-xl md:min-h-min" />
     </div>
   );
-}
+};
 
 export default Loading;

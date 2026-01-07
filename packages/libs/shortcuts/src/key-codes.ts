@@ -12,8 +12,7 @@ export const ModifierKeyCodes = {
   OSRight: 'OSRight',
 } as const;
 
-export type ModifierKeyCode =
-  (typeof ModifierKeyCodes)[keyof typeof ModifierKeyCodes];
+export type ModifierKeyCode = (typeof ModifierKeyCodes)[keyof typeof ModifierKeyCodes];
 
 export const ModifierKeyCodeLookupTable = new Set<ModifierKeyCode>(Object.values(ModifierKeyCodes));
 
@@ -162,10 +161,11 @@ export const ModifierKeyCodeNames = {
   WinRight: 'WinRight',
 } as const;
 
-export type ModifierKeyCodeName =
-  (typeof ModifierKeyCodeNames)[keyof typeof ModifierKeyCodeNames];
+export type ModifierKeyCodeName = (typeof ModifierKeyCodeNames)[keyof typeof ModifierKeyCodeNames];
 
-export const ModifierKeyCodeNameLookupTable = new Set<ModifierKeyCodeName>(Object.values(ModifierKeyCodeNames));
+export const ModifierKeyCodeNameLookupTable = new Set<ModifierKeyCodeName>(
+  Object.values(ModifierKeyCodeNames),
+);
 
 export const NormalKeyCodeNames = {
   // functions keys
@@ -298,37 +298,26 @@ export const NormalKeyCodeNames = {
   Insert: 'Insert',
 } as const;
 
-export type NormalKeyCodeName =
-  (typeof NormalKeyCodeNames)[keyof typeof NormalKeyCodeNames];
+export type NormalKeyCodeName = (typeof NormalKeyCodeNames)[keyof typeof NormalKeyCodeNames];
 
-export const NormalKeyCodeNameLookupTable = new Set<NormalKeyCodeName>(Object.values(NormalKeyCodeNames));
+export const NormalKeyCodeNameLookupTable = new Set<NormalKeyCodeName>(
+  Object.values(NormalKeyCodeNames),
+);
 
 export type KeyCodeName = ModifierKeyCodeName | NormalKeyCodeName;
 
 export const keyCodeName2KeyCode: Record<KeyCodeName, KeyCode[]> = {
   // modifiers
-  [ModifierKeyCodeNames.Ctrl]: [
-    ModifierKeyCodes.ControlLeft,
-    ModifierKeyCodes.ControlRight,
-  ],
+  [ModifierKeyCodeNames.Ctrl]: [ModifierKeyCodes.ControlLeft, ModifierKeyCodes.ControlRight],
   [ModifierKeyCodeNames.CtrlLeft]: [ModifierKeyCodes.ControlLeft],
   [ModifierKeyCodeNames.CtrlRight]: [ModifierKeyCodes.ControlRight],
-  [ModifierKeyCodeNames.Control]: [
-    ModifierKeyCodes.ControlLeft,
-    ModifierKeyCodes.ControlRight,
-  ],
+  [ModifierKeyCodeNames.Control]: [ModifierKeyCodes.ControlLeft, ModifierKeyCodes.ControlRight],
   [ModifierKeyCodeNames.ControlLeft]: [ModifierKeyCodes.ControlLeft],
   [ModifierKeyCodeNames.ControlRight]: [ModifierKeyCodes.ControlRight],
-  [ModifierKeyCodeNames.Shift]: [
-    ModifierKeyCodes.ShiftLeft,
-    ModifierKeyCodes.ShiftRight,
-  ],
+  [ModifierKeyCodeNames.Shift]: [ModifierKeyCodes.ShiftLeft, ModifierKeyCodes.ShiftRight],
   [ModifierKeyCodeNames.ShiftLeft]: [ModifierKeyCodes.ShiftLeft],
   [ModifierKeyCodeNames.ShiftRight]: [ModifierKeyCodes.ShiftRight],
-  [ModifierKeyCodeNames.Option]: [
-    ModifierKeyCodes.AltLeft,
-    ModifierKeyCodes.AltRight,
-  ],
+  [ModifierKeyCodeNames.Option]: [ModifierKeyCodes.AltLeft, ModifierKeyCodes.AltRight],
   [ModifierKeyCodeNames.OptionLeft]: [ModifierKeyCodes.AltLeft],
   [ModifierKeyCodeNames.OptionRight]: [ModifierKeyCodes.AltRight],
   [ModifierKeyCodeNames.Meta]: [
@@ -337,76 +326,43 @@ export const keyCodeName2KeyCode: Record<KeyCodeName, KeyCode[]> = {
     ModifierKeyCodes.OSLeft,
     ModifierKeyCodes.OSRight,
   ],
-  [ModifierKeyCodeNames.Alt]: [
-    ModifierKeyCodes.AltLeft,
-    ModifierKeyCodes.AltRight,
-  ],
+  [ModifierKeyCodeNames.Alt]: [ModifierKeyCodes.AltLeft, ModifierKeyCodes.AltRight],
   [ModifierKeyCodeNames.AltLeft]: [ModifierKeyCodes.AltLeft],
   [ModifierKeyCodeNames.AltRight]: [ModifierKeyCodes.AltRight],
-  [ModifierKeyCodeNames.MetaLeft]: [
-    ModifierKeyCodes.MetaLeft,
-    ModifierKeyCodes.OSLeft,
-  ],
-  [ModifierKeyCodeNames.MetaRight]: [
-    ModifierKeyCodes.MetaRight,
-    ModifierKeyCodes.OSRight,
-  ],
+  [ModifierKeyCodeNames.MetaLeft]: [ModifierKeyCodes.MetaLeft, ModifierKeyCodes.OSLeft],
+  [ModifierKeyCodeNames.MetaRight]: [ModifierKeyCodes.MetaRight, ModifierKeyCodes.OSRight],
   [ModifierKeyCodeNames.Super]: [
     ModifierKeyCodes.MetaLeft,
     ModifierKeyCodes.MetaRight,
     ModifierKeyCodes.OSLeft,
     ModifierKeyCodes.OSRight,
   ],
-  [ModifierKeyCodeNames.SuperLeft]: [
-    ModifierKeyCodes.MetaLeft,
-    ModifierKeyCodes.OSLeft,
-  ],
-  [ModifierKeyCodeNames.SuperRight]: [
-    ModifierKeyCodes.MetaRight,
-    ModifierKeyCodes.OSRight,
-  ],
+  [ModifierKeyCodeNames.SuperLeft]: [ModifierKeyCodes.MetaLeft, ModifierKeyCodes.OSLeft],
+  [ModifierKeyCodeNames.SuperRight]: [ModifierKeyCodes.MetaRight, ModifierKeyCodes.OSRight],
   [ModifierKeyCodeNames.Command]: [
     ModifierKeyCodes.MetaLeft,
     ModifierKeyCodes.MetaRight,
     ModifierKeyCodes.OSLeft,
     ModifierKeyCodes.OSRight,
   ],
-  [ModifierKeyCodeNames.CommandLeft]: [
-    ModifierKeyCodes.MetaLeft,
-    ModifierKeyCodes.OSLeft,
-  ],
-  [ModifierKeyCodeNames.CommandRight]: [
-    ModifierKeyCodes.MetaRight,
-    ModifierKeyCodes.OSRight,
-  ],
+  [ModifierKeyCodeNames.CommandLeft]: [ModifierKeyCodes.MetaLeft, ModifierKeyCodes.OSLeft],
+  [ModifierKeyCodeNames.CommandRight]: [ModifierKeyCodes.MetaRight, ModifierKeyCodes.OSRight],
   [ModifierKeyCodeNames.Cmd]: [
     ModifierKeyCodes.MetaLeft,
     ModifierKeyCodes.MetaRight,
     ModifierKeyCodes.OSLeft,
     ModifierKeyCodes.OSRight,
   ],
-  [ModifierKeyCodeNames.CmdLeft]: [
-    ModifierKeyCodes.MetaLeft,
-    ModifierKeyCodes.OSLeft,
-  ],
-  [ModifierKeyCodeNames.CmdRight]: [
-    ModifierKeyCodes.MetaRight,
-    ModifierKeyCodes.OSRight,
-  ],
+  [ModifierKeyCodeNames.CmdLeft]: [ModifierKeyCodes.MetaLeft, ModifierKeyCodes.OSLeft],
+  [ModifierKeyCodeNames.CmdRight]: [ModifierKeyCodes.MetaRight, ModifierKeyCodes.OSRight],
   [ModifierKeyCodeNames.Win]: [
     ModifierKeyCodes.MetaLeft,
     ModifierKeyCodes.MetaRight,
     ModifierKeyCodes.OSLeft,
     ModifierKeyCodes.OSRight,
   ],
-  [ModifierKeyCodeNames.WinLeft]: [
-    ModifierKeyCodes.MetaLeft,
-    ModifierKeyCodes.OSLeft,
-  ],
-  [ModifierKeyCodeNames.WinRight]: [
-    ModifierKeyCodes.MetaRight,
-    ModifierKeyCodes.OSRight,
-  ],
+  [ModifierKeyCodeNames.WinLeft]: [ModifierKeyCodes.MetaLeft, ModifierKeyCodes.OSLeft],
+  [ModifierKeyCodeNames.WinRight]: [ModifierKeyCodes.MetaRight, ModifierKeyCodes.OSRight],
   // functions
   [NormalKeyCodeNames.F1]: [NormalKeyCodes.F1],
   [NormalKeyCodeNames.F2]: [NormalKeyCodes.F2],
@@ -431,10 +387,7 @@ export const keyCodeName2KeyCode: Record<KeyCodeName, KeyCode[]> = {
   [NormalKeyCodeNames.Eight]: [NormalKeyCodes.Digit8, NormalKeyCodes.Numpad8],
   [NormalKeyCodeNames.Nine]: [NormalKeyCodes.Digit9, NormalKeyCodes.Numpad9],
   [NormalKeyCodeNames.Zero]: [NormalKeyCodes.Digit0, NormalKeyCodes.Numpad0],
-  [NormalKeyCodeNames.Minus]: [
-    NormalKeyCodes.Minus,
-    NormalKeyCodes.NumpadSubtract,
-  ],
+  [NormalKeyCodeNames.Minus]: [NormalKeyCodes.Minus, NormalKeyCodes.NumpadSubtract],
   [NormalKeyCodeNames.Equal]: [NormalKeyCodes.Equal],
   // numpad
   [NormalKeyCodeNames.NumpadOne]: [NormalKeyCodes.Numpad1],
@@ -511,14 +464,8 @@ export const keyCodeName2KeyCode: Record<KeyCodeName, KeyCode[]> = {
   [NormalKeyCodeNames.z]: [NormalKeyCodes.KeyZ],
   // punctuations
   [NormalKeyCodeNames.Comma]: [NormalKeyCodes.Comma],
-  [NormalKeyCodeNames.Period]: [
-    NormalKeyCodes.Period,
-    NormalKeyCodes.NumpadDecimal,
-  ],
-  [NormalKeyCodeNames.Slash]: [
-    NormalKeyCodes.Slash,
-    NormalKeyCodes.NumpadDivide,
-  ],
+  [NormalKeyCodeNames.Period]: [NormalKeyCodes.Period, NormalKeyCodes.NumpadDecimal],
+  [NormalKeyCodeNames.Slash]: [NormalKeyCodes.Slash, NormalKeyCodes.NumpadDivide],
   [NormalKeyCodeNames.Semicolon]: [NormalKeyCodes.Semicolon],
   [NormalKeyCodeNames.Quote]: [NormalKeyCodes.Quote],
   [NormalKeyCodeNames.BracketLeft]: [NormalKeyCodes.BracketLeft],
@@ -530,10 +477,7 @@ export const keyCodeName2KeyCode: Record<KeyCodeName, KeyCode[]> = {
   [NormalKeyCodeNames.Delete]: [NormalKeyCodes.Delete],
   [NormalKeyCodeNames.Tab]: [NormalKeyCodes.Tab],
   [NormalKeyCodeNames.CapsLock]: [NormalKeyCodes.CapsLock],
-  [NormalKeyCodeNames.Enter]: [
-    NormalKeyCodes.Enter,
-    NormalKeyCodes.NumpadEnter,
-  ],
+  [NormalKeyCodeNames.Enter]: [NormalKeyCodes.Enter, NormalKeyCodes.NumpadEnter],
   [NormalKeyCodeNames.Esc]: [NormalKeyCodes.Escape],
   [NormalKeyCodeNames.Escape]: [NormalKeyCodes.Escape],
   [NormalKeyCodeNames.Backspace]: [NormalKeyCodes.Backspace],

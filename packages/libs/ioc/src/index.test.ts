@@ -23,7 +23,7 @@ describe('RocketC IOC Container', () => {
     @container.register(serviceBId)
     class ServiceB {
       @container.inject<ServiceA>(serviceAId)
-      accessor serviceA!: ServiceA;
+      accessor serviceA: ServiceA;
     }
 
     const b = container.getObject<ServiceB>(serviceBId);
@@ -54,12 +54,12 @@ describe('RocketC IOC Container', () => {
 
     @container.register(cycleAId)
     class CycleA {
-      @container.inject(cycleBId) accessor b!: any;
+      @container.inject(cycleBId) accessor b: any;
     }
 
     @container.register(cycleBId)
     class CycleB {
-      @container.inject(cycleAId) accessor a!: any;
+      @container.inject(cycleAId) accessor a: any;
     }
 
     const ca = container.getObject<CycleA>(cycleAId);
@@ -149,12 +149,12 @@ describe('RocketC IOC Container', () => {
 
     @container.register(idB)
     class ServiceB {
-      @container.inject<ServiceA>(idA) accessor a!: ServiceA;
+      @container.inject<ServiceA>(idA) accessor a: ServiceA;
     }
 
     @container.register(idC)
     class ServiceC {
-      @container.inject<ServiceB>(idB) accessor b!: ServiceB;
+      @container.inject<ServiceB>(idB) accessor b: ServiceB;
     }
 
     const c = container.getObject<ServiceC>(idC);
@@ -176,8 +176,8 @@ describe('RocketC IOC Container', () => {
 
     @container.register('app')
     class App {
-      @container.inject<any>('config') accessor config!: any;
-      @container.inject<Logger>('logger') accessor logger!: Logger;
+      @container.inject<any>('config') accessor config: any;
+      @container.inject<Logger>('logger') accessor logger: Logger;
     }
 
     const app = container.getObject<App>('app');
@@ -194,7 +194,7 @@ describe('RocketC IOC Container', () => {
 
     @container.register(idA)
     class ServiceA {
-      @container.inject(idB) accessor b!: any;
+      @container.inject(idB) accessor b: any;
       constructor() {
         // Accessing this.b here will trigger getObject(idB) -> getObject(idA)
         // which will find ServiceA in 'initializing' state.
@@ -204,7 +204,7 @@ describe('RocketC IOC Container', () => {
 
     @container.register(idB)
     class ServiceB {
-      @container.inject(idA) accessor a!: any;
+      @container.inject(idA) accessor a: any;
       constructor() {
         console.log(this.a);
       }
@@ -247,12 +247,8 @@ describe('RocketC IOC Container', () => {
    * Scenario 12: registerObject edge cases
    */
   test('should throw error when registering undefined or null as object', () => {
-    expect(() => container.registerObject('undef', undefined)).toThrow(
-      'cannot register undefined',
-    );
-    expect(() => container.registerObject('null', null)).toThrow(
-      'cannot register null',
-    );
+    expect(() => container.registerObject('undef', undefined)).toThrow('cannot register undefined');
+    expect(() => container.registerObject('null', null)).toThrow('cannot register null');
   });
 
   /**
