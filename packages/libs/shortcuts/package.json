@@ -51,6 +51,7 @@
       "pnpm format"
     ],
     "**/*.{js,jsx,ts,tsx}": [
+      "pnpm format",
       "pnpm lint:fix"
     ]
   }
