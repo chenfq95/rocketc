@@ -32,10 +32,7 @@ async function getFiles(dir, baseDir, fileList = []) {
         await getFiles(filePath, baseDir, fileList);
       } else if (statResult.isFile()) {
         // 只处理 .tsx 和 .ts 文件，排除 index.ts
-        if (
-          (file.endsWith('.tsx') || file.endsWith('.ts')) &&
-          file !== 'index.ts'
-        ) {
+        if ((file.endsWith('.tsx') || file.endsWith('.ts')) && file !== 'index.ts') {
           // 获取相对于 baseDir 目录的路径
           const relativePath = relative(baseDir, filePath);
           // 将 Windows 的反斜杠转换为正斜杠
@@ -69,12 +66,8 @@ async function generateEntryFile() {
     hookFiles.sort();
 
     // 生成导出语句
-    const componentExports = componentFiles.map(
-      (file) => `export * from './components/${file}';`,
-    );
-    const hookExports = hookFiles.map(
-      (file) => `export * from './hooks/${file}';`,
-    );
+    const componentExports = componentFiles.map((file) => `export * from './components/${file}';`);
+    const hookExports = hookFiles.map((file) => `export * from './hooks/${file}';`);
 
     // 生成完整的入口文件内容
     const content = [
@@ -92,9 +85,7 @@ async function generateEntryFile() {
     await writeFile(outputFile, content, 'utf-8');
 
     console.log(`✅ 成功生成入口文件: ${outputFile}`);
-    console.log(
-      `📦 导出了 ${componentFiles.length} 个组件和 ${hookFiles.length} 个 Hooks。`,
-    );
+    console.log(`📦 导出了 ${componentFiles.length} 个组件和 ${hookFiles.length} 个 Hooks。`);
   } catch (error) {
     console.error('❌ 生成入口文件失败:', error);
     process.exit(1);
