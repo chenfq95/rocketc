@@ -15,6 +15,9 @@
     "type": "git",
     "url": "https://github.com/chenfq95/rocketc.git"
   },
+  "workspaces": [
+    "packages/**/*"
+  ],
   "type": "module",
   "scripts": {
     "prepare": "husky",
@@ -36,8 +39,7 @@
   },
   "lint-staged": {
     "**/*.{js|ts|jsx|tsx|cjs|mjs|cts|mts|json,css,scss,md}": [
-      "pnpm format"
+      "bun run format"
     ]
-  },
-  "packageManager": "pnpm@10.21.0"
+  }
 }

@@ -20,11 +20,11 @@ rocketc
 
 ```bash
 # 安装依赖
-pnpm install
+bun install
 
 # 开发模式
-pnpm dev
+bun run dev
 
 # 构建
-pnpm build
+bun run build
 ```

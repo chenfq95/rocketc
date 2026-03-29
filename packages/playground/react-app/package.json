@@ -47,11 +47,11 @@
   },
   "lint-staged": {
     "**/*.(json|css|scss|md)": [
-      "pnpm format"
+      "bun run format"
     ],
     "**/*.{js,jsx,ts,tsx}": [
-      "pnpm format",
-      "pnpm lint:fix"
+      "bun run format",
+      "bun run lint:fix"
     ]
   }
 }
