@@ -5,13 +5,13 @@ runs:
   using: 'composite'
   steps:
     - name: Lint packages
-      run: pnpm --recursive --if-present lint
+      run: bun run --filter '*' lint
       shell: bash
 
     - name: Build packages
-      run: pnpm --recursive --if-present build
+      run: bun run --filter '*' build
       shell: bash
 
     - name: Run tests
-      run: pnpm --recursive --if-present test
+      run: bun run --filter '*' test
       shell: bash

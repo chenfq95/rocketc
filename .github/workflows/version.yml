@@ -15,19 +15,18 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
         with:
-          version: 10.21.0
+          bun-version: latest
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '24'
-          cache: 'pnpm'
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: bun install --frozen-lockfile
 
       - name: Check
         uses: ./.github/actions/check
@@ -46,7 +45,7 @@ jobs:
       - name: Version packages
         if: steps.changesets.outputs.has_changesets == 'true'
         run: |
-          pnpm changeset version
+          bunx changeset version
 
       - name: Create Pull Request
         if: steps.changesets.outputs.has_changesets == 'true'
