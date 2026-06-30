@@ -38,11 +38,11 @@ async function build() {
 
   // Step 1: Install components
   console.log('📦 Step 1: Installing components...');
-  exec('pnpm install-components');
+  exec('bun run install-components');
 
   // Step 2: Generate entry file
   console.log('\n📝 Step 2: Generating entry file...');
-  exec('pnpm gen-entry');
+  exec('bun run gen-entry');
 
   // Step 3: TypeScript compilation
   console.log('\n🔨 Step 3: Compiling TypeScript...');

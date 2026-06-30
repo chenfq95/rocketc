@@ -28,7 +28,7 @@ function installComponents() {
     };
 
     // Use execSync with input option to auto-answer all prompts cross-platform
-    const command = 'pnpm dlx shadcn@latest add -ay';
+    const command = 'bunx shadcn@latest add -ay';
 
     // Execute shadcn add with all components
     // -a: accept all
