@@ -41,5 +41,6 @@
     "**/*.{js|ts|jsx|tsx|cjs|mjs|cts|mts|json,css,scss,md}": [
       "bun run format"
     ]
-  }
+  },
+  "packageManager": "bun@>=1.3.14"
 }
