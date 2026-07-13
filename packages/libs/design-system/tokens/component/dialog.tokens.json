@@ -1,0 +1,37 @@
+{
+  "$schema": "https://www.designtokens.org/schemas/2025.10/format.json",
+  "dialog": {
+    "background": {
+      "$value": "{color.surface.panel}",
+      "$type": "color"
+    },
+    "border": {
+      "$value": "{color.border.subtle}",
+      "$type": "color"
+    },
+    "radius": {
+      "$value": "{radius.lg}",
+      "$type": "dimension"
+    },
+    "shadow": {
+      "$value": "{shadow.lg}",
+      "$type": "shadow"
+    },
+    "padding": {
+      "$value": "{space.4}",
+      "$type": "dimension"
+    },
+    "titleTypography": {
+      "$value": "{typography.heading}",
+      "$type": "typography"
+    },
+    "bodyTypography": {
+      "$value": "{typography.label}",
+      "$type": "typography"
+    },
+    "overlayBackground": {
+      "$value": "{color.surface.inverse}",
+      "$type": "color"
+    }
+  }
+}

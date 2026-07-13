@@ -9,6 +9,7 @@ Personal Front End Toolkit
 This monorepo contains the following public packages:
 
 - **[@rocketc/react](./packages/libs/react/README.md)** - A collection of React UI components built with Radix UI and Tailwind CSS
+- **[@rocketc/design-system](./packages/libs/design-system/README.md)** - Framework-agnostic design system foundations, tokens, and previews
 - **[@rocketc/shortcuts](./packages/libs/shortcuts/README.md)** - Pure JavaScript shortcut solution without any framework dependencies
 - **[@rocketc/react-use-shortcuts](./packages/libs/react-use-shortcuts/README.md)** - React hooks and context providers for keyboard shortcuts
 - **[@rocketc/cli](./packages/commands/cli/README.md)** - RocketC command-line tool

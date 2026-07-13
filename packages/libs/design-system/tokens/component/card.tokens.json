@@ -1,0 +1,21 @@
+{
+  "$schema": "https://www.designtokens.org/schemas/2025.10/format.json",
+  "card": {
+    "background": {
+      "$value": "{color.surface.panel}",
+      "$type": "color"
+    },
+    "border": {
+      "$value": "{color.border.subtle}",
+      "$type": "color"
+    },
+    "radius": {
+      "$value": "{radius.lg}",
+      "$type": "dimension"
+    },
+    "shadow": {
+      "$value": "{shadow.sm}",
+      "$type": "shadow"
+    }
+  }
+}

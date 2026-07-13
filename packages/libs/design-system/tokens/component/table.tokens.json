@@ -1,0 +1,41 @@
+{
+  "$schema": "https://www.designtokens.org/schemas/2025.10/format.json",
+  "table": {
+    "background": {
+      "$value": "{color.surface.panel}",
+      "$type": "color"
+    },
+    "border": {
+      "$value": "{color.border.subtle}",
+      "$type": "color"
+    },
+    "headerText": {
+      "$value": "{color.text.muted}",
+      "$type": "color"
+    },
+    "cellText": {
+      "$value": "{color.text.primary}",
+      "$type": "color"
+    },
+    "rowHover": {
+      "$value": "{color.surface.raised}",
+      "$type": "color"
+    },
+    "cellPaddingX": {
+      "$value": "{space.3}",
+      "$type": "dimension"
+    },
+    "cellPaddingY": {
+      "$value": "{space.3}",
+      "$type": "dimension"
+    },
+    "headerTypography": {
+      "$value": "{typography.caption}",
+      "$type": "typography"
+    },
+    "cellTypography": {
+      "$value": "{typography.label}",
+      "$type": "typography"
+    }
+  }
+}

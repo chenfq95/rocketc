@@ -1,0 +1,76 @@
+{
+  "name": "@rocketc/design-system",
+  "version": "0.0.1",
+  "description": "Framework-agnostic design tokens, compiled assets, and previews for Rocketc.",
+  "keywords": [
+    "css-variables",
+    "design-system",
+    "design-tokens",
+    "framework-agnostic"
+  ],
+  "license": "MIT",
+  "author": "chenfq95 <chenfq95@foxmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chenfq95/rocketc.git",
+    "directory": "packages/libs/design-system"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    "./css/dark.css": "./dist/css/dark.css",
+    "./css/light.css": "./dist/css/light.css",
+    "./js": {
+      "types": "./dist/js/index.d.ts",
+      "import": "./dist/js/index.js"
+    },
+    "./js/dark": {
+      "types": "./dist/js/dark.d.ts",
+      "import": "./dist/js/dark.js"
+    },
+    "./js/light": {
+      "types": "./dist/js/light.d.ts",
+      "import": "./dist/js/light.js"
+    },
+    "./mui": {
+      "types": "./dist/mui/index.d.ts",
+      "import": "./dist/mui/index.js"
+    },
+    "./mui/dark": {
+      "types": "./dist/mui/dark.d.ts",
+      "import": "./dist/mui/dark.js"
+    },
+    "./mui/light": {
+      "types": "./dist/mui/light.d.ts",
+      "import": "./dist/mui/light.js"
+    }
+  },
+  "scripts": {
+    "build": "bun run build:tokens",
+    "build:preview": "vite build preview --outDir ../.vite-preview --emptyOutDir",
+    "build:tokens": "bun scripts/build-tokens.ts",
+    "dev": "vite . --host 0.0.0.0",
+    "format": "oxfmt",
+    "typecheck": "tsc -b"
+  },
+  "devDependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/material": "^7.3.6",
+    "@types/bun": "^1.3.5",
+    "@types/react": "^18.3.27",
+    "@types/react-dom": "^18.3.7",
+    "@vitejs/plugin-react": "^5.1.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "style-dictionary": "^5.5.0",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.0"
+  }
+}

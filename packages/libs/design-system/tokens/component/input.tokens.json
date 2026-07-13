@@ -1,0 +1,36 @@
+{
+  "$schema": "https://www.designtokens.org/schemas/2025.10/format.json",
+  "input": {
+    "height": {
+      "$value": {
+        "value": 40,
+        "unit": "px"
+      },
+      "$type": "dimension"
+    },
+    "paddingX": {
+      "$value": "{space.3}",
+      "$type": "dimension"
+    },
+    "paddingY": {
+      "$value": "{space.2}",
+      "$type": "dimension"
+    },
+    "background": {
+      "$value": "{color.surface.panel}",
+      "$type": "color"
+    },
+    "border": {
+      "$value": "{color.border.default}",
+      "$type": "color"
+    },
+    "borderFocus": {
+      "$value": "{color.border.focus}",
+      "$type": "color"
+    },
+    "radius": {
+      "$value": "{radius.md}",
+      "$type": "dimension"
+    }
+  }
+}

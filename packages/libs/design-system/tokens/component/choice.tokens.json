@@ -1,0 +1,57 @@
+{
+  "$schema": "https://www.designtokens.org/schemas/2025.10/format.json",
+  "choice": {
+    "background": {
+      "$value": "{color.surface.panel}",
+      "$type": "color"
+    },
+    "backgroundSelected": {
+      "$value": "{color.brand.soft}",
+      "$type": "color"
+    },
+    "border": {
+      "$value": "{color.border.subtle}",
+      "$type": "color"
+    },
+    "borderSelected": {
+      "$value": "{color.brand.border}",
+      "$type": "color"
+    },
+    "indicatorBackground": {
+      "$value": "{color.surface.panel}",
+      "$type": "color"
+    },
+    "indicatorSelected": {
+      "$value": "{color.brand.solid}",
+      "$type": "color"
+    },
+    "indicatorMark": {
+      "$value": "{color.text.inverse}",
+      "$type": "color"
+    },
+    "radius": {
+      "$value": "{radius.lg}",
+      "$type": "dimension"
+    },
+    "indicatorRadius": {
+      "$value": "{radius.sm}",
+      "$type": "dimension"
+    },
+    "padding": {
+      "$value": "{space.3}",
+      "$type": "dimension"
+    },
+    "gap": {
+      "$value": "{space.3}",
+      "$type": "dimension"
+    },
+    "titleTypography": {
+      "$value": "{typography.label}",
+      "$type": "typography"
+    },
+    "descriptionTypography": {
+      "$value": "{typography.caption}",
+      "$type": "typography"
+    }
+  }
+}

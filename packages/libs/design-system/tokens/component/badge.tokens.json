@@ -1,0 +1,48 @@
+{
+  "$schema": "https://www.designtokens.org/schemas/2025.10/format.json",
+  "badge": {
+    "height": {
+      "$value": {
+        "value": 28,
+        "unit": "px"
+      },
+      "$type": "dimension"
+    },
+    "paddingX": {
+      "$value": "{space.3}",
+      "$type": "dimension"
+    },
+    "radius": {
+      "$value": "{radius.full}",
+      "$type": "dimension"
+    },
+    "typography": {
+      "$value": "{typography.caption}",
+      "$type": "typography"
+    },
+    "neutral": {
+      "background": {
+        "$value": "{color.surface.raised}",
+        "$type": "color"
+      },
+      "text": {
+        "$value": "{color.text.secondary}",
+        "$type": "color"
+      },
+      "border": {
+        "$value": "{color.border.subtle}",
+        "$type": "color"
+      }
+    },
+    "accent": {
+      "background": {
+        "$value": "{color.accent.soft}",
+        "$type": "color"
+      },
+      "text": {
+        "$value": "{color.accent.text}",
+        "$type": "color"
+      }
+    }
+  }
+}

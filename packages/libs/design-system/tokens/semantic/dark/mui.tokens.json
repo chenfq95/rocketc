@@ -1,0 +1,23 @@
+{
+  "$schema": "https://www.designtokens.org/schemas/2025.10/format.json",
+  "adapter": {
+    "mui": {
+      "palette": {
+        "contrastThreshold": {
+          "$value": 3,
+          "$type": "number"
+        },
+        "tonalOffset": {
+          "light": {
+            "$value": 0.2,
+            "$type": "number"
+          },
+          "dark": {
+            "$value": 0.3,
+            "$type": "number"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,40 @@
+import path from 'node:path';
+import { OUT_DIR, ROOT_DIR, THEMES } from './build-tokens/constants.ts';
+import { buildCss } from './build-tokens/css.ts';
+import { createDictionary } from './build-tokens/dictionary.ts';
+import { flattenTokens } from './build-tokens/flatten.ts';
+import { buildMuiTheme } from './build-tokens/mui.ts';
+import type { ThemeBuildResult, ThemeName } from './build-tokens/types.ts';
+import {
+  cleanOutput,
+  ensureOutputDirs,
+  writeJsIndex,
+  writeMuiIndex,
+  writeTheme,
+} from './build-tokens/write.ts';
+
+const buildTheme = async (theme: ThemeName): Promise<ThemeBuildResult> => {
+  const { tokens, allTokens } = await createDictionary(theme);
+  const jsTokens = flattenTokens(tokens, allTokens);
+
+  return {
+    theme,
+    css: buildCss(theme, tokens, allTokens),
+    jsTokens,
+    muiTheme: buildMuiTheme(theme, jsTokens),
+  };
+};
+
+const build = async (): Promise<void> => {
+  cleanOutput();
+  ensureOutputDirs();
+
+  const results = await Promise.all(THEMES.map((theme) => buildTheme(theme)));
+  results.forEach(writeTheme);
+  writeJsIndex();
+  writeMuiIndex();
+
+  console.log(`Built ${results.length} token themes into ${path.relative(ROOT_DIR, OUT_DIR)}`);
+};
+
+await build();

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://www.designtokens.org/schemas/2025.10/format.json",
+  "shadow": {
+    "sm": {
+      "$value": "{shadowScale.sm}",
+      "$type": "shadow"
+    },
+    "md": {
+      "$value": "{shadowScale.md}",
+      "$type": "shadow"
+    },
+    "lg": {
+      "$value": "{shadowScale.lg}",
+      "$type": "shadow"
+    },
+    "focus": {
+      "$value": "{shadowScale.focus}",
+      "$type": "shadow"
+    }
+  }
+}

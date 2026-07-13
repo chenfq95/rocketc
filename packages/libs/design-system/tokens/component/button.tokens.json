@@ -1,0 +1,114 @@
+{
+  "$schema": "https://www.designtokens.org/schemas/2025.10/format.json",
+  "button": {
+    "height": {
+      "sm": {
+        "$value": {
+          "value": 32,
+          "unit": "px"
+        },
+        "$type": "dimension"
+      },
+      "md": {
+        "$value": {
+          "value": 40,
+          "unit": "px"
+        },
+        "$type": "dimension"
+      },
+      "lg": {
+        "$value": {
+          "value": 48,
+          "unit": "px"
+        },
+        "$type": "dimension"
+      }
+    },
+    "radius": {
+      "$value": "{radius.md}",
+      "$type": "dimension"
+    },
+    "gap": {
+      "$value": "{space.2}",
+      "$type": "dimension"
+    },
+    "paddingX": {
+      "sm": {
+        "$value": "{space.3}",
+        "$type": "dimension"
+      },
+      "md": {
+        "$value": "{space.4}",
+        "$type": "dimension"
+      },
+      "lg": {
+        "$value": "{space.6}",
+        "$type": "dimension"
+      }
+    },
+    "typography": {
+      "$value": "{typography.label}",
+      "$type": "typography"
+    },
+    "focusRing": {
+      "$value": "{shadow.focus}",
+      "$type": "shadow"
+    },
+    "disabledOpacity": {
+      "$value": "{opacity.50}",
+      "$type": "number"
+    },
+    "primary": {
+      "background": {
+        "$value": "{color.brand.solid}",
+        "$type": "color"
+      },
+      "backgroundHover": {
+        "$value": "{color.brand.hard}",
+        "$type": "color"
+      },
+      "text": {
+        "$value": "{color.text.inverse}",
+        "$type": "color"
+      }
+    },
+    "secondary": {
+      "background": {
+        "$value": "{color.surface.panel}",
+        "$type": "color"
+      },
+      "text": {
+        "$value": "{color.text.primary}",
+        "$type": "color"
+      },
+      "border": {
+        "$value": "{color.border.default}",
+        "$type": "color"
+      }
+    },
+    "quiet": {
+      "background": {
+        "$value": "transparent",
+        "$type": "color"
+      },
+      "backgroundHover": {
+        "$value": "{color.brand.soft}",
+        "$type": "color"
+      },
+      "text": {
+        "$value": "{color.text.secondary}",
+        "$type": "color"
+      }
+    },
+    "danger": {
+      "background": {
+        "$value": "{color.state.danger.solid}",
+        "$type": "color"
+      },
+      "text": {
+        "$value": "{color.text.inverse}",
+        "$type": "color"
+      }
+    }
+  }
+}

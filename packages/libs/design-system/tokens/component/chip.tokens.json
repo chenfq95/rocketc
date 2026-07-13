@@ -1,0 +1,21 @@
+{
+  "$schema": "https://www.designtokens.org/schemas/2025.10/format.json",
+  "chip": {
+    "height": {
+      "$value": "{badge.height}",
+      "$type": "dimension"
+    },
+    "paddingX": {
+      "$value": "{badge.paddingX}",
+      "$type": "dimension"
+    },
+    "radius": {
+      "$value": "{badge.radius}",
+      "$type": "dimension"
+    },
+    "typography": {
+      "$value": "{badge.typography}",
+      "$type": "typography"
+    }
+  }
+}

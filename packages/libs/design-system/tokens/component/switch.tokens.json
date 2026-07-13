@@ -1,0 +1,46 @@
+{
+  "$schema": "https://www.designtokens.org/schemas/2025.10/format.json",
+  "switch": {
+    "trackWidth": {
+      "$value": {
+        "value": 34,
+        "unit": "px"
+      },
+      "$type": "dimension"
+    },
+    "trackHeight": {
+      "$value": {
+        "value": 20,
+        "unit": "px"
+      },
+      "$type": "dimension"
+    },
+    "thumbSize": {
+      "$value": {
+        "value": 16,
+        "unit": "px"
+      },
+      "$type": "dimension"
+    },
+    "trackBackground": {
+      "$value": "{color.border.default}",
+      "$type": "color"
+    },
+    "trackBackgroundChecked": {
+      "$value": "{color.brand.solid}",
+      "$type": "color"
+    },
+    "thumbBackground": {
+      "$value": "{color.surface.panel}",
+      "$type": "color"
+    },
+    "radius": {
+      "$value": "{radius.full}",
+      "$type": "dimension"
+    },
+    "shadow": {
+      "$value": "{shadow.sm}",
+      "$type": "shadow"
+    }
+  }
+}
