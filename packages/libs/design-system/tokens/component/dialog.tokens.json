@@ -10,7 +10,7 @@
       "$type": "color"
     },
     "radius": {
-      "$value": "{radius.lg}",
+      "$value": "{radius.md}",
       "$type": "dimension"
     },
     "shadow": {
@@ -18,7 +18,7 @@
       "$type": "shadow"
     },
     "padding": {
-      "$value": "{space.4}",
+      "$value": "{space.2}",
       "$type": "dimension"
     },
     "titleTypography": {

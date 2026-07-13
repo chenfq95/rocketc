@@ -1,4 +1,5 @@
 import type { ThemeOptions } from '@mui/material/styles';
+import type { SystemConfig } from '@chakra-ui/react';
 
 export type ThemeName = 'light' | 'dark';
 
@@ -67,9 +68,12 @@ export type FlatTokenTheme = Record<string, FlatToken>;
 
 export type MuiThemeOptions = ThemeOptions;
 
+export type ChakraThemeConfig = SystemConfig;
+
 export type ThemeBuildResult = {
   theme: ThemeName;
   css: string;
   jsTokens: FlatTokenTheme;
   muiTheme: MuiThemeOptions;
+  chakraTheme: ChakraThemeConfig;
 };

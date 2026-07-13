@@ -24,7 +24,8 @@ packages/libs/design-system/
 ├── dist/
 │   ├── css/
 │   ├── js/
-│   └── json/
+│   ├── mui/
+│   └── chakra/
 └── preview/
     ├── index.html
     └── styles.css
@@ -68,9 +69,14 @@ dist/
 │   ├── light.d.ts
 │   ├── dark.js
 │   └── dark.d.ts
-└── json/
-    ├── light.json
-    └── dark.json
+├── mui/
+│   ├── index.js
+│   ├── light.js
+│   └── dark.js
+└── chakra/
+    ├── index.js
+    ├── light.js
+    └── dark.js
 ```
 
 Package exports only expose compiled assets. Use `@rocketc/design-system/css/light.css` for the default theme and `@rocketc/design-system/css/dark.css` with `[data-theme='dark']`.
@@ -79,4 +85,11 @@ Use JS modules when a component library needs token values directly:
 
 ```ts
 import { lightTokens, type TokenTheme } from '@rocketc/design-system/js';
+```
+
+Use framework adapter modules when a component library needs a native theme object:
+
+```ts
+import { lightMuiTheme } from '@rocketc/design-system/mui';
+import { lightChakraTheme } from '@rocketc/design-system/chakra';
 ```

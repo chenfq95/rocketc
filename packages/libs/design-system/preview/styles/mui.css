@@ -1,0 +1,112 @@
+.mui-layout {
+  padding-top: 16px;
+}
+
+.mui-overview-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 12px;
+}
+
+.mui-showcase {
+  border-color: var(--mui-palette-divider) !important;
+  border-radius: var(--mui-shape-borderRadius) !important;
+  padding: 12px;
+}
+
+.mui-section {
+  min-width: 0;
+}
+
+.mui-section-wide,
+.mui-component-wide {
+  grid-column: 1 / -1;
+}
+
+.mui-section-header {
+  display: grid;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.mui-color-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.mui-color-swatch {
+  display: grid;
+  min-width: 0;
+  gap: 4px;
+}
+
+.mui-color-swatch > div:first-child {
+  height: 32px;
+  border: 1px solid var(--mui-palette-divider);
+  border-radius: calc(var(--mui-shape-borderRadius) * 0.6667);
+}
+
+.mui-color-swatch .token-source {
+  font-family: var(--mui-fontFamily-monospace, ui-monospace, SFMono-Regular, monospace);
+  opacity: 0.78;
+}
+
+.mui-type-list > div {
+  min-width: 0;
+  border-bottom: 1px solid var(--mui-palette-divider);
+  padding-bottom: 8px;
+}
+
+.mui-type-list > div:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.mui-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.mui-grid > * {
+  min-width: 0;
+}
+
+.mui-button-base,
+.mui-grid-cell,
+.mui-paper-sample,
+.mui-container-sample {
+  display: grid;
+  min-height: 32px;
+  place-items: center;
+  border-radius: calc(var(--mui-shape-borderRadius) * 0.6667);
+  padding: 8px;
+}
+
+.mui-button-base {
+  border: 1px solid var(--mui-palette-divider);
+  color: var(--mui-palette-text-primary);
+}
+
+.mui-grid-cell,
+.mui-container-sample {
+  border: 1px solid var(--mui-palette-divider);
+  background: var(--mui-palette-action-hover);
+}
+
+.mui-card-media,
+.mui-image-sample {
+  min-height: 56px;
+  background:
+    linear-gradient(135deg, rgb(249 115 22 / 0.85), rgb(244 63 94 / 0.7)),
+    var(--mui-palette-action-hover);
+}
+
+.mui-speed-dial {
+  position: relative !important;
+  right: auto !important;
+  bottom: auto !important;
+  align-self: flex-start;
+}

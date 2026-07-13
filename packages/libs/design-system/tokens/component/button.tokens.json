@@ -4,32 +4,32 @@
     "height": {
       "sm": {
         "$value": {
-          "value": 32,
+          "value": 26,
           "unit": "px"
         },
         "$type": "dimension"
       },
       "md": {
         "$value": {
-          "value": 40,
+          "value": 32,
           "unit": "px"
         },
         "$type": "dimension"
       },
       "lg": {
         "$value": {
-          "value": 48,
+          "value": 36,
           "unit": "px"
         },
         "$type": "dimension"
       }
     },
     "radius": {
-      "$value": "{radius.md}",
+      "$value": "{radius.sm}",
       "$type": "dimension"
     },
     "gap": {
-      "$value": "{space.2}",
+      "$value": "{space.1}",
       "$type": "dimension"
     },
     "paddingX": {
@@ -38,11 +38,11 @@
         "$type": "dimension"
       },
       "md": {
-        "$value": "{space.4}",
+        "$value": "{space.3}",
         "$type": "dimension"
       },
       "lg": {
-        "$value": "{space.6}",
+        "$value": "{space.3}",
         "$type": "dimension"
       }
     },

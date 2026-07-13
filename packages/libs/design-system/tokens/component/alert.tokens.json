@@ -2,15 +2,15 @@
   "$schema": "https://www.designtokens.org/schemas/2025.10/format.json",
   "alert": {
     "padding": {
-      "$value": "{space.3}",
+      "$value": "{space.2}",
       "$type": "dimension"
     },
     "gap": {
-      "$value": "{space.1}",
+      "$value": "{space.half}",
       "$type": "dimension"
     },
     "radius": {
-      "$value": "{radius.md}",
+      "$value": "{radius.sm}",
       "$type": "dimension"
     },
     "titleTypography": {

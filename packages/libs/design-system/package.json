@@ -49,6 +49,18 @@
     "./mui/light": {
       "types": "./dist/mui/light.d.ts",
       "import": "./dist/mui/light.js"
+    },
+    "./chakra": {
+      "types": "./dist/chakra/index.d.ts",
+      "import": "./dist/chakra/index.js"
+    },
+    "./chakra/dark": {
+      "types": "./dist/chakra/dark.d.ts",
+      "import": "./dist/chakra/dark.js"
+    },
+    "./chakra/light": {
+      "types": "./dist/chakra/light.d.ts",
+      "import": "./dist/chakra/light.js"
     }
   },
   "scripts": {
@@ -60,6 +72,7 @@
     "typecheck": "tsc -b"
   },
   "devDependencies": {
+    "@chakra-ui/react": "^3.30.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@mui/material": "^7.3.6",
@@ -72,5 +85,17 @@
     "style-dictionary": "^5.5.0",
     "typescript": "^5.9.3",
     "vite": "^7.3.0"
+  },
+  "peerDependencies": {
+    "@chakra-ui/react": "^3.30.0",
+    "@mui/material": "^7.3.6"
+  },
+  "peerDependenciesMeta": {
+    "@chakra-ui/react": {
+      "optional": true
+    },
+    "@mui/material": {
+      "optional": true
+    }
   }
 }

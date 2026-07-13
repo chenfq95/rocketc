@@ -4,9 +4,9 @@
     "display": {
       "$value": {
         "fontFamily": "{typography.family.sans}",
-        "fontSize": "{typography.size.6xl}",
-        "fontWeight": "{typography.weight.black}",
-        "lineHeight": "{typography.lineHeight.none}",
+        "fontSize": "{typography.size.5xl}",
+        "fontWeight": "{typography.weight.extrabold}",
+        "lineHeight": "{typography.lineHeight.tight}",
         "letterSpacing": "{typography.letterSpacing.normal}"
       },
       "$type": "typography"
@@ -14,7 +14,7 @@
     "title": {
       "$value": {
         "fontFamily": "{typography.family.sans}",
-        "fontSize": "{typography.size.3xl}",
+        "fontSize": "{typography.size.2xl}",
         "fontWeight": "{typography.weight.bold}",
         "lineHeight": "{typography.lineHeight.tight}",
         "letterSpacing": "{typography.letterSpacing.normal}"
@@ -24,7 +24,7 @@
     "heading": {
       "$value": {
         "fontFamily": "{typography.family.sans}",
-        "fontSize": "{typography.size.xl}",
+        "fontSize": "{typography.size.lg}",
         "fontWeight": "{typography.weight.semibold}",
         "lineHeight": "{typography.lineHeight.snug}",
         "letterSpacing": "{typography.letterSpacing.normal}"
@@ -34,7 +34,7 @@
     "subheading": {
       "$value": {
         "fontFamily": "{typography.family.sans}",
-        "fontSize": "{typography.size.lg}",
+        "fontSize": "{typography.size.md}",
         "fontWeight": "{typography.weight.semibold}",
         "lineHeight": "{typography.lineHeight.snug}",
         "letterSpacing": "{typography.letterSpacing.normal}"
@@ -44,7 +44,7 @@
     "body": {
       "$value": {
         "fontFamily": "{typography.family.sans}",
-        "fontSize": "{typography.size.md}",
+        "fontSize": "{typography.size.sm}",
         "fontWeight": "{typography.weight.regular}",
         "lineHeight": "{typography.lineHeight.normal}",
         "letterSpacing": "{typography.letterSpacing.normal}"
@@ -54,7 +54,7 @@
     "bodyStrong": {
       "$value": {
         "fontFamily": "{typography.family.sans}",
-        "fontSize": "{typography.size.md}",
+        "fontSize": "{typography.size.sm}",
         "fontWeight": "{typography.weight.semibold}",
         "lineHeight": "{typography.lineHeight.normal}",
         "letterSpacing": "{typography.letterSpacing.normal}"
@@ -84,7 +84,7 @@
     "code": {
       "$value": {
         "fontFamily": "{typography.family.mono}",
-        "fontSize": "{typography.size.sm}",
+        "fontSize": "{typography.size.xs}",
         "fontWeight": "{typography.weight.regular}",
         "lineHeight": "{typography.lineHeight.normal}",
         "letterSpacing": "{typography.letterSpacing.normal}"

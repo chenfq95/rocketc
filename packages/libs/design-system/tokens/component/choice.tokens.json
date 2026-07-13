@@ -30,7 +30,7 @@
       "$type": "color"
     },
     "radius": {
-      "$value": "{radius.lg}",
+      "$value": "{radius.sm}",
       "$type": "dimension"
     },
     "indicatorRadius": {
@@ -38,11 +38,11 @@
       "$type": "dimension"
     },
     "padding": {
-      "$value": "{space.3}",
+      "$value": "{space.2}",
       "$type": "dimension"
     },
     "gap": {
-      "$value": "{space.3}",
+      "$value": "{space.1}",
       "$type": "dimension"
     },
     "titleTypography": {

@@ -11,6 +11,7 @@ export const ensureOutputDirs = (): void => {
   fs.mkdirSync(path.join(OUT_DIR, 'css'), { recursive: true });
   fs.mkdirSync(path.join(OUT_DIR, 'js'), { recursive: true });
   fs.mkdirSync(path.join(OUT_DIR, 'mui'), { recursive: true });
+  fs.mkdirSync(path.join(OUT_DIR, 'chakra'), { recursive: true });
 };
 
 const writeText = (filePath: string, content: string): void => {
@@ -21,9 +22,16 @@ const lines = (items: string[]): string => items.join('\n');
 
 const themeExportName = (theme: ThemeName): string => `${theme}Tokens`;
 
-export const writeTheme = ({ theme, css, jsTokens, muiTheme }: ThemeBuildResult): void => {
+export const writeTheme = ({
+  theme,
+  css,
+  jsTokens,
+  muiTheme,
+  chakraTheme,
+}: ThemeBuildResult): void => {
   const exportName = themeExportName(theme);
   const muiExportName = `${theme}MuiTheme`;
+  const chakraExportName = `${theme}ChakraTheme`;
 
   writeText(path.join(OUT_DIR, 'css', `${theme}.css`), css);
   writeText(
@@ -65,6 +73,27 @@ export const writeTheme = ({ theme, css, jsTokens, muiTheme }: ThemeBuildResult)
       '',
       `export declare const ${muiExportName}: MuiThemeOptions;`,
       `export default ${muiExportName};`,
+      '',
+    ]),
+  );
+  writeText(
+    path.join(OUT_DIR, 'chakra', `${theme}.js`),
+    lines([
+      HEADER,
+      `const ${chakraExportName} = Object.freeze(${JSON.stringify(chakraTheme, null, 2)});`,
+      '',
+      `export { ${chakraExportName} };`,
+      `export default ${chakraExportName};`,
+      '',
+    ]),
+  );
+  writeText(
+    path.join(OUT_DIR, 'chakra', `${theme}.d.ts`),
+    lines([
+      "import type { ChakraThemeConfig } from './types.js';",
+      '',
+      `export declare const ${chakraExportName}: ChakraThemeConfig;`,
+      `export default ${chakraExportName};`,
       '',
     ]),
   );
@@ -133,5 +162,30 @@ export const writeMuiIndex = (): void => {
   writeText(
     path.join(OUT_DIR, 'mui', 'types.d.ts'),
     lines(["export type { ThemeOptions as MuiThemeOptions } from '@mui/material/styles';", '']),
+  );
+};
+
+export const writeChakraIndex = (): void => {
+  writeText(
+    path.join(OUT_DIR, 'chakra', 'index.js'),
+    lines([
+      HEADER,
+      "export { darkChakraTheme } from './dark.js';",
+      "export { lightChakraTheme } from './light.js';",
+      '',
+    ]),
+  );
+  writeText(
+    path.join(OUT_DIR, 'chakra', 'index.d.ts'),
+    lines([
+      "export type { ChakraThemeConfig } from './types.js';",
+      "export { darkChakraTheme } from './dark.js';",
+      "export { lightChakraTheme } from './light.js';",
+      '',
+    ]),
+  );
+  writeText(
+    path.join(OUT_DIR, 'chakra', 'types.d.ts'),
+    lines(["export type { SystemConfig as ChakraThemeConfig } from '@chakra-ui/react';", '']),
   );
 };

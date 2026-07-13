@@ -10,7 +10,7 @@
       "$type": "color"
     },
     "radius": {
-      "$value": "{radius.lg}",
+      "$value": "{radius.md}",
       "$type": "dimension"
     },
     "shadow": {

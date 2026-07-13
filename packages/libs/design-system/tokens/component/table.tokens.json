@@ -22,11 +22,11 @@
       "$type": "color"
     },
     "cellPaddingX": {
-      "$value": "{space.3}",
+      "$value": "{space.2}",
       "$type": "dimension"
     },
     "cellPaddingY": {
-      "$value": "{space.3}",
+      "$value": "{space.1}",
       "$type": "dimension"
     },
     "headerTypography": {

@@ -3,13 +3,13 @@
   "badge": {
     "height": {
       "$value": {
-        "value": 28,
+        "value": 20,
         "unit": "px"
       },
       "$type": "dimension"
     },
     "paddingX": {
-      "$value": "{space.3}",
+      "$value": "{space.2}",
       "$type": "dimension"
     },
     "radius": {

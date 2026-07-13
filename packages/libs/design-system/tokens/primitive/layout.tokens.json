@@ -47,28 +47,28 @@
   "layout": {
     "headerHeight": {
       "$value": {
-        "value": 56,
+        "value": 44,
         "unit": "px"
       },
       "$type": "dimension"
     },
     "toolbarHeight": {
       "$value": {
-        "value": 40,
+        "value": 32,
         "unit": "px"
       },
       "$type": "dimension"
     },
     "sidebarWidth": {
       "$value": {
-        "value": 280,
+        "value": 248,
         "unit": "px"
       },
       "$type": "dimension"
     },
     "sidebarCollapsedWidth": {
       "$value": {
-        "value": 64,
+        "value": 48,
         "unit": "px"
       },
       "$type": "dimension"
