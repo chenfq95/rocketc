@@ -1,42 +1,24 @@
-'use client';
-
-import * as React from 'react';
+import { Button, Stack, Text } from '@chakra-ui/react';
 import { type Icon } from '@tabler/icons-react';
-
-import {
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from '@rocketc/react';
 
 export function NavSecondary({
   items,
-  ...props
 }: {
-  items: {
-    title: string;
-    url: string;
-    icon: Icon;
-  }[];
-} & React.ComponentPropsWithoutRef<typeof SidebarGroup>) {
+  items: Array<{ title: string; url: string; icon: Icon }>;
+}) {
   return (
-    <SidebarGroup {...props}>
-      <SidebarGroupContent>
-        <SidebarMenu>
-          {items.map((item) => (
-            <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton asChild>
-                <a href={item.url}>
-                  <item.icon />
-                  <span>{item.title}</span>
-                </a>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          ))}
-        </SidebarMenu>
-      </SidebarGroupContent>
-    </SidebarGroup>
+    <Stack gap={1} mt="auto">
+      <Text color="fg.muted" fontSize="xs" fontWeight="semibold" px={2} textTransform="uppercase">
+        Support
+      </Text>
+      {items.map((item) => (
+        <Button asChild justifyContent="flex-start" key={item.title} size="sm" variant="ghost">
+          <a href={item.url}>
+            <item.icon />
+            {item.title}
+          </a>
+        </Button>
+      ))}
+    </Stack>
   );
 }

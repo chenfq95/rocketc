@@ -1,94 +1,71 @@
+import { Box, Button, Card, Flex, Grid, Input, Stack, Switch, Text } from '@chakra-ui/react';
 import { type FC, useCallback, useEffect, useRef, useState } from 'react';
 import {
   ReactShortcutProvider,
+  acceleratorParser,
   useShortcut,
+  type KeyboardEventListener,
   type ReactShortcutOptions,
   type ShortcutRegister,
-  type KeyboardEventListener,
-  acceleratorParser,
 } from '@rocketc/react-use-shortcuts';
-import { toast } from 'sonner';
-import {
-  Button,
-  Card,
-  CardAction,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  Input,
-  Item,
-  ItemActions,
-  ItemContent,
-  ItemTitle,
-  Label,
-  Switch,
-} from '@rocketc/react';
 
 export default function Shortcuts() {
-  const [options, setOptionsState] = useState<ReactShortcutOptions>({
+  const [options, setOptions] = useState<ReactShortcutOptions>({
     strict: false,
     debug: false,
     auto: true,
   });
-  const handleUpdateOptions = useCallback(
-    (options: Partial<ReactShortcutOptions>) => {
-      setOptionsState((prev) => ({ ...prev, ...options }));
-    },
-    [setOptionsState],
-  );
-
-  const filter = useCallback((event: KeyboardEvent) => {
-    return !event.repeat && !event.isComposing;
-  }, []);
+  const filter = useCallback((event: KeyboardEvent) => !event.repeat && !event.isComposing, []);
 
   return (
-    <>
-      <Item>
-        <ItemContent>
-          <ItemTitle>React Use Shortcuts</ItemTitle>
-        </ItemContent>
-        <ItemActions>
-          <Label>
-            Strict:
-            <Switch
-              onCheckedChange={(checked) => handleUpdateOptions({ strict: checked })}
-              checked={options.strict}
-            />
-          </Label>
-          <Label>
-            Debug:
-            <Switch
-              onCheckedChange={(checked) => handleUpdateOptions({ debug: checked })}
-              checked={!!options.debug}
-            />
-          </Label>
-          <Label>
-            Auto:
-            <Switch
-              onCheckedChange={(checked) => handleUpdateOptions({ auto: checked })}
-              checked={!!options.auto}
-            />
-          </Label>
-        </ItemActions>
-      </Item>
-      <div className="flex flex-row gap-4">
-        <Main title="Without Provider" auto={options.auto ?? false} />
+    <Stack gap={4}>
+      <Card.Root>
+        <Card.Body>
+          <Flex
+            align={{ base: 'stretch', md: 'center' }}
+            direction={{ base: 'column', md: 'row' }}
+            gap={4}
+            justify="space-between"
+          >
+            <div>
+              <Card.Title>React Use Shortcuts</Card.Title>
+              <Card.Description>Compare local and provider-backed registrations.</Card.Description>
+            </div>
+            <Flex gap={4} wrap="wrap">
+              {(['strict', 'debug', 'auto'] as const).map((option) => (
+                <Switch.Root
+                  checked={Boolean(options[option])}
+                  key={option}
+                  onCheckedChange={(event) =>
+                    setOptions((current) => ({ ...current, [option]: event.checked }))
+                  }
+                  size="sm"
+                >
+                  <Switch.HiddenInput />
+                  <Switch.Control>
+                    <Switch.Thumb />
+                  </Switch.Control>
+                  <Switch.Label textTransform="capitalize">{option}</Switch.Label>
+                </Switch.Root>
+              ))}
+            </Flex>
+          </Flex>
+        </Card.Body>
+      </Card.Root>
+      <Grid gap={4} templateColumns={{ base: '1fr', xl: 'repeat(2, minmax(0, 1fr))' }}>
+        <ShortcutLab auto={options.auto ?? false} title="Without provider" />
         <ReactShortcutProvider options={{ ...options, filter }}>
-          <Main title="With Provider" auto={options.auto ?? false} />
+          <ShortcutLab auto={options.auto ?? false} title="With provider" />
         </ReactShortcutProvider>
-      </div>
-    </>
+      </Grid>
+    </Stack>
   );
 }
 
-interface MainProps {
-  title: string;
-  auto: boolean;
-}
-
-const Main: FC<MainProps> = function Main(props) {
-  const [keyPressed, setKeyPressed] = useState<string>('');
-
+const ShortcutLab: FC<{ title: string; auto: boolean }> = ({ title, auto }) => {
+  const [keyPressed, setKeyPressed] = useState('');
+  const [message, setMessage] = useState('Press a key combination to begin.');
+  const root = useRef<HTMLDivElement>(null);
   const {
     onKeyPressedChanged,
     getCurrentKeyPressed,
@@ -100,135 +77,114 @@ const Main: FC<MainProps> = function Main(props) {
     enableShortcut,
     disableShortcut,
   } = useShortcut();
-
-  const [shortcutRegisters, setShortcutRegisters] = useState<Array<ShortcutRegister>>(() => {
-    return getShortcutRegisters();
-  });
-
-  const refreshShortcutRegisters = useCallback(() => {
-    setShortcutRegisters(getShortcutRegisters());
-  }, [getShortcutRegisters]);
-
-  const root = useRef<HTMLDivElement>(null);
+  const [registers, setRegisters] = useState<ShortcutRegister[]>(() => getShortcutRegisters());
+  const refresh = useCallback(() => setRegisters(getShortcutRegisters()), [getShortcutRegisters]);
 
   useEffect(() => {
-    if (root.current && !props.auto) {
-      return attachElement(root.current);
-    }
-  }, [attachElement, props.auto]);
+    if (root.current && !auto) return attachElement(root.current);
+  }, [attachElement, auto]);
 
-  useEffect(() => {
-    return onKeyPressedChanged((event) => {
-      const currentKeyPressed = getCurrentKeyPressed();
-      // if (currentKeyPressed) {
-      //   toast.info(`Key pressed: ${currentKeyPressed}`);
-      // } else {
-      //   toast.info('No key pressed');
-      // }
-      if (event.detail === 'keydown') {
-        setKeyPressed(currentKeyPressed);
-      } else if (event.detail === 'keyup') {
-        if (acceleratorParser.validate(currentKeyPressed)) {
-          setKeyPressed(currentKeyPressed);
-        }
-      }
-    });
-  }, [onKeyPressedChanged, getCurrentKeyPressed]);
-
-  const handleRegisterShortcut = useCallback(() => {
-    registerShortcut(keyPressed, (event) => {
-      console.log(event);
-      toast.error(`You pressed: ${keyPressed}`);
-    });
-    refreshShortcutRegisters();
-  }, [keyPressed, registerShortcut, refreshShortcutRegisters]);
-
-  const handleUnregisterShortcut = useCallback(
-    (accelerator: string, cb?: KeyboardEventListener) => {
-      unregisterShortcut(accelerator, cb);
-      refreshShortcutRegisters();
-    },
-    [unregisterShortcut, refreshShortcutRegisters],
+  useEffect(
+    () =>
+      onKeyPressedChanged((event) => {
+        const current = getCurrentKeyPressed();
+        if (event.detail === 'keydown' || acceleratorParser.validate(current))
+          setKeyPressed(current);
+      }),
+    [getCurrentKeyPressed, onKeyPressedChanged],
   );
 
-  const handleIsShortcutRegistered = useCallback(
-    (accelerator: string) => {
-      toast.success(`Is shortcut registered: ${isShortcutRegistered(accelerator)}`);
-    },
-    [isShortcutRegistered],
-  );
+  const unregister = (accelerator: string, callback?: KeyboardEventListener) => {
+    unregisterShortcut(accelerator, callback);
+    setMessage(`Unregistered ${accelerator || 'shortcut'}`);
+    refresh();
+  };
 
-  const handleToggleEnableShortcut = useCallback(
-    (enabled: boolean, accelerator: string, cb?: KeyboardEventListener) => {
-      if (enabled) {
-        disableShortcut(accelerator, cb);
-      } else {
-        enableShortcut(accelerator, cb);
-      }
-      refreshShortcutRegisters();
-    },
-    [enableShortcut, disableShortcut, refreshShortcutRegisters],
-  );
+  const toggle = (enabled: boolean, accelerator: string, callback?: KeyboardEventListener) => {
+    if (enabled) disableShortcut(accelerator, callback);
+    else enableShortcut(accelerator, callback);
+    refresh();
+  };
 
   return (
-    <div ref={root} className="w-full">
-      <Card className="w-full" tabIndex={-1}>
-        <CardHeader>
-          <CardTitle>{props.title}</CardTitle>
-          <CardAction className="flex items-center gap-2"></CardAction>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-col gap-2">
-            <h3>You Pressed: {keyPressed}</h3>
-            <Input value={keyPressed} readOnly />
-            <Button onClick={handleRegisterShortcut}>register shortcut</Button>
-            <Button onClick={() => handleUnregisterShortcut(keyPressed)}>
-              unregister shortcut
-            </Button>
-            <Button onClick={() => handleIsShortcutRegistered(keyPressed)}>
-              is register shortcut
-            </Button>
-            <Button onClick={() => handleToggleEnableShortcut(true, keyPressed)}>
-              enable shortcut
-            </Button>
-            <Button onClick={() => handleToggleEnableShortcut(false, keyPressed)}>
-              disable shortcut
-            </Button>
-            <Button onClick={refreshShortcutRegisters}>refresh shortcut registers</Button>
-            {shortcutRegisters.map((shortcut, index) => (
-              <Item variant="outline" size="sm" key={index}>
-                <ItemContent>
-                  <ItemTitle>{shortcut.accelerator}</ItemTitle>
-                </ItemContent>
-                <ItemActions>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() =>
-                      handleUnregisterShortcut(shortcut.accelerator, shortcut.callback)
-                    }
-                  >
-                    unregister
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() =>
-                      handleToggleEnableShortcut(
-                        shortcut.enabled,
-                        shortcut.accelerator,
-                        shortcut.callback,
-                      )
-                    }
-                  >
-                    {shortcut.enabled ? 'disable' : 'enable'}
-                  </Button>
-                </ItemActions>
-              </Item>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-    </div>
+    <Box ref={root} tabIndex={-1}>
+      <Card.Root minH="full">
+        <Card.Header>
+          <Card.Title>{title}</Card.Title>
+          <Card.Description>{message}</Card.Description>
+        </Card.Header>
+        <Card.Body>
+          <Stack gap={3}>
+            <Input readOnly value={keyPressed} />
+            <Flex gap={2} wrap="wrap">
+              <Button
+                disabled={!keyPressed}
+                onClick={() => {
+                  registerShortcut(keyPressed, () => setMessage(`Triggered ${keyPressed}`));
+                  setMessage(`Registered ${keyPressed}`);
+                  refresh();
+                }}
+                size="sm"
+              >
+                Register
+              </Button>
+              <Button
+                disabled={!keyPressed}
+                onClick={() => unregister(keyPressed)}
+                size="sm"
+                variant="outline"
+              >
+                Unregister
+              </Button>
+              <Button
+                disabled={!keyPressed}
+                onClick={() => setMessage(`Registered: ${isShortcutRegistered(keyPressed)}`)}
+                size="sm"
+                variant="outline"
+              >
+                Check
+              </Button>
+              <Button onClick={refresh} size="sm" variant="ghost">
+                Refresh
+              </Button>
+            </Flex>
+            <Stack gap={2}>
+              {registers.map((shortcut) => (
+                <Flex
+                  align="center"
+                  borderWidth="sm"
+                  gap={2}
+                  justify="space-between"
+                  key={shortcut.accelerator}
+                  p={2}
+                >
+                  <Text fontFamily="mono" fontSize="sm">
+                    {shortcut.accelerator}
+                  </Text>
+                  <Flex gap={2}>
+                    <Button
+                      onClick={() =>
+                        toggle(shortcut.enabled, shortcut.accelerator, shortcut.callback)
+                      }
+                      size="xs"
+                      variant="outline"
+                    >
+                      {shortcut.enabled ? 'Disable' : 'Enable'}
+                    </Button>
+                    <Button
+                      onClick={() => unregister(shortcut.accelerator, shortcut.callback)}
+                      size="xs"
+                      variant="outline"
+                    >
+                      Remove
+                    </Button>
+                  </Flex>
+                </Flex>
+              ))}
+            </Stack>
+          </Stack>
+        </Card.Body>
+      </Card.Root>
+    </Box>
   );
 };

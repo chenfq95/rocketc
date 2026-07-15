@@ -1,6 +1,9 @@
-import '@rocketc/react/tailwind.css';
-import '@rocketc/react/style.css';
+import { Box } from '@chakra-ui/react';
 
 export default function EmptyLayout({ children }: React.PropsWithChildren) {
-  return <>{children}</>;
+  return (
+    <Box bg="bg" color="fg" minH="100svh">
+      {children}
+    </Box>
+  );
 }

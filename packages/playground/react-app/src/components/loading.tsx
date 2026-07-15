@@ -1,14 +1,14 @@
-const Loading = () => {
-  return (
-    <div className="flex flex-1 flex-col gap-4 p-4 h-[100vh]">
-      <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-        <div className="bg-secondary/90 aspect-video rounded-xl" />
-        <div className="bg-secondary/90 aspect-video rounded-xl" />
-        <div className="bg-secondary/90 aspect-video rounded-xl" />
-      </div>
-      <div className="bg-secondary/90 min-h-[100vh] flex-1 rounded-xl md:min-h-min" />
-    </div>
-  );
-};
+import { Grid, Skeleton, Stack } from '@chakra-ui/react';
 
-export default Loading;
+export default function Loading() {
+  return (
+    <Stack gap={4} p={4}>
+      <Grid gap={4} templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }}>
+        <Skeleton h={28} />
+        <Skeleton h={28} />
+        <Skeleton h={28} />
+      </Grid>
+      <Skeleton h={72} />
+    </Stack>
+  );
+}

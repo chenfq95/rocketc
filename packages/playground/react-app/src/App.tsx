@@ -15,6 +15,8 @@ const DashboardPage = lazy(async () => {
 const ShortcutsPage = lazy(() => import('./pages/shortcuts'));
 const NotFoundPage = lazy(() => import('./pages/not-found'));
 
+const DashboardRedirect = () => <Redirect to="/" />;
+
 const AppRoute = () => {
   const [loginMatched] = useRoute('/login');
   const [dashboardMatched] = useRoute('/');
@@ -35,7 +37,7 @@ const AppRoute = () => {
           <Route path="/">
             <DashboardPage />
           </Route>
-          <Route path="/dashboard" component={() => <Redirect to="/" />} />
+          <Route path="/dashboard" component={DashboardRedirect} />
           <Route path="/shortcuts">
             <ShortcutsPage />
           </Route>
