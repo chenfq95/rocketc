@@ -27,7 +27,7 @@ describe('ShortcutRegistry', () => {
 
   describe('registerShortcut', () => {
     it('should register a single key shortcut', () => {
-      const handler = vi.fn();
+      const handler = vi.fn<() => void>();
       const result = registry.registerShortcut('a', handler);
       expect(result).toBe(true);
 
@@ -36,7 +36,7 @@ describe('ShortcutRegistry', () => {
     });
 
     it('should register a shortcut with modifier', () => {
-      const handler = vi.fn();
+      const handler = vi.fn<() => void>();
       const result = registry.registerShortcut('Ctrl+a', handler);
       expect(result).toBe(true);
 
@@ -46,7 +46,7 @@ describe('ShortcutRegistry', () => {
     });
 
     it('should register a shortcut with multiple modifiers', () => {
-      const handler = vi.fn();
+      const handler = vi.fn<() => void>();
       const result = registry.registerShortcut('Ctrl+Shift+a', handler);
       expect(result).toBe(true);
 
@@ -57,14 +57,14 @@ describe('ShortcutRegistry', () => {
     });
 
     it('should return false for invalid accelerator', () => {
-      const handler = vi.fn();
+      const handler = vi.fn<() => void>();
       expect(registry.registerShortcut('Ctrl+a+', handler)).toBe(false);
       expect(registry.registerShortcut('invalid', handler)).toBe(false);
       expect(registry.registerShortcut('a+Ctrl', handler)).toBe(false);
     });
 
     it('should not register multiple normal keys', () => {
-      const handler = vi.fn();
+      const handler = vi.fn<() => void>();
       expect(registry.registerShortcut('Ctrl+a+b', handler)).toBe(false);
       dispatchEvent('keydown', 'ControlLeft');
       dispatchEvent('keydown', 'KeyA');
@@ -73,8 +73,8 @@ describe('ShortcutRegistry', () => {
     });
 
     it('should support multiple callbacks for the same shortcut', () => {
-      const handler1 = vi.fn();
-      const handler2 = vi.fn();
+      const handler1 = vi.fn<() => void>();
+      const handler2 = vi.fn<() => void>();
 
       registry.registerShortcut('Ctrl+a', handler1);
       registry.registerShortcut('Ctrl+a', handler2);
@@ -91,7 +91,7 @@ describe('ShortcutRegistry', () => {
         debug: false,
       });
       const disposeCustom = customRegistry.attachElement(window);
-      const handler = vi.fn();
+      const handler = vi.fn<() => void>();
 
       customRegistry.registerShortcut('Ctrl-a', handler);
       dispatchEvent('keydown', 'ControlLeft');
@@ -109,7 +109,7 @@ describe('ShortcutRegistry', () => {
         debug: false,
       });
       const disposeAlias = aliasRegistry.attachElement(window);
-      const handler = vi.fn();
+      const handler = vi.fn<() => void>();
 
       // 'o' (alias value) -> 'Ctrl' (alias key), 'p' (alias value) -> 'Alt' (alias key)
       aliasRegistry.registerShortcut('o+p+a', handler);
@@ -124,7 +124,7 @@ describe('ShortcutRegistry', () => {
 
   describe('unregisterShortcut', () => {
     it('should unregister a shortcut', () => {
-      const handler = vi.fn();
+      const handler = vi.fn<() => void>();
       registry.registerShortcut('Ctrl+a', handler);
 
       dispatchEvent('keydown', 'ControlLeft');
@@ -139,8 +139,8 @@ describe('ShortcutRegistry', () => {
     });
 
     it('should unregister specific callback when provided', () => {
-      const handler1 = vi.fn();
-      const handler2 = vi.fn();
+      const handler1 = vi.fn<() => void>();
+      const handler2 = vi.fn<() => void>();
 
       registry.registerShortcut('Ctrl+a', handler1);
       registry.registerShortcut('Ctrl+a', handler2);
@@ -163,8 +163,8 @@ describe('ShortcutRegistry', () => {
     });
 
     it('should return false when unregistering specific callback that does not exist', () => {
-      const handler1 = vi.fn();
-      const handler2 = vi.fn();
+      const handler1 = vi.fn<() => void>();
+      const handler2 = vi.fn<() => void>();
 
       registry.registerShortcut('Ctrl+a', handler1);
       expect(registry.unregisterShortcut('Ctrl+a', handler2)).toBe(false);
@@ -173,7 +173,7 @@ describe('ShortcutRegistry', () => {
 
   describe('enableShortcut and disableShortcut', () => {
     it('should disable and enable a shortcut', () => {
-      const handler = vi.fn();
+      const handler = vi.fn<() => void>();
       registry.registerShortcut('Ctrl+a', handler);
 
       dispatchEvent('keydown', 'ControlLeft');
@@ -190,8 +190,8 @@ describe('ShortcutRegistry', () => {
     });
 
     it('should disable and enable specific callback', () => {
-      const handler1 = vi.fn();
-      const handler2 = vi.fn();
+      const handler1 = vi.fn<() => void>();
+      const handler2 = vi.fn<() => void>();
 
       registry.registerShortcut('Ctrl+a', handler1);
       registry.registerShortcut('Ctrl+a', handler2);
@@ -220,16 +220,16 @@ describe('ShortcutRegistry', () => {
     });
 
     it('should return false when disabling specific callback that does not exist', () => {
-      const handler1 = vi.fn();
-      const handler2 = vi.fn();
+      const handler1 = vi.fn<() => void>();
+      const handler2 = vi.fn<() => void>();
 
       registry.registerShortcut('Ctrl+a', handler1);
       expect(registry.disableShortcut('Ctrl+a', handler2)).toBe(false);
     });
 
     it('should return false when enabling specific callback that does not exist', () => {
-      const handler1 = vi.fn();
-      const handler2 = vi.fn();
+      const handler1 = vi.fn<() => void>();
+      const handler2 = vi.fn<() => void>();
 
       registry.registerShortcut('Ctrl+a', handler1);
       expect(registry.enableShortcut('Ctrl+a', handler2)).toBe(false);
@@ -238,7 +238,7 @@ describe('ShortcutRegistry', () => {
 
   describe('isShortcutRegistered', () => {
     it('should return true for registered shortcut', () => {
-      registry.registerShortcut('Ctrl+a', vi.fn());
+      registry.registerShortcut('Ctrl+a', vi.fn<() => void>());
       expect(registry.isShortcutRegistered('Ctrl+a')).toBe(true);
       expect(registry.isShortcutRegistered('Control+a')).toBe(true);
     });
@@ -330,7 +330,7 @@ describe('ShortcutRegistry', () => {
 
   describe('onKeyPressedChanged', () => {
     it('should register keyPressedChanged listener and trigger on keydown', () => {
-      const listener = vi.fn();
+      const listener = vi.fn<() => void>();
       const disposeListener = registry.onKeyPressedChanged(listener);
 
       dispatchEvent('keydown', 'KeyA');
@@ -358,7 +358,7 @@ describe('ShortcutRegistry', () => {
     });
 
     it('should register keyPressedChanged listener and trigger on keyup', () => {
-      const listener = vi.fn();
+      const listener = vi.fn<() => void>();
       const disposeListener = registry.onKeyPressedChanged(listener);
 
       dispatchEvent('keydown', 'KeyA');
@@ -384,7 +384,7 @@ describe('ShortcutRegistry', () => {
     });
 
     it('should trigger when key state changes with correct event detail', () => {
-      const listener = vi.fn();
+      const listener = vi.fn<() => void>();
       const disposeListener = registry.onKeyPressedChanged(listener);
 
       // Press modifier
@@ -427,7 +427,7 @@ describe('ShortcutRegistry', () => {
     });
 
     it('should provide event detail indicating keydown or keyup', () => {
-      const listener = vi.fn();
+      const listener = vi.fn<() => void>();
       const disposeListener = registry.onKeyPressedChanged(listener);
 
       // Test keydown events
@@ -450,7 +450,7 @@ describe('ShortcutRegistry', () => {
 
   describe('attachElement', () => {
     it('should attach to window', () => {
-      const handler = vi.fn();
+      const handler = vi.fn<() => void>();
       registry.registerShortcut('Ctrl+a', handler);
 
       dispatchEvent('keydown', 'ControlLeft');
@@ -465,7 +465,7 @@ describe('ShortcutRegistry', () => {
 
       const elementRegistry = new ShortcutRegistry({ debug: false });
       const disposeElement = elementRegistry.attachElement(element);
-      const handler = vi.fn();
+      const handler = vi.fn<() => void>();
 
       elementRegistry.registerShortcut('Ctrl+a', handler);
       element.focus();
@@ -479,7 +479,7 @@ describe('ShortcutRegistry', () => {
     });
 
     it('should clear shortcuts on dispose', () => {
-      const handler = vi.fn();
+      const handler = vi.fn<() => void>();
       registry.registerShortcut('Ctrl+a', handler);
 
       dispose();
@@ -503,7 +503,7 @@ describe('ShortcutRegistry', () => {
       registry.setOptions({ strict: false });
       expect(registry.getOptions().strict).toBe(false);
 
-      const customFilter = vi.fn(() => true);
+      const customFilter = vi.fn<() => boolean>(() => true);
       registry.setOptions({ filter: customFilter });
       expect(registry.getOptions().filter).toBe(customFilter);
     });
@@ -518,8 +518,8 @@ describe('ShortcutRegistry', () => {
 
   describe('getShortcutRegisters', () => {
     it('should return all registered shortcuts', () => {
-      const handler1 = vi.fn();
-      const handler2 = vi.fn();
+      const handler1 = vi.fn<() => void>();
+      const handler2 = vi.fn<() => void>();
 
       registry.registerShortcut('Ctrl+a', handler1);
       registry.registerShortcut('Ctrl+b', handler2);
@@ -531,12 +531,12 @@ describe('ShortcutRegistry', () => {
     });
 
     it('should return shortcuts for specific accelerator', () => {
-      const handler1 = vi.fn();
-      const handler2 = vi.fn();
+      const handler1 = vi.fn<() => void>();
+      const handler2 = vi.fn<() => void>();
 
       registry.registerShortcut('Ctrl+a', handler1);
       registry.registerShortcut('Ctrl+a', handler2);
-      registry.registerShortcut('Ctrl+b', vi.fn());
+      registry.registerShortcut('Ctrl+b', vi.fn<() => void>());
 
       const registers = registry.getShortcutRegisters('Ctrl+a');
       expect(registers).toHaveLength(2);
@@ -550,7 +550,7 @@ describe('ShortcutRegistry', () => {
     });
 
     it('should reflect enabled/disabled state', () => {
-      const handler = vi.fn();
+      const handler = vi.fn<() => void>();
       registry.registerShortcut('Ctrl+a', handler);
 
       let registers = registry.getShortcutRegisters('Ctrl+a');
@@ -568,7 +568,7 @@ describe('ShortcutRegistry', () => {
 
   describe('filter functionality', () => {
     it('should filter repeat events', () => {
-      const handler = vi.fn();
+      const handler = vi.fn<() => void>();
       registry.registerShortcut('Ctrl+a', handler);
 
       dispatchEvent('keydown', 'ControlLeft');
@@ -580,7 +580,7 @@ describe('ShortcutRegistry', () => {
     });
 
     it('should filter IME composition events', () => {
-      const handler = vi.fn();
+      const handler = vi.fn<() => void>();
       registry.registerShortcut('Ctrl+a', handler);
 
       dispatchEvent('keydown', 'ControlLeft');
@@ -597,7 +597,7 @@ describe('ShortcutRegistry', () => {
       document.body.appendChild(input);
       input.focus();
 
-      const handler = vi.fn();
+      const handler = vi.fn<() => void>();
       registry.registerShortcut('Ctrl+a', handler);
 
       dispatchEvent('keydown', 'ControlLeft', false, input);
@@ -613,7 +613,7 @@ describe('ShortcutRegistry', () => {
       document.body.appendChild(div);
       div.focus();
 
-      const handler = vi.fn();
+      const handler = vi.fn<() => void>();
       registry.registerShortcut('Ctrl+a', handler);
 
       dispatchEvent('keydown', 'ControlLeft', false, div);
@@ -624,13 +624,13 @@ describe('ShortcutRegistry', () => {
     });
 
     it('should use custom filter', () => {
-      const customFilter = vi.fn(() => false);
+      const customFilter = vi.fn<() => boolean>(() => false);
       const customRegistry = new ShortcutRegistry({
         filter: customFilter,
         debug: false,
       });
       const disposeCustom = customRegistry.attachElement(window);
-      const handler = vi.fn();
+      const handler = vi.fn<() => void>();
 
       customRegistry.registerShortcut('Ctrl+a', handler);
       dispatchEvent('keydown', 'ControlLeft');
@@ -642,14 +642,14 @@ describe('ShortcutRegistry', () => {
     });
 
     it('should use custom debug function', () => {
-      const debugFn = vi.fn();
+      const debugFn = vi.fn<() => void>();
       const debugRegistry = new ShortcutRegistry({
         debug: debugFn,
       });
       const disposeDebug = debugRegistry.attachElement(window);
 
       // Trigger an error condition
-      debugRegistry.registerShortcut('invalid', vi.fn());
+      debugRegistry.registerShortcut('invalid', vi.fn<() => void>());
       expect(debugFn).toHaveBeenCalled();
 
       disposeDebug();
@@ -675,7 +675,7 @@ describe('ShortcutRegistry', () => {
 
   describe('edge cases', () => {
     it('should handle unsupported key codes in keydown', () => {
-      const handler = vi.fn();
+      const handler = vi.fn<() => void>();
       registry.registerShortcut('Ctrl+a', handler);
 
       const event = new window.KeyboardEvent('keydown', {
@@ -762,12 +762,12 @@ describe('ShortcutRegistry', () => {
     });
 
     it('should handle empty accelerator', () => {
-      const handler = vi.fn();
+      const handler = vi.fn<() => void>();
       expect(registry.registerShortcut('', handler)).toBe(false);
     });
 
     it('should handle modifier-only accelerator', () => {
-      const handler = vi.fn();
+      const handler = vi.fn<() => void>();
       expect(registry.registerShortcut('Ctrl', handler)).toBe(false);
       expect(registry.registerShortcut('Ctrl+', handler)).toBe(false);
     });
@@ -798,7 +798,7 @@ describe('ShortcutRegistry', () => {
 
     describe('registerShortcut in loose mode', () => {
       it('should register shortcuts in loose mode', () => {
-        const handler = vi.fn();
+        const handler = vi.fn<() => void>();
         looseRegistry.registerShortcut('Ctrl+a', handler);
 
         dispatchEvent('keydown', 'ControlLeft');
@@ -807,8 +807,8 @@ describe('ShortcutRegistry', () => {
       });
 
       it('should match shortcuts regardless of modifier side in loose mode', () => {
-        const handler1 = vi.fn();
-        const handler2 = vi.fn();
+        const handler1 = vi.fn<() => void>();
+        const handler2 = vi.fn<() => void>();
 
         looseRegistry.registerShortcut('Ctrl+a', handler1);
         looseRegistry.registerShortcut('Shift+b', handler2);
@@ -828,7 +828,7 @@ describe('ShortcutRegistry', () => {
 
     describe('unregisterShortcut in loose mode', () => {
       it('should unregister shortcuts in loose mode', () => {
-        const handler = vi.fn();
+        const handler = vi.fn<() => void>();
         looseRegistry.registerShortcut('Ctrl+a', handler);
 
         dispatchEvent('keydown', 'ControlLeft');
@@ -842,7 +842,7 @@ describe('ShortcutRegistry', () => {
       });
 
       it('should unregister using different modifier formats in loose mode', () => {
-        const handler = vi.fn();
+        const handler = vi.fn<() => void>();
         looseRegistry.registerShortcut('Ctrl+a', handler);
 
         dispatchEvent('keydown', 'ControlLeft');
@@ -858,7 +858,7 @@ describe('ShortcutRegistry', () => {
 
     describe('enableShortcut and disableShortcut in loose mode', () => {
       it('should enable and disable shortcuts in loose mode', () => {
-        const handler = vi.fn();
+        const handler = vi.fn<() => void>();
         looseRegistry.registerShortcut('Ctrl+a', handler);
 
         dispatchEvent('keydown', 'ControlLeft');
@@ -879,7 +879,7 @@ describe('ShortcutRegistry', () => {
 
     describe('isShortcutRegistered in loose mode', () => {
       it('should check shortcuts regardless of modifier format in loose mode', () => {
-        looseRegistry.registerShortcut('Ctrl+a', vi.fn());
+        looseRegistry.registerShortcut('Ctrl+a', vi.fn<() => void>());
 
         // All these should return true in loose mode
         expect(looseRegistry.isShortcutRegistered('Ctrl+a')).toBe(true);
@@ -889,7 +889,7 @@ describe('ShortcutRegistry', () => {
       });
 
       it('should check Alt/Option aliases in loose mode', () => {
-        looseRegistry.registerShortcut('Alt+a', vi.fn());
+        looseRegistry.registerShortcut('Alt+a', vi.fn<() => void>());
 
         expect(looseRegistry.isShortcutRegistered('Alt+a')).toBe(true);
         expect(looseRegistry.isShortcutRegistered('Option+a')).toBe(true);
@@ -898,7 +898,7 @@ describe('ShortcutRegistry', () => {
       });
 
       it('should check Meta/Command aliases in loose mode', () => {
-        looseRegistry.registerShortcut('Meta+a', vi.fn());
+        looseRegistry.registerShortcut('Meta+a', vi.fn<() => void>());
 
         expect(looseRegistry.isShortcutRegistered('Meta+a')).toBe(true);
         expect(looseRegistry.isShortcutRegistered('Command+a')).toBe(true);
@@ -956,8 +956,8 @@ describe('ShortcutRegistry', () => {
 
     describe('getShortcutRegisters in loose mode', () => {
       it('should return shortcuts in loose mode', () => {
-        const handler1 = vi.fn();
-        const handler2 = vi.fn();
+        const handler1 = vi.fn<() => void>();
+        const handler2 = vi.fn<() => void>();
 
         looseRegistry.registerShortcut('Ctrl+a', handler1);
         looseRegistry.registerShortcut('Shift+b', handler2);
@@ -969,7 +969,7 @@ describe('ShortcutRegistry', () => {
       });
 
       it('should find shortcuts using different formats in loose mode', () => {
-        const handler = vi.fn();
+        const handler = vi.fn<() => void>();
         looseRegistry.registerShortcut('Ctrl+a', handler);
 
         // All these should find the same shortcut
@@ -988,7 +988,7 @@ describe('ShortcutRegistry', () => {
 
     describe('onKeyPressedChanged in loose mode', () => {
       it('should work the same in loose mode with correct event detail', () => {
-        const listener = vi.fn();
+        const listener = vi.fn<() => void>();
         const disposeListener = looseRegistry.onKeyPressedChanged(listener);
 
         dispatchEvent('keydown', 'KeyA');
@@ -1015,7 +1015,7 @@ describe('ShortcutRegistry', () => {
 
     describe('filter functionality in loose mode', () => {
       it('should filter events the same way in loose mode', () => {
-        const handler = vi.fn();
+        const handler = vi.fn<() => void>();
         looseRegistry.registerShortcut('Ctrl+A', handler);
 
         dispatchEvent('keydown', 'ControlLeft');
@@ -1039,7 +1039,7 @@ describe('ShortcutRegistry', () => {
 
   describe('rapid key presses', () => {
     it('should handle rapid keydown events', () => {
-      const handler = vi.fn();
+      const handler = vi.fn<() => void>();
       registry.registerShortcut('Ctrl+a', handler);
 
       dispatchEvent('keydown', 'ControlLeft');
@@ -1066,8 +1066,8 @@ describe('ShortcutRegistry', () => {
 
   describe('concurrent operations', () => {
     it('should handle registering shortcut during callback execution', () => {
-      const newHandler = vi.fn();
-      const handler = vi.fn(() => {
+      const newHandler = vi.fn<() => void>();
+      const handler = vi.fn<() => void>(() => {
         registry.registerShortcut('Ctrl+b', newHandler);
       });
 
@@ -1087,8 +1087,8 @@ describe('ShortcutRegistry', () => {
     });
 
     it('should handle unregistering shortcut during callback execution', () => {
-      const handler1 = vi.fn();
-      const handler2 = vi.fn(() => {
+      const handler1 = vi.fn<() => void>();
+      const handler2 = vi.fn<() => void>(() => {
         registry.unregisterShortcut('Ctrl+a', handler1);
       });
 
@@ -1159,10 +1159,10 @@ describe('ShortcutRegistry', () => {
     });
 
     it('should handle callback throwing exception', () => {
-      const errorHandler = vi.fn(() => {
+      const errorHandler = vi.fn<() => void>(() => {
         throw new Error('Callback error');
       });
-      const normalHandler = vi.fn();
+      const normalHandler = vi.fn<() => void>();
 
       registry.registerShortcut('Ctrl+a', errorHandler);
       registry.registerShortcut('Ctrl+a', normalHandler);
@@ -1194,7 +1194,7 @@ describe('ShortcutRegistry', () => {
       element.tabIndex = -1;
       document.body.appendChild(element);
 
-      const handler = vi.fn();
+      const handler = vi.fn<() => void>();
       registry.registerShortcut('Ctrl+a', handler);
 
       // First attach
@@ -1243,7 +1243,7 @@ describe('ShortcutRegistry', () => {
       element.tabIndex = -1;
       document.body.appendChild(element);
 
-      const handler = vi.fn();
+      const handler = vi.fn<() => void>();
       registry.registerShortcut('Ctrl+a', handler);
 
       const dispose = registry.attachElement(element);
@@ -1269,7 +1269,7 @@ describe('ShortcutRegistry', () => {
       element.tabIndex = -1;
       document.body.appendChild(element);
 
-      const handler = vi.fn();
+      const handler = vi.fn<() => void>();
       registry.registerShortcut('Ctrl+a', handler);
 
       // Attach multiple times

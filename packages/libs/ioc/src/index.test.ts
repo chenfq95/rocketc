@@ -118,7 +118,7 @@ describe('RocketC IOC Container', () => {
     new ServiceA();
 
     const container2 = createContainer();
-    expect(() => container2.getObject(serviceAId)).toThrow();
+    expect(() => container2.getObject(serviceAId)).toThrow('not found');
   });
 
   /**

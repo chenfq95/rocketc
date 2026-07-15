@@ -232,11 +232,11 @@ describe('acceleratorParser', () => {
     });
 
     it('should throw on invalid accelerators', () => {
-      expect(() => parser.parse('')).toThrow();
-      expect(() => parser.parse('invalid')).toThrow();
-      expect(() => parser.parse('Ctrl+')).toThrow();
-      expect(() => parser.parse('+a')).toThrow();
-      expect(() => parser.parse('a+Ctrl')).toThrow();
+      expect(() => parser.parse('')).toThrow(/parse accelerator failed/);
+      expect(() => parser.parse('invalid')).toThrow(/parse accelerator failed/);
+      expect(() => parser.parse('Ctrl+')).toThrow(/parse accelerator failed/);
+      expect(() => parser.parse('+a')).toThrow(/parse accelerator failed/);
+      expect(() => parser.parse('a+Ctrl')).toThrow(/parse accelerator failed/);
     });
 
     it('should handle custom separator', () => {
