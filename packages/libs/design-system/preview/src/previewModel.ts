@@ -177,7 +177,7 @@ export const colorRoles = [
     'Canvas',
     'surface.canvas',
     'var(--rds-color-surface-canvas)',
-    'color.neutral.50 / color.neutral.950',
+    'color.neutral.100 / color.neutral.950',
   ],
   [
     'Panel',
@@ -189,7 +189,7 @@ export const colorRoles = [
     'Elevated',
     'surface.elevated',
     'var(--rds-color-surface-elevated)',
-    'color.neutral.0 / color.neutral.800',
+    'color.neutral.0 + shadow.raised / color.neutral.800',
   ],
   [
     'Inverse',
@@ -255,7 +255,7 @@ export const colorSteps = [
 ];
 
 export const plainTypographyRoles = [
-  ['Display', 'typography.display', 'display', 'Expressive Personal UI'],
+  ['Display', 'typography.display', 'display', 'Personal Tool UI'],
   ['Title', 'typography.title', 'title', 'Design tokens that travel across frameworks'],
   ['Heading', 'typography.heading', 'heading', 'Controls composed from token roles'],
   ['Subheading', 'typography.subheading', 'subheading', 'Framework adapters'],
@@ -271,8 +271,31 @@ export const plainTypographyRoles = [
   ['Code', 'typography.code', 'code', 'color.brand.solid'],
 ];
 
+/** Three-step depth ladder shown on the plain HTML preview. */
+export const elevationSteps = [
+  ['Canvas', 'surface.canvas', 'stage', 'Page background. No elevation shadow.'],
+  [
+    'Panel',
+    'surface.panel + shadow.surface',
+    'panel',
+    'Resting content block. Border + weak shadow.',
+  ],
+  [
+    'Elevated',
+    'surface.elevated + shadow.raised',
+    'elevated',
+    'Floating card, popover, sticky bar. Raised shadow required.',
+  ],
+  [
+    'Overlay',
+    'surface.elevated + shadow.overlay',
+    'overlay',
+    'Modal, menu, and top chrome. Strongest shadow step.',
+  ],
+] as const;
+
 export const muiTypographyVariants = [
-  ['h1', 'Expressive Personal UI'],
+  ['h1', 'Personal Tool UI'],
   ['h2', 'Design tokens that travel across frameworks'],
   ['h3', 'Controls composed from token roles'],
   ['h4', 'Framework adapters'],
@@ -385,7 +408,7 @@ export const chakraColorRoles = [
 ] as const;
 
 export const chakraTypographyRoles = [
-  ['Display', 'display', 'Expressive Personal UI'],
+  ['Display', 'display', 'Personal Tool UI'],
   ['Title', 'title', 'Design tokens that travel across frameworks'],
   ['Heading', 'heading', 'Controls composed from token roles'],
   ['Subheading', 'subheading', 'Framework adapters'],

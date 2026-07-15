@@ -32,7 +32,7 @@
         "color": {
           "colorSpace": "srgb",
           "components": [0.058824, 0.090196, 0.164706],
-          "alpha": 0.06
+          "alpha": 0.05
         },
         "offsetX": {
           "value": 0,
@@ -95,11 +95,11 @@
           "unit": "px"
         },
         "blur": {
-          "value": 24,
+          "value": 20,
           "unit": "px"
         },
         "spread": {
-          "value": 0,
+          "value": -2,
           "unit": "px"
         }
       },
@@ -110,22 +110,22 @@
         "color": {
           "colorSpace": "srgb",
           "components": [0.058824, 0.090196, 0.164706],
-          "alpha": 0.18
+          "alpha": 0.2
         },
         "offsetX": {
           "value": 0,
           "unit": "px"
         },
         "offsetY": {
-          "value": 20,
+          "value": 18,
           "unit": "px"
         },
         "blur": {
-          "value": 48,
+          "value": 44,
           "unit": "px"
         },
         "spread": {
-          "value": 0,
+          "value": -4,
           "unit": "px"
         }
       },

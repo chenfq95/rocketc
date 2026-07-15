@@ -45,7 +45,8 @@
   max-width: 760px;
   margin-bottom: var(--rds-space-2);
   font-size: clamp(var(--rds-typography-size-3xl), 5vw, var(--rds-typography-display-font-size));
-  line-height: var(--rds-typography-line-height-none);
+  font-weight: var(--rds-typography-display-font-weight);
+  line-height: var(--rds-typography-display-line-height);
   letter-spacing: var(--rds-typography-display-letter-spacing);
 }
 

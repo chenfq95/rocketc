@@ -134,16 +134,19 @@ const lineHeights = [
 ] as const;
 
 const letterSpacings = [
+  ['tighter', '-0.6px'],
+  ['tight', '-0.3px'],
   ['normal', '0'],
-  ['wide', '0.2px'],
+  ['wide', '0.3px'],
+  ['wider', '0.5px'],
 ] as const;
 
 const shadowSteps = [
   ['none', '0 0 0 0 / 0'],
-  ['xs', '0 1px 1px / 0.06'],
+  ['xs', '0 1px 1px / 0.05'],
   ['sm', '0 1px 2px / 0.08'],
-  ['md', '0 8px 24px / 0.12'],
-  ['lg', '0 20px 48px / 0.18'],
+  ['md', '0 8px 20px -2px / 0.12'],
+  ['lg', '0 18px 44px -4px / 0.2'],
   ['xl', '0 28px 64px / 0.22'],
 ] as const;
 

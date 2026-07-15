@@ -2,7 +2,7 @@
   "$schema": "https://www.designtokens.org/schemas/2025.10/format.json",
   "shadow": {
     "surface": {
-      "$value": "{shadow.sm}",
+      "$value": "{shadow.xs}",
       "$type": "shadow"
     },
     "raised": {

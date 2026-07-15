@@ -32,10 +32,10 @@ export function App() {
         <header className="hero">
           <div>
             <p className="eyebrow">Rocketc Design System</p>
-            <h1>Expressive Personal UI</h1>
+            <h1>Personal Tool UI</h1>
             <p className="lede">
-              A framework-agnostic visual system for personal products, tools, dashboards, and
-              content surfaces.
+              Quiet neutral chrome, orange brand focus, and dense hierarchy for tools, dashboards,
+              and content surfaces—portable across frameworks.
             </p>
           </div>
           <div className="hero-actions" aria-label="Theme controls">

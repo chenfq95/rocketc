@@ -29,6 +29,10 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .elevation-stage {
+    grid-template-columns: 1fr 1fr;
+  }
+
   .overview-type > div {
     grid-template-columns: 1fr;
     gap: var(--rds-space-1);

@@ -2,6 +2,7 @@ import type { CSSProperties } from 'react';
 
 import {
   colorRoles,
+  elevationSteps,
   plainTypographyRoles,
   startsTokenGroup,
   type ThemeMode,
@@ -115,13 +116,19 @@ export function PlainHtmlPanel({ mode }: { mode: ThemeMode }) {
           <span className="badge">Semantic</span>
         </div>
         <p>
-          Color is assigned by role first. Brand color carries identity and primary actions; accent
-          and state colors keep emphasis and feedback separate.
+          Color is assigned by role first. Brand carries identity and primary actions; accent and
+          info stay muted neutral chrome; status colors are reserved for feedback.
         </p>
         <div className="overview-swatches">
           {colorRoles.map(([label, token, color, primitive], index) => (
             <div
-              className={startsTokenGroup(colorRoles, index) ? 'starts-color-group' : undefined}
+              className={[
+                startsTokenGroup(colorRoles, index) ? 'starts-color-group' : undefined,
+                token === 'surface.panel' ? 'is-panel' : undefined,
+                token === 'surface.elevated' ? 'is-elevated' : undefined,
+              ]
+                .filter(Boolean)
+                .join(' ')}
               key={token}
               style={{ '--swatch-color': color } as CSSProperties}
             >
@@ -160,6 +167,29 @@ export function PlainHtmlPanel({ mode }: { mode: ThemeMode }) {
                 {sample}
               </span>
               <code>{token}</code>
+            </div>
+          ))}
+        </div>
+      </article>
+
+      <article className="panel overview-section overview-section-wide">
+        <div className="panel-header">
+          <div>
+            <p className="meta">Elevation</p>
+            <h2>Three depth steps for tool UI</h2>
+          </div>
+          <span className="badge">Depth</span>
+        </div>
+        <p>
+          Light mode separates depth with border and shadow; dark mode leans on surface color steps.
+          Elevated surfaces must use <code>shadow.raised</code>.
+        </p>
+        <div className="elevation-stage" aria-label="Elevation ladder">
+          {elevationSteps.map(([label, token, recipe, detail]) => (
+            <div className={`elevation-card surface-${recipe}`} key={recipe}>
+              <strong>{label}</strong>
+              <code>{token}</code>
+              <p>{detail}</p>
             </div>
           ))}
         </div>

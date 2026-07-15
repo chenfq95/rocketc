@@ -1,8 +1,10 @@
 # Rocketc Design System
 
-Rocketc Design System is a framework-agnostic design system for expressive personal products, tools, dashboards, and content experiences.
+Rocketc Design System is a framework-agnostic design system for personal tools, dashboards, and content products—quiet chrome, orange brand focus, portable tokens.
 
 It is not a React, Vue, or Tailwind component library. It defines the visual language, tokens, behavior rules, and compiled assets that component libraries can consume.
+
+**Detailed documentation:** [`docs/`](./docs/README.md)
 
 ## Goals
 
@@ -16,7 +18,8 @@ It is not a React, Vue, or Tailwind component library. It defines the visual lan
 
 ```text
 packages/libs/design-system/
-├── principles.md
+├── docs/                 # Detailed documentation
+├── principles.md         # Short canonical principles
 ├── tokens/
 │   ├── primitive/
 │   ├── semantic/
@@ -26,9 +29,7 @@ packages/libs/design-system/
 │   ├── js/
 │   ├── mui/
 │   └── chakra/
-└── preview/
-    ├── index.html
-    └── styles.css
+└── preview/              # Vite theme playground
 ```
 
 ## Token Layers
@@ -36,20 +37,22 @@ packages/libs/design-system/
 Rocketc uses three token layers:
 
 - Primitive tokens: raw design values such as color scales and spacing values.
-- Semantic tokens: baseline role-based values such as `color.text.primary` and `color.action.primary`.
+- Semantic tokens: baseline role-based values such as `color.text.primary` and `color.brand.solid`.
 - Theme tokens: light and dark overrides for semantic roles.
 
 Component libraries and applications should consume semantic tokens first and reach for primitive tokens only when composing local component recipes. The shared design system does not publish component-specific token mappings.
 
+See [docs/tokens.md](./docs/tokens.md) and [docs/foundations.md](./docs/foundations.md).
+
 ## Preview
 
-Open `packages/libs/design-system/preview/index.html` directly in a browser to review the first visual directions.
+```bash
+bun run dev
+```
 
-The preview is intentionally plain HTML and CSS so it stays independent from any component library.
+The preview includes primitive scales, plain HTML semantic recipes, and MUI / Chakra adapter surfaces.
 
 ## Build Tokens
-
-Build platform assets from strict DTCG token files with Style Dictionary:
 
 ```bash
 bun run build:tokens
@@ -94,7 +97,6 @@ import { lightMuiTheme } from '@rocketc/design-system/mui';
 import { lightChakraTheme } from '@rocketc/design-system/chakra';
 ```
 
-The CSS theme files inline `normalize.css`. MUI receives the same baseline through
-`theme.components.MuiCssBaseline`, so render MUI's `<CssBaseline />` inside the
-theme provider when using the MUI adapter by itself. Chakra receives the baseline
-through `globalCss` when the generated system config is passed to `ChakraProvider`.
+The CSS theme files inline `normalize.css`. MUI receives the same baseline through `theme.components.MuiCssBaseline`, so render MUI's `<CssBaseline />` inside the theme provider when using the MUI adapter by itself. Chakra receives the baseline through `globalCss` when the generated system config is passed to `ChakraProvider`.
+
+Full usage recipes: [docs/usage.md](./docs/usage.md).

@@ -28,6 +28,82 @@
   padding: var(--rds-space-3);
 }
 
+.panel.elevated {
+  border-color: transparent;
+  background: var(--rds-color-surface-elevated);
+  box-shadow: var(--rds-shadow-raised);
+}
+
+.panel.overlay {
+  border-color: transparent;
+  background: var(--rds-color-surface-elevated);
+  box-shadow: var(--rds-shadow-overlay);
+}
+
+.elevation-stage {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--rds-space-3);
+  margin-top: var(--rds-space-3);
+  border: var(--rds-border-sm) solid var(--rds-color-border-subtle);
+  border-radius: var(--rds-radius-md);
+  background: var(--rds-color-surface-canvas);
+  padding: var(--rds-space-4);
+}
+
+.elevation-card {
+  min-width: 0;
+  border-radius: var(--rds-radius-md);
+  padding: var(--rds-space-3);
+}
+
+.elevation-card strong {
+  display: block;
+  font-size: var(--rds-typography-label-font-size);
+  font-weight: var(--rds-typography-label-font-weight);
+  letter-spacing: var(--rds-typography-label-letter-spacing);
+}
+
+.elevation-card code {
+  display: block;
+  margin-top: var(--rds-space-1);
+  color: var(--rds-color-text-muted);
+  font-family: var(--rds-typography-code-font-family);
+  font-size: var(--rds-typography-caption-font-size);
+  overflow-wrap: anywhere;
+}
+
+.elevation-card p {
+  margin: var(--rds-space-2) 0 0;
+  color: var(--rds-color-text-secondary);
+  font-size: var(--rds-typography-body-small-font-size);
+  line-height: var(--rds-typography-body-small-line-height);
+}
+
+.surface-stage {
+  border: var(--rds-border-sm) dashed var(--rds-color-border-default);
+  background: var(--rds-color-surface-canvas);
+  box-shadow: none;
+}
+
+.surface-panel {
+  border: var(--rds-border-sm) solid var(--rds-color-border-subtle);
+  background: var(--rds-color-surface-panel);
+  box-shadow: var(--rds-shadow-surface);
+}
+
+.surface-elevated {
+  border: var(--rds-border-sm) solid transparent;
+  background: var(--rds-color-surface-elevated);
+  box-shadow: var(--rds-shadow-raised);
+}
+
+.surface-overlay {
+  border: var(--rds-border-sm) solid transparent;
+  background: var(--rds-color-surface-elevated);
+  box-shadow: var(--rds-shadow-overlay);
+}
+
 .feature {
   position: relative;
   overflow: hidden;
@@ -353,6 +429,15 @@
   background: var(--swatch-color);
 }
 
+.overview-swatches .is-elevated span {
+  border-color: transparent;
+  box-shadow: var(--rds-shadow-raised);
+}
+
+.overview-swatches .is-panel span {
+  box-shadow: var(--rds-shadow-surface);
+}
+
 .overview-swatches strong,
 .overview-swatches code {
   display: block;
@@ -626,9 +711,7 @@
 .sample-card,
 .sample-dialog {
   min-width: 0;
-  border: var(--rds-border-sm) solid var(--rds-color-border-subtle);
   border-radius: var(--rds-radius-md);
-  background: var(--rds-color-surface-panel);
   padding: var(--rds-space-3);
 }
 
@@ -636,6 +719,9 @@
   display: grid;
   align-content: start;
   gap: var(--rds-space-2);
+  border: var(--rds-border-sm) solid var(--rds-color-border-subtle);
+  background: var(--rds-color-surface-panel);
+  box-shadow: var(--rds-shadow-surface);
 }
 
 .sample-card strong,
@@ -651,5 +737,7 @@
 }
 
 .sample-dialog {
-  box-shadow: var(--rds-shadow-lg);
+  border: var(--rds-border-sm) solid transparent;
+  background: var(--rds-color-surface-elevated);
+  box-shadow: var(--rds-shadow-overlay);
 }

@@ -34,6 +34,24 @@ tokens/
 - `semantic/`: baseline role tokens such as brand colors, text colors, layout regions, shadows, and stacking roles.
 - `theme/`: theme-specific overrides for semantic roles. A theme only needs files for values that differ from the semantic baseline.
 
+## Elevation
+
+Use three semantic depth steps. Do not invent extra elevation levels for tool UI.
+
+| Surface                  | Light recipe                        | Dark recipe                          | Shadow                     |
+| ------------------------ | ----------------------------------- | ------------------------------------ | -------------------------- |
+| `color.surface.canvas`   | Stage / page background             | Darkest stage                        | none                       |
+| `color.surface.panel`    | White + `border.subtle`             | Mid surface + subtle border          | `shadow.surface` (resting) |
+| `color.surface.elevated` | Same white as panel; no hard border | One step lighter than panel          | `shadow.raised` (required) |
+| Overlay UI (modal, menu) | Same fill as elevated               | Same fill as elevated or one step up | `shadow.overlay`           |
+
+Contract:
+
+- `panel` rests on the canvas with border + weak shadow.
+- `elevated` must pair with `shadow.raised` (popover, sticky bar, floating card).
+- Top-layer chrome (dialog, menu) uses `shadow.overlay`.
+- Light mode separates depth mainly by shadow and border; dark mode mainly by surface color steps.
+
 ## Format
 
 Each token uses DTCG-style `$value` and `$type` fields. Token references use curly-brace aliases such as `{color.orange.500}`.

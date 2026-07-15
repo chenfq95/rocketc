@@ -3,7 +3,7 @@
   "color": {
     "surface": {
       "canvas": {
-        "$value": "{color.neutral.50}",
+        "$value": "{color.neutral.100}",
         "$type": "color"
       },
       "panel": {

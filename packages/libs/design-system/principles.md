@@ -2,17 +2,19 @@
 
 ## Direction
 
-Rocketc Design System starts from an Expressive Personal UI direction: distinctive enough to feel owned, but practical enough for real tools, dashboards, and content products.
+Rocketc Design System is a personal tool UI system: orange brand identity on quiet neutral chrome, dense enough for dashboards, portable enough for real products. Recognition comes from brand color, type hierarchy, and elevation—not from a multi-hue expressive palette.
 
 ## Principles
 
-### Signature First
+### Signature Through Brand and Hierarchy
 
-Every important surface should have a clear visual signature. The signature can come from color, contrast, layout rhythm, typography, or motion, but it should not make the interface harder to scan.
+Identity is carried by the brand orange on primary actions and key accents, plus a clear type and elevation ladder. Surfaces stay calm so the signature stays scannable. Do not invent a second “personality hue” to force distinctiveness.
 
-### Quiet by Default, Expressive on Focus
+Depth stays at three steps—`panel` (resting), `elevated` + `shadow.raised`, and `shadow.overlay` for top chrome. Light mode leans on border and shadow; dark mode leans on surface color steps.
 
-Default surfaces are calm and readable. Primary actions, focused states, selected items, and important feedback can be more vivid.
+### Quiet by Default, Brand on Focus
+
+Default surfaces, chrome, and secondary actions stay neutral and readable. Brand color is reserved for primary actions, selected states, and important emphasis. Status colors stay in their own lane.
 
 ### Dense When Needed
 
@@ -20,7 +22,7 @@ Tools and dashboards need compact information density. Density should come from 
 
 ### Color Has Meaning
 
-Brand color expresses identity and primary action. Accent color creates emphasis. State colors communicate status. These roles should not be mixed casually.
+Brand color expresses identity and primary action. Accent and info are muted neutral roles for secondary chrome and informational UI—not a second brand hue. State colors (success, warning, danger) communicate status only. These roles should not be mixed casually.
 
 ### Motion Should Confirm
 
