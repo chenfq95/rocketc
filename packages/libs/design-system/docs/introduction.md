@@ -17,7 +17,7 @@ It is the **source of truth for look and feel**, not a React/Vue/Svelte componen
 - Not a Tailwind preset (yet)—principles allow it; this package does not ship one today
 - Not a Figma library sync (tokens are code-first)
 
-Component libraries such as `@rocketc/react` may adopt these tokens later; until then, treat this package as the visual contract those libraries should converge on.
+`@rocketc/design-system` replaces the deprecated `@rocketc/react` package as Rocketc's visual contract. Use its tokens and framework adapters with the component library appropriate for each application.
 
 ## Product direction
 
