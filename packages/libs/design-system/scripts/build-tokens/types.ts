@@ -33,6 +33,7 @@ export type ShadowValue = {
   offsetY: DimensionValue;
   blur: DimensionValue;
   spread: DimensionValue;
+  inset?: boolean;
 };
 
 export type TypographyValue = {

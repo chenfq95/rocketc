@@ -33,8 +33,11 @@ export const themeSelector: Record<ThemeName, string> = {
   dark: "[data-theme='dark']",
 };
 
-export const tokenSources = (theme: ThemeName): string[] => [
+export const tokenIncludes = (): string[] => [
   'tokens/primitive/**/*.tokens.json',
-  `tokens/semantic/${theme}/**/*.tokens.json`,
-  'tokens/component/**/*.tokens.json',
+  'tokens/semantic/**/*.tokens.json',
+];
+
+export const tokenSources = (theme: ThemeName): string[] => [
+  `tokens/theme/${theme}/**/*.tokens.json`,
 ];

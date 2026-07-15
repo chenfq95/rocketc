@@ -23,8 +23,15 @@ export const formatFontFamily = (families: string | string[]): string => {
     .join(', ');
 };
 
-export const formatShadow = ({ color, offsetX, offsetY, blur, spread }: ShadowValue): string =>
-  `${[offsetX, offsetY, blur, spread].map(formatDimension).join(' ')} ${formatColor(color)}`;
+export const formatShadow = ({
+  color,
+  offsetX,
+  offsetY,
+  blur,
+  spread,
+  inset,
+}: ShadowValue): string =>
+  `${inset ? 'inset ' : ''}${[offsetX, offsetY, blur, spread].map(formatDimension).join(' ')} ${formatColor(color)}`;
 
 export const formatCssValue = (value: TokenValue, type: TokenType): string => {
   switch (type) {

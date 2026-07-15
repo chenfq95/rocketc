@@ -10,38 +10,29 @@ tokens/
 │   ├── blur.tokens.json
 │   ├── color.tokens.json
 │   ├── dimension.tokens.json
-│   ├── layout.tokens.json
 │   ├── motion.tokens.json
 │   ├── opacity.tokens.json
 │   ├── shadow.tokens.json
 │   ├── typography.tokens.json
 │   └── z-index.tokens.json
 ├── semantic/
+│   ├── color.tokens.json
+│   ├── layout.tokens.json
+│   ├── opacity.tokens.json
+│   ├── shadow.tokens.json
+│   ├── typography.tokens.json
+│   └── z-index.tokens.json
+├── theme/
 │   ├── light/
-│   │   ├── color.tokens.json
-│   │   ├── layout.tokens.json
-│   │   ├── motion.tokens.json
-│   │   ├── opacity.tokens.json
-│   │   ├── shadow.tokens.json
-│   │   ├── typography.tokens.json
-│   │   └── z-index.tokens.json
+│   │   └── README.md
 │   └── dark/
 │       ├── color.tokens.json
-│       ├── layout.tokens.json
-│       ├── motion.tokens.json
-│       ├── opacity.tokens.json
-│       ├── shadow.tokens.json
-│       ├── typography.tokens.json
-│       └── z-index.tokens.json
-└── component/
-    ├── button.tokens.json
-    ├── card.tokens.json
-    └── input.tokens.json
+│       └── opacity.tokens.json
 ```
 
-- `primitive/`: raw design values such as color scales, spacing, radius, and font families.
-- `semantic/`: theme-specific role tokens such as brand colors, text colors, shadows, and motion.
-- `component/`: component-level token mappings for controls and surfaces.
+- `primitive/`: raw design values such as color scales, spacing, measure scale, radius, and font families.
+- `semantic/`: baseline role tokens such as brand colors, text colors, layout regions, shadows, and stacking roles.
+- `theme/`: theme-specific overrides for semantic roles. A theme only needs files for values that differ from the semantic baseline.
 
 ## Format
 

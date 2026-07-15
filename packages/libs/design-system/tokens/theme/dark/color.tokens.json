@@ -1,0 +1,209 @@
+{
+  "$schema": "https://www.designtokens.org/schemas/2025.10/format.json",
+  "color": {
+    "surface": {
+      "canvas": {
+        "$value": "{color.neutral.950}",
+        "$type": "color"
+      },
+      "panel": {
+        "$value": "{color.neutral.900}",
+        "$type": "color"
+      },
+      "elevated": {
+        "$value": "{color.neutral.800}",
+        "$type": "color"
+      },
+      "inverse": {
+        "$value": "{color.neutral.0}",
+        "$type": "color"
+      }
+    },
+    "text": {
+      "primary": {
+        "$value": "{color.neutral.50}",
+        "$type": "color"
+      },
+      "secondary": {
+        "$value": "{color.neutral.300}",
+        "$type": "color"
+      },
+      "muted": {
+        "$value": "{color.neutral.400}",
+        "$type": "color"
+      },
+      "inverse": {
+        "$value": "{color.neutral.950}",
+        "$type": "color"
+      }
+    },
+    "border": {
+      "subtle": {
+        "$value": "{color.neutral.800}",
+        "$type": "color"
+      },
+      "default": {
+        "$value": "{color.neutral.700}",
+        "$type": "color"
+      },
+      "focus": {
+        "$value": "{color.neutral.500}",
+        "$type": "color"
+      }
+    },
+    "action": {
+      "hover": {
+        "$value": "{color.neutral.800}",
+        "$type": "color"
+      },
+      "disabledBackground": {
+        "$value": "{color.neutral.800}",
+        "$type": "color"
+      },
+      "focus": {
+        "$value": "{color.neutral.700}",
+        "$type": "color"
+      }
+    },
+    "brand": {
+      "solid": {
+        "$value": "{color.orange.500}",
+        "$type": "color"
+      },
+      "hard": {
+        "$value": "{color.orange.600}",
+        "$type": "color"
+      },
+      "soft": {
+        "$value": "{color.orange.950}",
+        "$type": "color"
+      },
+      "text": {
+        "$value": "{color.orange.300}",
+        "$type": "color"
+      },
+      "border": {
+        "$value": "{color.orange.600}",
+        "$type": "color"
+      }
+    },
+    "accent": {
+      "solid": {
+        "$value": "{color.neutral.700}",
+        "$type": "color"
+      },
+      "hard": {
+        "$value": "{color.neutral.600}",
+        "$type": "color"
+      },
+      "soft": {
+        "$value": "{color.neutral.800}",
+        "$type": "color"
+      },
+      "text": {
+        "$value": "{color.neutral.200}",
+        "$type": "color"
+      },
+      "border": {
+        "$value": "{color.neutral.700}",
+        "$type": "color"
+      },
+      "contrast": {
+        "$value": "{color.neutral.50}",
+        "$type": "color"
+      }
+    },
+    "success": {
+      "solid": {
+        "$value": "{color.green.500}",
+        "$type": "color"
+      },
+      "hard": {
+        "$value": "{color.green.800}",
+        "$type": "color"
+      },
+      "soft": {
+        "$value": "{color.green.950}",
+        "$type": "color"
+      },
+      "text": {
+        "$value": "{color.green.300}",
+        "$type": "color"
+      },
+      "border": {
+        "$value": "{color.green.700}",
+        "$type": "color"
+      }
+    },
+    "warning": {
+      "solid": {
+        "$value": "{color.amber.500}",
+        "$type": "color"
+      },
+      "hard": {
+        "$value": "{color.amber.800}",
+        "$type": "color"
+      },
+      "soft": {
+        "$value": "{color.amber.950}",
+        "$type": "color"
+      },
+      "text": {
+        "$value": "{color.amber.300}",
+        "$type": "color"
+      },
+      "border": {
+        "$value": "{color.amber.700}",
+        "$type": "color"
+      }
+    },
+    "danger": {
+      "solid": {
+        "$value": "{color.red.500}",
+        "$type": "color"
+      },
+      "hard": {
+        "$value": "{color.red.800}",
+        "$type": "color"
+      },
+      "soft": {
+        "$value": "{color.red.950}",
+        "$type": "color"
+      },
+      "text": {
+        "$value": "{color.red.300}",
+        "$type": "color"
+      },
+      "border": {
+        "$value": "{color.red.700}",
+        "$type": "color"
+      }
+    },
+    "info": {
+      "solid": {
+        "$value": "{color.neutral.700}",
+        "$type": "color"
+      },
+      "hard": {
+        "$value": "{color.neutral.800}",
+        "$type": "color"
+      },
+      "soft": {
+        "$value": "{color.neutral.800}",
+        "$type": "color"
+      },
+      "text": {
+        "$value": "{color.neutral.300}",
+        "$type": "color"
+      },
+      "border": {
+        "$value": "{color.neutral.700}",
+        "$type": "color"
+      },
+      "contrast": {
+        "$value": "{color.neutral.50}",
+        "$type": "color"
+      }
+    }
+  }
+}

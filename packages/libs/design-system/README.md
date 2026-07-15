@@ -10,7 +10,7 @@ It is not a React, Vue, or Tailwind component library. It defines the visual lan
 - Keep design decisions portable across frameworks and UI libraries.
 - Make tokens the source of truth for color, type, spacing, radius, shadow, and motion.
 - Provide previews that make visual choices easy to compare.
-- Keep component-specific decisions in tokens before binding them to any specific implementation.
+- Keep component-specific decisions in adapters or applications instead of the shared token source.
 
 ## Package Structure
 
@@ -20,7 +20,7 @@ packages/libs/design-system/
 ├── tokens/
 │   ├── primitive/
 │   ├── semantic/
-│   └── component/
+│   └── theme/
 ├── dist/
 │   ├── css/
 │   ├── js/
@@ -36,10 +36,10 @@ packages/libs/design-system/
 Rocketc uses three token layers:
 
 - Primitive tokens: raw design values such as color scales and spacing values.
-- Semantic tokens: role-based values such as `color.text.primary` and `color.action.primary`.
-- Component tokens: component-specific mappings such as `button.primary.background`.
+- Semantic tokens: baseline role-based values such as `color.text.primary` and `color.action.primary`.
+- Theme tokens: light and dark overrides for semantic roles.
 
-Component libraries and applications should consume semantic and component tokens. Primitive tokens are source values, not component API.
+Component libraries and applications should consume semantic tokens first and reach for primitive tokens only when composing local component recipes. The shared design system does not publish component-specific token mappings.
 
 ## Preview
 
@@ -55,7 +55,7 @@ Build platform assets from strict DTCG token files with Style Dictionary:
 bun run build:tokens
 ```
 
-The build reads `tokens/primitive`, one semantic theme, and `tokens/component`, then writes:
+The build includes `tokens/primitive` and `tokens/semantic` as baseline layers, then loads one theme from `tokens/theme` as the override source before writing:
 
 ```text
 dist/
@@ -93,3 +93,8 @@ Use framework adapter modules when a component library needs a native theme obje
 import { lightMuiTheme } from '@rocketc/design-system/mui';
 import { lightChakraTheme } from '@rocketc/design-system/chakra';
 ```
+
+The CSS theme files inline `normalize.css`. MUI receives the same baseline through
+`theme.components.MuiCssBaseline`, so render MUI's `<CssBaseline />` inside the
+theme provider when using the MUI adapter by itself. Chakra receives the baseline
+through `globalCss` when the generated system config is passed to `ChakraProvider`.

@@ -1,8 +1,109 @@
 import type { CSSProperties } from 'react';
 
-import { colorRoles, plainTypographyRoles, startsTokenGroup } from '../previewModel';
+import {
+  colorRoles,
+  plainTypographyRoles,
+  startsTokenGroup,
+  type ThemeMode,
+} from '../previewModel';
 
-export function PlainHtmlPanel() {
+const getPrimitiveSource = (primitive: string, mode: ThemeMode) => {
+  const [light, dark] = primitive.split(' / ');
+
+  return mode === 'dark' && dark ? dark : light;
+};
+
+const plainButtonPalettes = [
+  {
+    label: 'Default',
+    vars: {
+      '--button-soft': 'var(--rds-color-action-hover)',
+      '--button-border': 'var(--rds-color-border-default)',
+      '--button-text': 'var(--rds-color-text-primary)',
+      '--button-solid': 'var(--rds-color-text-primary)',
+      '--button-hard': 'var(--rds-color-surface-inverse)',
+      '--button-contrast': 'var(--rds-color-text-inverse)',
+    },
+  },
+  {
+    label: 'Brand',
+    vars: {
+      '--button-soft': 'var(--rds-color-brand-soft)',
+      '--button-border': 'var(--rds-color-brand-border)',
+      '--button-text': 'var(--rds-color-brand-text)',
+      '--button-solid': 'var(--rds-color-brand-solid)',
+      '--button-hard': 'var(--rds-color-brand-hard)',
+      '--button-contrast': 'var(--rds-color-brand-contrast)',
+    },
+  },
+  {
+    label: 'Accent',
+    vars: {
+      '--button-soft': 'var(--rds-color-accent-soft)',
+      '--button-border': 'var(--rds-color-accent-border)',
+      '--button-text': 'var(--rds-color-accent-text)',
+      '--button-solid': 'var(--rds-color-accent-solid)',
+      '--button-hard': 'var(--rds-color-accent-hard)',
+      '--button-contrast': 'var(--rds-color-accent-contrast)',
+    },
+  },
+  {
+    label: 'Success',
+    vars: {
+      '--button-soft': 'var(--rds-color-success-soft)',
+      '--button-border': 'var(--rds-color-success-border)',
+      '--button-text': 'var(--rds-color-success-text)',
+      '--button-solid': 'var(--rds-color-success-solid)',
+      '--button-hard': 'var(--rds-color-success-hard)',
+      '--button-contrast': 'var(--rds-color-success-contrast)',
+    },
+  },
+  {
+    label: 'Warning',
+    vars: {
+      '--button-soft': 'var(--rds-color-warning-soft)',
+      '--button-border': 'var(--rds-color-warning-border)',
+      '--button-text': 'var(--rds-color-warning-text)',
+      '--button-solid': 'var(--rds-color-warning-solid)',
+      '--button-hard': 'var(--rds-color-warning-hard)',
+      '--button-contrast': 'var(--rds-color-warning-contrast)',
+    },
+  },
+  {
+    label: 'Danger',
+    vars: {
+      '--button-soft': 'var(--rds-color-danger-soft)',
+      '--button-border': 'var(--rds-color-danger-border)',
+      '--button-text': 'var(--rds-color-danger-text)',
+      '--button-solid': 'var(--rds-color-danger-solid)',
+      '--button-hard': 'var(--rds-color-danger-hard)',
+      '--button-contrast': 'var(--rds-color-danger-contrast)',
+    },
+  },
+  {
+    label: 'Info',
+    vars: {
+      '--button-soft': 'var(--rds-color-info-soft)',
+      '--button-border': 'var(--rds-color-info-border)',
+      '--button-text': 'var(--rds-color-info-text)',
+      '--button-solid': 'var(--rds-color-info-solid)',
+      '--button-hard': 'var(--rds-color-info-hard)',
+      '--button-contrast': 'var(--rds-color-info-contrast)',
+    },
+  },
+] as const;
+
+const plainButtonVariants = [
+  { label: 'solid', disabled: false, variant: 'solid' },
+  { label: 'subtle', disabled: false, variant: 'subtle' },
+  { label: 'surface', disabled: false, variant: 'surface' },
+  { label: 'outline', disabled: false, variant: 'outline' },
+  { label: 'ghost', disabled: false, variant: 'ghost' },
+  { label: 'plain', disabled: false, variant: 'plain' },
+  { label: 'disabled', disabled: true, variant: 'solid' },
+] as const;
+
+export function PlainHtmlPanel({ mode }: { mode: ThemeMode }) {
   return (
     <div className="overview-layout" aria-label="Plain HTML preview">
       <article className="panel feature overview-section">
@@ -18,7 +119,7 @@ export function PlainHtmlPanel() {
           and state colors keep emphasis and feedback separate.
         </p>
         <div className="overview-swatches">
-          {colorRoles.map(([label, token, color], index) => (
+          {colorRoles.map(([label, token, color, primitive], index) => (
             <div
               className={startsTokenGroup(colorRoles, index) ? 'starts-color-group' : undefined}
               key={token}
@@ -27,6 +128,7 @@ export function PlainHtmlPanel() {
               <span />
               <strong>{label}</strong>
               <code>{token}</code>
+              <code className="primitive-source">{getPrimitiveSource(primitive, mode)}</code>
             </div>
           ))}
         </div>
@@ -72,6 +174,29 @@ export function PlainHtmlPanel() {
           <span className="badge">Portable</span>
         </div>
         <div className="overview-components">
+          <div className="component-demo component-demo-wide">
+            <h3>Buttons</h3>
+            <div className="plain-button-grid">
+              {plainButtonPalettes.map((palette) => (
+                <div className="plain-button-row" key={palette.label}>
+                  <strong>{palette.label}</strong>
+                  {plainButtonVariants.map((variant) => (
+                    <button
+                      className="button token-button"
+                      data-variant={variant.variant}
+                      disabled={variant.disabled}
+                      key={variant.label}
+                      style={palette.vars as CSSProperties}
+                      type="button"
+                    >
+                      {variant.label}
+                    </button>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+
           <div className="component-demo">
             <h3>Actions</h3>
             <div className="button-row">

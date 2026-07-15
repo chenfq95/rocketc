@@ -3,7 +3,7 @@
   "layout": {
     "page": {
       "maxWidth": {
-        "$value": "{container.xl}",
+        "$value": "{measure.xl}",
         "$type": "dimension"
       },
       "gutter": {
@@ -13,35 +13,41 @@
     },
     "reading": {
       "maxWidth": {
-        "$value": "{layout.readingMaxWidth}",
+        "$value": {
+          "value": 720,
+          "unit": "px"
+        },
         "$type": "dimension"
       }
     },
     "header": {
       "height": {
-        "$value": "{layout.headerHeight}",
+        "$value": "{space.11}",
         "$type": "dimension"
       }
     },
     "toolbar": {
       "height": {
-        "$value": "{layout.toolbarHeight}",
+        "$value": "{space.8}",
         "$type": "dimension"
       }
     },
     "sidebar": {
       "width": {
-        "$value": "{layout.sidebarWidth}",
+        "$value": {
+          "value": 248,
+          "unit": "px"
+        },
         "$type": "dimension"
       },
       "collapsedWidth": {
-        "$value": "{layout.sidebarCollapsedWidth}",
+        "$value": "{space.12}",
         "$type": "dimension"
       }
     },
     "content": {
       "maxWidth": {
-        "$value": "{layout.contentMaxWidth}",
+        "$value": "{measure.xl}",
         "$type": "dimension"
       }
     }

@@ -1,14 +1,14 @@
-import { formatColor, formatCssValue, formatDimension, formatShadow } from './format.ts';
-import type {
-  ChakraThemeConfig,
-  ColorValue,
-  DimensionValue,
-  FlatTokenTheme,
-  ShadowValue,
-  TokenType,
-  TokenValue,
-  TypographyValue,
-} from './types.ts';
+import { formatCssValue } from './format.ts';
+import { NORMALIZE_GLOBAL_CSS } from './normalize.ts';
+import {
+  colorToken,
+  dimensionCssToken,
+  numberToken,
+  shadowToken,
+  tokenCssValue,
+  typographyToken,
+} from './token-access.ts';
+import type { ChakraThemeConfig, FlatTokenTheme } from './types.ts';
 
 type ChakraToken = {
   value: string;
@@ -18,112 +18,39 @@ interface ChakraTokenTree {
   [key: string]: ChakraToken | ChakraTokenTree;
 }
 
-const colorScales = ['neutral', 'orange', 'coral', 'cyan', 'green', 'blue', 'amber', 'red'];
+const colorScales = ['neutral', 'red', 'orange', 'amber', 'green', 'teal', 'blue', 'purple'];
 const colorSteps = ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900', '950'];
 
-const semanticColorGroups = {
+const DESIGN_SYSTEM_COLOR_GROUPS = {
   brand: 'color.brand',
   accent: 'color.accent',
-  success: 'color.state.success',
-  warning: 'color.state.warning',
-  info: 'color.state.info',
-  danger: 'color.state.danger',
+  success: 'color.success',
+  warning: 'color.warning',
+  info: 'color.info',
+  danger: 'color.danger',
 } as const;
 
-const chakraPaletteRoles: Record<keyof typeof semanticColorGroups, Record<string, string>> = {
-  brand: {
-    solid: 'solid',
-    border: 'border',
-    contrast: 'contrastText',
-    fg: 'text',
-    muted: 'soft',
-    subtle: 'soft',
-    emphasized: 'hard',
-    focusRing: 'border',
-  },
-  accent: {
-    solid: 'solid',
-    border: 'border',
-    contrast: 'contrastText',
-    fg: 'text',
-    muted: 'soft',
-    subtle: 'soft',
-    emphasized: 'hard',
-    focusRing: 'border',
-  },
-  success: {
-    solid: 'solid',
-    contrast: 'contrastText',
-    fg: 'hard',
-    muted: 'soft',
-    subtle: 'soft',
-    emphasized: 'hard',
-    border: 'solid',
-    focusRing: 'solid',
-  },
-  warning: {
-    solid: 'solid',
-    contrast: 'contrastText',
-    fg: 'hard',
-    muted: 'soft',
-    subtle: 'soft',
-    emphasized: 'hard',
-    border: 'solid',
-    focusRing: 'solid',
-  },
-  info: {
-    solid: 'solid',
-    contrast: 'contrastText',
-    fg: 'hard',
-    muted: 'soft',
-    subtle: 'soft',
-    emphasized: 'hard',
-    border: 'solid',
-    focusRing: 'solid',
-  },
-  danger: {
-    solid: 'solid',
-    contrast: 'contrastText',
-    fg: 'hard',
-    muted: 'soft',
-    subtle: 'soft',
-    emphasized: 'hard',
-    border: 'solid',
-    focusRing: 'solid',
-  },
-};
+const CHAKRA_PALETTE_ALIASES = {
+  red: 'color.danger',
+  orange: 'color.brand',
+  yellow: 'color.warning',
+  green: 'color.success',
+  teal: 'color.accent',
+  blue: 'color.info',
+} as const;
 
-const tokenValue = (tokens: FlatTokenTheme, name: string): TokenValue => {
-  const token = tokens[name];
-  if (!token) throw new Error(`Missing token "${name}"`);
+const CHAKRA_COLOR_ROLE_MAP = {
+  solid: 'solid',
+  contrast: 'contrast',
+  fg: 'text',
+  muted: 'soft',
+  subtle: 'soft',
+  emphasized: 'hard',
+  border: 'border',
+  focusRing: 'border',
+} as const;
 
-  return token.$value;
-};
-
-const tokenType = (tokens: FlatTokenTheme, name: string): TokenType => {
-  const token = tokens[name];
-  if (!token) throw new Error(`Missing token "${name}"`);
-
-  return token.$type;
-};
-
-const tokenCssValue = (tokens: FlatTokenTheme, name: string): string =>
-  formatCssValue(tokenValue(tokens, name), tokenType(tokens, name));
-
-const colorToken = (tokens: FlatTokenTheme, name: string): string =>
-  formatColor(tokenValue(tokens, name) as ColorValue);
-
-const dimensionToken = (tokens: FlatTokenTheme, name: string): string =>
-  formatDimension(tokenValue(tokens, name) as unknown as DimensionValue);
-
-const numberToken = (tokens: FlatTokenTheme, name: string): number =>
-  Number(tokenValue(tokens, name));
-
-const shadowToken = (tokens: FlatTokenTheme, name: string): string =>
-  formatShadow(tokenValue(tokens, name) as unknown as ShadowValue);
-
-const typographyToken = (tokens: FlatTokenTheme, name: string): TypographyValue =>
-  tokenValue(tokens, name) as TypographyValue;
+const { body: normalizeBodyCss, ...normalizeGlobalCssWithoutBody } = NORMALIZE_GLOBAL_CSS;
 
 const token = (value: string | number): ChakraToken => ({ value: String(value) });
 
@@ -140,6 +67,63 @@ const tokenMap = (tokens: FlatTokenTheme, prefix: string): ChakraTokenTree =>
     ]),
   );
 
+const fontWeightMap = (tokens: FlatTokenTheme): ChakraTokenTree => ({
+  ...tokenMap(tokens, 'typography.weight'),
+  normal: token(tokenCssValue(tokens, 'typography.weight.normal')),
+});
+
+const spacingMap = (tokens: FlatTokenTheme): ChakraTokenTree => ({
+  ...tokenMap(tokens, 'space'),
+  '0.5': token(tokenCssValue(tokens, 'space.0.5')),
+  '1.5': token(tokenCssValue(tokens, 'space.1.5')),
+  '2.5': token(tokenCssValue(tokens, 'space.2.5')),
+  '3.5': token(tokenCssValue(tokens, 'space.3.5')),
+});
+
+const borderToken = (tokens: FlatTokenTheme, name: string): ChakraToken =>
+  token(`${dimensionCssToken(tokens, name)} solid`);
+
+const borderMap = (tokens: FlatTokenTheme): ChakraTokenTree => ({
+  ...Object.fromEntries(
+    entriesByPrefix(tokens, 'border').map((name) => [
+      name.slice('border.'.length),
+      borderToken(tokens, name),
+    ]),
+  ),
+});
+
+const animationMap = (tokens: FlatTokenTheme): ChakraTokenTree => ({
+  spin: token(
+    `spin ${tokenCssValue(tokens, 'duration.slower')} ${tokenCssValue(tokens, 'easing.linear')} infinite`,
+  ),
+  ping: token(
+    `ping ${tokenCssValue(tokens, 'duration.slower')} ${tokenCssValue(tokens, 'easing.exit')} infinite`,
+  ),
+  pulse: token(
+    `pulse ${tokenCssValue(tokens, 'duration.slower')} ${tokenCssValue(tokens, 'easing.standard')} infinite`,
+  ),
+  bounce: token(
+    `bounce ${tokenCssValue(tokens, 'duration.slower')} ${tokenCssValue(tokens, 'easing.enter')} infinite`,
+  ),
+});
+
+const breakpointMap = (tokens: FlatTokenTheme): Record<string, string> =>
+  Object.fromEntries(
+    entriesByPrefix(tokens, 'breakpoint').map((name) => [
+      name.slice('breakpoint.'.length),
+      dimensionCssToken(tokens, name),
+    ]),
+  );
+
+const zIndexMap = (tokens: FlatTokenTheme): ChakraTokenTree => ({
+  ...tokenMap(tokens, 'zIndex'),
+  hide: token(tokenCssValue(tokens, 'zIndex.-1')),
+  docked: token(tokenCssValue(tokens, 'zIndex.raised')),
+  banner: token(tokenCssValue(tokens, 'zIndex.sticky')),
+  skipNav: token(tokenCssValue(tokens, 'zIndex.tooltip')),
+  max: token(2147483647),
+});
+
 const typographyMap = (tokens: FlatTokenTheme) => {
   const roles = [
     'display',
@@ -147,7 +131,7 @@ const typographyMap = (tokens: FlatTokenTheme) => {
     'heading',
     'subheading',
     'body',
-    'bodyStrong',
+    'bodySmall',
     'label',
     'caption',
     'code',
@@ -182,65 +166,147 @@ const colorTokens = (tokens: FlatTokenTheme): ChakraTokenTree => ({
       ),
     ]),
   ),
+  gray: Object.fromEntries(
+    colorSteps.map((step) => [step, token(colorToken(tokens, `color.neutral.${step}`))]),
+  ),
   black: token(colorToken(tokens, 'color.common.black')),
   white: token(colorToken(tokens, 'color.common.white')),
 });
 
-const semanticColorTokens = (tokens: FlatTokenTheme): ChakraTokenTree =>
+const chakraBaseSemanticColors = (tokens: FlatTokenTheme): ChakraTokenTree => ({
+  bg: {
+    DEFAULT: token(colorToken(tokens, 'color.surface.canvas')),
+    panel: token(colorToken(tokens, 'color.surface.panel')),
+    elevated: token(colorToken(tokens, 'color.surface.elevated')),
+    subtle: token(colorToken(tokens, 'color.surface.canvas')),
+    muted: token(colorToken(tokens, 'color.action.hover')),
+    emphasized: token(colorToken(tokens, 'color.action.focus')),
+    inverted: token(colorToken(tokens, 'color.surface.inverse')),
+    error: token(colorToken(tokens, 'color.danger.soft')),
+    warning: token(colorToken(tokens, 'color.warning.soft')),
+    success: token(colorToken(tokens, 'color.success.soft')),
+    info: token(colorToken(tokens, 'color.info.soft')),
+  },
+  fg: {
+    DEFAULT: token(colorToken(tokens, 'color.text.primary')),
+    muted: token(colorToken(tokens, 'color.text.muted')),
+    subtle: token(colorToken(tokens, 'color.text.secondary')),
+    inverted: token(colorToken(tokens, 'color.text.inverse')),
+    error: token(colorToken(tokens, 'color.danger.text')),
+    warning: token(colorToken(tokens, 'color.warning.text')),
+    success: token(colorToken(tokens, 'color.success.text')),
+    info: token(colorToken(tokens, 'color.info.text')),
+  },
+  border: {
+    DEFAULT: token(colorToken(tokens, 'color.border.default')),
+    muted: token(colorToken(tokens, 'color.border.subtle')),
+    subtle: token(colorToken(tokens, 'color.border.subtle')),
+    emphasized: token(colorToken(tokens, 'color.border.strong')),
+    inverted: token(colorToken(tokens, 'color.border.strong')),
+    error: token(colorToken(tokens, 'color.danger.border')),
+    warning: token(colorToken(tokens, 'color.warning.border')),
+    success: token(colorToken(tokens, 'color.success.border')),
+    info: token(colorToken(tokens, 'color.info.border')),
+    focus: token(colorToken(tokens, 'color.border.focus')),
+  },
+});
+
+const chakraPaletteSemanticRoles = (
+  tokens: FlatTokenTheme,
+  prefix:
+    | (typeof DESIGN_SYSTEM_COLOR_GROUPS)[keyof typeof DESIGN_SYSTEM_COLOR_GROUPS]
+    | (typeof CHAKRA_PALETTE_ALIASES)[keyof typeof CHAKRA_PALETTE_ALIASES],
+): ChakraTokenTree =>
   Object.fromEntries(
-    Object.entries(semanticColorGroups).map(([group, prefix]) => [
-      group,
-      Object.fromEntries(
-        Object.entries(chakraPaletteRoles[group as keyof typeof chakraPaletteRoles]).map(
-          ([chakraRole, sourceRole]) => [
-            chakraRole,
-            token(colorToken(tokens, `${prefix}.${sourceRole}`)),
-          ],
-        ),
-      ),
+    Object.entries(CHAKRA_COLOR_ROLE_MAP).map(([chakraRole, sourceRole]) => [
+      chakraRole,
+      token(colorToken(tokens, `${prefix}.${sourceRole}`)),
     ]),
   );
 
-const buttonRecipe = (tokens: FlatTokenTheme) => ({
-  className: 'chakra-button',
-  base: {
-    borderRadius: dimensionToken(tokens, 'button.radius'),
-    fontFamily: 'body',
-    fontWeight: tokenCssValue(tokens, 'typography.weight.medium'),
-    lineHeight: tokenCssValue(tokens, 'typography.lineHeight.snug'),
-    focusVisibleRing: 'outside',
-    _disabled: {
-      opacity: numberToken(tokens, 'button.disabledOpacity'),
-    },
-  },
-  variants: {
-    size: {
-      sm: {
-        h: dimensionToken(tokens, 'button.height.sm'),
-        minW: dimensionToken(tokens, 'button.height.sm'),
-        px: dimensionToken(tokens, 'button.paddingX.sm'),
-        gap: dimensionToken(tokens, 'button.gap'),
-        textStyle: 'label',
-      },
-      md: {
-        h: dimensionToken(tokens, 'button.height.md'),
-        minW: dimensionToken(tokens, 'button.height.md'),
-        px: dimensionToken(tokens, 'button.paddingX.md'),
-        gap: dimensionToken(tokens, 'button.gap'),
-        textStyle: 'label',
-      },
-      lg: {
-        h: dimensionToken(tokens, 'button.height.lg'),
-        minW: dimensionToken(tokens, 'button.height.lg'),
-        px: dimensionToken(tokens, 'button.paddingX.lg'),
-        gap: dimensionToken(tokens, 'button.gap'),
-        textStyle: 'label',
-      },
-    },
-  },
-  defaultVariants: {
-    size: 'md',
-  },
+const isDarkTheme = (tokens: FlatTokenTheme): boolean =>
+  colorToken(tokens, 'color.surface.canvas') === colorToken(tokens, 'color.neutral.950');
+
+const chakraGraySemanticColors = (tokens: FlatTokenTheme): ChakraTokenTree => {
+  const roles = isDarkTheme(tokens)
+    ? {
+        solid: '200',
+        contrast: '950',
+        fg: '300',
+        muted: '800',
+        subtle: '900',
+        emphasized: '700',
+        border: '700',
+        focusRing: '400',
+      }
+    : {
+        solid: '800',
+        contrast: '0',
+        fg: '700',
+        muted: '100',
+        subtle: '50',
+        emphasized: '200',
+        border: '300',
+        focusRing: '500',
+      };
+
+  return Object.fromEntries(
+    Object.entries(roles).map(([role, step]) => [
+      role,
+      token(colorToken(tokens, `color.neutral.${step}`)),
+    ]),
+  );
+};
+
+const chakraPurpleSemanticColors = (tokens: FlatTokenTheme): ChakraTokenTree => ({
+  solid: token(colorToken(tokens, 'color.purple.600')),
+  contrast: token(colorToken(tokens, 'color.common.white')),
+  fg: token(colorToken(tokens, 'color.purple.700')),
+  muted: token(colorToken(tokens, 'color.purple.100')),
+  subtle: token(colorToken(tokens, 'color.purple.50')),
+  emphasized: token(colorToken(tokens, 'color.purple.700')),
+  border: token(colorToken(tokens, 'color.purple.300')),
+  focusRing: token(colorToken(tokens, 'color.purple.500')),
+});
+
+const chakraPaletteAliasSemanticColors = (tokens: FlatTokenTheme): ChakraTokenTree => ({
+  gray: chakraGraySemanticColors(tokens),
+  ...Object.fromEntries(
+    Object.entries(CHAKRA_PALETTE_ALIASES).map(([group, prefix]) => [
+      group,
+      chakraPaletteSemanticRoles(tokens, prefix),
+    ]),
+  ),
+  purple: chakraPurpleSemanticColors(tokens),
+});
+
+const semanticColorTokens = (tokens: FlatTokenTheme): ChakraTokenTree =>
+  ({
+    ...chakraBaseSemanticColors(tokens),
+    ...chakraPaletteAliasSemanticColors(tokens),
+    ...Object.fromEntries(
+      Object.entries(DESIGN_SYSTEM_COLOR_GROUPS).map(([group, prefix]) => [
+        group,
+        chakraPaletteSemanticRoles(tokens, prefix),
+      ]),
+    ),
+  }) as ChakraTokenTree;
+
+const semanticRadiusTokens = (tokens: FlatTokenTheme): ChakraTokenTree => ({
+  l1: token(dimensionCssToken(tokens, 'radius.xs')),
+  l2: token(dimensionCssToken(tokens, 'radius.sm')),
+  l3: token(dimensionCssToken(tokens, 'radius.md')),
+});
+
+const semanticShadowTokens = (tokens: FlatTokenTheme): ChakraTokenTree => ({
+  xs: token(shadowToken(tokens, 'shadow.xs')),
+  sm: token(shadowToken(tokens, 'shadow.sm')),
+  md: token(shadowToken(tokens, 'shadow.md')),
+  lg: token(shadowToken(tokens, 'shadow.lg')),
+  xl: token(shadowToken(tokens, 'shadow.xl')),
+  '2xl': token(shadowToken(tokens, 'shadow.2xl')),
+  inner: token(shadowToken(tokens, 'shadow.inner')),
+  inset: token(shadowToken(tokens, 'shadow.inset')),
 });
 
 export const buildChakraTheme = (tokens: FlatTokenTheme): ChakraThemeConfig => ({
@@ -253,40 +319,43 @@ export const buildChakraTheme = (tokens: FlatTokenTheme): ChakraThemeConfig => (
         mono: token(tokenCssValue(tokens, 'typography.family.mono')),
       },
       fontSizes: tokenMap(tokens, 'typography.size'),
-      fontWeights: tokenMap(tokens, 'typography.weight'),
+      fontWeights: fontWeightMap(tokens),
       lineHeights: tokenMap(tokens, 'typography.lineHeight'),
       letterSpacings: tokenMap(tokens, 'typography.letterSpacing'),
-      spacing: tokenMap(tokens, 'space'),
-      sizes: tokenMap(tokens, 'size'),
+      spacing: spacingMap(tokens),
+      sizes: {
+        ...tokenMap(tokens, 'size'),
+        measure: tokenMap(tokens, 'measure'),
+      },
       radii: tokenMap(tokens, 'radius'),
+      borders: borderMap(tokens),
+      borderWidths: tokenMap(tokens, 'border'),
       shadows: {
-        ...tokenMap(tokens, 'shadowScale'),
-        sm: token(shadowToken(tokens, 'shadow.sm')),
-        md: token(shadowToken(tokens, 'shadow.md')),
-        lg: token(shadowToken(tokens, 'shadow.lg')),
+        ...tokenMap(tokens, 'shadow'),
+        surface: token(shadowToken(tokens, 'shadow.surface')),
+        raised: token(shadowToken(tokens, 'shadow.raised')),
+        overlay: token(shadowToken(tokens, 'shadow.overlay')),
         focus: token(shadowToken(tokens, 'shadow.focus')),
       },
+      blurs: tokenMap(tokens, 'blur'),
+      animations: animationMap(tokens),
       durations: tokenMap(tokens, 'duration'),
       easings: tokenMap(tokens, 'easing'),
       opacity: tokenMap(tokens, 'opacity'),
-      zIndex: tokenMap(tokens, 'zIndex'),
+      zIndex: zIndexMap(tokens),
     },
+    breakpoints: breakpointMap(tokens),
     textStyles: typographyMap(tokens),
-    recipes: {
-      button: buttonRecipe(tokens),
-    },
     semanticTokens: {
       colors: semanticColorTokens(tokens),
-      shadows: {
-        card: token(shadowToken(tokens, 'card.shadow')),
-        dialog: token(shadowToken(tokens, 'dialog.shadow')),
-        switch: token(shadowToken(tokens, 'switch.shadow')),
-        focusRing: token(shadowToken(tokens, 'button.focusRing')),
-      },
+      radii: semanticRadiusTokens(tokens),
+      shadows: semanticShadowTokens(tokens),
     },
   },
   globalCss: {
-    body: {
+    ...normalizeGlobalCssWithoutBody,
+    ':where(body)': {
+      ...normalizeBodyCss,
       bg: '{colors.bg}',
       color: '{colors.fg}',
       fontFamily: 'body',
@@ -294,10 +363,6 @@ export const buildChakraTheme = (tokens: FlatTokenTheme): ChakraThemeConfig => (
     '*::selection': {
       bg: '{colors.brand.subtle}',
       color: '{colors.brand.fg}',
-    },
-    ':focus-visible': {
-      outlineColor: '{colors.brand.focusRing}',
-      outlineOffset: dimensionToken(tokens, 'space.1'),
     },
     '::placeholder': {
       color: '{colors.fg.muted}',

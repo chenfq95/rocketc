@@ -16,7 +16,7 @@
         "fontFamily": "{typography.family.sans}",
         "fontSize": "{typography.size.2xl}",
         "fontWeight": "{typography.weight.bold}",
-        "lineHeight": "{typography.lineHeight.tight}",
+        "lineHeight": "{typography.lineHeight.snug}",
         "letterSpacing": "{typography.letterSpacing.normal}"
       },
       "$type": "typography"
@@ -45,17 +45,17 @@
       "$value": {
         "fontFamily": "{typography.family.sans}",
         "fontSize": "{typography.size.sm}",
-        "fontWeight": "{typography.weight.regular}",
+        "fontWeight": "{typography.weight.normal}",
         "lineHeight": "{typography.lineHeight.normal}",
         "letterSpacing": "{typography.letterSpacing.normal}"
       },
       "$type": "typography"
     },
-    "bodyStrong": {
+    "bodySmall": {
       "$value": {
         "fontFamily": "{typography.family.sans}",
-        "fontSize": "{typography.size.sm}",
-        "fontWeight": "{typography.weight.semibold}",
+        "fontSize": "{typography.size.xs}",
+        "fontWeight": "{typography.weight.light}",
         "lineHeight": "{typography.lineHeight.normal}",
         "letterSpacing": "{typography.letterSpacing.normal}"
       },
@@ -75,7 +75,7 @@
       "$value": {
         "fontFamily": "{typography.family.sans}",
         "fontSize": "{typography.size.xs}",
-        "fontWeight": "{typography.weight.regular}",
+        "fontWeight": "{typography.weight.normal}",
         "lineHeight": "{typography.lineHeight.snug}",
         "letterSpacing": "{typography.letterSpacing.normal}"
       },
@@ -85,7 +85,7 @@
       "$value": {
         "fontFamily": "{typography.family.mono}",
         "fontSize": "{typography.size.xs}",
-        "fontWeight": "{typography.weight.regular}",
+        "fontWeight": "{typography.weight.normal}",
         "lineHeight": "{typography.lineHeight.normal}",
         "letterSpacing": "{typography.letterSpacing.normal}"
       },

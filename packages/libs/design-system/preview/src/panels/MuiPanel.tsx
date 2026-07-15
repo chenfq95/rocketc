@@ -15,7 +15,6 @@ import {
   Box,
   Breadcrumbs,
   Button,
-  ButtonBase,
   ButtonGroup,
   Card,
   CardActionArea,
@@ -63,6 +62,7 @@ import {
   ListItemSecondaryAction,
   ListItemText,
   ListSubheader,
+  Menu,
   MenuItem,
   MenuList,
   MobileStepper,
@@ -124,32 +124,90 @@ import {
   startsTokenGroup,
 } from '../previewModel';
 
+const muiDemoCellSx = {
+  display: 'grid',
+  minHeight: 32,
+  placeItems: 'center',
+  borderRadius: 0.6667,
+  p: 1,
+};
+
+const muiDemoMediaSx = {
+  minHeight: 56,
+  background: (theme: { palette: { action: { hover: string } } }) =>
+    `linear-gradient(135deg, rgb(249 115 22 / 0.85), rgb(244 63 94 / 0.7)), ${theme.palette.action.hover}`,
+};
+
+const muiButtonColors = [
+  { label: 'Default', value: undefined },
+  { label: 'Primary', value: 'primary' },
+  { label: 'Secondary', value: 'secondary' },
+  { label: 'Success', value: 'success' },
+  { label: 'Warning', value: 'warning' },
+  { label: 'Error', value: 'error' },
+  { label: 'Info', value: 'info' },
+  { label: 'Inherit', value: 'inherit' },
+] as const;
+
+const muiButtonVariants = [
+  { label: 'contained', disabled: false, variant: 'contained' },
+  { label: 'outlined', disabled: false, variant: 'outlined' },
+  { label: 'text', disabled: false, variant: 'text' },
+  { label: 'disabled', disabled: true, variant: 'contained' },
+] as const;
+
 export function MuiPanel() {
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [buttonMenuAnchor, setButtonMenuAnchor] = useState<HTMLElement | null>(null);
 
   return (
-    <div className="mui-layout">
-      <Box className="mui-overview-layout">
-        <Paper className="mui-showcase mui-section" variant="outlined">
-          <Box className="mui-section-header">
+    <Box aria-label="MUI preview" sx={{ pt: 2 }}>
+      <Box sx={{ display: 'grid', gap: 1.5, gridTemplateColumns: 'minmax(0, 1fr)' }}>
+        <Paper sx={{ minWidth: 0, p: 1.5 }} variant="outlined">
+          <Box sx={{ display: 'grid', gap: 0.5, mb: 1.5 }}>
             <Typography variant="overline">Color</Typography>
             <Typography variant="h2">Palette roles</Typography>
           </Box>
 
-          <Box className="mui-color-grid">
+          <Box
+            sx={{
+              display: 'grid',
+              gap: 1,
+              gridTemplateColumns: {
+                xs: 'repeat(2, minmax(0, 1fr))',
+                md: 'repeat(6, minmax(0, 1fr))',
+              },
+              mb: 1.5,
+            }}
+          >
             {muiPaletteRoles.map(([label, color, sourceToken], index) => (
               <Box
-                className={`mui-color-swatch${
-                  startsTokenGroup(muiPaletteRoles, index) ? ' starts-color-group' : ''
-                }`}
                 key={color}
+                sx={{
+                  display: 'grid',
+                  gap: 0.5,
+                  gridColumnStart: startsTokenGroup(muiPaletteRoles, index) ? 1 : undefined,
+                  minWidth: 0,
+                }}
               >
-                <Box sx={{ bgcolor: color }} />
+                <Box
+                  sx={{
+                    bgcolor: color,
+                    border: 1,
+                    borderColor: 'divider',
+                    borderRadius: 0.6667,
+                    height: 32,
+                  }}
+                />
                 <Typography variant="body2">{label}</Typography>
                 <Typography color="text.secondary" variant="caption">
                   {color}
                 </Typography>
-                <Typography className="token-source" color="text.secondary" variant="caption">
+                <Typography
+                  color="text.secondary"
+                  sx={{ fontFamily: 'monospace', opacity: 0.78 }}
+                  variant="caption"
+                >
                   {sourceToken}
                 </Typography>
               </Box>
@@ -157,13 +215,27 @@ export function MuiPanel() {
           </Box>
         </Paper>
 
-        <Paper className="mui-showcase mui-section" variant="outlined">
-          <Box className="mui-section-header">
+        <Paper sx={{ minWidth: 0, p: 1.5 }} variant="outlined">
+          <Box sx={{ display: 'grid', gap: 0.5, mb: 1.5 }}>
             <Typography variant="overline">Typography</Typography>
             <Typography variant="h2">MUI variants</Typography>
           </Box>
 
-          <Stack className="mui-type-list" spacing={2}>
+          <Stack
+            spacing={2}
+            sx={{
+              '& > div': {
+                borderBottom: 1,
+                borderColor: 'divider',
+                minWidth: 0,
+                pb: 1,
+              },
+              '& > div:last-child': {
+                borderBottom: 0,
+                pb: 0,
+              },
+            }}
+          >
             {muiTypographyVariants.map(([variant, sample]) => (
               <Box key={variant}>
                 <Typography color="text.secondary" variant="caption">
@@ -175,39 +247,112 @@ export function MuiPanel() {
           </Stack>
         </Paper>
 
-        <Paper className="mui-showcase mui-section mui-section-wide" variant="outlined">
-          <Box className="mui-section-header">
+        <Paper sx={{ gridColumn: '1 / -1', minWidth: 0, p: 1.5 }} variant="outlined">
+          <Box sx={{ display: 'grid', gap: 0.5, mb: 1.5 }}>
             <Typography variant="overline">Components</Typography>
             <Typography variant="h2">Runtime themed controls</Typography>
           </Box>
 
-          <Box className="mui-grid">
-            <Card variant="outlined">
+          <Box
+            sx={{
+              display: 'grid',
+              gap: 1.5,
+              gridTemplateColumns: { xs: '1fr', md: 'repeat(2, minmax(0, 1fr))' },
+              '& > *': { minWidth: 0 },
+            }}
+          >
+            <Card sx={{ gridColumn: '1 / -1' }} variant="outlined">
               <CardContent>
                 <Stack spacing={2}>
                   <Typography variant="h3">Buttons</Typography>
-                  <Stack direction="row" flexWrap="wrap" gap={1.5}>
-                    <Button variant="contained">Primary action</Button>
-                    <Button variant="outlined">Secondary</Button>
-                    <Button variant="text">Quiet action</Button>
-                    <ButtonGroup variant="outlined">
-                      <Button>Day</Button>
-                      <Button>Week</Button>
-                      <Button>Month</Button>
-                    </ButtonGroup>
-                    <Tooltip arrow title="IconButton">
-                      <IconButton color="primary">
-                        <MuiPreviewIcon />
-                      </IconButton>
-                    </Tooltip>
-                    <Fab color="primary" size="small">
-                      <MuiPreviewIcon />
-                    </Fab>
-                    <ButtonBase className="mui-button-base">ButtonBase</ButtonBase>
-                    <Button disabled variant="contained">
-                      Disabled
-                    </Button>
-                  </Stack>
+                  <Box
+                    sx={{
+                      display: 'grid',
+                      gap: 2,
+                      gridTemplateColumns: { xs: '1fr', xl: 'minmax(0, 1fr) 280px' },
+                    }}
+                  >
+                    <Stack spacing={1.5}>
+                      {muiButtonColors.map((color) => (
+                        <Box
+                          key={color.label}
+                          sx={{
+                            alignItems: 'center',
+                            display: 'grid',
+                            gap: 1,
+                            gridTemplateColumns: {
+                              xs: '1fr',
+                              lg: '96px repeat(4, minmax(0, 1fr))',
+                            },
+                            minWidth: 0,
+                          }}
+                        >
+                          <Typography color="text.secondary" fontWeight={500} variant="body2">
+                            {color.label}
+                          </Typography>
+                          {muiButtonVariants.map((variant) => (
+                            <Button
+                              key={variant.label}
+                              color={color.value}
+                              disabled={variant.disabled}
+                              size="small"
+                              variant={variant.variant}
+                            >
+                              {variant.label}
+                            </Button>
+                          ))}
+                        </Box>
+                      ))}
+                    </Stack>
+                    <Stack spacing={1.5}>
+                      <Typography color="text.secondary" fontWeight={500} variant="body2">
+                        Related controls
+                      </Typography>
+                      <ButtonGroup size="small" variant="outlined">
+                        <Button>Day</Button>
+                        <Button>Week</Button>
+                        <Button>Month</Button>
+                      </ButtonGroup>
+                      <Stack direction="row" flexWrap="wrap" gap={1}>
+                        <Tooltip arrow title="IconButton">
+                          <IconButton color="primary" size="small">
+                            <MuiPreviewIcon />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip arrow title="Loading IconButton">
+                          <IconButton color="primary" loading size="small">
+                            <MuiPreviewIcon />
+                          </IconButton>
+                        </Tooltip>
+                        <Fab color="primary" size="small">
+                          <MuiPreviewIcon />
+                        </Fab>
+                      </Stack>
+                      <Button loading size="small" variant="contained">
+                        Loading
+                      </Button>
+                      <Button
+                        aria-controls={buttonMenuAnchor ? 'mui-button-menu' : undefined}
+                        aria-expanded={buttonMenuAnchor ? 'true' : undefined}
+                        aria-haspopup="true"
+                        onClick={(event) => setButtonMenuAnchor(event.currentTarget)}
+                        size="small"
+                        variant="outlined"
+                      >
+                        Dropdown
+                      </Button>
+                      <Menu
+                        anchorEl={buttonMenuAnchor}
+                        id="mui-button-menu"
+                        onClose={() => setButtonMenuAnchor(null)}
+                        open={Boolean(buttonMenuAnchor)}
+                      >
+                        <MenuItem onClick={() => setButtonMenuAnchor(null)}>Inspect</MenuItem>
+                        <MenuItem onClick={() => setButtonMenuAnchor(null)}>Duplicate</MenuItem>
+                        <MenuItem onClick={() => setButtonMenuAnchor(null)}>Archive</MenuItem>
+                      </Menu>
+                    </Stack>
+                  </Box>
                 </Stack>
               </CardContent>
             </Card>
@@ -398,30 +543,30 @@ export function MuiPanel() {
               <CardContent>
                 <Stack spacing={2}>
                   <Typography variant="h3">Surfaces and Layout</Typography>
-                  <Paper className="mui-paper-sample" variant="outlined">
+                  <Paper sx={muiDemoCellSx} variant="outlined">
                     Paper inside Card
                   </Paper>
-                  <Container className="mui-container-sample" maxWidth="sm">
+                  <Container maxWidth="sm" sx={muiDemoCellSx}>
                     Container
                   </Container>
                   <Grid container spacing={1}>
                     <Grid size={6}>
-                      <Paper className="mui-grid-cell" variant="outlined">
+                      <Paper sx={muiDemoCellSx} variant="outlined">
                         Grid
                       </Paper>
                     </Grid>
                     <Grid size={6}>
-                      <Box className="mui-grid-cell">Box</Box>
+                      <Box sx={muiDemoCellSx}>Box</Box>
                     </Grid>
                   </Grid>
                   <ScopedCssBaseline>
-                    <Paper className="mui-paper-sample" variant="outlined">
+                    <Paper sx={muiDemoCellSx} variant="outlined">
                       ScopedCssBaseline
                     </Paper>
                   </ScopedCssBaseline>
                   <Card variant="outlined">
                     <CardActionArea>
-                      <CardMedia className="mui-card-media" component="div" />
+                      <CardMedia component="div" sx={muiDemoMediaSx} />
                     </CardActionArea>
                     <CardHeader title="CardHeader" subheader="Card subheader" />
                     <CardContent>
@@ -468,12 +613,12 @@ export function MuiPanel() {
                   </Stepper>
                   <GridLegacy container spacing={1}>
                     <GridLegacy item xs={6}>
-                      <Paper className="mui-grid-cell" variant="outlined">
+                      <Paper sx={muiDemoCellSx} variant="outlined">
                         GridLegacy
                       </Paper>
                     </GridLegacy>
                     <GridLegacy item xs={6}>
-                      <Paper className="mui-grid-cell" variant="outlined">
+                      <Paper sx={muiDemoCellSx} variant="outlined">
                         Legacy item
                       </Paper>
                     </GridLegacy>
@@ -489,7 +634,7 @@ export function MuiPanel() {
                   <ImageList cols={3} rowHeight={72}>
                     {[1, 2, 3].map((item) => (
                       <ImageListItem key={item}>
-                        <Box className="mui-image-sample" />
+                        <Box sx={muiDemoMediaSx} />
                         <ImageListItemBar title={`ImageListItem ${item}`} />
                       </ImageListItem>
                     ))}
@@ -498,7 +643,7 @@ export function MuiPanel() {
               </CardContent>
             </Card>
 
-            <Card className="mui-component-wide" variant="outlined">
+            <Card sx={{ gridColumn: '1 / -1' }} variant="outlined">
               <CardContent>
                 <Stack spacing={2}>
                   <Typography variant="h3">Data Table</Typography>
@@ -547,7 +692,7 @@ export function MuiPanel() {
               </CardContent>
             </Card>
 
-            <Card className="mui-component-wide" variant="outlined">
+            <Card sx={{ gridColumn: '1 / -1' }} variant="outlined">
               <CardContent>
                 <Stack spacing={2}>
                   <Typography variant="h3">Overlay and Utility Coverage</Typography>
@@ -565,9 +710,14 @@ export function MuiPanel() {
                   </Stack>
                   <SpeedDial
                     ariaLabel="SpeedDial preview"
-                    className="mui-speed-dial"
                     icon={<SpeedDialIcon />}
                     open
+                    sx={{
+                      alignSelf: 'flex-start',
+                      bottom: 'auto',
+                      position: 'relative',
+                      right: 'auto',
+                    }}
                   >
                     <SpeedDialAction icon={<MuiPreviewIcon />} tooltipTitle="SpeedDialAction" />
                   </SpeedDial>
@@ -595,6 +745,6 @@ export function MuiPanel() {
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </Box>
   );
 }

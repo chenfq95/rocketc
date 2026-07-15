@@ -99,7 +99,19 @@
       }
     },
     "weight": {
-      "regular": {
+      "thin": {
+        "$value": 100,
+        "$type": "fontWeight"
+      },
+      "extralight": {
+        "$value": 200,
+        "$type": "fontWeight"
+      },
+      "light": {
+        "$value": 300,
+        "$type": "fontWeight"
+      },
+      "normal": {
         "$value": 400,
         "$type": "fontWeight"
       },
@@ -151,13 +163,6 @@
       }
     },
     "letterSpacing": {
-      "tight": {
-        "$value": {
-          "value": -0.2,
-          "unit": "px"
-        },
-        "$type": "dimension"
-      },
       "normal": {
         "$value": {
           "value": 0,

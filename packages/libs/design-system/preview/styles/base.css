@@ -1,29 +1,16 @@
-* {
-  box-sizing: border-box;
-}
-
-html {
+#root {
+  min-height: 100vh;
   background: var(--rds-color-surface-canvas);
   color: var(--rds-color-text-primary);
-  font-family: var(--rds-typography-body-font-family);
-  font-size: 14px;
-  line-height: 1.45;
-}
-
-body {
-  margin: 0;
-}
-
-button,
-input,
-select {
-  font: inherit;
 }
 
 .shell {
-  width: min(1180px, calc(100vw - 32px));
+  width: min(var(--rds-measure-xl), calc(100vw - var(--rds-space-8)));
   margin: 0 auto;
-  padding: 24px 0;
+  padding: var(--rds-space-6) 0;
+  font-family: var(--rds-typography-body-font-family);
+  font-size: var(--rds-typography-body-font-size);
+  line-height: var(--rds-typography-body-line-height);
 }
 
 .hero {
@@ -32,7 +19,7 @@ select {
   gap: var(--rds-space-4);
   align-items: end;
   min-height: 140px;
-  border-bottom: 1px solid var(--rds-color-border-subtle);
+  border-bottom: var(--rds-border-sm) solid var(--rds-color-border-subtle);
   padding-bottom: var(--rds-space-4);
 }
 
@@ -40,43 +27,45 @@ select {
 .meta {
   margin: 0 0 var(--rds-space-2);
   color: var(--rds-color-brand-text);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0;
+  font-size: var(--rds-typography-caption-font-size);
+  font-weight: var(--rds-typography-weight-bold);
+  letter-spacing: var(--rds-typography-caption-letter-spacing);
   text-transform: uppercase;
 }
 
-h1,
-h2,
-p {
+.hero h1,
+.hero p,
+.panel-header h2,
+.panel p,
+.panel h3 {
   margin-top: 0;
 }
 
-h1 {
+.hero h1 {
   max-width: 760px;
   margin-bottom: var(--rds-space-2);
-  font-size: clamp(32px, 5vw, 56px);
-  line-height: 1;
-  letter-spacing: 0;
+  font-size: clamp(var(--rds-typography-size-3xl), 5vw, var(--rds-typography-display-font-size));
+  line-height: var(--rds-typography-line-height-none);
+  letter-spacing: var(--rds-typography-display-letter-spacing);
 }
 
-h2 {
+.panel-header h2 {
   margin-bottom: var(--rds-space-2);
-  font-size: 18px;
-  line-height: 1.25;
-  letter-spacing: 0;
+  font-size: var(--rds-typography-heading-font-size);
+  line-height: var(--rds-typography-heading-line-height);
+  letter-spacing: var(--rds-typography-heading-letter-spacing);
 }
 
-h3 {
+.panel h3 {
   margin: 0 0 var(--rds-space-2);
-  font-size: 14px;
-  letter-spacing: 0;
+  font-size: var(--rds-typography-label-font-size);
+  letter-spacing: var(--rds-typography-label-letter-spacing);
 }
 
 .lede {
   max-width: 660px;
   color: var(--rds-color-text-secondary);
-  font-size: 14px;
+  font-size: var(--rds-typography-body-font-size);
 }
 
 .hero-actions {
@@ -89,23 +78,23 @@ h3 {
 
 .tab,
 .button {
-  min-height: 32px;
-  border: 1px solid var(--rds-color-border-default);
+  min-height: var(--rds-space-8);
+  border: var(--rds-border-sm) solid var(--rds-color-border-default);
   border-radius: var(--rds-radius-sm);
   background: var(--rds-color-surface-panel);
   color: var(--rds-color-text-primary);
   cursor: pointer;
   transition:
-    background var(--rds-motion-duration-fast) var(--rds-motion-easing-standard),
-    border-color var(--rds-motion-duration-fast) var(--rds-motion-easing-standard),
-    box-shadow var(--rds-motion-duration-fast) var(--rds-motion-easing-standard),
-    color var(--rds-motion-duration-fast) var(--rds-motion-easing-standard);
+    background var(--rds-duration-fast) var(--rds-easing-standard),
+    border-color var(--rds-duration-fast) var(--rds-easing-standard),
+    box-shadow var(--rds-duration-fast) var(--rds-easing-standard),
+    color var(--rds-duration-fast) var(--rds-easing-standard);
 }
 
 .tab {
   padding: 0 var(--rds-space-3);
-  font-size: 13px;
-  font-weight: 650;
+  font-size: var(--rds-typography-label-font-size);
+  font-weight: var(--rds-typography-label-font-weight);
 }
 
 .tab:hover,
@@ -117,8 +106,8 @@ h3 {
 .tab:focus-visible,
 .theme-switch:focus-visible,
 .button:focus-visible,
-input:focus-visible,
-select:focus-visible {
+.field input:focus-visible,
+.field select:focus-visible {
   outline: 0;
   border-color: var(--rds-color-border-focus);
   box-shadow: var(--rds-shadow-focus);
@@ -128,20 +117,20 @@ select:focus-visible {
   display: inline-flex;
   align-items: center;
   gap: var(--rds-space-2);
-  min-height: 32px;
-  border: 1px solid var(--rds-color-border-default);
+  min-height: var(--rds-space-8);
+  border: var(--rds-border-sm) solid var(--rds-color-border-default);
   border-radius: var(--rds-radius-full);
   background: var(--rds-color-surface-panel);
   color: var(--rds-color-text-secondary);
   cursor: pointer;
   padding: 0 var(--rds-space-2);
-  font-size: 13px;
-  font-weight: 650;
+  font-size: var(--rds-typography-label-font-size);
+  font-weight: var(--rds-typography-label-font-weight);
   transition:
-    background var(--rds-motion-duration-fast) var(--rds-motion-easing-standard),
-    border-color var(--rds-motion-duration-fast) var(--rds-motion-easing-standard),
-    box-shadow var(--rds-motion-duration-fast) var(--rds-motion-easing-standard),
-    color var(--rds-motion-duration-fast) var(--rds-motion-easing-standard);
+    background var(--rds-duration-fast) var(--rds-easing-standard),
+    border-color var(--rds-duration-fast) var(--rds-easing-standard),
+    box-shadow var(--rds-duration-fast) var(--rds-easing-standard),
+    color var(--rds-duration-fast) var(--rds-easing-standard);
 }
 
 .theme-switch:hover {
@@ -156,7 +145,7 @@ select:focus-visible {
   border-radius: var(--rds-radius-full);
   background: var(--rds-color-border-default);
   padding: 2px;
-  transition: background var(--rds-motion-duration-fast) var(--rds-motion-easing-standard);
+  transition: background var(--rds-duration-fast) var(--rds-easing-standard);
 }
 
 .theme-switch-thumb {
@@ -164,9 +153,9 @@ select:focus-visible {
   height: 12px;
   border-radius: var(--rds-radius-full);
   background: var(--rds-color-surface-panel);
-  box-shadow: var(--rds-shadow-scale-xs);
+  box-shadow: var(--rds-shadow-xs);
   transform: translateX(0);
-  transition: transform var(--rds-motion-duration-fast) var(--rds-motion-easing-standard);
+  transition: transform var(--rds-duration-fast) var(--rds-easing-standard);
 }
 
 .theme-switch[aria-checked='true'] {

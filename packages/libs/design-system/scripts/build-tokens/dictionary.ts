@@ -1,5 +1,5 @@
 import StyleDictionary from 'style-dictionary';
-import { tokenSources } from './constants.ts';
+import { tokenIncludes, tokenSources } from './constants.ts';
 import type { DictionaryToken, ThemeName, TokenTree } from './types.ts';
 
 export const createDictionary = async (
@@ -8,6 +8,7 @@ export const createDictionary = async (
   const dictionary = new StyleDictionary(
     {
       usesDtcg: true,
+      include: tokenIncludes(),
       source: tokenSources(theme),
       platforms: {},
     },

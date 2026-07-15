@@ -1,55 +1,23 @@
-import { formatColor, formatCssValue, formatDimension, formatShadow } from './format.ts';
+import { formatCssValue } from './format.ts';
+import { NORMALIZE_CSS_WITH_LOW_SPECIFICITY_BODY } from './normalize.ts';
+import {
+  colorToken,
+  dimensionCssToken,
+  dimensionNumberToken,
+  numberToken,
+  shadowToken,
+  tokenCssValue,
+  tokenValue,
+  typographyCss,
+} from './token-access.ts';
 import type { Shadows } from '@mui/material/styles';
-import type {
-  ColorValue,
-  DimensionValue,
-  FlatTokenTheme,
-  MuiThemeOptions,
-  ShadowValue,
-  ThemeName,
-  TokenValue,
-  TypographyValue,
-} from './types.ts';
+import type { FlatTokenTheme, MuiThemeOptions, ThemeName } from './types.ts';
 
-const tokenValue = (tokens: FlatTokenTheme, name: string): TokenValue => {
-  const token = tokens[name];
-  if (!token) throw new Error(`Missing token "${name}"`);
-
-  return token.$value;
+const MUI_CONTRAST_THRESHOLD = 3;
+const MUI_TONAL_OFFSET = {
+  light: 0.2,
+  dark: 0.3,
 };
-
-const colorToken = (tokens: FlatTokenTheme, name: string): string =>
-  formatColor(tokenValue(tokens, name) as ColorValue);
-
-const dimensionToken = (tokens: FlatTokenTheme, name: string): DimensionValue =>
-  tokenValue(tokens, name) as unknown as DimensionValue;
-
-const dimensionCssToken = (tokens: FlatTokenTheme, name: string): string =>
-  formatDimension(dimensionToken(tokens, name));
-
-const dimensionNumberToken = (tokens: FlatTokenTheme, name: string): number =>
-  dimensionToken(tokens, name).value;
-
-const numberToken = (tokens: FlatTokenTheme, name: string): number =>
-  Number(tokenValue(tokens, name));
-
-const typographyToken = (tokens: FlatTokenTheme, name: string): TypographyValue =>
-  tokenValue(tokens, name) as TypographyValue;
-
-const typographyCss = (tokens: FlatTokenTheme, name: string): Record<string, string | number> => {
-  const typography = typographyToken(tokens, name);
-
-  return {
-    fontFamily: formatCssValue(typography.fontFamily, 'fontFamily'),
-    fontSize: formatCssValue(typography.fontSize, 'dimension'),
-    fontWeight: formatCssValue(typography.fontWeight, 'fontWeight'),
-    lineHeight: formatCssValue(typography.lineHeight, 'number'),
-    letterSpacing: formatCssValue(typography.letterSpacing, 'dimension'),
-  };
-};
-
-const shadowToken = (tokens: FlatTokenTheme, name: string): string =>
-  formatShadow(tokenValue(tokens, name) as unknown as ShadowValue);
 
 const muiGrey = (tokens: FlatTokenTheme) => ({
   50: colorToken(tokens, 'color.neutral.50'),
@@ -69,12 +37,12 @@ const muiGrey = (tokens: FlatTokenTheme) => ({
 });
 
 const muiShadows = (tokens: FlatTokenTheme): Shadows => {
-  const none = shadowToken(tokens, 'shadowScale.none');
-  const xs = shadowToken(tokens, 'shadowScale.xs');
-  const sm = shadowToken(tokens, 'shadow.sm');
-  const md = shadowToken(tokens, 'shadow.md');
-  const lg = shadowToken(tokens, 'shadow.lg');
-  const xl = shadowToken(tokens, 'shadowScale.xl');
+  const none = shadowToken(tokens, 'shadow.none');
+  const xs = shadowToken(tokens, 'shadow.xs');
+  const sm = shadowToken(tokens, 'shadow.surface');
+  const md = shadowToken(tokens, 'shadow.raised');
+  const lg = shadowToken(tokens, 'shadow.overlay');
+  const xl = shadowToken(tokens, 'shadow.xl');
 
   return [
     none,
@@ -105,14 +73,87 @@ const muiShadows = (tokens: FlatTokenTheme): Shadows => {
   ] as Shadows;
 };
 
+const muiBreakpoints = (tokens: FlatTokenTheme) => ({
+  values: {
+    xs: 0,
+    sm: dimensionNumberToken(tokens, 'breakpoint.sm'),
+    md: dimensionNumberToken(tokens, 'breakpoint.md'),
+    lg: dimensionNumberToken(tokens, 'breakpoint.lg'),
+    xl: dimensionNumberToken(tokens, 'breakpoint.xl'),
+  },
+});
+
+const muiTransitions = (tokens: FlatTokenTheme) => ({
+  duration: {
+    shortest: dimensionNumberToken(tokens, 'duration.fast'),
+    shorter: dimensionNumberToken(tokens, 'duration.fast'),
+    short: dimensionNumberToken(tokens, 'duration.normal'),
+    standard: dimensionNumberToken(tokens, 'duration.normal'),
+    complex: dimensionNumberToken(tokens, 'duration.slow'),
+    enteringScreen: dimensionNumberToken(tokens, 'duration.normal'),
+    leavingScreen: dimensionNumberToken(tokens, 'duration.fast'),
+  },
+  easing: {
+    easeInOut: tokenCssValue(tokens, 'easing.standard'),
+    easeOut: tokenCssValue(tokens, 'easing.enter'),
+    easeIn: tokenCssValue(tokens, 'easing.exit'),
+    sharp: tokenCssValue(tokens, 'easing.emphasized'),
+  },
+});
+
+const muiZIndex = (tokens: FlatTokenTheme) => ({
+  mobileStepper: numberToken(tokens, 'zIndex.base'),
+  fab: numberToken(tokens, 'zIndex.raised'),
+  speedDial: numberToken(tokens, 'zIndex.raised'),
+  appBar: numberToken(tokens, 'zIndex.sticky'),
+  drawer: numberToken(tokens, 'zIndex.overlay'),
+  modal: numberToken(tokens, 'zIndex.modal'),
+  snackbar: numberToken(tokens, 'zIndex.toast'),
+  tooltip: numberToken(tokens, 'zIndex.tooltip'),
+});
+
+const muiTypography = (tokens: FlatTokenTheme) => ({
+  fontFamily: formatCssValue(tokenValue(tokens, 'typography.family.sans'), 'fontFamily'),
+  fontSize: dimensionNumberToken(tokens, 'typography.size.sm'),
+  htmlFontSize: dimensionNumberToken(tokens, 'typography.size.md'),
+  fontWeightLight: numberToken(tokens, 'typography.weight.light'),
+  fontWeightRegular: numberToken(tokens, 'typography.weight.normal'),
+  fontWeightMedium: numberToken(tokens, 'typography.weight.medium'),
+  fontWeightBold: numberToken(tokens, 'typography.weight.bold'),
+  h1: typographyCss(tokens, 'typography.display'),
+  h2: typographyCss(tokens, 'typography.title'),
+  h3: typographyCss(tokens, 'typography.heading'),
+  h4: typographyCss(tokens, 'typography.subheading'),
+  h5: typographyCss(tokens, 'typography.subheading'),
+  h6: typographyCss(tokens, 'typography.label'),
+  subtitle1: typographyCss(tokens, 'typography.body'),
+  subtitle2: typographyCss(tokens, 'typography.bodySmall'),
+  body1: typographyCss(tokens, 'typography.body'),
+  body2: typographyCss(tokens, 'typography.bodySmall'),
+  button: {
+    ...typographyCss(tokens, 'typography.label'),
+    textTransform: 'none',
+  },
+  caption: typographyCss(tokens, 'typography.caption'),
+  overline: {
+    ...typographyCss(tokens, 'typography.caption'),
+    textTransform: 'uppercase',
+  },
+  inherit: {
+    fontFamily: 'inherit',
+    fontSize: 'inherit',
+    fontWeight: 'inherit',
+    lineHeight: 'inherit',
+    letterSpacing: 'inherit',
+  },
+});
+
 export const buildMuiTheme = (theme: ThemeName, tokens: FlatTokenTheme): MuiThemeOptions => ({
+  breakpoints: muiBreakpoints(tokens),
   palette: {
     mode: theme,
-    contrastThreshold: numberToken(tokens, 'adapter.mui.palette.contrastThreshold'),
-    tonalOffset: {
-      light: numberToken(tokens, 'adapter.mui.palette.tonalOffset.light'),
-      dark: numberToken(tokens, 'adapter.mui.palette.tonalOffset.dark'),
-    },
+    contrastThreshold: MUI_CONTRAST_THRESHOLD,
+    tonalOffset: MUI_TONAL_OFFSET,
     common: {
       black: colorToken(tokens, 'color.common.black'),
       white: colorToken(tokens, 'color.common.white'),
@@ -122,37 +163,37 @@ export const buildMuiTheme = (theme: ThemeName, tokens: FlatTokenTheme): MuiThem
       main: colorToken(tokens, 'color.brand.solid'),
       dark: colorToken(tokens, 'color.brand.hard'),
       light: colorToken(tokens, 'color.brand.soft'),
-      contrastText: colorToken(tokens, 'color.brand.contrastText'),
+      contrastText: colorToken(tokens, 'color.brand.contrast'),
     },
     secondary: {
       main: colorToken(tokens, 'color.accent.solid'),
       dark: colorToken(tokens, 'color.accent.hard'),
       light: colorToken(tokens, 'color.accent.soft'),
-      contrastText: colorToken(tokens, 'color.accent.contrastText'),
+      contrastText: colorToken(tokens, 'color.accent.contrast'),
     },
     success: {
-      main: colorToken(tokens, 'color.state.success.solid'),
-      dark: colorToken(tokens, 'color.state.success.hard'),
-      light: colorToken(tokens, 'color.state.success.soft'),
-      contrastText: colorToken(tokens, 'color.state.success.contrastText'),
+      main: colorToken(tokens, 'color.success.solid'),
+      dark: colorToken(tokens, 'color.success.hard'),
+      light: colorToken(tokens, 'color.success.soft'),
+      contrastText: colorToken(tokens, 'color.success.contrast'),
     },
     warning: {
-      main: colorToken(tokens, 'color.state.warning.solid'),
-      dark: colorToken(tokens, 'color.state.warning.hard'),
-      light: colorToken(tokens, 'color.state.warning.soft'),
-      contrastText: colorToken(tokens, 'color.state.warning.contrastText'),
+      main: colorToken(tokens, 'color.warning.solid'),
+      dark: colorToken(tokens, 'color.warning.hard'),
+      light: colorToken(tokens, 'color.warning.soft'),
+      contrastText: colorToken(tokens, 'color.warning.contrast'),
     },
     error: {
-      main: colorToken(tokens, 'color.state.danger.solid'),
-      dark: colorToken(tokens, 'color.state.danger.hard'),
-      light: colorToken(tokens, 'color.state.danger.soft'),
-      contrastText: colorToken(tokens, 'color.state.danger.contrastText'),
+      main: colorToken(tokens, 'color.danger.solid'),
+      dark: colorToken(tokens, 'color.danger.hard'),
+      light: colorToken(tokens, 'color.danger.soft'),
+      contrastText: colorToken(tokens, 'color.danger.contrast'),
     },
     info: {
-      main: colorToken(tokens, 'color.state.info.solid'),
-      dark: colorToken(tokens, 'color.state.info.hard'),
-      light: colorToken(tokens, 'color.state.info.soft'),
-      contrastText: colorToken(tokens, 'color.state.info.contrastText'),
+      main: colorToken(tokens, 'color.info.solid'),
+      dark: colorToken(tokens, 'color.info.hard'),
+      light: colorToken(tokens, 'color.info.soft'),
+      contrastText: colorToken(tokens, 'color.info.contrast'),
     },
     background: {
       default: colorToken(tokens, 'color.surface.canvas'),
@@ -178,178 +219,41 @@ export const buildMuiTheme = (theme: ThemeName, tokens: FlatTokenTheme): MuiThem
       activatedOpacity: numberToken(tokens, 'opacity.action.activated'),
     },
   },
-  typography: {
-    fontFamily: formatCssValue(tokenValue(tokens, 'typography.family.sans'), 'fontFamily'),
-    h1: typographyCss(tokens, 'typography.display'),
-    h2: typographyCss(tokens, 'typography.title'),
-    h3: typographyCss(tokens, 'typography.heading'),
-    h4: typographyCss(tokens, 'typography.subheading'),
-    body1: typographyCss(tokens, 'typography.body'),
-    body2: typographyCss(tokens, 'typography.label'),
-    button: {
-      ...typographyCss(tokens, 'typography.label'),
-      textTransform: 'none',
-    },
-    caption: typographyCss(tokens, 'typography.caption'),
-  },
+  typography: muiTypography(tokens),
   spacing: dimensionNumberToken(tokens, 'space.1'),
   shape: {
     borderRadius: dimensionNumberToken(tokens, 'radius.md'),
   },
   shadows: muiShadows(tokens),
+  transitions: muiTransitions(tokens),
+  zIndex: muiZIndex(tokens),
   components: {
-    MuiButton: {
-      defaultProps: { disableElevation: true },
-      styleOverrides: {
-        root: {
-          ...typographyCss(tokens, 'button.typography'),
-          minHeight: dimensionCssToken(tokens, 'button.height.md'),
-          borderRadius: dimensionCssToken(tokens, 'button.radius'),
-          paddingInline: dimensionCssToken(tokens, 'button.paddingX.md'),
-          gap: dimensionCssToken(tokens, 'button.gap'),
-          textTransform: 'none',
-          '&.Mui-disabled': { opacity: numberToken(tokens, 'button.disabledOpacity') },
-          '&.Mui-focusVisible': { boxShadow: shadowToken(tokens, 'button.focusRing') },
-        },
-        containedPrimary: {
-          backgroundColor: colorToken(tokens, 'button.primary.background'),
-          color: colorToken(tokens, 'button.primary.text'),
-          '&:hover': { backgroundColor: colorToken(tokens, 'button.primary.backgroundHover') },
-        },
-        outlined: {
-          borderColor: colorToken(tokens, 'button.secondary.border'),
-          color: colorToken(tokens, 'button.secondary.text'),
-          backgroundColor: colorToken(tokens, 'button.secondary.background'),
-        },
-        text: {
-          color: colorToken(tokens, 'button.quiet.text'),
-          '&:hover': { backgroundColor: colorToken(tokens, 'button.quiet.backgroundHover') },
-        },
-      },
-    },
-    MuiCard: {
-      styleOverrides: {
-        root: {
-          backgroundColor: colorToken(tokens, 'card.background'),
-          border: `1px solid ${colorToken(tokens, 'card.border')}`,
-          borderRadius: dimensionCssToken(tokens, 'card.radius'),
-          boxShadow: shadowToken(tokens, 'card.shadow'),
-        },
-      },
-    },
-    MuiInputBase: {
-      styleOverrides: {
-        root: {
-          minHeight: dimensionCssToken(tokens, 'input.height'),
-          backgroundColor: colorToken(tokens, 'input.background'),
-          borderRadius: dimensionCssToken(tokens, 'input.radius'),
-        },
-      },
-    },
-    MuiTextField: {
-      defaultProps: { size: 'small' },
-    },
-    MuiOutlinedInput: {
-      styleOverrides: {
-        notchedOutline: { borderColor: colorToken(tokens, 'input.border') },
-        root: {
-          minHeight: dimensionCssToken(tokens, 'input.height'),
-          borderRadius: dimensionCssToken(tokens, 'input.radius'),
-          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-            borderColor: colorToken(tokens, 'input.borderFocus'),
-          },
-        },
-        input: {
-          paddingBlock: dimensionCssToken(tokens, 'input.paddingY'),
-          paddingInline: dimensionCssToken(tokens, 'input.paddingX'),
-        },
-      },
-    },
-    MuiSelect: {
-      defaultProps: { size: 'small' },
-      styleOverrides: {
-        select: {
-          paddingBlock: dimensionCssToken(tokens, 'input.paddingY'),
-          paddingInlineStart: dimensionCssToken(tokens, 'input.paddingX'),
-        },
-      },
-    },
-    MuiChip: {
-      styleOverrides: {
-        root: {
-          ...typographyCss(tokens, 'chip.typography'),
-          minHeight: dimensionCssToken(tokens, 'chip.height'),
-          borderRadius: dimensionCssToken(tokens, 'chip.radius'),
-          paddingInline: dimensionCssToken(tokens, 'chip.paddingX'),
-        },
-      },
-    },
-    MuiAlert: {
-      styleOverrides: {
-        root: {
-          borderRadius: dimensionCssToken(tokens, 'alert.radius'),
-          padding: dimensionCssToken(tokens, 'alert.padding'),
-        },
-        standardSuccess: {
-          backgroundColor: colorToken(tokens, 'alert.success.background'),
-          color: colorToken(tokens, 'alert.success.text'),
-          border: `1px solid ${colorToken(tokens, 'alert.success.border')}`,
-        },
-        standardWarning: {
-          backgroundColor: colorToken(tokens, 'alert.warning.background'),
-          color: colorToken(tokens, 'alert.warning.text'),
-          border: `1px solid ${colorToken(tokens, 'alert.warning.border')}`,
-        },
-        standardError: {
-          backgroundColor: colorToken(tokens, 'alert.danger.background'),
-          color: colorToken(tokens, 'alert.danger.text'),
-          border: `1px solid ${colorToken(tokens, 'alert.danger.border')}`,
-        },
-        standardInfo: {
-          backgroundColor: colorToken(tokens, 'alert.info.background'),
-          color: colorToken(tokens, 'alert.info.text'),
-          border: `1px solid ${colorToken(tokens, 'alert.info.border')}`,
-        },
-      },
-    },
-    MuiDialog: {
-      styleOverrides: {
-        paper: {
-          backgroundColor: colorToken(tokens, 'dialog.background'),
-          border: `1px solid ${colorToken(tokens, 'dialog.border')}`,
-          borderRadius: dimensionCssToken(tokens, 'dialog.radius'),
-          boxShadow: shadowToken(tokens, 'dialog.shadow'),
-        },
-      },
-    },
-    MuiSwitch: {
-      styleOverrides: {
-        track: { backgroundColor: colorToken(tokens, 'switch.trackBackground') },
-        thumb: {
-          backgroundColor: colorToken(tokens, 'switch.thumbBackground'),
-          boxShadow: shadowToken(tokens, 'switch.shadow'),
-        },
-        switchBase: {
-          '&.Mui-checked + .MuiSwitch-track': {
-            backgroundColor: colorToken(tokens, 'switch.trackBackgroundChecked'),
-          },
-        },
-      },
-    },
-    MuiTableCell: {
-      styleOverrides: {
-        root: {
-          ...typographyCss(tokens, 'table.cellTypography'),
-          borderColor: colorToken(tokens, 'table.border'),
-          paddingBlock: dimensionCssToken(tokens, 'table.cellPaddingY'),
-          paddingInline: dimensionCssToken(tokens, 'table.cellPaddingX'),
-          color: colorToken(tokens, 'table.cellText'),
-        },
-        head: {
-          ...typographyCss(tokens, 'table.headerTypography'),
-          color: colorToken(tokens, 'table.headerText'),
-        },
-      },
+    MuiCssBaseline: {
+      styleOverrides: [
+        NORMALIZE_CSS_WITH_LOW_SPECIFICITY_BODY,
+        `
+:where(body) {
+  background-color: ${colorToken(tokens, 'color.surface.canvas')};
+  color: ${colorToken(tokens, 'color.text.primary')};
+  font-family: ${formatCssValue(tokenValue(tokens, 'typography.family.sans'), 'fontFamily')};
+}
+
+*::selection {
+  background-color: ${colorToken(tokens, 'color.brand.soft')};
+  color: ${colorToken(tokens, 'color.brand.text')};
+}
+
+:focus-visible {
+  outline-color: ${colorToken(tokens, 'color.border.focus')};
+  outline-offset: ${dimensionCssToken(tokens, 'space.1')};
+}
+
+::placeholder {
+  color: ${colorToken(tokens, 'color.text.muted')};
+  opacity: ${numberToken(tokens, 'opacity.muted')};
+}
+`.trim(),
+      ].join('\n\n'),
     },
   },
 });

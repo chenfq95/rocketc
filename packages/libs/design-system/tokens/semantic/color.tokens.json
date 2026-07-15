@@ -10,7 +10,7 @@
         "$value": "{color.neutral.0}",
         "$type": "color"
       },
-      "raised": {
+      "elevated": {
         "$value": "{color.neutral.0}",
         "$type": "color"
       },
@@ -61,7 +61,7 @@
         "$type": "color"
       },
       "focus": {
-        "$value": "{color.orange.500}",
+        "$value": "{color.neutral.500}",
         "$type": "color"
       }
     },
@@ -112,109 +112,139 @@
         "$value": "{color.orange.300}",
         "$type": "color"
       },
-      "contrastText": {
-        "$value": "{color.text.inverse}",
+      "contrast": {
+        "$value": "{color.common.white}",
         "$type": "color"
       }
     },
     "accent": {
       "solid": {
-        "$value": "{color.coral.500}",
+        "$value": "{color.neutral.200}",
         "$type": "color"
       },
       "hard": {
-        "$value": "{color.coral.600}",
+        "$value": "{color.neutral.300}",
         "$type": "color"
       },
       "soft": {
-        "$value": "{color.coral.50}",
+        "$value": "{color.neutral.100}",
         "$type": "color"
       },
       "text": {
-        "$value": "{color.coral.700}",
+        "$value": "{color.neutral.700}",
         "$type": "color"
       },
       "border": {
-        "$value": "{color.coral.300}",
+        "$value": "{color.neutral.300}",
         "$type": "color"
       },
-      "contrastText": {
-        "$value": "{color.text.inverse}",
+      "contrast": {
+        "$value": "{color.neutral.900}",
         "$type": "color"
       }
     },
-    "state": {
-      "success": {
-        "solid": {
-          "$value": "{color.green.600}",
-          "$type": "color"
-        },
-        "hard": {
-          "$value": "{color.green.700}",
-          "$type": "color"
-        },
-        "soft": {
-          "$value": "{color.green.50}",
-          "$type": "color"
-        },
-        "contrastText": {
-          "$value": "{color.text.inverse}",
-          "$type": "color"
-        }
+    "success": {
+      "solid": {
+        "$value": "{color.green.500}",
+        "$type": "color"
       },
-      "warning": {
-        "solid": {
-          "$value": "{color.amber.600}",
-          "$type": "color"
-        },
-        "hard": {
-          "$value": "{color.amber.700}",
-          "$type": "color"
-        },
-        "soft": {
-          "$value": "{color.amber.50}",
-          "$type": "color"
-        },
-        "contrastText": {
-          "$value": "{color.text.inverse}",
-          "$type": "color"
-        }
+      "hard": {
+        "$value": "{color.green.800}",
+        "$type": "color"
       },
-      "danger": {
-        "solid": {
-          "$value": "{color.red.600}",
-          "$type": "color"
-        },
-        "hard": {
-          "$value": "{color.red.700}",
-          "$type": "color"
-        },
-        "soft": {
-          "$value": "{color.red.50}",
-          "$type": "color"
-        },
-        "contrastText": {
-          "$value": "{color.text.inverse}",
-          "$type": "color"
-        }
+      "soft": {
+        "$value": "{color.green.50}",
+        "$type": "color"
       },
-      "info": {
-        "solid": {
-          "$value": "{color.blue.600}",
-          "$type": "color"
-        },
-        "hard": {
-          "$value": "{color.blue.700}",
-          "$type": "color"
-        },
-        "soft": {
-          "$value": "{color.blue.50}",
-          "$type": "color"
-        },
-        "contrastText": {
-          "$value": "{color.text.inverse}",
-          "$type": "color"
-        }
+      "text": {
+        "$value": "{color.green.700}",
+        "$type": "color"
+      },
+      "border": {
+        "$value": "{color.green.300}",
+        "$type": "color"
+      },
+      "contrast": {
+        "$value": "{color.common.white}",
+        "$type": "color"
+      }
+    },
+    "warning": {
+      "solid": {
+        "$value": "{color.amber.500}",
+        "$type": "color"
+      },
+      "hard": {
+        "$value": "{color.amber.800}",
+        "$type": "color"
+      },
+      "soft": {
+        "$value": "{color.amber.50}",
+        "$type": "color"
+      },
+      "text": {
+        "$value": "{color.amber.700}",
+        "$type": "color"
+      },
+      "border": {
+        "$value": "{color.amber.300}",
+        "$type": "color"
+      },
+      "contrast": {
+        "$value": "{color.common.white}",
+        "$type": "color"
+      }
+    },
+    "danger": {
+      "solid": {
+        "$value": "{color.red.500}",
+        "$type": "color"
+      },
+      "hard": {
+        "$value": "{color.red.800}",
+        "$type": "color"
+      },
+      "soft": {
+        "$value": "{color.red.50}",
+        "$type": "color"
+      },
+      "text": {
+        "$value": "{color.red.700}",
+        "$type": "color"
+      },
+      "border": {
+        "$value": "{color.red.300}",
+        "$type": "color"
+      },
+      "contrast": {
+        "$value": "{color.common.white}",
+        "$type": "color"
+      }
+    },
+    "info": {
+      "solid": {
+        "$value": "{color.neutral.200}",
+        "$type": "color"
+      },
+      "hard": {
+        "$value": "{color.neutral.300}",
+        "$type": "color"
+      },
+      "soft": {
+        "$value": "{color.neutral.100}",
+        "$type": "color"
+      },
+      "text": {
+        "$value": "{color.neutral.700}",
+        "$type": "color"
+      },
+      "border": {
+        "$value": "{color.neutral.300}",
+        "$type": "color"
+      },
+      "contrast": {
+        "$value": "{color.neutral.900}",
+        "$type": "color"
       }
     }
   }

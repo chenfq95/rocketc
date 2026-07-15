@@ -11,69 +11,235 @@ export const tabs: Array<{ label: string; value: PreviewTab }> = [
 ];
 
 export const colorRoles = [
-  ['Brand solid', 'brand.solid', 'var(--rds-color-brand-solid)'],
-  ['Brand hard', 'brand.hard', 'var(--rds-color-brand-hard)'],
-  ['Brand soft', 'brand.soft', 'var(--rds-color-brand-soft)'],
-  ['Brand text', 'brand.text', 'var(--rds-color-brand-text)'],
-  ['Brand border', 'brand.border', 'var(--rds-color-brand-border)'],
-  ['Brand contrast', 'brand.contrastText', 'var(--rds-color-brand-contrast-text)'],
-  ['Accent solid', 'accent.solid', 'var(--rds-color-accent-solid)'],
-  ['Accent hard', 'accent.hard', 'var(--rds-color-accent-hard)'],
-  ['Accent soft', 'accent.soft', 'var(--rds-color-accent-soft)'],
-  ['Accent text', 'accent.text', 'var(--rds-color-accent-text)'],
-  ['Accent border', 'accent.border', 'var(--rds-color-accent-border)'],
-  ['Accent contrast', 'accent.contrastText', 'var(--rds-color-accent-contrast-text)'],
-  ['Success solid', 'state.success.solid', 'var(--rds-color-state-success-solid)'],
-  ['Success hard', 'state.success.hard', 'var(--rds-color-state-success-hard)'],
-  ['Success soft', 'state.success.soft', 'var(--rds-color-state-success-soft)'],
+  ['Brand soft', 'brand.soft', 'var(--rds-color-brand-soft)', 'color.orange.50 / color.orange.950'],
   [
-    'Success contrast',
-    'state.success.contrastText',
-    'var(--rds-color-state-success-contrast-text)',
+    'Brand border',
+    'brand.border',
+    'var(--rds-color-brand-border)',
+    'color.orange.300 / color.orange.600',
   ],
-  ['Warning solid', 'state.warning.solid', 'var(--rds-color-state-warning-solid)'],
-  ['Warning hard', 'state.warning.hard', 'var(--rds-color-state-warning-hard)'],
-  ['Warning soft', 'state.warning.soft', 'var(--rds-color-state-warning-soft)'],
   [
-    'Warning contrast',
-    'state.warning.contrastText',
-    'var(--rds-color-state-warning-contrast-text)',
+    'Brand text',
+    'brand.text',
+    'var(--rds-color-brand-text)',
+    'color.orange.700 / color.orange.300',
   ],
-  ['Info solid', 'state.info.solid', 'var(--rds-color-state-info-solid)'],
-  ['Info hard', 'state.info.hard', 'var(--rds-color-state-info-hard)'],
-  ['Info soft', 'state.info.soft', 'var(--rds-color-state-info-soft)'],
-  ['Info contrast', 'state.info.contrastText', 'var(--rds-color-state-info-contrast-text)'],
-  ['Danger solid', 'state.danger.solid', 'var(--rds-color-state-danger-solid)'],
-  ['Danger hard', 'state.danger.hard', 'var(--rds-color-state-danger-hard)'],
-  ['Danger soft', 'state.danger.soft', 'var(--rds-color-state-danger-soft)'],
-  ['Danger contrast', 'state.danger.contrastText', 'var(--rds-color-state-danger-contrast-text)'],
-  ['Action active', 'action.active', 'var(--rds-color-action-active)'],
-  ['Action hover', 'action.hover', 'var(--rds-color-action-hover)'],
-  ['Action selected', 'action.selected', 'var(--rds-color-action-selected)'],
-  ['Action disabled', 'action.disabled', 'var(--rds-color-action-disabled)'],
+  ['Brand solid', 'brand.solid', 'var(--rds-color-brand-solid)', 'color.orange.500'],
+  ['Brand hard', 'brand.hard', 'var(--rds-color-brand-hard)', 'color.orange.600'],
+  ['Brand contrast', 'brand.contrast', 'var(--rds-color-brand-contrast)', 'color.white'],
+  [
+    'Accent soft',
+    'accent.soft',
+    'var(--rds-color-accent-soft)',
+    'color.neutral.100 / color.neutral.800',
+  ],
+  [
+    'Accent border',
+    'accent.border',
+    'var(--rds-color-accent-border)',
+    'color.neutral.300 / color.neutral.700',
+  ],
+  [
+    'Accent text',
+    'accent.text',
+    'var(--rds-color-accent-text)',
+    'color.neutral.700 / color.neutral.200',
+  ],
+  [
+    'Accent solid',
+    'accent.solid',
+    'var(--rds-color-accent-solid)',
+    'color.neutral.200 / color.neutral.700',
+  ],
+  [
+    'Accent hard',
+    'accent.hard',
+    'var(--rds-color-accent-hard)',
+    'color.neutral.300 / color.neutral.600',
+  ],
+  [
+    'Accent contrast',
+    'accent.contrast',
+    'var(--rds-color-accent-contrast)',
+    'color.neutral.900 / color.neutral.50',
+  ],
+  [
+    'Success soft',
+    'success.soft',
+    'var(--rds-color-success-soft)',
+    'color.green.50 / color.green.950',
+  ],
+  [
+    'Success border',
+    'success.border',
+    'var(--rds-color-success-border)',
+    'color.green.300 / color.green.700',
+  ],
+  [
+    'Success text',
+    'success.text',
+    'var(--rds-color-success-text)',
+    'color.green.700 / color.green.300',
+  ],
+  ['Success solid', 'success.solid', 'var(--rds-color-success-solid)', 'color.green.500'],
+  ['Success hard', 'success.hard', 'var(--rds-color-success-hard)', 'color.green.800'],
+  ['Success contrast', 'success.contrast', 'var(--rds-color-success-contrast)', 'color.white'],
+  [
+    'Warning soft',
+    'warning.soft',
+    'var(--rds-color-warning-soft)',
+    'color.amber.50 / color.amber.950',
+  ],
+  [
+    'Warning border',
+    'warning.border',
+    'var(--rds-color-warning-border)',
+    'color.amber.300 / color.amber.700',
+  ],
+  [
+    'Warning text',
+    'warning.text',
+    'var(--rds-color-warning-text)',
+    'color.amber.700 / color.amber.300',
+  ],
+  ['Warning solid', 'warning.solid', 'var(--rds-color-warning-solid)', 'color.amber.500'],
+  ['Warning hard', 'warning.hard', 'var(--rds-color-warning-hard)', 'color.amber.800'],
+  ['Warning contrast', 'warning.contrast', 'var(--rds-color-warning-contrast)', 'color.white'],
+  ['Info soft', 'info.soft', 'var(--rds-color-info-soft)', 'color.neutral.100 / color.neutral.800'],
+  [
+    'Info border',
+    'info.border',
+    'var(--rds-color-info-border)',
+    'color.neutral.300 / color.neutral.700',
+  ],
+  ['Info text', 'info.text', 'var(--rds-color-info-text)', 'color.neutral.700 / color.neutral.300'],
+  [
+    'Info solid',
+    'info.solid',
+    'var(--rds-color-info-solid)',
+    'color.neutral.200 / color.neutral.700',
+  ],
+  ['Info hard', 'info.hard', 'var(--rds-color-info-hard)', 'color.neutral.300 / color.neutral.800'],
+  [
+    'Info contrast',
+    'info.contrast',
+    'var(--rds-color-info-contrast)',
+    'color.neutral.900 / color.neutral.50',
+  ],
+  ['Danger soft', 'danger.soft', 'var(--rds-color-danger-soft)', 'color.red.50 / color.red.950'],
+  [
+    'Danger border',
+    'danger.border',
+    'var(--rds-color-danger-border)',
+    'color.red.300 / color.red.700',
+  ],
+  ['Danger text', 'danger.text', 'var(--rds-color-danger-text)', 'color.red.700 / color.red.300'],
+  ['Danger solid', 'danger.solid', 'var(--rds-color-danger-solid)', 'color.red.500'],
+  ['Danger hard', 'danger.hard', 'var(--rds-color-danger-hard)', 'color.red.800'],
+  ['Danger contrast', 'danger.contrast', 'var(--rds-color-danger-contrast)', 'color.white'],
+  [
+    'Action active',
+    'action.active',
+    'var(--rds-color-action-active)',
+    'color.neutral.700 / color.neutral.300',
+  ],
+  [
+    'Action hover',
+    'action.hover',
+    'var(--rds-color-action-hover)',
+    'color.neutral.100 / color.neutral.800',
+  ],
+  [
+    'Action selected',
+    'action.selected',
+    'var(--rds-color-action-selected)',
+    'color.orange.50 / color.orange.950',
+  ],
+  [
+    'Action disabled',
+    'action.disabled',
+    'var(--rds-color-action-disabled)',
+    'color.neutral.500 / color.neutral.400',
+  ],
   [
     'Action disabled bg',
     'action.disabledBackground',
     'var(--rds-color-action-disabled-background)',
+    'color.neutral.100 / color.neutral.800',
   ],
-  ['Action focus', 'action.focus', 'var(--rds-color-action-focus)'],
-  ['Canvas', 'surface.canvas', 'var(--rds-color-surface-canvas)'],
-  ['Panel', 'surface.panel', 'var(--rds-color-surface-panel)'],
-  ['Raised', 'surface.raised', 'var(--rds-color-surface-raised)'],
-  ['Inverse', 'surface.inverse', 'var(--rds-color-surface-inverse)'],
-  ['Text primary', 'text.primary', 'var(--rds-color-text-primary)'],
-  ['Text secondary', 'text.secondary', 'var(--rds-color-text-secondary)'],
-  ['Text muted', 'text.muted', 'var(--rds-color-text-muted)'],
-  ['Text inverse', 'text.inverse', 'var(--rds-color-text-inverse)'],
-  ['Border subtle', 'border.subtle', 'var(--rds-color-border-subtle)'],
-  ['Border default', 'border.default', 'var(--rds-color-border-default)'],
-  ['Border strong', 'border.strong', 'var(--rds-color-border-strong)'],
-  ['Border focus', 'border.focus', 'var(--rds-color-border-focus)'],
-  ['Common black', 'common.black', 'var(--rds-color-common-black)'],
-  ['Common white', 'common.white', 'var(--rds-color-common-white)'],
+  [
+    'Action focus',
+    'action.focus',
+    'var(--rds-color-action-focus)',
+    'color.neutral.200 / color.neutral.700',
+  ],
+  [
+    'Canvas',
+    'surface.canvas',
+    'var(--rds-color-surface-canvas)',
+    'color.neutral.50 / color.neutral.950',
+  ],
+  [
+    'Panel',
+    'surface.panel',
+    'var(--rds-color-surface-panel)',
+    'color.neutral.0 / color.neutral.900',
+  ],
+  [
+    'Elevated',
+    'surface.elevated',
+    'var(--rds-color-surface-elevated)',
+    'color.neutral.0 / color.neutral.800',
+  ],
+  [
+    'Inverse',
+    'surface.inverse',
+    'var(--rds-color-surface-inverse)',
+    'color.neutral.950 / color.neutral.0',
+  ],
+  [
+    'Text primary',
+    'text.primary',
+    'var(--rds-color-text-primary)',
+    'color.neutral.950 / color.neutral.50',
+  ],
+  [
+    'Text secondary',
+    'text.secondary',
+    'var(--rds-color-text-secondary)',
+    'color.neutral.700 / color.neutral.300',
+  ],
+  [
+    'Text muted',
+    'text.muted',
+    'var(--rds-color-text-muted)',
+    'color.neutral.500 / color.neutral.400',
+  ],
+  [
+    'Text inverse',
+    'text.inverse',
+    'var(--rds-color-text-inverse)',
+    'color.neutral.0 / color.neutral.950',
+  ],
+  [
+    'Border subtle',
+    'border.subtle',
+    'var(--rds-color-border-subtle)',
+    'color.neutral.200 / color.neutral.800',
+  ],
+  [
+    'Border default',
+    'border.default',
+    'var(--rds-color-border-default)',
+    'color.neutral.300 / color.neutral.700',
+  ],
+  ['Border strong', 'border.strong', 'var(--rds-color-border-strong)', 'color.neutral.500'],
+  ['Border focus', 'border.focus', 'var(--rds-color-border-focus)', 'color.neutral.500'],
+  ['Common black', 'common.black', 'var(--rds-color-common-black)', 'color.black'],
+  ['Common white', 'common.white', 'var(--rds-color-common-white)', 'color.white'],
 ];
 
-export const colorScales = ['neutral', 'orange', 'coral', 'cyan', 'green', 'blue', 'amber', 'red'];
+export const colorScales = ['neutral', 'red', 'orange', 'amber', 'green', 'teal', 'blue', 'purple'];
 export const colorSteps = [
   '50',
   '100',
@@ -94,7 +260,12 @@ export const plainTypographyRoles = [
   ['Heading', 'typography.heading', 'heading', 'Controls composed from token roles'],
   ['Subheading', 'typography.subheading', 'subheading', 'Framework adapters'],
   ['Body', 'typography.body', 'body', 'Interface text stays direct, compact, and readable.'],
-  ['Body Strong', 'typography.bodyStrong', 'body-strong', 'Important interface text'],
+  [
+    'Body small',
+    'typography.bodySmall',
+    'body-small',
+    'Secondary interface text for dense surfaces.',
+  ],
   ['Label', 'typography.label', 'label', 'Workspace name'],
   ['Caption', 'typography.caption', 'caption', 'Generated from semantic typography tokens'],
   ['Code', 'typography.code', 'code', 'color.brand.solid'],
@@ -112,24 +283,24 @@ export const muiTypographyVariants = [
 ] as const;
 
 export const muiPaletteRoles = [
+  ['Primary light', 'primary.light', 'color.brand.soft'],
   ['Primary main', 'primary.main', 'color.brand.solid'],
   ['Primary dark', 'primary.dark', 'color.brand.hard'],
-  ['Primary light', 'primary.light', 'color.brand.soft'],
+  ['Secondary light', 'secondary.light', 'color.accent.soft'],
   ['Secondary main', 'secondary.main', 'color.accent.solid'],
   ['Secondary dark', 'secondary.dark', 'color.accent.hard'],
-  ['Secondary light', 'secondary.light', 'color.accent.soft'],
-  ['Success main', 'success.main', 'color.state.success.solid'],
-  ['Success dark', 'success.dark', 'color.state.success.hard'],
-  ['Success light', 'success.light', 'color.state.success.soft'],
-  ['Warning main', 'warning.main', 'color.state.warning.solid'],
-  ['Warning dark', 'warning.dark', 'color.state.warning.hard'],
-  ['Warning light', 'warning.light', 'color.state.warning.soft'],
-  ['Error main', 'error.main', 'color.state.danger.solid'],
-  ['Error dark', 'error.dark', 'color.state.danger.hard'],
-  ['Error light', 'error.light', 'color.state.danger.soft'],
-  ['Info main', 'info.main', 'color.state.info.solid'],
-  ['Info dark', 'info.dark', 'color.state.info.hard'],
-  ['Info light', 'info.light', 'color.state.info.soft'],
+  ['Success light', 'success.light', 'color.success.soft'],
+  ['Success main', 'success.main', 'color.success.solid'],
+  ['Success dark', 'success.dark', 'color.success.hard'],
+  ['Warning light', 'warning.light', 'color.warning.soft'],
+  ['Warning main', 'warning.main', 'color.warning.solid'],
+  ['Warning dark', 'warning.dark', 'color.warning.hard'],
+  ['Error light', 'error.light', 'color.danger.soft'],
+  ['Error main', 'error.main', 'color.danger.solid'],
+  ['Error dark', 'error.dark', 'color.danger.hard'],
+  ['Info light', 'info.light', 'color.info.soft'],
+  ['Info main', 'info.main', 'color.info.solid'],
+  ['Info dark', 'info.dark', 'color.info.hard'],
   ['Background default', 'background.default', 'color.surface.canvas'],
   ['Background paper', 'background.paper', 'color.surface.panel'],
   ['Text primary', 'text.primary', 'color.text.primary'],
@@ -145,8 +316,16 @@ export const muiPaletteRoles = [
 ] as const;
 
 export const chakraColorRoles = [
+  ['Gray solid', 'colors.gray.solid', 'color.neutral.800 / color.neutral.200'],
+  ['Gray contrast', 'colors.gray.contrast', 'color.neutral.0 / color.neutral.950'],
+  ['Gray fg', 'colors.gray.fg', 'color.neutral.700 / color.neutral.300'],
+  ['Gray muted', 'colors.gray.muted', 'color.neutral.100 / color.neutral.800'],
+  ['Gray subtle', 'colors.gray.subtle', 'color.neutral.50 / color.neutral.900'],
+  ['Gray emphasized', 'colors.gray.emphasized', 'color.neutral.200 / color.neutral.700'],
+  ['Gray border', 'colors.gray.border', 'color.neutral.300 / color.neutral.700'],
+  ['Gray focus ring', 'colors.gray.focusRing', 'color.neutral.500 / color.neutral.400'],
   ['Brand solid', 'colors.brand.solid', 'color.brand.solid'],
-  ['Brand contrast', 'colors.brand.contrast', 'color.brand.contrastText'],
+  ['Brand contrast', 'colors.brand.contrast', 'color.brand.contrast'],
   ['Brand fg', 'colors.brand.fg', 'color.brand.text'],
   ['Brand muted', 'colors.brand.muted', 'color.brand.soft'],
   ['Brand subtle', 'colors.brand.subtle', 'color.brand.soft'],
@@ -154,45 +333,55 @@ export const chakraColorRoles = [
   ['Brand border', 'colors.brand.border', 'color.brand.border'],
   ['Brand focus ring', 'colors.brand.focusRing', 'color.brand.border'],
   ['Accent solid', 'colors.accent.solid', 'color.accent.solid'],
-  ['Accent contrast', 'colors.accent.contrast', 'color.accent.contrastText'],
+  ['Accent contrast', 'colors.accent.contrast', 'color.accent.contrast'],
   ['Accent fg', 'colors.accent.fg', 'color.accent.text'],
   ['Accent muted', 'colors.accent.muted', 'color.accent.soft'],
   ['Accent subtle', 'colors.accent.subtle', 'color.accent.soft'],
   ['Accent emphasized', 'colors.accent.emphasized', 'color.accent.hard'],
   ['Accent border', 'colors.accent.border', 'color.accent.border'],
   ['Accent focus ring', 'colors.accent.focusRing', 'color.accent.border'],
-  ['Success solid', 'colors.success.solid', 'color.state.success.solid'],
-  ['Success contrast', 'colors.success.contrast', 'color.state.success.contrastText'],
-  ['Success fg', 'colors.success.fg', 'color.state.success.hard'],
-  ['Success muted', 'colors.success.muted', 'color.state.success.soft'],
-  ['Success subtle', 'colors.success.subtle', 'color.state.success.soft'],
-  ['Success emphasized', 'colors.success.emphasized', 'color.state.success.hard'],
-  ['Success border', 'colors.success.border', 'color.state.success.solid'],
-  ['Success focus ring', 'colors.success.focusRing', 'color.state.success.solid'],
-  ['Warning solid', 'colors.warning.solid', 'color.state.warning.solid'],
-  ['Warning contrast', 'colors.warning.contrast', 'color.state.warning.contrastText'],
-  ['Warning fg', 'colors.warning.fg', 'color.state.warning.hard'],
-  ['Warning muted', 'colors.warning.muted', 'color.state.warning.soft'],
-  ['Warning subtle', 'colors.warning.subtle', 'color.state.warning.soft'],
-  ['Warning emphasized', 'colors.warning.emphasized', 'color.state.warning.hard'],
-  ['Warning border', 'colors.warning.border', 'color.state.warning.solid'],
-  ['Warning focus ring', 'colors.warning.focusRing', 'color.state.warning.solid'],
-  ['Info solid', 'colors.info.solid', 'color.state.info.solid'],
-  ['Info contrast', 'colors.info.contrast', 'color.state.info.contrastText'],
-  ['Info fg', 'colors.info.fg', 'color.state.info.hard'],
-  ['Info muted', 'colors.info.muted', 'color.state.info.soft'],
-  ['Info subtle', 'colors.info.subtle', 'color.state.info.soft'],
-  ['Info emphasized', 'colors.info.emphasized', 'color.state.info.hard'],
-  ['Info border', 'colors.info.border', 'color.state.info.solid'],
-  ['Info focus ring', 'colors.info.focusRing', 'color.state.info.solid'],
-  ['Danger solid', 'colors.danger.solid', 'color.state.danger.solid'],
-  ['Danger contrast', 'colors.danger.contrast', 'color.state.danger.contrastText'],
-  ['Danger fg', 'colors.danger.fg', 'color.state.danger.hard'],
-  ['Danger muted', 'colors.danger.muted', 'color.state.danger.soft'],
-  ['Danger subtle', 'colors.danger.subtle', 'color.state.danger.soft'],
-  ['Danger emphasized', 'colors.danger.emphasized', 'color.state.danger.hard'],
-  ['Danger border', 'colors.danger.border', 'color.state.danger.solid'],
-  ['Danger focus ring', 'colors.danger.focusRing', 'color.state.danger.solid'],
+  ['Success solid', 'colors.success.solid', 'color.success.solid'],
+  ['Success contrast', 'colors.success.contrast', 'color.success.contrast'],
+  ['Success fg', 'colors.success.fg', 'color.success.text'],
+  ['Success muted', 'colors.success.muted', 'color.success.soft'],
+  ['Success subtle', 'colors.success.subtle', 'color.success.soft'],
+  ['Success emphasized', 'colors.success.emphasized', 'color.success.hard'],
+  ['Success border', 'colors.success.border', 'color.success.border'],
+  ['Success focus ring', 'colors.success.focusRing', 'color.success.border'],
+  ['Warning solid', 'colors.warning.solid', 'color.warning.solid'],
+  ['Warning contrast', 'colors.warning.contrast', 'color.warning.contrast'],
+  ['Warning fg', 'colors.warning.fg', 'color.warning.text'],
+  ['Warning muted', 'colors.warning.muted', 'color.warning.soft'],
+  ['Warning subtle', 'colors.warning.subtle', 'color.warning.soft'],
+  ['Warning emphasized', 'colors.warning.emphasized', 'color.warning.hard'],
+  ['Warning border', 'colors.warning.border', 'color.warning.border'],
+  ['Warning focus ring', 'colors.warning.focusRing', 'color.warning.border'],
+  ['Danger solid', 'colors.danger.solid', 'color.danger.solid'],
+  ['Danger contrast', 'colors.danger.contrast', 'color.danger.contrast'],
+  ['Danger fg', 'colors.danger.fg', 'color.danger.text'],
+  ['Danger muted', 'colors.danger.muted', 'color.danger.soft'],
+  ['Danger subtle', 'colors.danger.subtle', 'color.danger.soft'],
+  ['Danger emphasized', 'colors.danger.emphasized', 'color.danger.hard'],
+  ['Danger border', 'colors.danger.border', 'color.danger.border'],
+  ['Danger focus ring', 'colors.danger.focusRing', 'color.danger.border'],
+  ['Info solid', 'colors.info.solid', 'color.info.solid'],
+  ['Info contrast', 'colors.info.contrast', 'color.info.contrast'],
+  ['Info fg', 'colors.info.fg', 'color.info.text'],
+  ['Info muted', 'colors.info.muted', 'color.info.soft'],
+  ['Info subtle', 'colors.info.subtle', 'color.info.soft'],
+  ['Info emphasized', 'colors.info.emphasized', 'color.info.hard'],
+  ['Info border', 'colors.info.border', 'color.info.border'],
+  ['Info focus ring', 'colors.info.focusRing', 'color.info.border'],
+  ['Background', 'colors.bg', 'color.surface.canvas'],
+  ['Background panel', 'colors.bg.panel', 'color.surface.panel'],
+  ['Background elevated', 'colors.bg.elevated', 'color.surface.elevated'],
+  ['Foreground', 'colors.fg', 'color.text.primary'],
+  ['Foreground muted', 'colors.fg.muted', 'color.text.muted'],
+  ['Foreground subtle', 'colors.fg.subtle', 'color.text.secondary'],
+  ['Foreground inverted', 'colors.fg.inverted', 'color.text.inverse'],
+  ['Border', 'colors.border', 'color.border.default'],
+  ['Border subtle', 'colors.border.subtle', 'color.border.subtle'],
+  ['Border emphasized', 'colors.border.emphasized', 'color.border.strong'],
 ] as const;
 
 export const chakraTypographyRoles = [
@@ -201,7 +390,7 @@ export const chakraTypographyRoles = [
   ['Heading', 'heading', 'Controls composed from token roles'],
   ['Subheading', 'subheading', 'Framework adapters'],
   ['Body', 'body', 'Interface text stays direct, compact, and readable.'],
-  ['Body Strong', 'bodyStrong', 'Important interface text'],
+  ['Body small', 'bodySmall', 'Secondary interface text for dense surfaces.'],
   ['Label', 'label', 'Workspace name'],
   ['Caption', 'caption', 'Generated from Chakra text styles'],
   ['Code', 'code', 'colors.brand.solid'],
@@ -238,7 +427,7 @@ export const tokenGroup = (token: string): string => {
   const parts = token.split('.');
   const [namespace, role, variant] = parts;
 
-  if (namespace === 'colors' && role && variant) return `${namespace}.${role}`;
+  if (namespace === 'colors' && role) return `${namespace}.${role}`;
 
   return namespace === 'state' && role ? `${namespace}.${role}` : (namespace ?? token);
 };
@@ -260,12 +449,31 @@ const readChakraToken = (theme: Record<string, unknown>, namespace: string, path
   const namespaceValue = root[namespace];
   if (!isRecord(namespaceValue)) throw new Error(`Missing Chakra theme namespace "${namespace}".`);
 
-  const tokenNode = path
-    .split('.')
-    .reduce<unknown>(
-      (current, segment) => (isRecord(current) ? current[segment] : undefined),
-      namespaceValue,
-    );
+  const segments = path.split('.');
+  let tokenNode: unknown = namespaceValue;
+
+  for (let index = 0; index < segments.length; index += 1) {
+    if (!isRecord(tokenNode)) {
+      tokenNode = undefined;
+      break;
+    }
+
+    const segment = segments[index];
+    const remainder = segments.slice(index).join('.');
+
+    if (remainder in tokenNode) {
+      tokenNode = tokenNode[remainder];
+      break;
+    }
+
+    tokenNode = tokenNode[segment];
+  }
+
+  if (!isRecord(tokenNode) || !('value' in tokenNode)) {
+    if (isRecord(tokenNode) && isRecord(tokenNode.DEFAULT) && 'value' in tokenNode.DEFAULT) {
+      tokenNode = tokenNode.DEFAULT;
+    }
+  }
 
   if (!isRecord(tokenNode) || !('value' in tokenNode)) {
     throw new Error(`Missing Chakra token "${namespace}.${path}".`);

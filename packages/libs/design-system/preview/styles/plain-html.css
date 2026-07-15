@@ -21,10 +21,10 @@
 }
 
 .panel {
-  border: 1px solid var(--rds-color-border-subtle);
+  border: var(--rds-border-sm) solid var(--rds-color-border-subtle);
   border-radius: var(--rds-radius-md);
   background: var(--rds-color-surface-panel);
-  box-shadow: var(--rds-shadow-sm);
+  box-shadow: var(--rds-shadow-surface);
   padding: var(--rds-space-3);
 }
 
@@ -53,23 +53,27 @@
 .status {
   display: inline-flex;
   align-items: center;
-  min-height: 20px;
+  min-height: var(--rds-space-5);
   border-radius: var(--rds-radius-full);
   padding: 0 var(--rds-space-2);
-  font-size: 12px;
-  font-weight: 700;
+  font-family: var(--rds-typography-caption-font-family);
+  font-size: var(--rds-typography-caption-font-size);
+  font-weight: var(--rds-typography-caption-font-weight);
+  line-height: var(--rds-typography-caption-line-height);
+  letter-spacing: var(--rds-typography-caption-letter-spacing);
   white-space: nowrap;
 }
 
 .badge {
+  border: var(--rds-border-sm) solid var(--rds-color-accent-border);
   background: var(--rds-color-accent-soft);
   color: var(--rds-color-accent-text);
 }
 
 .kbd {
-  border: 1px solid var(--rds-color-border-default);
+  border: var(--rds-border-sm) solid var(--rds-color-border-default);
   border-radius: var(--rds-radius-sm);
-  background: var(--rds-color-surface-raised);
+  background: var(--rds-color-surface-elevated);
   color: var(--rds-color-text-secondary);
   font-family: var(--rds-typography-code-font-family);
 }
@@ -82,6 +86,8 @@
 }
 
 .button {
+  min-height: var(--rds-space-8);
+  border-radius: var(--rds-radius-sm);
   padding: 0 var(--rds-space-3);
   font-family: var(--rds-typography-label-font-family);
   font-size: var(--rds-typography-label-font-size);
@@ -93,7 +99,7 @@
 .button.primary {
   border-color: var(--rds-color-brand-solid);
   background: var(--rds-color-brand-solid);
-  color: var(--rds-color-text-inverse);
+  color: var(--rds-color-brand-contrast);
 }
 
 .button.primary:hover {
@@ -102,7 +108,9 @@
 }
 
 .button.secondary {
+  border-color: var(--rds-color-border-default);
   background: var(--rds-color-surface-panel);
+  color: var(--rds-color-text-primary);
 }
 
 .button.quiet {
@@ -111,20 +119,118 @@
   color: var(--rds-color-text-secondary);
 }
 
+.plain-button-grid {
+  display: grid;
+  gap: var(--rds-space-2);
+  margin-top: var(--rds-space-3);
+}
+
+.plain-button-row {
+  display: grid;
+  grid-template-columns: 92px repeat(7, minmax(0, 1fr));
+  gap: var(--rds-space-2);
+  align-items: center;
+  min-width: 0;
+}
+
+.plain-button-row > strong {
+  min-width: 0;
+  color: var(--rds-color-text-muted);
+  font-family: var(--rds-typography-label-font-family);
+  font-size: var(--rds-typography-label-font-size);
+  font-weight: var(--rds-typography-label-font-weight);
+  line-height: var(--rds-typography-label-line-height);
+  letter-spacing: var(--rds-typography-label-letter-spacing);
+  overflow-wrap: anywhere;
+}
+
+.token-button {
+  width: 100%;
+  min-width: 0;
+  border: var(--rds-border-sm) solid var(--button-border);
+  background: var(--rds-color-surface-panel);
+  color: var(--button-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.token-button[data-variant='solid'] {
+  border-color: var(--button-solid);
+  background: var(--button-solid);
+  color: var(--button-contrast);
+}
+
+.token-button[data-variant='solid']:hover:not(:disabled) {
+  border-color: var(--button-hard);
+  background: var(--button-hard);
+}
+
+.token-button[data-variant='subtle'] {
+  border-color: transparent;
+  background: var(--button-soft);
+  color: var(--button-text);
+}
+
+.token-button[data-variant='surface'] {
+  border-color: var(--button-border);
+  background: var(--button-soft);
+  color: var(--button-text);
+}
+
+.token-button[data-variant='outline'] {
+  border-color: var(--button-border);
+  background: transparent;
+  color: var(--button-text);
+}
+
+.token-button[data-variant='ghost'] {
+  border-color: transparent;
+  background: transparent;
+  color: var(--button-text);
+}
+
+.token-button[data-variant='plain'] {
+  min-height: var(--rds-space-7);
+  border-color: transparent;
+  background: transparent;
+  color: var(--button-text);
+  padding-inline: var(--rds-space-1);
+}
+
+.token-button[data-variant='subtle']:hover:not(:disabled),
+.token-button[data-variant='surface']:hover:not(:disabled),
+.token-button[data-variant='outline']:hover:not(:disabled),
+.token-button[data-variant='ghost']:hover:not(:disabled),
+.token-button[data-variant='plain']:hover:not(:disabled) {
+  background: var(--button-soft);
+}
+
+.token-button:disabled {
+  border-color: transparent;
+  background: var(--rds-color-action-disabled-background);
+  color: var(--rds-color-action-disabled);
+  cursor: not-allowed;
+}
+
 .field {
   display: grid;
   gap: var(--rds-space-1);
   margin-top: var(--rds-space-3);
   color: var(--rds-color-text-secondary);
-  font-size: 13px;
-  font-weight: 650;
+  font-family: var(--rds-typography-label-font-family);
+  font-size: var(--rds-typography-label-font-size);
+  font-weight: var(--rds-typography-label-font-weight);
+  line-height: var(--rds-typography-label-line-height);
+  letter-spacing: var(--rds-typography-label-letter-spacing);
 }
 
-input,
-select {
+.field input,
+.field select {
+  box-sizing: border-box;
   width: 100%;
-  min-height: 32px;
-  border: 1px solid var(--rds-color-border-default);
+  min-height: var(--rds-space-8);
+  border: var(--rds-border-sm) solid var(--rds-color-border-default);
   border-radius: var(--rds-radius-sm);
   background: var(--rds-color-surface-panel);
   color: var(--rds-color-text-primary);
@@ -133,12 +239,12 @@ select {
 
 .notice {
   margin-top: var(--rds-space-3);
-  border: 1px solid var(--rds-color-brand-border);
+  border: var(--rds-border-sm) solid var(--rds-color-brand-border);
   border-radius: var(--rds-radius-md);
   background: var(--rds-color-brand-soft);
   color: var(--rds-color-brand-text);
   padding: var(--rds-space-2);
-  font-size: 13px;
+  font-size: var(--rds-typography-body-small-font-size);
 }
 
 .status-list {
@@ -149,58 +255,70 @@ select {
 }
 
 .status.success {
-  background: var(--rds-color-state-success-soft);
-  color: var(--rds-color-state-success-solid);
+  border: var(--rds-border-sm) solid var(--rds-color-success-border);
+  background: var(--rds-color-success-soft);
+  color: var(--rds-color-success-text);
 }
 
 .status.warning {
-  background: var(--rds-color-state-warning-soft);
-  color: var(--rds-color-state-warning-solid);
+  border: var(--rds-border-sm) solid var(--rds-color-warning-border);
+  background: var(--rds-color-warning-soft);
+  color: var(--rds-color-warning-text);
 }
 
 .status.danger {
-  background: var(--rds-color-state-danger-soft);
-  color: var(--rds-color-state-danger-solid);
+  border: var(--rds-border-sm) solid var(--rds-color-danger-border);
+  background: var(--rds-color-danger-soft);
+  color: var(--rds-color-danger-text);
 }
 
 .status.info {
-  background: var(--rds-color-state-info-soft);
-  color: var(--rds-color-state-info-solid);
+  border: var(--rds-border-sm) solid var(--rds-color-info-border);
+  background: var(--rds-color-info-soft);
+  color: var(--rds-color-info-text);
 }
 
 .small {
   color: var(--rds-color-text-muted);
-  font-size: 14px;
+  font-size: var(--rds-typography-body-font-size);
 }
 
 .table-panel {
   grid-column: 1 / -1;
 }
 
-table {
+.table-panel table {
   width: 100%;
   border-collapse: collapse;
   margin-top: var(--rds-space-3);
-  font-size: 14px;
+  font-family: var(--rds-typography-label-font-family);
+  font-size: var(--rds-typography-label-font-size);
+  font-weight: var(--rds-typography-label-font-weight);
+  line-height: var(--rds-typography-label-line-height);
+  letter-spacing: var(--rds-typography-label-letter-spacing);
 }
 
-th,
-td {
-  border-bottom: 1px solid var(--rds-color-border-subtle);
+.table-panel th,
+.table-panel td {
+  border-bottom: var(--rds-border-sm) solid var(--rds-color-border-subtle);
   padding: var(--rds-space-1) var(--rds-space-2);
   text-align: left;
   vertical-align: middle;
 }
 
-th {
+.table-panel th {
   color: var(--rds-color-text-muted);
-  font-size: 12px;
+  font-family: var(--rds-typography-caption-font-family);
+  font-size: var(--rds-typography-caption-font-size);
+  font-weight: var(--rds-typography-caption-font-weight);
+  line-height: var(--rds-typography-caption-line-height);
+  letter-spacing: var(--rds-typography-caption-letter-spacing);
   text-transform: uppercase;
 }
 
-td:first-child {
+.table-panel td:first-child {
   font-family: var(--rds-typography-code-font-family);
-  font-size: 13px;
+  font-size: var(--rds-typography-body-small-font-size);
 }
 
 .dot {
@@ -230,7 +348,7 @@ td:first-child {
 .overview-swatches span {
   display: block;
   height: 32px;
-  border: 1px solid var(--rds-color-border-subtle);
+  border: var(--rds-border-sm) solid var(--rds-color-border-subtle);
   border-radius: var(--rds-radius-sm);
   background: var(--swatch-color);
 }
@@ -243,13 +361,18 @@ td:first-child {
 
 .overview-swatches strong {
   margin-top: var(--rds-space-1);
-  font-size: 13px;
+  font-size: var(--rds-typography-body-small-font-size);
 }
 
 .overview-swatches code {
   color: var(--rds-color-text-muted);
   font-family: var(--rds-typography-code-font-family);
-  font-size: 11px;
+  font-size: var(--rds-typography-caption-font-size);
+}
+
+.overview-swatches .primitive-source {
+  margin-top: var(--rds-space-0-5);
+  color: var(--rds-color-text-secondary);
 }
 
 .overview-type {
@@ -263,14 +386,14 @@ td:first-child {
   grid-template-columns: 92px minmax(0, 1fr) minmax(120px, 0.5fr);
   gap: var(--rds-space-2);
   align-items: start;
-  border-bottom: 1px solid var(--rds-color-border-subtle);
+  border-bottom: var(--rds-border-sm) solid var(--rds-color-border-subtle);
   padding-bottom: var(--rds-space-2);
 }
 
 .overview-type code {
   color: var(--rds-color-text-muted);
   font-family: var(--rds-typography-code-font-family);
-  font-size: 11px;
+  font-size: var(--rds-typography-caption-font-size);
 }
 
 .overview-type strong,
@@ -293,9 +416,9 @@ td:first-child {
 
 .component-demo {
   min-width: 0;
-  border: 1px solid var(--rds-color-border-subtle);
+  border: var(--rds-border-sm) solid var(--rds-color-border-subtle);
   border-radius: var(--rds-radius-md);
-  background: var(--rds-color-surface-raised);
+  background: var(--rds-color-surface-elevated);
   padding: var(--rds-space-3);
 }
 
@@ -312,20 +435,20 @@ td:first-child {
 .choice-row,
 .radio-card {
   display: grid;
-  border: 1px solid var(--rds-color-border-subtle);
+  border: var(--rds-border-sm) solid var(--rds-color-border-subtle);
   background: var(--rds-color-surface-panel);
   color: var(--rds-color-text-primary);
   cursor: pointer;
   text-align: left;
   transition:
-    background var(--rds-motion-duration-fast) var(--rds-motion-easing-standard),
-    border-color var(--rds-motion-duration-fast) var(--rds-motion-easing-standard),
-    box-shadow var(--rds-motion-duration-fast) var(--rds-motion-easing-standard);
+    background var(--rds-duration-fast) var(--rds-easing-standard),
+    border-color var(--rds-duration-fast) var(--rds-easing-standard),
+    box-shadow var(--rds-duration-fast) var(--rds-easing-standard);
 }
 
 .choice-row {
   grid-template-columns: 20px minmax(0, 1fr);
-  gap: var(--rds-space-2);
+  gap: var(--rds-space-1);
   align-items: center;
   min-height: 44px;
   border-radius: var(--rds-radius-sm);
@@ -341,7 +464,7 @@ td:first-child {
 .radio-card.is-selected {
   border-color: var(--rds-color-brand-border);
   background: var(--rds-color-brand-soft);
-  box-shadow: inset 0 0 0 1px var(--rds-color-brand-border);
+  box-shadow: inset 0 0 0 var(--rds-border-sm) var(--rds-color-brand-border);
 }
 
 .choice-row strong,
@@ -353,15 +476,22 @@ td:first-child {
 
 .choice-row strong,
 .radio-card strong {
-  font-size: 14px;
-  line-height: 1.15;
+  font-family: var(--rds-typography-label-font-family);
+  font-size: var(--rds-typography-label-font-size);
+  font-weight: var(--rds-typography-label-font-weight);
+  line-height: var(--rds-typography-label-line-height);
+  letter-spacing: var(--rds-typography-label-letter-spacing);
 }
 
 .choice-row em,
 .radio-card em {
-  margin-top: 2px;
+  margin-top: var(--rds-space-0-5);
   color: var(--rds-color-text-muted);
-  font-size: 12px;
+  font-family: var(--rds-typography-caption-font-family);
+  font-size: var(--rds-typography-caption-font-size);
+  font-weight: var(--rds-typography-caption-font-weight);
+  line-height: var(--rds-typography-caption-line-height);
+  letter-spacing: var(--rds-typography-caption-letter-spacing);
   font-style: normal;
 }
 
@@ -370,7 +500,7 @@ td:first-child {
   place-items: center;
   width: 16px;
   height: 16px;
-  border: 1px solid var(--rds-color-border-default);
+  border: var(--rds-border-sm) solid var(--rds-color-border-default);
   background: var(--rds-color-surface-panel);
 }
 
@@ -391,8 +521,8 @@ td:first-child {
   content: '';
   width: 8px;
   height: 4px;
-  border-bottom: 2px solid var(--rds-color-text-inverse);
-  border-left: 2px solid var(--rds-color-text-inverse);
+  border-bottom: var(--rds-border-md) solid var(--rds-color-text-inverse);
+  border-left: var(--rds-border-md) solid var(--rds-color-text-inverse);
   transform: translateY(-1px) rotate(-45deg);
 }
 
@@ -424,8 +554,8 @@ td:first-child {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--rds-space-1);
   margin-top: var(--rds-space-3);
-  border: 1px solid var(--rds-color-border-subtle);
-  border-radius: var(--rds-radius-md);
+  border: var(--rds-border-sm) solid var(--rds-color-border-subtle);
+  border-radius: var(--rds-radius-sm);
   background: var(--rds-color-surface-panel);
   padding: var(--rds-space-1);
 }
@@ -434,8 +564,11 @@ td:first-child {
   border-radius: var(--rds-radius-sm);
   padding: var(--rds-space-1) var(--rds-space-2);
   color: var(--rds-color-text-secondary);
-  font-size: 13px;
-  font-weight: 650;
+  font-family: var(--rds-typography-label-font-family);
+  font-size: var(--rds-typography-label-font-size);
+  font-weight: var(--rds-typography-label-font-weight);
+  line-height: var(--rds-typography-label-line-height);
+  letter-spacing: var(--rds-typography-label-letter-spacing);
   text-align: center;
 }
 
@@ -446,9 +579,9 @@ td:first-child {
 
 .alert {
   display: grid;
-  gap: var(--rds-space-1);
+  gap: var(--rds-space-0-5);
   margin-top: var(--rds-space-2);
-  border: 1px solid var(--alert-border);
+  border: var(--rds-border-sm) solid var(--alert-border);
   border-radius: var(--rds-radius-sm);
   background: var(--alert-bg);
   color: var(--alert-text);
@@ -456,19 +589,23 @@ td:first-child {
 }
 
 .alert span {
-  font-size: 13px;
+  font-family: var(--rds-typography-caption-font-family);
+  font-size: var(--rds-typography-caption-font-size);
+  font-weight: var(--rds-typography-caption-font-weight);
+  line-height: var(--rds-typography-caption-line-height);
+  letter-spacing: var(--rds-typography-caption-letter-spacing);
 }
 
 .alert.success {
-  --alert-bg: var(--rds-color-state-success-soft);
-  --alert-border: var(--rds-color-state-success-solid);
-  --alert-text: var(--rds-color-state-success-solid);
+  --alert-bg: var(--rds-color-success-soft);
+  --alert-border: var(--rds-color-success-border);
+  --alert-text: var(--rds-color-success-text);
 }
 
 .alert.warning {
-  --alert-bg: var(--rds-color-state-warning-soft);
-  --alert-border: var(--rds-color-state-warning-solid);
-  --alert-text: var(--rds-color-state-warning-solid);
+  --alert-bg: var(--rds-color-warning-soft);
+  --alert-border: var(--rds-color-warning-border);
+  --alert-text: var(--rds-color-warning-text);
 }
 
 .compact-table {
@@ -489,7 +626,7 @@ td:first-child {
 .sample-card,
 .sample-dialog {
   min-width: 0;
-  border: 1px solid var(--rds-color-border-subtle);
+  border: var(--rds-border-sm) solid var(--rds-color-border-subtle);
   border-radius: var(--rds-radius-md);
   background: var(--rds-color-surface-panel);
   padding: var(--rds-space-3);
@@ -503,16 +640,16 @@ td:first-child {
 
 .sample-card strong,
 .sample-dialog strong {
-  font-size: 14px;
+  font-size: var(--rds-typography-label-font-size);
 }
 
 .sample-card p,
 .sample-dialog p {
   margin: 0;
   color: var(--rds-color-text-secondary);
-  font-size: 14px;
+  font-size: var(--rds-typography-body-font-size);
 }
 
 .sample-dialog {
-  box-shadow: var(--rds-shadow-scale-lg);
+  box-shadow: var(--rds-shadow-lg);
 }

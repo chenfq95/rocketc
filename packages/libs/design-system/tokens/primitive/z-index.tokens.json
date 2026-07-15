@@ -1,43 +1,43 @@
 {
   "$schema": "https://www.designtokens.org/schemas/2025.10/format.json",
-  "zIndexScale": {
-    "hide": {
+  "zIndex": {
+    "-1": {
       "$value": -1,
       "$type": "number"
     },
-    "base": {
+    "0": {
       "$value": 0,
       "$type": "number"
     },
-    "raised": {
+    "10": {
       "$value": 10,
       "$type": "number"
     },
-    "dropdown": {
+    "100": {
       "$value": 100,
       "$type": "number"
     },
-    "sticky": {
+    "200": {
       "$value": 200,
       "$type": "number"
     },
-    "overlay": {
+    "300": {
       "$value": 300,
       "$type": "number"
     },
-    "modal": {
+    "400": {
       "$value": 400,
       "$type": "number"
     },
-    "popover": {
+    "500": {
       "$value": 500,
       "$type": "number"
     },
-    "toast": {
+    "600": {
       "$value": 600,
       "$type": "number"
     },
-    "tooltip": {
+    "700": {
       "$value": 700,
       "$type": "number"
     }

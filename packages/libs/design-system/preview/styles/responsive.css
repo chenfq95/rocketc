@@ -1,16 +1,13 @@
 @media (max-width: 820px) {
   .shell {
-    width: min(100vw - 24px, 1180px);
-    padding: 24px 0;
+    width: min(100vw - var(--rds-space-6), var(--rds-measure-xl));
+    padding: var(--rds-space-6) 0;
   }
 
   .hero,
   .preview-grid,
   .overview-layout,
   .overview-components,
-  .mui-overview-layout,
-  .mui-grid,
-  .chakra-component-grid,
   .surface-stack {
     grid-template-columns: 1fr;
   }
@@ -28,23 +25,21 @@
     grid-template-columns: 1fr;
   }
 
-  .mui-color-grid,
-  .chakra-color-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
   .overview-swatches {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .overview-type > div {
     grid-template-columns: 1fr;
-    gap: 4px;
+    gap: var(--rds-space-1);
   }
 
-  .chakra-type-list > div {
-    grid-template-columns: 1fr;
-    gap: var(--chakra-spacing-1);
+  .plain-button-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .plain-button-row > strong {
+    grid-column: 1 / -1;
   }
 
   .radio-card-grid {
@@ -60,6 +55,6 @@
   }
 
   h1 {
-    font-size: 52px;
+    font-size: var(--rds-typography-display-font-size);
   }
 }

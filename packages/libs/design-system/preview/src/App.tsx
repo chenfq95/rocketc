@@ -1,4 +1,4 @@
-import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
+import { ThemeProvider, createTheme } from '@mui/material';
 import type { ThemeOptions } from '@mui/material/styles';
 import { useEffect, useMemo, useState } from 'react';
 
@@ -28,7 +28,6 @@ export function App() {
 
   return (
     <ThemeProvider theme={muiTheme}>
-      <CssBaseline />
       <main className="shell">
         <header className="hero">
           <div>
@@ -73,7 +72,7 @@ export function App() {
         </section>
 
         <section className={`tab-panel${activeTab === 'plain-html' ? ' is-active' : ''}`}>
-          <PlainHtmlPanel />
+          <PlainHtmlPanel mode={mode} />
         </section>
 
         <section className={`tab-panel${activeTab === 'mui' ? ' is-active' : ''}`}>

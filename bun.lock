@@ -39,12 +39,21 @@
         "@types/react": "^18.3.27",
         "@types/react-dom": "^18.3.7",
         "@vitejs/plugin-react": "^5.1.1",
+        "normalize.css": "^8.0.1",
         "react": "^18.3.1",
         "react-dom": "^18.3.1",
         "style-dictionary": "^5.5.0",
         "typescript": "^5.9.3",
         "vite": "^7.3.0",
       },
+      "peerDependencies": {
+        "@chakra-ui/react": "^3.30.0",
+        "@mui/material": "^7.3.6",
+      },
+      "optionalPeers": [
+        "@chakra-ui/react",
+        "@mui/material",
+      ],
     },
     "packages/libs/ioc": {
       "name": "@rocketc/ioc",
@@ -1569,6 +1578,8 @@
     "no-case": ["no-case@3.0.4", "https://registry.npmmirror.com/no-case/-/no-case-3.0.4.tgz", { "dependencies": { "lower-case": "^2.0.2", "tslib": "^2.0.3" } }, "sha512-fgAN3jGAh+RoxUGZHTSOLJIqUc2wmoBwGR4tbpNAKmmovFoWq0OdRkb0VkldReO2a2iBT/OEulG9XSUc10r3zg=="],
 
     "node-releases": ["node-releases@2.0.50", "https://registry.npmmirror.com/node-releases/-/node-releases-2.0.50.tgz", {}, "sha512-J6l92tKHX6w8Jy5nO1Vuc01NoIiRGi/d6qBKVxh+IQ8Cr3b6HbVNfKiF8ZpFKufTwpwxMmce2W3iQZ861ZRyTg=="],
+
+    "normalize.css": ["normalize.css@8.0.1", "https://bnpm.byted.org/normalize.css/-/normalize.css-8.0.1.tgz", {}, "sha512-qizSNPO93t1YUuUhP22btGOo3chcvDFqFaj2TRybP0DMxkHOCTYwp3n34fel4a31ORXy4m1Xq0Gyqpb5m33qIg=="],
 
     "object-assign": ["object-assign@4.1.1", "https://registry.npmmirror.com/object-assign/-/object-assign-4.1.1.tgz", {}, "sha512-rJgTQnkUnH1sFw8yT6VSU3zD3sWmu6sZhIseY8VX+GRu3P6F7Fu+JNDoXfklElbLJSnc3FUQHVe4cU5hj+BcUg=="],
 

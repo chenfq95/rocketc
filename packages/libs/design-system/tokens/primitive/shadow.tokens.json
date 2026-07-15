@@ -1,6 +1,6 @@
 {
   "$schema": "https://www.designtokens.org/schemas/2025.10/format.json",
-  "shadowScale": {
+  "shadow": {
     "none": {
       "$value": {
         "color": {
@@ -157,12 +157,65 @@
       },
       "$type": "shadow"
     },
-    "focus": {
+    "2xl": {
       "$value": {
         "color": {
           "colorSpace": "srgb",
-          "components": [0.976471, 0.45098, 0.086275],
-          "alpha": 0.24
+          "components": [0.058824, 0.090196, 0.164706],
+          "alpha": 0.26
+        },
+        "offsetX": {
+          "value": 0,
+          "unit": "px"
+        },
+        "offsetY": {
+          "value": 36,
+          "unit": "px"
+        },
+        "blur": {
+          "value": 88,
+          "unit": "px"
+        },
+        "spread": {
+          "value": 0,
+          "unit": "px"
+        }
+      },
+      "$type": "shadow"
+    },
+    "inner": {
+      "$value": {
+        "color": {
+          "colorSpace": "srgb",
+          "components": [0.058824, 0.090196, 0.164706],
+          "alpha": 0.08
+        },
+        "offsetX": {
+          "value": 0,
+          "unit": "px"
+        },
+        "offsetY": {
+          "value": 2,
+          "unit": "px"
+        },
+        "blur": {
+          "value": 4,
+          "unit": "px"
+        },
+        "spread": {
+          "value": 0,
+          "unit": "px"
+        },
+        "inset": true
+      },
+      "$type": "shadow"
+    },
+    "inset": {
+      "$value": {
+        "color": {
+          "colorSpace": "srgb",
+          "components": [0.058824, 0.090196, 0.164706],
+          "alpha": 0.08
         },
         "offsetX": {
           "value": 0,
@@ -177,9 +230,10 @@
           "unit": "px"
         },
         "spread": {
-          "value": 3,
+          "value": 1,
           "unit": "px"
-        }
+        },
+        "inset": true
       },
       "$type": "shadow"
     }

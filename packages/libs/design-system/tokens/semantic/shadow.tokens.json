@@ -1,0 +1,43 @@
+{
+  "$schema": "https://www.designtokens.org/schemas/2025.10/format.json",
+  "shadow": {
+    "surface": {
+      "$value": "{shadow.sm}",
+      "$type": "shadow"
+    },
+    "raised": {
+      "$value": "{shadow.md}",
+      "$type": "shadow"
+    },
+    "overlay": {
+      "$value": "{shadow.lg}",
+      "$type": "shadow"
+    },
+    "focus": {
+      "$value": {
+        "color": {
+          "colorSpace": "srgb",
+          "components": [0.392157, 0.454902, 0.545098],
+          "alpha": 0.24
+        },
+        "offsetX": {
+          "value": 0,
+          "unit": "px"
+        },
+        "offsetY": {
+          "value": 0,
+          "unit": "px"
+        },
+        "blur": {
+          "value": 0,
+          "unit": "px"
+        },
+        "spread": {
+          "value": 3,
+          "unit": "px"
+        }
+      },
+      "$type": "shadow"
+    }
+  }
+}
