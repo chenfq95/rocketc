@@ -2,42 +2,45 @@
 
 ## Themes
 
-Two themes are built today: **light** and **dark**.
+Two theme families are built in light and dark modes.
 
-| Theme | Source of truth                          | CSS selector          |
-| ----- | ---------------------------------------- | --------------------- |
-| Light | Semantic baseline (`tokens/semantic`)    | `:root`               |
-| Dark  | Semantic + `tokens/theme/dark` overrides | `[data-theme='dark']` |
+| Theme           | Character                         | CSS selector                     |
+| --------------- | --------------------------------- | -------------------------------- |
+| `default.light` | Next.js-style neutral light       | `:root`, matching data attribute |
+| `default.dark`  | Next.js-style neutral dark        | `[data-theme='default.dark']`    |
+| `sun.light`     | Original orange brand, light mode | `[data-theme='sun.light']`       |
+| `sun.dark`      | Original orange brand, dark mode  | `[data-theme='sun.dark']`        |
 
-`tokens/theme/light/` is intentionally empty: light _is_ the semantic layer.
+`tokens/theme/default.light/` is intentionally empty because it uses the semantic baseline directly.
 
 ### Switching themes in apps
 
 Set the attribute on the document element (preview does this):
 
 ```ts
-document.documentElement.dataset.theme = 'dark'; // or 'light'
+document.documentElement.dataset.theme = 'sun.dark';
 ```
 
 Load both CSS files when you need runtime toggle:
 
 ```ts
-import '@rocketc/design-system/css/light.css';
-import '@rocketc/design-system/css/dark.css';
+import '@rocketc/design-system/css/default.light.css';
+import '@rocketc/design-system/css/default.dark.css';
+import '@rocketc/design-system/css/sun.light.css';
+import '@rocketc/design-system/css/sun.dark.css';
 ```
 
-Light variables apply by default; dark overrides activate under `[data-theme='dark']`.
+`default.light` variables apply by default; explicit variants activate under their matching `data-theme` value.
 
 ## Output surfaces
 
-| Export                                         | Purpose                              |
-| ---------------------------------------------- | ------------------------------------ |
-| `@rocketc/design-system/css/light.css`         | CSS variables + normalize + baseline |
-| `@rocketc/design-system/css/dark.css`          | Dark overrides                       |
-| `@rocketc/design-system/js`                    | `lightTokens` / `darkTokens` + types |
-| `@rocketc/design-system/js/light` / `…/dark`   | Per-theme maps                       |
-| `@rocketc/design-system/mui` (+ light/dark)    | MUI `ThemeOptions`                   |
-| `@rocketc/design-system/chakra` (+ light/dark) | Chakra v3 system config              |
+| Export                                   | Purpose                              |
+| ---------------------------------------- | ------------------------------------ |
+| `@rocketc/design-system/css/<theme>.css` | CSS variables + normalize + baseline |
+| `@rocketc/design-system/js`              | All token maps + types               |
+| `@rocketc/design-system/js/<theme>`      | Per-theme map                        |
+| `@rocketc/design-system/mui`             | All MUI `ThemeOptions`               |
+| `@rocketc/design-system/chakra/<theme>`  | Per-theme Chakra v3 system config    |
 
 CSS variable prefix: **`rds`** (`--rds-*`).
 
@@ -54,9 +57,9 @@ Best for plain HTML, custom components, and any stack that reads custom properti
 Use when you need token values in TypeScript (runtime theme builders, non-CSS targets):
 
 ```ts
-import { lightTokens, darkTokens, type TokenTheme } from '@rocketc/design-system/js';
+import { defaultLightTokens, sunDarkTokens, type TokenTheme } from '@rocketc/design-system/js';
 
-lightTokens['color.brand.solid'];
+defaultLightTokens['color.brand.solid'];
 ```
 
 Maps are flat DTCG-shaped entries (`$type` / `$value`).
@@ -65,14 +68,14 @@ Maps are flat DTCG-shaped entries (`$type` / `$value`).
 
 ```ts
 import { createTheme, ThemeProvider, CssBaseline } from '@mui/material';
-import { lightMuiTheme, darkMuiTheme } from '@rocketc/design-system/mui';
+import { defaultLightMuiTheme, sunDarkMuiTheme } from '@rocketc/design-system/mui';
 
-const theme = createTheme(lightMuiTheme);
+const theme = createTheme(defaultLightMuiTheme);
 ```
 
 Notes:
 
-- `palette.primary` ← brand; secondary ← accent; error ← danger
+- `palette.primary` ← brand; secondary ← neutral surface/action roles; error ← danger
 - Typography maps display → h1, title → h2, etc.
 - Spacing unit follows `space.1` (4px)
 - Shape radius uses `radius.md` (6px)
@@ -84,9 +87,9 @@ MUI peer dependency is optional.
 
 ```ts
 import { ChakraProvider } from '@chakra-ui/react';
-import { lightChakraTheme } from '@rocketc/design-system/chakra';
+import defaultLightChakraTheme from '@rocketc/design-system/chakra/default.light';
 
-<ChakraProvider value={lightChakraTheme}>{/* … */}</ChakraProvider>
+<ChakraProvider value={defaultLightChakraTheme}>{/* ... */}</ChakraProvider>
 ```
 
 Notes:

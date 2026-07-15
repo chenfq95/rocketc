@@ -8,7 +8,7 @@ Rocketc Design System is a personal tool UI system: orange brand identity on qui
 
 ### Signature Through Brand and Hierarchy
 
-Identity is carried by the brand orange on primary actions and key accents, plus a clear type and elevation ladder. Surfaces stay calm so the signature stays scannable. Do not invent a second “personality hue” to force distinctiveness.
+Identity is carried by the brand orange on primary actions and key emphasis, plus a clear type and elevation ladder. Surfaces stay calm so the signature stays scannable. Do not invent a second “personality hue” to force distinctiveness.
 
 Depth stays at three steps—`panel` (resting), `elevated` + `shadow.raised`, and `shadow.overlay` for top chrome. Light mode leans on border and shadow; dark mode leans on surface color steps.
 
@@ -22,7 +22,7 @@ Tools and dashboards need compact information density. Density should come from 
 
 ### Color Has Meaning
 
-Brand color expresses identity and primary action. Accent and info are muted neutral roles for secondary chrome and informational UI—not a second brand hue. State colors (success, warning, danger) communicate status only. These roles should not be mixed casually.
+Brand color expresses identity and primary action. Info communicates informational UI, while neutral surface, text, border, and action roles compose secondary chrome. State colors (success, warning, danger) communicate status only. These roles should not be mixed casually.
 
 ### Motion Should Confirm
 

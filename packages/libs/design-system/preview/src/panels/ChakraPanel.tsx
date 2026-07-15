@@ -85,11 +85,14 @@ import {
   createListCollection,
   createSystem,
   defaultConfig,
-  defineConfig,
+  type SystemConfig,
 } from '@chakra-ui/react';
 import { useMemo } from 'react';
 
-import { darkChakraTheme, lightChakraTheme, type ChakraThemeConfig } from '../../../dist/chakra';
+import defaultDarkChakraTheme from '../../../dist/chakra/default.dark';
+import defaultLightChakraTheme from '../../../dist/chakra/default.light';
+import sunDarkChakraTheme from '../../../dist/chakra/sun.dark';
+import sunLightChakraTheme from '../../../dist/chakra/sun.light';
 import {
   chakraColorRoles,
   chakraSemantic,
@@ -97,7 +100,7 @@ import {
   chakraTypographyRoles,
   chakraTypographyStyle,
   startsTokenGroup,
-  type ThemeMode,
+  type DesignThemeName,
 } from '../previewModel';
 
 const chakraItems = createListCollection({
@@ -110,9 +113,10 @@ const chakraItems = createListCollection({
 
 const chakraButtonPalettes = [
   { label: 'Default', value: undefined },
+  { label: 'Primary', value: 'primary' },
+  { label: 'Secondary', value: 'secondary' },
   { label: 'Gray', value: 'gray' },
   { label: 'Brand', value: 'brand' },
-  { label: 'Accent', value: 'accent' },
   { label: 'Success', value: 'success' },
   { label: 'Warning', value: 'warning' },
   { label: 'Danger', value: 'danger' },
@@ -181,13 +185,17 @@ const chakraCoverageComponents = [
   'VisuallyHidden',
 ] as const;
 
-export function ChakraPanel({ mode }: { mode: ThemeMode }) {
-  const chakraTheme: ChakraThemeConfig = mode === 'dark' ? darkChakraTheme : lightChakraTheme;
+const chakraThemes: Record<DesignThemeName, SystemConfig> = {
+  'default.light': defaultLightChakraTheme,
+  'default.dark': defaultDarkChakraTheme,
+  'sun.light': sunLightChakraTheme,
+  'sun.dark': sunDarkChakraTheme,
+};
+
+export function ChakraPanel({ themeName }: { themeName: DesignThemeName }) {
+  const chakraTheme = chakraThemes[themeName];
   const theme = chakraTheme as unknown as Record<string, unknown>;
-  const chakraSystem = useMemo(
-    () => createSystem(defaultConfig, defineConfig(chakraTheme)),
-    [chakraTheme],
-  );
+  const chakraSystem = useMemo(() => createSystem(defaultConfig, chakraTheme), [chakraTheme]);
 
   return (
     <ChakraProvider value={chakraSystem}>
@@ -465,13 +473,12 @@ export function ChakraPanel({ mode }: { mode: ThemeMode }) {
                         ))}
                       </Stack>
                     </RadioGroup.Root>
-                    <NumberInput.Root defaultValue="24" min={0} max={100}>
+                    <NumberInput.Root defaultValue="24" display="grid" gap={1} min={0} max={100}>
                       <NumberInput.Label>NumberInput</NumberInput.Label>
-                      <NumberInput.Control>
-                        <NumberInput.IncrementTrigger />
-                        <NumberInput.DecrementTrigger />
-                      </NumberInput.Control>
-                      <NumberInput.Input />
+                      <Box position="relative">
+                        <NumberInput.Control />
+                        <NumberInput.Input />
+                      </Box>
                     </NumberInput.Root>
                     <PinInput.Root defaultValue={['2', '4', '0', '8']}>
                       <PinInput.Label>PinInput</PinInput.Label>
@@ -594,7 +601,7 @@ export function ChakraPanel({ mode }: { mode: ThemeMode }) {
                         ))}
                       </AvatarGroup>
                       <Badge colorPalette="brand">Badge</Badge>
-                      <Tag.Root colorPalette="accent">
+                      <Tag.Root colorPalette="gray">
                         <Tag.Label>Tag</Tag.Label>
                         <Tag.EndElement>x</Tag.EndElement>
                       </Tag.Root>
@@ -732,7 +739,7 @@ export function ChakraPanel({ mode }: { mode: ThemeMode }) {
                         <Box bg="brand.subtle" borderRadius="md" p={2}>
                           Grid
                         </Box>
-                        <Box bg="accent.subtle" borderRadius="md" p={2}>
+                        <Box bg="gray.subtle" borderRadius="md" p={2}>
                           Item
                         </Box>
                       </Grid>
@@ -741,7 +748,7 @@ export function ChakraPanel({ mode }: { mode: ThemeMode }) {
                       <Circle bg="brand.solid" color="brand.contrast" size="10">
                         C
                       </Circle>
-                      <Square bg="accent.subtle" color="accent.fg" size="10">
+                      <Square bg="gray.subtle" color="gray.fg" size="10">
                         S
                       </Square>
                       <Spacer />

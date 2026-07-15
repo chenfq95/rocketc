@@ -23,16 +23,15 @@ tokens/
 │   ├── typography.tokens.json
 │   └── z-index.tokens.json
 ├── theme/
-│   ├── light/
-│   │   └── README.md
-│   └── dark/
-│       ├── color.tokens.json
-│       └── opacity.tokens.json
+│   ├── default.light/
+│   ├── default.dark/
+│   ├── sun.light/
+│   └── sun.dark/
 ```
 
 - `primitive/`: raw design values such as color scales, spacing, measure scale, radius, and font families.
 - `semantic/`: baseline role tokens such as brand colors, text colors, layout regions, shadows, and stacking roles.
-- `theme/`: theme-specific overrides for semantic roles. A theme only needs files for values that differ from the semantic baseline.
+- `theme/`: theme-family and color-mode overrides for semantic roles. A theme only needs files for values that differ from the semantic baseline.
 
 ## Elevation
 

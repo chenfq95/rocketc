@@ -12,26 +12,26 @@ Semantic roles intentionally use only a subset. Extra hues exist for future reci
 
 ### Semantic color roles
 
-| Group                            | Roles                                     | Purpose                              |
-| -------------------------------- | ----------------------------------------- | ------------------------------------ |
-| `surface`                        | canvas, panel, elevated, inverse          | Page and container fills             |
-| `text`                           | primary, secondary, muted, inverse        | Content hierarchy                    |
-| `border`                         | subtle, default, strong, focus            | Structure and focus chrome           |
-| `action`                         | active, hover, selected, disabled, …      | Interaction chrome                   |
-| `brand`                          | soft, border, text, solid, hard, contrast | Identity + primary action            |
-| `accent`                         | same six-slot recipe                      | Muted secondary chrome (**neutral**) |
-| `success` / `warning` / `danger` | six-slot recipe                           | Status only                          |
-| `info`                           | six-slot recipe                           | Informational chrome (**neutral**)   |
+| Group                            | Roles                                          | Purpose                    |
+| -------------------------------- | ---------------------------------------------- | -------------------------- |
+| `surface`                        | canvas, panel, elevated, inverse               | Page and container fills   |
+| `text`                           | primary, secondary, muted, inverse             | Content hierarchy          |
+| `border`                         | subtle, default, strong, focus                 | Structure and focus chrome |
+| `action`                         | active, hover, selected, disabled, …           | Shared interaction chrome  |
+| `control.primary` / `secondary`  | bg, bgHover, bgActive, fg, fgContrast, borders | Complete control recipes   |
+| `brand`                          | soft, border, text, solid, hard, contrast      | Identity color family      |
+| `success` / `warning` / `danger` | six-slot recipe                                | Status only                |
+| `info`                           | six-slot recipe                                | Informational chrome       |
 
-Brand solid resolves to **orange.500** (`#FF6900` / `rgb(255 105 0)`). Accent and info stay on the neutral scale so they do not compete with brand.
+The Sun theme brand solid resolves to **orange.500** (`#FF6900` / `rgb(255 105 0)`). Components consume `control.primary.*` and `control.secondary.*`; those recipes may alias brand, surface, text, border, and action roles differently in each theme.
 
 ### Six-slot palette recipe
 
-Brand, accent, and status families share the same slots:
+Brand, info, and status families share the same slots:
 
 - `soft` — light background tint
 - `border` — outline
-- `text` — readable accent text on soft/canvas
+- `text` — readable role text on soft/canvas
 - `solid` — filled control
 - `hard` — stronger/pressed fill
 - `contrast` — foreground on solid/hard

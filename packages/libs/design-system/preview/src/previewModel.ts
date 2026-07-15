@@ -1,7 +1,9 @@
 import type { CSSProperties } from 'react';
 
 export type PreviewTab = 'primitive' | 'plain-html' | 'mui' | 'chakra';
+export type ThemeFamily = 'default' | 'sun';
 export type ThemeMode = 'light' | 'dark';
+export type DesignThemeName = `${ThemeFamily}.${ThemeMode}`;
 
 export const tabs: Array<{ label: string; value: PreviewTab }> = [
   { label: 'Primitive', value: 'primitive' },
@@ -27,42 +29,6 @@ export const colorRoles = [
   ['Brand solid', 'brand.solid', 'var(--rds-color-brand-solid)', 'color.orange.500'],
   ['Brand hard', 'brand.hard', 'var(--rds-color-brand-hard)', 'color.orange.600'],
   ['Brand contrast', 'brand.contrast', 'var(--rds-color-brand-contrast)', 'color.white'],
-  [
-    'Accent soft',
-    'accent.soft',
-    'var(--rds-color-accent-soft)',
-    'color.neutral.100 / color.neutral.800',
-  ],
-  [
-    'Accent border',
-    'accent.border',
-    'var(--rds-color-accent-border)',
-    'color.neutral.300 / color.neutral.700',
-  ],
-  [
-    'Accent text',
-    'accent.text',
-    'var(--rds-color-accent-text)',
-    'color.neutral.700 / color.neutral.200',
-  ],
-  [
-    'Accent solid',
-    'accent.solid',
-    'var(--rds-color-accent-solid)',
-    'color.neutral.200 / color.neutral.700',
-  ],
-  [
-    'Accent hard',
-    'accent.hard',
-    'var(--rds-color-accent-hard)',
-    'color.neutral.300 / color.neutral.600',
-  ],
-  [
-    'Accent contrast',
-    'accent.contrast',
-    'var(--rds-color-accent-contrast)',
-    'color.neutral.900 / color.neutral.50',
-  ],
   [
     'Success soft',
     'success.soft',
@@ -172,6 +138,80 @@ export const colorRoles = [
     'action.focus',
     'var(--rds-color-action-focus)',
     'color.neutral.200 / color.neutral.700',
+  ],
+  ['Primary bg', 'control.primary.bg', 'var(--rds-color-control-primary-bg)', 'color.brand.solid'],
+  [
+    'Primary hover',
+    'control.primary.bgHover',
+    'var(--rds-color-control-primary-bg-hover)',
+    'color.brand.hard',
+  ],
+  [
+    'Primary active',
+    'control.primary.bgActive',
+    'var(--rds-color-control-primary-bg-active)',
+    'color.neutral.700 / color.orange.700',
+  ],
+  ['Primary fg', 'control.primary.fg', 'var(--rds-color-control-primary-fg)', 'color.brand.text'],
+  [
+    'Primary fg contrast',
+    'control.primary.fgContrast',
+    'var(--rds-color-control-primary-fg-contrast)',
+    'color.brand.contrast',
+  ],
+  [
+    'Primary border',
+    'control.primary.border',
+    'var(--rds-color-control-primary-border)',
+    'color.brand.solid',
+  ],
+  [
+    'Primary border hover',
+    'control.primary.borderHover',
+    'var(--rds-color-control-primary-border-hover)',
+    'color.brand.hard',
+  ],
+  [
+    'Secondary bg',
+    'control.secondary.bg',
+    'var(--rds-color-control-secondary-bg)',
+    'color.surface.panel',
+  ],
+  [
+    'Secondary hover',
+    'control.secondary.bgHover',
+    'var(--rds-color-control-secondary-bg-hover)',
+    'color.action.hover',
+  ],
+  [
+    'Secondary active',
+    'control.secondary.bgActive',
+    'var(--rds-color-control-secondary-bg-active)',
+    'color.neutral.200 / color.neutral.800',
+  ],
+  [
+    'Secondary fg',
+    'control.secondary.fg',
+    'var(--rds-color-control-secondary-fg)',
+    'color.text.primary',
+  ],
+  [
+    'Secondary fg contrast',
+    'control.secondary.fgContrast',
+    'var(--rds-color-control-secondary-fg-contrast)',
+    'color.text.primary',
+  ],
+  [
+    'Secondary border',
+    'control.secondary.border',
+    'var(--rds-color-control-secondary-border)',
+    'color.border.default',
+  ],
+  [
+    'Secondary border hover',
+    'control.secondary.borderHover',
+    'var(--rds-color-control-secondary-border-hover)',
+    'color.border.strong',
   ],
   [
     'Canvas',
@@ -306,12 +346,12 @@ export const muiTypographyVariants = [
 ] as const;
 
 export const muiPaletteRoles = [
-  ['Primary light', 'primary.light', 'color.brand.soft'],
-  ['Primary main', 'primary.main', 'color.brand.solid'],
-  ['Primary dark', 'primary.dark', 'color.brand.hard'],
-  ['Secondary light', 'secondary.light', 'color.accent.soft'],
-  ['Secondary main', 'secondary.main', 'color.accent.solid'],
-  ['Secondary dark', 'secondary.dark', 'color.accent.hard'],
+  ['Primary light', 'primary.light', 'color.control.primary.bgHover'],
+  ['Primary main', 'primary.main', 'color.control.primary.bg'],
+  ['Primary dark', 'primary.dark', 'color.control.primary.bgActive'],
+  ['Secondary light', 'secondary.light', 'color.control.secondary.bgHover'],
+  ['Secondary main', 'secondary.main', 'color.control.secondary.bg'],
+  ['Secondary dark', 'secondary.dark', 'color.control.secondary.bgActive'],
   ['Success light', 'success.light', 'color.success.soft'],
   ['Success main', 'success.main', 'color.success.solid'],
   ['Success dark', 'success.dark', 'color.success.hard'],
@@ -339,6 +379,22 @@ export const muiPaletteRoles = [
 ] as const;
 
 export const chakraColorRoles = [
+  ['Primary solid', 'colors.primary.solid', 'color.control.primary.bg'],
+  ['Primary contrast', 'colors.primary.contrast', 'color.control.primary.fgContrast'],
+  ['Primary fg', 'colors.primary.fg', 'color.control.primary.fg'],
+  ['Primary muted', 'colors.primary.muted', 'color.brand.soft'],
+  ['Primary subtle', 'colors.primary.subtle', 'color.brand.soft'],
+  ['Primary emphasized', 'colors.primary.emphasized', 'color.control.primary.bgActive'],
+  ['Primary border', 'colors.primary.border', 'color.brand.border'],
+  ['Primary focus ring', 'colors.primary.focusRing', 'color.control.primary.borderHover'],
+  ['Secondary solid', 'colors.secondary.solid', 'color.control.secondary.bg'],
+  ['Secondary contrast', 'colors.secondary.contrast', 'color.control.secondary.fgContrast'],
+  ['Secondary fg', 'colors.secondary.fg', 'color.control.secondary.fg'],
+  ['Secondary muted', 'colors.secondary.muted', 'color.control.secondary.bgHover'],
+  ['Secondary subtle', 'colors.secondary.subtle', 'color.control.secondary.bg'],
+  ['Secondary emphasized', 'colors.secondary.emphasized', 'color.control.secondary.bgActive'],
+  ['Secondary border', 'colors.secondary.border', 'color.control.secondary.border'],
+  ['Secondary focus ring', 'colors.secondary.focusRing', 'color.control.secondary.borderHover'],
   ['Gray solid', 'colors.gray.solid', 'color.neutral.800 / color.neutral.200'],
   ['Gray contrast', 'colors.gray.contrast', 'color.neutral.0 / color.neutral.950'],
   ['Gray fg', 'colors.gray.fg', 'color.neutral.700 / color.neutral.300'],
@@ -355,14 +411,6 @@ export const chakraColorRoles = [
   ['Brand emphasized', 'colors.brand.emphasized', 'color.brand.hard'],
   ['Brand border', 'colors.brand.border', 'color.brand.border'],
   ['Brand focus ring', 'colors.brand.focusRing', 'color.brand.border'],
-  ['Accent solid', 'colors.accent.solid', 'color.accent.solid'],
-  ['Accent contrast', 'colors.accent.contrast', 'color.accent.contrast'],
-  ['Accent fg', 'colors.accent.fg', 'color.accent.text'],
-  ['Accent muted', 'colors.accent.muted', 'color.accent.soft'],
-  ['Accent subtle', 'colors.accent.subtle', 'color.accent.soft'],
-  ['Accent emphasized', 'colors.accent.emphasized', 'color.accent.hard'],
-  ['Accent border', 'colors.accent.border', 'color.accent.border'],
-  ['Accent focus ring', 'colors.accent.focusRing', 'color.accent.border'],
   ['Success solid', 'colors.success.solid', 'color.success.solid'],
   ['Success contrast', 'colors.success.contrast', 'color.success.contrast'],
   ['Success fg', 'colors.success.fg', 'color.success.text'],
@@ -450,7 +498,9 @@ export const tokenGroup = (token: string): string => {
   const parts = token.split('.');
   const [namespace, role, variant] = parts;
 
-  if (namespace === 'colors' && role) return `${namespace}.${role}`;
+  if ((namespace === 'colors' || namespace === 'control') && role) {
+    return `${namespace}.${role}`;
+  }
 
   return namespace === 'state' && role ? `${namespace}.${role}` : (namespace ?? token);
 };

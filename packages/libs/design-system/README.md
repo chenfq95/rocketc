@@ -1,6 +1,6 @@
 # Rocketc Design System
 
-Rocketc Design System is a framework-agnostic design system for personal tools, dashboards, and content products—quiet chrome, orange brand focus, portable tokens.
+Rocketc Design System is a framework-agnostic design system for personal tools, dashboards, and content products with portable tokens and multiple visual themes.
 
 It is not a React, Vue, or Tailwind component library. It defines the visual language, tokens, behavior rules, and compiled assets that component libraries can consume.
 
@@ -38,7 +38,7 @@ Rocketc uses three token layers:
 
 - Primitive tokens: raw design values such as color scales and spacing values.
 - Semantic tokens: baseline role-based values such as `color.text.primary` and `color.brand.solid`.
-- Theme tokens: light and dark overrides for semantic roles.
+- Theme tokens: family and color-mode overrides for semantic roles.
 
 Component libraries and applications should consume semantic tokens first and reach for primitive tokens only when composing local component recipes. The shared design system does not publish component-specific token mappings.
 
@@ -63,38 +63,34 @@ The build includes `tokens/primitive` and `tokens/semantic` as baseline layers, 
 ```text
 dist/
 ├── css/
-│   ├── light.css
-│   └── dark.css
+│   ├── default.light.css
+│   ├── default.dark.css
+│   ├── sun.light.css
+│   └── sun.dark.css
 ├── js/
 │   ├── index.js
 │   ├── index.d.ts
-│   ├── light.js
-│   ├── light.d.ts
-│   ├── dark.js
-│   └── dark.d.ts
+│   └── {default,sun}.{light,dark}.{js,d.ts}
 ├── mui/
 │   ├── index.js
-│   ├── light.js
-│   └── dark.js
+│   └── {default,sun}.{light,dark}.{js,d.ts}
 └── chakra/
-    ├── index.js
-    ├── light.js
-    └── dark.js
+    └── {default,sun}.{light,dark}.{js,d.ts}
 ```
 
-Package exports only expose compiled assets. Use `@rocketc/design-system/css/light.css` for the default theme and `@rocketc/design-system/css/dark.css` with `[data-theme='dark']`.
+Package exports only expose compiled assets. `default.light` is the `:root` fallback; the other variants activate through `data-theme` values such as `sun.dark`.
 
 Use JS modules when a component library needs token values directly:
 
 ```ts
-import { lightTokens, type TokenTheme } from '@rocketc/design-system/js';
+import { defaultLightTokens, type TokenTheme } from '@rocketc/design-system/js';
 ```
 
 Use framework adapter modules when a component library needs a native theme object:
 
 ```ts
-import { lightMuiTheme } from '@rocketc/design-system/mui';
-import { lightChakraTheme } from '@rocketc/design-system/chakra';
+import { defaultLightMuiTheme } from '@rocketc/design-system/mui';
+import defaultLightChakraTheme from '@rocketc/design-system/chakra/default.light';
 ```
 
 The CSS theme files inline `normalize.css`. MUI receives the same baseline through `theme.components.MuiCssBaseline`, so render MUI's `<CssBaseline />` inside the theme provider when using the MUI adapter by itself. Chakra receives the baseline through `globalCss` when the generated system config is passed to `ChakraProvider`.

@@ -27,7 +27,7 @@ color: var(--rds-color-neutral-950);
 
 ```ts
 // Good: theme roles through adapters
-theme.palette.primary.main; // brand via MUI adapter
+theme.palette.primary.main; // primary control recipe via MUI adapter
 
 // Avoid: hardcoding brand hex in components
 ```
@@ -35,10 +35,12 @@ theme.palette.primary.main; // brand via MUI adapter
 ## CSS-only app
 
 ```ts
-import '@rocketc/design-system/css/light.css';
-import '@rocketc/design-system/css/dark.css';
+import '@rocketc/design-system/css/default.light.css';
+import '@rocketc/design-system/css/default.dark.css';
+import '@rocketc/design-system/css/sun.light.css';
+import '@rocketc/design-system/css/sun.dark.css';
 
-document.documentElement.dataset.theme = preferredMode;
+document.documentElement.dataset.theme = `${preferredFamily}.${preferredMode}`;
 ```
 
 ```css
@@ -70,13 +72,13 @@ document.documentElement.dataset.theme = preferredMode;
 
 ## Color recipes
 
-| Need                    | Use                                       |
-| ----------------------- | ----------------------------------------- |
-| Primary button          | `brand.solid` + `brand.contrast`          |
-| Secondary/quiet control | `accent.*` or neutral action tokens       |
-| Destructive             | `danger.*` only                           |
-| Success feedback        | `success.*` only                          |
-| Informational callout   | `info.*` (neutral chrome, not blue brand) |
+| Need                  | Use                   |
+| --------------------- | --------------------- |
+| Primary control       | `control.primary.*`   |
+| Secondary control     | `control.secondary.*` |
+| Destructive           | `danger.*` only       |
+| Success feedback      | `success.*` only      |
+| Informational callout | `info.*`              |
 
 ## Typography recipes
 
@@ -94,9 +96,9 @@ document.documentElement.dataset.theme = preferredMode;
 
 ```tsx
 import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
-import { lightMuiTheme, darkMuiTheme } from '@rocketc/design-system/mui';
+import { defaultDarkMuiTheme, defaultLightMuiTheme } from '@rocketc/design-system/mui';
 
-const theme = createTheme(mode === 'dark' ? darkMuiTheme : lightMuiTheme);
+const theme = createTheme(mode === 'dark' ? defaultDarkMuiTheme : defaultLightMuiTheme);
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   return (
@@ -114,14 +116,14 @@ You may still import CSS variables alongside MUI if custom islands need `--rds-*
 
 ```tsx
 import { ChakraProvider } from '@chakra-ui/react';
-import { lightChakraTheme, darkChakraTheme } from '@rocketc/design-system/chakra';
+import defaultLightChakraTheme from '@rocketc/design-system/chakra/default.light';
 
 export function AppShell({ children }: { children: React.ReactNode }) {
-  return <ChakraProvider value={lightChakraTheme}>{children}</ChakraProvider>;
+  return <ChakraProvider value={defaultLightChakraTheme}>{children}</ChakraProvider>;
 }
 ```
 
-Switch themes by selecting `lightChakraTheme` / `darkChakraTheme` (and keep `data-theme` in sync if CSS variables are also loaded).
+Switch themes by selecting the matching generated Chakra config, and keep `data-theme` in sync if CSS variables are also loaded.
 
 ## Preview
 
@@ -138,4 +140,4 @@ Tabs:
 3. **MUI** — adapter stress surface
 4. **Chakra** — adapter stress surface
 
-Use the theme switch to verify dark overrides and elevation contrast.
+Use the family control and theme switch to verify all four variants.

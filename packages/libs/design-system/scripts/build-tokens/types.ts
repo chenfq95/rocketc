@@ -1,7 +1,9 @@
 import type { ThemeOptions } from '@mui/material/styles';
 import type { SystemConfig } from '@chakra-ui/react';
 
-export type ThemeName = 'light' | 'dark';
+export type ThemeFamily = 'default' | 'sun';
+export type ThemeMode = 'light' | 'dark';
+export type ThemeName = `${ThemeFamily}.${ThemeMode}`;
 
 export type TokenType =
   | 'color'

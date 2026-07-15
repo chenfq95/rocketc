@@ -1,6 +1,4 @@
 import '../styles.css';
-import '../../dist/css/light.css';
-import '../../dist/css/dark.css';
 
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';

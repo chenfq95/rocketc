@@ -38,17 +38,6 @@ const plainButtonPalettes = [
     },
   },
   {
-    label: 'Accent',
-    vars: {
-      '--button-soft': 'var(--rds-color-accent-soft)',
-      '--button-border': 'var(--rds-color-accent-border)',
-      '--button-text': 'var(--rds-color-accent-text)',
-      '--button-solid': 'var(--rds-color-accent-solid)',
-      '--button-hard': 'var(--rds-color-accent-hard)',
-      '--button-contrast': 'var(--rds-color-accent-contrast)',
-    },
-  },
-  {
     label: 'Success',
     vars: {
       '--button-soft': 'var(--rds-color-success-soft)',
@@ -111,13 +100,13 @@ export function PlainHtmlPanel({ mode }: { mode: ThemeMode }) {
         <div className="panel-header">
           <div>
             <p className="meta">Plain HTML</p>
-            <h2>Brand, accent, and state roles</h2>
+            <h2>Brand, control, and state roles</h2>
           </div>
           <span className="badge">Semantic</span>
         </div>
         <p>
-          Color is assigned by role first. Brand carries identity and primary actions; accent and
-          info stay muted neutral chrome; status colors are reserved for feedback.
+          Color is assigned by role first. Brand carries identity, control roles define interactive
+          recipes, and status colors are reserved for communication and feedback.
         </p>
         <div className="overview-swatches">
           {colorRoles.map(([label, token, color, primitive], index) => (

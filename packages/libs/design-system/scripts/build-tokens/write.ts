@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { HEADER, OUT_DIR } from './constants.ts';
+import { HEADER, OUT_DIR, THEMES } from './constants.ts';
 import type { ThemeBuildResult, ThemeName } from './types.ts';
 
 export const cleanOutput = (): void => {
@@ -20,7 +20,13 @@ const writeText = (filePath: string, content: string): void => {
 
 const lines = (items: string[]): string => items.join('\n');
 
-const themeExportName = (theme: ThemeName): string => `${theme}Tokens`;
+const themeIdentifier = (theme: ThemeName): string =>
+  theme.replace(/\.([a-z])/g, (_, letter: string) => letter.toUpperCase());
+
+const themeExportName = (theme: ThemeName): string => `${themeIdentifier(theme)}Tokens`;
+
+const themeExports = (suffix: string): string[] =>
+  THEMES.map((theme) => `export { ${themeIdentifier(theme)}${suffix} } from './${theme}.js';`);
 
 const writeFrozenModule = (
   dir: string,
@@ -46,11 +52,12 @@ const writeDefaultTypeDeclaration = (
   fileName: string,
   exportName: string,
   typeName: string,
+  typeModule = './types.js',
 ): void => {
   writeText(
     path.join(OUT_DIR, dir, `${fileName}.d.ts`),
     lines([
-      `import type { ${typeName} } from './types.js';`,
+      `import type { ${typeName} } from '${typeModule}';`,
       '',
       `export declare const ${exportName}: ${typeName};`,
       `export default ${exportName};`,
@@ -72,8 +79,8 @@ export const writeTheme = ({
   chakraTheme,
 }: ThemeBuildResult): void => {
   const exportName = themeExportName(theme);
-  const muiExportName = `${theme}MuiTheme`;
-  const chakraExportName = `${theme}ChakraTheme`;
+  const muiExportName = `${themeIdentifier(theme)}MuiTheme`;
+  const chakraExportName = `${themeIdentifier(theme)}ChakraTheme`;
 
   writeText(path.join(OUT_DIR, 'css', `${theme}.css`), css);
   writeFrozenModule('js', theme, exportName, jsTokens);
@@ -81,15 +88,19 @@ export const writeTheme = ({
   writeFrozenModule('mui', theme, muiExportName, muiTheme);
   writeDefaultTypeDeclaration('mui', theme, muiExportName, 'MuiThemeOptions');
   writeFrozenModule('chakra', theme, chakraExportName, chakraTheme);
-  writeDefaultTypeDeclaration('chakra', theme, chakraExportName, 'ChakraThemeConfig');
+  writeDefaultTypeDeclaration(
+    'chakra',
+    theme,
+    chakraExportName,
+    'SystemConfig',
+    '@chakra-ui/react',
+  );
 };
 
 export const writeJsIndex = (): void => {
-  writeIndexModule(
-    'js',
-    ["export { darkTokens } from './dark.js';", "export { lightTokens } from './light.js';"],
-    ["export type { DesignToken, TokenTheme, TokenValue } from './types.js';"],
-  );
+  writeIndexModule('js', themeExports('Tokens'), [
+    "export type { DesignToken, TokenTheme, TokenValue } from './types.js';",
+  ]);
   writeText(
     path.join(OUT_DIR, 'js', 'types.d.ts'),
     lines([
@@ -113,28 +124,11 @@ export const writeJsIndex = (): void => {
 };
 
 export const writeMuiIndex = (): void => {
-  writeIndexModule(
-    'mui',
-    ["export { darkMuiTheme } from './dark.js';", "export { lightMuiTheme } from './light.js';"],
-    ["export type { MuiThemeOptions } from './types.js';"],
-  );
+  writeIndexModule('mui', themeExports('MuiTheme'), [
+    "export type { MuiThemeOptions } from './types.js';",
+  ]);
   writeText(
     path.join(OUT_DIR, 'mui', 'types.d.ts'),
     lines(["export type { ThemeOptions as MuiThemeOptions } from '@mui/material/styles';", '']),
-  );
-};
-
-export const writeChakraIndex = (): void => {
-  writeIndexModule(
-    'chakra',
-    [
-      "export { darkChakraTheme } from './dark.js';",
-      "export { lightChakraTheme } from './light.js';",
-    ],
-    ["export type { ChakraThemeConfig } from './types.js';"],
-  );
-  writeText(
-    path.join(OUT_DIR, 'chakra', 'types.d.ts'),
-    lines(["export type { SystemConfig as ChakraThemeConfig } from '@chakra-ui/react';", '']),
   );
 };

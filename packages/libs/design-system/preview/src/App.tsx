@@ -2,28 +2,48 @@ import { ThemeProvider, createTheme } from '@mui/material';
 import type { ThemeOptions } from '@mui/material/styles';
 import { useEffect, useMemo, useState } from 'react';
 
-import { darkMuiTheme, lightMuiTheme } from '../../dist/mui';
+import {
+  defaultDarkMuiTheme,
+  defaultLightMuiTheme,
+  sunDarkMuiTheme,
+  sunLightMuiTheme,
+} from '../../dist/mui';
 import { ChakraPanel } from './panels/ChakraPanel';
 import { MuiPanel } from './panels/MuiPanel';
 import { PlainHtmlPanel } from './panels/PlainHtmlPanel';
 import { PrimitivePanel } from './panels/PrimitivePanel';
-import { tabs, type PreviewTab, type ThemeMode } from './previewModel';
+import {
+  tabs,
+  type DesignThemeName,
+  type PreviewTab,
+  type ThemeFamily,
+  type ThemeMode,
+} from './previewModel';
+
+const muiThemes: Record<DesignThemeName, ThemeOptions> = {
+  'default.light': defaultLightMuiTheme,
+  'default.dark': defaultDarkMuiTheme,
+  'sun.light': sunLightMuiTheme,
+  'sun.dark': sunDarkMuiTheme,
+};
 
 export function App() {
   const [mode, setMode] = useState<ThemeMode>('light');
+  const [family, setFamily] = useState<ThemeFamily>('default');
   const [activeTab, setActiveTab] = useState<PreviewTab>('primitive');
+  const themeName: DesignThemeName = `${family}.${mode}`;
 
   useEffect(() => {
-    document.documentElement.dataset.theme = mode;
-  }, [mode]);
+    document.documentElement.dataset.theme = themeName;
+  }, [themeName]);
 
   const muiTheme = useMemo(
     () =>
       createTheme({
-        ...((mode === 'dark' ? darkMuiTheme : lightMuiTheme) as ThemeOptions),
+        ...muiThemes[themeName],
         cssVariables: { cssVarPrefix: 'mui' },
       }),
-    [mode],
+    [themeName],
   );
 
   return (
@@ -34,11 +54,24 @@ export function App() {
             <p className="eyebrow">Rocketc Design System</p>
             <h1>Personal Tool UI</h1>
             <p className="lede">
-              Quiet neutral chrome, orange brand focus, and dense hierarchy for tools, dashboards,
-              and content surfaces—portable across frameworks.
+              Neutral default chrome, optional orange brand focus, and dense hierarchy for tools,
+              dashboards, and content surfaces—portable across frameworks.
             </p>
           </div>
           <div className="hero-actions" aria-label="Theme controls">
+            <div className="theme-family" role="group" aria-label="Theme family">
+              {(['default', 'sun'] as const).map((value) => (
+                <button
+                  className={`theme-family-button${family === value ? ' is-active' : ''}`}
+                  key={value}
+                  type="button"
+                  aria-pressed={family === value}
+                  onClick={() => setFamily(value)}
+                >
+                  {value === 'default' ? 'Default' : 'Sun'}
+                </button>
+              ))}
+            </div>
             <button
               className="theme-switch"
               type="button"
@@ -80,7 +113,7 @@ export function App() {
         </section>
 
         <section className={`tab-panel${activeTab === 'chakra' ? ' is-active' : ''}`}>
-          <ChakraPanel mode={mode} />
+          <ChakraPanel themeName={themeName} />
         </section>
       </main>
     </ThemeProvider>

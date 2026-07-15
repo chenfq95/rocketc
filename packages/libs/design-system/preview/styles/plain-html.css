@@ -114,7 +114,7 @@
   position: absolute;
   inset: 0 0 auto;
   height: 5px;
-  background: linear-gradient(90deg, var(--rds-color-brand-solid), var(--rds-color-accent-solid));
+  background: var(--rds-color-brand-solid);
 }
 
 .panel-header {
@@ -141,9 +141,9 @@
 }
 
 .badge {
-  border: var(--rds-border-sm) solid var(--rds-color-accent-border);
-  background: var(--rds-color-accent-soft);
-  color: var(--rds-color-accent-text);
+  border: var(--rds-border-sm) solid var(--rds-color-border-default);
+  background: var(--rds-color-action-hover);
+  color: var(--rds-color-text-secondary);
 }
 
 .kbd {
@@ -173,20 +173,33 @@
 }
 
 .button.primary {
-  border-color: var(--rds-color-brand-solid);
-  background: var(--rds-color-brand-solid);
-  color: var(--rds-color-brand-contrast);
+  border-color: var(--rds-color-control-primary-border);
+  background: var(--rds-color-control-primary-bg);
+  color: var(--rds-color-control-primary-fg-contrast);
 }
 
 .button.primary:hover {
-  border-color: var(--rds-color-brand-hard);
-  background: var(--rds-color-brand-hard);
+  border-color: var(--rds-color-control-primary-border-hover);
+  background: var(--rds-color-control-primary-bg-hover);
+}
+
+.button.primary:active {
+  background: var(--rds-color-control-primary-bg-active);
 }
 
 .button.secondary {
-  border-color: var(--rds-color-border-default);
-  background: var(--rds-color-surface-panel);
-  color: var(--rds-color-text-primary);
+  border-color: var(--rds-color-control-secondary-border);
+  background: var(--rds-color-control-secondary-bg);
+  color: var(--rds-color-control-secondary-fg-contrast);
+}
+
+.button.secondary:hover {
+  border-color: var(--rds-color-control-secondary-border-hover);
+  background: var(--rds-color-control-secondary-bg-hover);
+}
+
+.button.secondary:active {
+  background: var(--rds-color-control-secondary-bg-active);
 }
 
 .button.quiet {

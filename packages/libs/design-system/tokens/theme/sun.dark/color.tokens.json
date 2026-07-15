@@ -52,8 +52,16 @@
       }
     },
     "action": {
+      "active": {
+        "$value": "{color.text.secondary}",
+        "$type": "color"
+      },
       "hover": {
         "$value": "{color.neutral.800}",
+        "$type": "color"
+      },
+      "selected": {
+        "$value": "{color.brand.soft}",
         "$type": "color"
       },
       "disabledBackground": {
@@ -63,6 +71,20 @@
       "focus": {
         "$value": "{color.neutral.700}",
         "$type": "color"
+      }
+    },
+    "control": {
+      "primary": {
+        "bgActive": {
+          "$value": "{color.orange.700}",
+          "$type": "color"
+        }
+      },
+      "secondary": {
+        "bgActive": {
+          "$value": "{color.neutral.700}",
+          "$type": "color"
+        }
       }
     },
     "brand": {
@@ -84,32 +106,6 @@
       },
       "border": {
         "$value": "{color.orange.600}",
-        "$type": "color"
-      }
-    },
-    "accent": {
-      "solid": {
-        "$value": "{color.neutral.700}",
-        "$type": "color"
-      },
-      "hard": {
-        "$value": "{color.neutral.600}",
-        "$type": "color"
-      },
-      "soft": {
-        "$value": "{color.neutral.800}",
-        "$type": "color"
-      },
-      "text": {
-        "$value": "{color.neutral.200}",
-        "$type": "color"
-      },
-      "border": {
-        "$value": "{color.neutral.700}",
-        "$type": "color"
-      },
-      "contrast": {
-        "$value": "{color.neutral.50}",
         "$type": "color"
       }
     },

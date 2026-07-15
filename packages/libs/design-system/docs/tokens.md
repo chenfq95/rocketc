@@ -7,16 +7,18 @@ Source notes also live in [`../tokens/README.md`](../tokens/README.md).
 Rocketc uses three DTCG layers. Build merges them in order:
 
 1. **Primitive** — raw scales (color ramps, space, radius, type primitives, motion…)
-2. **Semantic** — role aliases; this layer _is_ the light baseline
-3. **Theme** — overrides only where a theme differs (today: mainly `dark`)
+2. **Semantic** — role aliases; this layer is the `default.light` baseline
+3. **Theme** — named overrides for family and mode differences
 
 ```text
 tokens/
 ├── primitive/**/*.tokens.json
 ├── semantic/**/*.tokens.json
 └── theme/
-    ├── light/          # intentionally empty (baseline = semantic)
-    └── dark/           # color + opacity overrides
+    ├── default.light/
+    ├── default.dark/
+    ├── sun.light/
+    └── sun.dark/
 ```
 
 **Consumption rule:** apps and adapters should use **semantic** tokens first. Reach for primitives only when composing a local recipe that has no semantic role yet.
@@ -76,14 +78,14 @@ Pipeline (`scripts/build-tokens.ts` + Style Dictionary):
 
 ```text
 dist/
-├── css/{light,dark}.css      # :root or [data-theme='dark']
-├── js/{light,dark,index}.*
-├── mui/{light,dark,index}.*
-└── chakra/{light,dark,index}.*
+├── css/{default,sun}.{light,dark}.css
+├── js/{default,sun}.{light,dark}.*
+├── mui/{default,sun}.{light,dark}.*
+└── chakra/{default,sun}.{light,dark}.*
 ```
 
-- Light selector: `:root`
-- Dark selector: `[data-theme='dark']`
+- Default selector: `:root`, `[data-theme='default.light']`
+- Variant selectors: `[data-theme='<family>.<mode>']`
 - CSS files inline `normalize.css` baseline styles
 
 Do not edit `dist/` by hand.
@@ -105,14 +107,14 @@ Do not edit `dist/` by hand.
 
 ### Semantic
 
-| File                     | Contents                                                   |
-| ------------------------ | ---------------------------------------------------------- |
-| `color.tokens.json`      | surface, text, border, action, brand, accent, status, info |
-| `typography.tokens.json` | display → code roles                                       |
-| `shadow.tokens.json`     | surface, raised, overlay, focus                            |
-| `layout.tokens.json`     | page, reading, header, toolbar, sidebar, content           |
-| `opacity.tokens.json`    | UI opacity roles                                           |
-| `z-index.tokens.json`    | base → tooltip roles                                       |
+| File                     | Contents                                                    |
+| ------------------------ | ----------------------------------------------------------- |
+| `color.tokens.json`      | surface, text, border, action, control, brand, status, info |
+| `typography.tokens.json` | display → code roles                                        |
+| `shadow.tokens.json`     | surface, raised, overlay, focus                             |
+| `layout.tokens.json`     | page, reading, header, toolbar, sidebar, content            |
+| `opacity.tokens.json`    | UI opacity roles                                            |
+| `z-index.tokens.json`    | base → tooltip roles                                        |
 
 ## Extending tokens
 

@@ -9,7 +9,6 @@ import type { ThemeBuildResult, ThemeName } from './build-tokens/types.ts';
 import {
   cleanOutput,
   ensureOutputDirs,
-  writeChakraIndex,
   writeJsIndex,
   writeMuiIndex,
   writeTheme,
@@ -24,7 +23,7 @@ const buildTheme = async (theme: ThemeName): Promise<ThemeBuildResult> => {
     css: buildCss(theme, tokens, allTokens),
     jsTokens,
     muiTheme: buildMuiTheme(theme, jsTokens),
-    chakraTheme: buildChakraTheme(jsTokens),
+    chakraTheme: buildChakraTheme(theme, jsTokens),
   };
 };
 
@@ -36,7 +35,6 @@ const build = async (): Promise<void> => {
   results.forEach(writeTheme);
   writeJsIndex();
   writeMuiIndex();
-  writeChakraIndex();
 
   console.log(`Built ${results.length} token themes into ${path.relative(ROOT_DIR, OUT_DIR)}`);
 };

@@ -32,7 +32,7 @@ bun run typecheck
 - [ ] Light and dark both reviewed in preview
 - [ ] Plain HTML elevation ladder still reads as three clear steps
 - [ ] Brand remains the only saturated identity hue for primary action
-- [ ] Accent/info stay muted neutrals unless principles change
+- [ ] Secondary chrome uses neutral semantic roles; info remains informational
 - [ ] MUI and Chakra tabs do not regress obvious theme wiring
 - [ ] Docs updated if you introduce a new public role or change a contract
 
@@ -49,7 +49,7 @@ bun run typecheck
 ## Adding a semantic color role
 
 1. Add the role under `tokens/semantic/color.tokens.json` with the six-slot recipe when it is a palette family.
-2. Add dark overrides in `tokens/theme/dark/color.tokens.json` if contrast must change.
+2. Add family/mode overrides under `tokens/theme/<family>.<mode>/` when contrast must change.
 3. Rebuild; confirm CSS variables and JS keys exist.
 4. Document the role in [Foundations](./foundations.md) and [Usage](./usage.md).
 5. Extend preview swatches if the role is first-class.
@@ -66,7 +66,7 @@ bun run typecheck
 
 - Commit hand-edited `dist/` as the source of truth
 - Introduce a second brand hue without updating principles
-- Use primitive blue/teal/purple in product UI while semantic `info`/`accent` are neutral—unless you intentionally change those roles
+- Use primitive teal/purple in product UI when an existing semantic role already fits
 - Put component variants (button sizes, input states) into shared tokens unless they are truly cross-framework semantics
 
 ## Related package docs

@@ -3,7 +3,7 @@
   "color": {
     "surface": {
       "canvas": {
-        "$value": "{color.neutral.100}",
+        "$value": "{color.neutral.0}",
         "$type": "color"
       },
       "panel": {
@@ -11,7 +11,7 @@
         "$type": "color"
       },
       "elevated": {
-        "$value": "{color.neutral.0}",
+        "$value": "{color.neutral.50}",
         "$type": "color"
       },
       "inverse": {
@@ -35,7 +35,7 @@
         "$type": "color"
       },
       "secondary": {
-        "$value": "{color.neutral.700}",
+        "$value": "{color.neutral.600}",
         "$type": "color"
       },
       "muted": {
@@ -61,13 +61,13 @@
         "$type": "color"
       },
       "focus": {
-        "$value": "{color.neutral.500}",
+        "$value": "{color.blue.600}",
         "$type": "color"
       }
     },
     "action": {
       "active": {
-        "$value": "{color.text.secondary}",
+        "$value": "{color.text.primary}",
         "$type": "color"
       },
       "hover": {
@@ -75,7 +75,7 @@
         "$type": "color"
       },
       "selected": {
-        "$value": "{color.brand.soft}",
+        "$value": "{color.neutral.200}",
         "$type": "color"
       },
       "disabled": {
@@ -87,43 +87,37 @@
         "$type": "color"
       },
       "focus": {
-        "$value": "{color.neutral.200}",
+        "$value": "{color.blue.50}",
         "$type": "color"
+      }
+    },
+    "control": {
+      "primary": {
+        "bg": { "$value": "{color.brand.solid}", "$type": "color" },
+        "bgHover": { "$value": "{color.brand.hard}", "$type": "color" },
+        "bgActive": { "$value": "{color.neutral.700}", "$type": "color" },
+        "fg": { "$value": "{color.brand.text}", "$type": "color" },
+        "fgContrast": { "$value": "{color.brand.contrast}", "$type": "color" },
+        "border": { "$value": "{color.brand.solid}", "$type": "color" },
+        "borderHover": { "$value": "{color.brand.hard}", "$type": "color" }
+      },
+      "secondary": {
+        "bg": { "$value": "{color.surface.panel}", "$type": "color" },
+        "bgHover": { "$value": "{color.action.hover}", "$type": "color" },
+        "bgActive": { "$value": "{color.neutral.200}", "$type": "color" },
+        "fg": { "$value": "{color.text.primary}", "$type": "color" },
+        "fgContrast": { "$value": "{color.text.primary}", "$type": "color" },
+        "border": { "$value": "{color.border.default}", "$type": "color" },
+        "borderHover": { "$value": "{color.border.strong}", "$type": "color" }
       }
     },
     "brand": {
       "solid": {
-        "$value": "{color.orange.500}",
+        "$value": "{color.neutral.950}",
         "$type": "color"
       },
       "hard": {
-        "$value": "{color.orange.600}",
-        "$type": "color"
-      },
-      "soft": {
-        "$value": "{color.orange.50}",
-        "$type": "color"
-      },
-      "text": {
-        "$value": "{color.orange.700}",
-        "$type": "color"
-      },
-      "border": {
-        "$value": "{color.orange.300}",
-        "$type": "color"
-      },
-      "contrast": {
-        "$value": "{color.common.white}",
-        "$type": "color"
-      }
-    },
-    "accent": {
-      "solid": {
-        "$value": "{color.neutral.200}",
-        "$type": "color"
-      },
-      "hard": {
-        "$value": "{color.neutral.300}",
+        "$value": "{color.neutral.800}",
         "$type": "color"
       },
       "soft": {
@@ -131,15 +125,15 @@
         "$type": "color"
       },
       "text": {
-        "$value": "{color.neutral.700}",
+        "$value": "{color.neutral.950}",
         "$type": "color"
       },
       "border": {
-        "$value": "{color.neutral.300}",
+        "$value": "{color.neutral.400}",
         "$type": "color"
       },
       "contrast": {
-        "$value": "{color.neutral.900}",
+        "$value": "{color.neutral.0}",
         "$type": "color"
       }
     },
@@ -223,27 +217,27 @@
     },
     "info": {
       "solid": {
-        "$value": "{color.neutral.200}",
+        "$value": "{color.blue.600}",
         "$type": "color"
       },
       "hard": {
-        "$value": "{color.neutral.300}",
+        "$value": "{color.blue.700}",
         "$type": "color"
       },
       "soft": {
-        "$value": "{color.neutral.100}",
+        "$value": "{color.blue.50}",
         "$type": "color"
       },
       "text": {
-        "$value": "{color.neutral.700}",
+        "$value": "{color.blue.700}",
         "$type": "color"
       },
       "border": {
-        "$value": "{color.neutral.300}",
+        "$value": "{color.blue.300}",
         "$type": "color"
       },
       "contrast": {
-        "$value": "{color.neutral.900}",
+        "$value": "{color.common.white}",
         "$type": "color"
       }
     }

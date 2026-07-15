@@ -24,43 +24,65 @@
     "**/*.css"
   ],
   "exports": {
-    "./css/dark.css": "./dist/css/dark.css",
-    "./css/light.css": "./dist/css/light.css",
+    "./css/default.dark.css": "./dist/css/default.dark.css",
+    "./css/default.light.css": "./dist/css/default.light.css",
+    "./css/sun.dark.css": "./dist/css/sun.dark.css",
+    "./css/sun.light.css": "./dist/css/sun.light.css",
     "./js": {
       "types": "./dist/js/index.d.ts",
       "import": "./dist/js/index.js"
     },
-    "./js/dark": {
-      "types": "./dist/js/dark.d.ts",
-      "import": "./dist/js/dark.js"
+    "./js/default.dark": {
+      "types": "./dist/js/default.dark.d.ts",
+      "import": "./dist/js/default.dark.js"
     },
-    "./js/light": {
-      "types": "./dist/js/light.d.ts",
-      "import": "./dist/js/light.js"
+    "./js/default.light": {
+      "types": "./dist/js/default.light.d.ts",
+      "import": "./dist/js/default.light.js"
+    },
+    "./js/sun.dark": {
+      "types": "./dist/js/sun.dark.d.ts",
+      "import": "./dist/js/sun.dark.js"
+    },
+    "./js/sun.light": {
+      "types": "./dist/js/sun.light.d.ts",
+      "import": "./dist/js/sun.light.js"
     },
     "./mui": {
       "types": "./dist/mui/index.d.ts",
       "import": "./dist/mui/index.js"
     },
-    "./mui/dark": {
-      "types": "./dist/mui/dark.d.ts",
-      "import": "./dist/mui/dark.js"
+    "./mui/default.dark": {
+      "types": "./dist/mui/default.dark.d.ts",
+      "import": "./dist/mui/default.dark.js"
     },
-    "./mui/light": {
-      "types": "./dist/mui/light.d.ts",
-      "import": "./dist/mui/light.js"
+    "./mui/default.light": {
+      "types": "./dist/mui/default.light.d.ts",
+      "import": "./dist/mui/default.light.js"
     },
-    "./chakra": {
-      "types": "./dist/chakra/index.d.ts",
-      "import": "./dist/chakra/index.js"
+    "./mui/sun.dark": {
+      "types": "./dist/mui/sun.dark.d.ts",
+      "import": "./dist/mui/sun.dark.js"
     },
-    "./chakra/dark": {
-      "types": "./dist/chakra/dark.d.ts",
-      "import": "./dist/chakra/dark.js"
+    "./mui/sun.light": {
+      "types": "./dist/mui/sun.light.d.ts",
+      "import": "./dist/mui/sun.light.js"
     },
-    "./chakra/light": {
-      "types": "./dist/chakra/light.d.ts",
-      "import": "./dist/chakra/light.js"
+    "./chakra/default.dark": {
+      "types": "./dist/chakra/default.dark.d.ts",
+      "import": "./dist/chakra/default.dark.js"
+    },
+    "./chakra/default.light": {
+      "types": "./dist/chakra/default.light.d.ts",
+      "import": "./dist/chakra/default.light.js"
+    },
+    "./chakra/sun.dark": {
+      "types": "./dist/chakra/sun.dark.d.ts",
+      "import": "./dist/chakra/sun.dark.js"
+    },
+    "./chakra/sun.light": {
+      "types": "./dist/chakra/sun.light.d.ts",
+      "import": "./dist/chakra/sun.light.js"
     }
   },
   "scripts": {

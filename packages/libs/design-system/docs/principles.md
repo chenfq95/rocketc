@@ -66,7 +66,6 @@ Roles are contracts:
 | Role                           | Meaning                                                         |
 | ------------------------------ | --------------------------------------------------------------- |
 | **Brand**                      | Identity + primary action (`orange`)                            |
-| **Accent**                     | Muted secondary chrome (`neutral`)—not a second brand hue       |
 | **Info**                       | Informational chrome (`neutral`)—not a blue “system info” brand |
 | **Success / Warning / Danger** | Status only                                                     |
 

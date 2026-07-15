@@ -1,3 +1,8 @@
+@import '../dist/css/default.light.css' layer(rds);
+@import '../dist/css/default.dark.css' layer(rds);
+@import '../dist/css/sun.light.css' layer(rds);
+@import '../dist/css/sun.dark.css' layer(rds);
+
 @import './styles/base.css';
 @import './styles/plain-html.css';
 @import './styles/primitive.css';

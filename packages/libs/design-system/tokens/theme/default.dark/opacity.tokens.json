@@ -1,0 +1,10 @@
+{
+  "$schema": "https://www.designtokens.org/schemas/2025.10/format.json",
+  "opacity": {
+    "action": {
+      "hover": { "$value": "{opacity.8}", "$type": "number" },
+      "selected": { "$value": "{opacity.12}", "$type": "number" },
+      "activated": { "$value": "{opacity.24}", "$type": "number" }
+    }
+  }
+}

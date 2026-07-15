@@ -1,4 +1,5 @@
 import { formatCssValue } from './format.ts';
+import { themeMode } from './constants.ts';
 import { NORMALIZE_CSS_WITH_LOW_SPECIFICITY_BODY } from './normalize.ts';
 import {
   colorToken,
@@ -34,6 +35,65 @@ const muiGrey = (tokens: FlatTokenTheme) => ({
   A200: colorToken(tokens, 'color.neutral.200'),
   A400: colorToken(tokens, 'color.neutral.400'),
   A700: colorToken(tokens, 'color.neutral.700'),
+});
+
+const muiControlPalette = (tokens: FlatTokenTheme, role: 'primary' | 'secondary') => ({
+  main: colorToken(tokens, `color.control.${role}.bg`),
+  dark: colorToken(tokens, `color.control.${role}.bgActive`),
+  light: colorToken(tokens, `color.control.${role}.bgHover`),
+  contrastText: colorToken(tokens, `color.control.${role}.fgContrast`),
+});
+
+const muiControlComponentStyles = (
+  tokens: FlatTokenTheme,
+  role: 'primary' | 'secondary',
+  foreground: 'fg' | 'fgContrast' = 'fgContrast',
+) => ({
+  backgroundColor: colorToken(tokens, `color.control.${role}.bg`),
+  border: `${dimensionCssToken(tokens, 'border.sm')} solid ${colorToken(tokens, `color.control.${role}.border`)}`,
+  color: colorToken(tokens, `color.control.${role}.${foreground}`),
+  boxShadow: 'none',
+  '&:hover': {
+    backgroundColor: colorToken(tokens, `color.control.${role}.bgHover`),
+    borderColor: colorToken(tokens, `color.control.${role}.borderHover`),
+    boxShadow: 'none',
+  },
+  '&:active': {
+    backgroundColor: colorToken(tokens, `color.control.${role}.bgActive`),
+    borderColor: colorToken(tokens, `color.control.${role}.borderHover`),
+    boxShadow: 'none',
+  },
+});
+
+const muiButtonOverrides = (tokens: FlatTokenTheme) => ({
+  defaultProps: {
+    disableElevation: true,
+  },
+  styleOverrides: {
+    root: {
+      '&.MuiButton-containedPrimary': muiControlComponentStyles(tokens, 'primary'),
+      '&.MuiButton-containedSecondary': muiControlComponentStyles(tokens, 'secondary'),
+      '&.MuiButton-outlinedSecondary': muiControlComponentStyles(tokens, 'secondary', 'fg'),
+      '&.MuiButton-textSecondary': {
+        color: colorToken(tokens, 'color.control.secondary.fg'),
+        '&:hover': {
+          backgroundColor: colorToken(tokens, 'color.control.secondary.bgHover'),
+        },
+        '&:active': {
+          backgroundColor: colorToken(tokens, 'color.control.secondary.bgActive'),
+        },
+      },
+    },
+  },
+});
+
+const muiChipOverrides = (tokens: FlatTokenTheme) => ({
+  styleOverrides: {
+    root: {
+      '&.MuiChip-colorPrimary': muiControlComponentStyles(tokens, 'primary'),
+      '&.MuiChip-colorSecondary': muiControlComponentStyles(tokens, 'secondary'),
+    },
+  },
 });
 
 const muiShadows = (tokens: FlatTokenTheme): Shadows => {
@@ -151,7 +211,7 @@ const muiTypography = (tokens: FlatTokenTheme) => ({
 export const buildMuiTheme = (theme: ThemeName, tokens: FlatTokenTheme): MuiThemeOptions => ({
   breakpoints: muiBreakpoints(tokens),
   palette: {
-    mode: theme,
+    mode: themeMode(theme),
     contrastThreshold: MUI_CONTRAST_THRESHOLD,
     tonalOffset: MUI_TONAL_OFFSET,
     common: {
@@ -159,18 +219,8 @@ export const buildMuiTheme = (theme: ThemeName, tokens: FlatTokenTheme): MuiThem
       white: colorToken(tokens, 'color.common.white'),
     },
     grey: muiGrey(tokens),
-    primary: {
-      main: colorToken(tokens, 'color.brand.solid'),
-      dark: colorToken(tokens, 'color.brand.hard'),
-      light: colorToken(tokens, 'color.brand.soft'),
-      contrastText: colorToken(tokens, 'color.brand.contrast'),
-    },
-    secondary: {
-      main: colorToken(tokens, 'color.accent.solid'),
-      dark: colorToken(tokens, 'color.accent.hard'),
-      light: colorToken(tokens, 'color.accent.soft'),
-      contrastText: colorToken(tokens, 'color.accent.contrast'),
-    },
+    primary: muiControlPalette(tokens, 'primary'),
+    secondary: muiControlPalette(tokens, 'secondary'),
     success: {
       main: colorToken(tokens, 'color.success.solid'),
       dark: colorToken(tokens, 'color.success.hard'),
@@ -228,6 +278,8 @@ export const buildMuiTheme = (theme: ThemeName, tokens: FlatTokenTheme): MuiThem
   transitions: muiTransitions(tokens),
   zIndex: muiZIndex(tokens),
   components: {
+    MuiButton: muiButtonOverrides(tokens),
+    MuiChip: muiChipOverrides(tokens),
     MuiCssBaseline: {
       styleOverrides: [
         NORMALIZE_CSS_WITH_LOW_SPECIFICITY_BODY,
