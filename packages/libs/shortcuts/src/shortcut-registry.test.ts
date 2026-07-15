@@ -1,6 +1,6 @@
 import { expect, describe, it, beforeEach, afterEach, vi } from 'vitest';
 import { type KeyCode } from './key-codes';
-import ShortcutRegistry from './shortcut-registry';
+import ShortcutRegistry, { type KeyPressedChangedEventListener } from './shortcut-registry';
 
 // Helper function to dispatch keyboard events
 function dispatchEvent(
@@ -330,7 +330,7 @@ describe('ShortcutRegistry', () => {
 
   describe('onKeyPressedChanged', () => {
     it('should register keyPressedChanged listener and trigger on keydown', () => {
-      const listener = vi.fn<() => void>();
+      const listener = vi.fn<KeyPressedChangedEventListener>();
       const disposeListener = registry.onKeyPressedChanged(listener);
 
       dispatchEvent('keydown', 'KeyA');
@@ -358,7 +358,7 @@ describe('ShortcutRegistry', () => {
     });
 
     it('should register keyPressedChanged listener and trigger on keyup', () => {
-      const listener = vi.fn<() => void>();
+      const listener = vi.fn<KeyPressedChangedEventListener>();
       const disposeListener = registry.onKeyPressedChanged(listener);
 
       dispatchEvent('keydown', 'KeyA');
@@ -384,7 +384,7 @@ describe('ShortcutRegistry', () => {
     });
 
     it('should trigger when key state changes with correct event detail', () => {
-      const listener = vi.fn<() => void>();
+      const listener = vi.fn<KeyPressedChangedEventListener>();
       const disposeListener = registry.onKeyPressedChanged(listener);
 
       // Press modifier
@@ -427,7 +427,7 @@ describe('ShortcutRegistry', () => {
     });
 
     it('should provide event detail indicating keydown or keyup', () => {
-      const listener = vi.fn<() => void>();
+      const listener = vi.fn<KeyPressedChangedEventListener>();
       const disposeListener = registry.onKeyPressedChanged(listener);
 
       // Test keydown events
@@ -988,7 +988,7 @@ describe('ShortcutRegistry', () => {
 
     describe('onKeyPressedChanged in loose mode', () => {
       it('should work the same in loose mode with correct event detail', () => {
-        const listener = vi.fn<() => void>();
+        const listener = vi.fn<KeyPressedChangedEventListener>();
         const disposeListener = looseRegistry.onKeyPressedChanged(listener);
 
         dispatchEvent('keydown', 'KeyA');

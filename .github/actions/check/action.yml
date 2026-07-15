@@ -8,8 +8,12 @@ runs:
       run: bun run --filter '*' lint
       shell: bash
 
+    # Workspace packages export dist/; build dependency layers first.
     - name: Build packages
-      run: bun run --filter '*' build
+      run: |
+        bun run --filter '@rocketc/ioc' --filter '@rocketc/shortcuts' --filter '@rocketc/design-system' --filter '@rocketc/cli' build
+        bun run --filter '@rocketc/react' --filter '@rocketc/react-use-shortcuts' build
+        bun run --filter '@rocketc/react-app' build
       shell: bash
 
     - name: Run tests
