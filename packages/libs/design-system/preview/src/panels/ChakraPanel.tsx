@@ -467,7 +467,7 @@ export function ChakraPanel({ themeName }: { themeName: DesignThemeName }) {
                         {['light', 'dark'].map((value) => (
                           <RadioGroup.Item key={value} value={value}>
                             <RadioGroup.ItemHiddenInput />
-                            <RadioGroup.ItemControl />
+                            <RadioGroup.ItemIndicator />
                             <RadioGroup.ItemText>{value}</RadioGroup.ItemText>
                           </RadioGroup.Item>
                         ))}

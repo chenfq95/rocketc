@@ -410,15 +410,6 @@
   font-size: var(--rds-typography-body-small-font-size);
 }
 
-.dot {
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  margin-right: var(--rds-space-2);
-  border-radius: var(--rds-radius-full);
-  background: var(--rds-color-brand-solid);
-}
-
 .overview-swatches {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
