@@ -74,12 +74,6 @@
       }
     },
     "control": {
-      "primary": {
-        "bgActive": {
-          "$value": "{color.orange.700}",
-          "$type": "color"
-        }
-      },
       "secondary": {
         "bgActive": {
           "$value": "{color.neutral.700}",
@@ -92,15 +86,27 @@
         "$value": "{color.orange.500}",
         "$type": "color"
       },
-      "hard": {
-        "$value": "{color.orange.600}",
+      "solidHover": {
+        "$value": "{color.orange.400}",
+        "$type": "color"
+      },
+      "solidActive": {
+        "$value": "{color.orange.300}",
         "$type": "color"
       },
       "soft": {
         "$value": "{color.orange.950}",
         "$type": "color"
       },
-      "text": {
+      "softHover": {
+        "$value": "{color.orange.900}",
+        "$type": "color"
+      },
+      "softActive": {
+        "$value": "{color.orange.800}",
+        "$type": "color"
+      },
+      "fg": {
         "$value": "{color.orange.300}",
         "$type": "color"
       },
@@ -114,15 +120,27 @@
         "$value": "{color.green.500}",
         "$type": "color"
       },
-      "hard": {
-        "$value": "{color.green.800}",
+      "solidHover": {
+        "$value": "{color.green.400}",
+        "$type": "color"
+      },
+      "solidActive": {
+        "$value": "{color.green.300}",
         "$type": "color"
       },
       "soft": {
         "$value": "{color.green.950}",
         "$type": "color"
       },
-      "text": {
+      "softHover": {
+        "$value": "{color.green.900}",
+        "$type": "color"
+      },
+      "softActive": {
+        "$value": "{color.green.800}",
+        "$type": "color"
+      },
+      "fg": {
         "$value": "{color.green.300}",
         "$type": "color"
       },
@@ -136,15 +154,27 @@
         "$value": "{color.amber.500}",
         "$type": "color"
       },
-      "hard": {
-        "$value": "{color.amber.800}",
+      "solidHover": {
+        "$value": "{color.amber.400}",
+        "$type": "color"
+      },
+      "solidActive": {
+        "$value": "{color.amber.300}",
         "$type": "color"
       },
       "soft": {
         "$value": "{color.amber.950}",
         "$type": "color"
       },
-      "text": {
+      "softHover": {
+        "$value": "{color.amber.900}",
+        "$type": "color"
+      },
+      "softActive": {
+        "$value": "{color.amber.800}",
+        "$type": "color"
+      },
+      "fg": {
         "$value": "{color.amber.300}",
         "$type": "color"
       },
@@ -158,15 +188,27 @@
         "$value": "{color.red.500}",
         "$type": "color"
       },
-      "hard": {
-        "$value": "{color.red.800}",
+      "solidHover": {
+        "$value": "{color.red.400}",
+        "$type": "color"
+      },
+      "solidActive": {
+        "$value": "{color.red.300}",
         "$type": "color"
       },
       "soft": {
         "$value": "{color.red.950}",
         "$type": "color"
       },
-      "text": {
+      "softHover": {
+        "$value": "{color.red.900}",
+        "$type": "color"
+      },
+      "softActive": {
+        "$value": "{color.red.800}",
+        "$type": "color"
+      },
+      "fg": {
         "$value": "{color.red.300}",
         "$type": "color"
       },
@@ -180,15 +222,27 @@
         "$value": "{color.neutral.700}",
         "$type": "color"
       },
-      "hard": {
-        "$value": "{color.neutral.800}",
+      "solidHover": {
+        "$value": "{color.neutral.600}",
+        "$type": "color"
+      },
+      "solidActive": {
+        "$value": "{color.neutral.500}",
         "$type": "color"
       },
       "soft": {
         "$value": "{color.neutral.800}",
         "$type": "color"
       },
-      "text": {
+      "softHover": {
+        "$value": "{color.neutral.700}",
+        "$type": "color"
+      },
+      "softActive": {
+        "$value": "{color.neutral.600}",
+        "$type": "color"
+      },
+      "fg": {
         "$value": "{color.neutral.300}",
         "$type": "color"
       },

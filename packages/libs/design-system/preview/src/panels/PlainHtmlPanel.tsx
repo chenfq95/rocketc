@@ -5,14 +5,9 @@ import {
   elevationSteps,
   plainTypographyRoles,
   startsTokenGroup,
-  type ThemeMode,
+  type DesignThemeName,
 } from '../previewModel';
-
-const getPrimitiveSource = (primitive: string, mode: ThemeMode) => {
-  const [light, dark] = primitive.split(' / ');
-
-  return mode === 'dark' && dark ? dark : light;
-};
+import { semanticColorSource } from '../tokenSource';
 
 const plainButtonPalettes = [
   {
@@ -22,7 +17,8 @@ const plainButtonPalettes = [
       '--button-border': 'var(--rds-color-border-default)',
       '--button-text': 'var(--rds-color-text-primary)',
       '--button-solid': 'var(--rds-color-text-primary)',
-      '--button-hard': 'var(--rds-color-surface-inverse)',
+      '--button-solid-hover': 'var(--rds-color-text-secondary)',
+      '--button-solid-active': 'var(--rds-color-text-muted)',
       '--button-contrast': 'var(--rds-color-text-inverse)',
     },
   },
@@ -31,9 +27,10 @@ const plainButtonPalettes = [
     vars: {
       '--button-soft': 'var(--rds-color-brand-soft)',
       '--button-border': 'var(--rds-color-brand-border)',
-      '--button-text': 'var(--rds-color-brand-text)',
+      '--button-text': 'var(--rds-color-brand-fg)',
       '--button-solid': 'var(--rds-color-brand-solid)',
-      '--button-hard': 'var(--rds-color-brand-hard)',
+      '--button-solid-hover': 'var(--rds-color-brand-solid-hover)',
+      '--button-solid-active': 'var(--rds-color-brand-solid-active)',
       '--button-contrast': 'var(--rds-color-brand-contrast)',
     },
   },
@@ -42,9 +39,10 @@ const plainButtonPalettes = [
     vars: {
       '--button-soft': 'var(--rds-color-success-soft)',
       '--button-border': 'var(--rds-color-success-border)',
-      '--button-text': 'var(--rds-color-success-text)',
+      '--button-text': 'var(--rds-color-success-fg)',
       '--button-solid': 'var(--rds-color-success-solid)',
-      '--button-hard': 'var(--rds-color-success-hard)',
+      '--button-solid-hover': 'var(--rds-color-success-solid-hover)',
+      '--button-solid-active': 'var(--rds-color-success-solid-active)',
       '--button-contrast': 'var(--rds-color-success-contrast)',
     },
   },
@@ -53,9 +51,10 @@ const plainButtonPalettes = [
     vars: {
       '--button-soft': 'var(--rds-color-warning-soft)',
       '--button-border': 'var(--rds-color-warning-border)',
-      '--button-text': 'var(--rds-color-warning-text)',
+      '--button-text': 'var(--rds-color-warning-fg)',
       '--button-solid': 'var(--rds-color-warning-solid)',
-      '--button-hard': 'var(--rds-color-warning-hard)',
+      '--button-solid-hover': 'var(--rds-color-warning-solid-hover)',
+      '--button-solid-active': 'var(--rds-color-warning-solid-active)',
       '--button-contrast': 'var(--rds-color-warning-contrast)',
     },
   },
@@ -64,9 +63,10 @@ const plainButtonPalettes = [
     vars: {
       '--button-soft': 'var(--rds-color-danger-soft)',
       '--button-border': 'var(--rds-color-danger-border)',
-      '--button-text': 'var(--rds-color-danger-text)',
+      '--button-text': 'var(--rds-color-danger-fg)',
       '--button-solid': 'var(--rds-color-danger-solid)',
-      '--button-hard': 'var(--rds-color-danger-hard)',
+      '--button-solid-hover': 'var(--rds-color-danger-solid-hover)',
+      '--button-solid-active': 'var(--rds-color-danger-solid-active)',
       '--button-contrast': 'var(--rds-color-danger-contrast)',
     },
   },
@@ -75,9 +75,10 @@ const plainButtonPalettes = [
     vars: {
       '--button-soft': 'var(--rds-color-info-soft)',
       '--button-border': 'var(--rds-color-info-border)',
-      '--button-text': 'var(--rds-color-info-text)',
+      '--button-text': 'var(--rds-color-info-fg)',
       '--button-solid': 'var(--rds-color-info-solid)',
-      '--button-hard': 'var(--rds-color-info-hard)',
+      '--button-solid-hover': 'var(--rds-color-info-solid-hover)',
+      '--button-solid-active': 'var(--rds-color-info-solid-active)',
       '--button-contrast': 'var(--rds-color-info-contrast)',
     },
   },
@@ -93,7 +94,7 @@ const plainButtonVariants = [
   { label: 'disabled', disabled: true, variant: 'solid' },
 ] as const;
 
-export function PlainHtmlPanel({ mode }: { mode: ThemeMode }) {
+export function PlainHtmlPanel({ themeName }: { themeName: DesignThemeName }) {
   return (
     <div className="overview-layout" aria-label="Plain HTML preview">
       <article className="panel feature overview-section">
@@ -109,7 +110,7 @@ export function PlainHtmlPanel({ mode }: { mode: ThemeMode }) {
           recipes, and status colors are reserved for communication and feedback.
         </p>
         <div className="overview-swatches">
-          {colorRoles.map(([label, token, color, primitive], index) => (
+          {colorRoles.map(([label, token, color], index) => (
             <div
               className={[
                 startsTokenGroup(colorRoles, index) ? 'starts-color-group' : undefined,
@@ -124,7 +125,7 @@ export function PlainHtmlPanel({ mode }: { mode: ThemeMode }) {
               <span />
               <strong>{label}</strong>
               <code>{token}</code>
-              <code className="primitive-source">{getPrimitiveSource(primitive, mode)}</code>
+              <code className="primitive-source">{semanticColorSource(themeName, token)}</code>
             </div>
           ))}
         </div>

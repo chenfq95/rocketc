@@ -251,8 +251,13 @@
 }
 
 .token-button[data-variant='solid']:hover:not(:disabled) {
-  border-color: var(--button-hard);
-  background: var(--button-hard);
+  border-color: var(--button-solid-hover);
+  background: var(--button-solid-hover);
+}
+
+.token-button[data-variant='solid']:active:not(:disabled) {
+  border-color: var(--button-solid-active);
+  background: var(--button-solid-active);
 }
 
 .token-button[data-variant='subtle'] {
@@ -331,7 +336,7 @@
   border: var(--rds-border-sm) solid var(--rds-color-brand-border);
   border-radius: var(--rds-radius-md);
   background: var(--rds-color-brand-soft);
-  color: var(--rds-color-brand-text);
+  color: var(--rds-color-brand-fg);
   padding: var(--rds-space-2);
   font-size: var(--rds-typography-body-small-font-size);
 }
@@ -346,25 +351,25 @@
 .status.success {
   border: var(--rds-border-sm) solid var(--rds-color-success-border);
   background: var(--rds-color-success-soft);
-  color: var(--rds-color-success-text);
+  color: var(--rds-color-success-fg);
 }
 
 .status.warning {
   border: var(--rds-border-sm) solid var(--rds-color-warning-border);
   background: var(--rds-color-warning-soft);
-  color: var(--rds-color-warning-text);
+  color: var(--rds-color-warning-fg);
 }
 
 .status.danger {
   border: var(--rds-border-sm) solid var(--rds-color-danger-border);
   background: var(--rds-color-danger-soft);
-  color: var(--rds-color-danger-text);
+  color: var(--rds-color-danger-fg);
 }
 
 .status.info {
   border: var(--rds-border-sm) solid var(--rds-color-info-border);
   background: var(--rds-color-info-soft);
-  color: var(--rds-color-info-text);
+  color: var(--rds-color-info-fg);
 }
 
 .small {
@@ -688,13 +693,13 @@
 .alert.success {
   --alert-bg: var(--rds-color-success-soft);
   --alert-border: var(--rds-color-success-border);
-  --alert-text: var(--rds-color-success-text);
+  --alert-text: var(--rds-color-success-fg);
 }
 
 .alert.warning {
   --alert-bg: var(--rds-color-warning-soft);
   --alert-border: var(--rds-color-warning-border);
-  --alert-text: var(--rds-color-warning-text);
+  --alert-text: var(--rds-color-warning-fg);
 }
 
 .compact-table {

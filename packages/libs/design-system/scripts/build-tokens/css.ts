@@ -31,7 +31,7 @@ const GLOBAL_CSS = [
   '',
   '*::selection {',
   '  background: var(--rds-color-brand-soft);',
-  '  color: var(--rds-color-brand-text);',
+  '  color: var(--rds-color-brand-fg);',
   '}',
   '',
   ':focus-visible:not(:where(input, textarea, select, button, [role="button"], [role="checkbox"], [role="combobox"], [role="radio"], [role="slider"], [role="switch"], [role="textbox"], [contenteditable="true"])) {',

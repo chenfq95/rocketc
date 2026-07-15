@@ -19,22 +19,22 @@ Semantic roles intentionally use only a subset. Extra hues exist for future reci
 | `border`                         | subtle, default, strong, focus                 | Structure and focus chrome |
 | `action`                         | active, hover, selected, disabled, …           | Shared interaction chrome  |
 | `control.primary` / `secondary`  | bg, bgHover, bgActive, fg, fgContrast, borders | Complete control recipes   |
-| `brand`                          | soft, border, text, solid, hard, contrast      | Identity color family      |
-| `success` / `warning` / `danger` | six-slot recipe                                | Status only                |
-| `info`                           | six-slot recipe                                | Informational chrome       |
+| `brand`                          | soft/solid states, fg, contrast, borders       | Identity color family      |
+| `success` / `warning` / `danger` | ten-slot palette recipe                        | Status only                |
+| `info`                           | ten-slot palette recipe                        | Informational chrome       |
 
 The Sun theme brand solid resolves to **orange.500** (`#FF6900` / `rgb(255 105 0)`). Components consume `control.primary.*` and `control.secondary.*`; those recipes may alias brand, surface, text, border, and action roles differently in each theme.
 
-### Six-slot palette recipe
+### Palette recipe
 
 Brand, info, and status families share the same slots:
 
-- `soft` — light background tint
+- `soft`, `softHover`, `softActive` — low-emphasis fill states
+- `solid`, `solidHover`, `solidActive` — filled-control states
+- `fg` — foreground on soft or canvas backgrounds
+- `contrast` — foreground on solid backgrounds
 - `border` — outline
-- `text` — readable role text on soft/canvas
-- `solid` — filled control
-- `hard` — stronger/pressed fill
-- `contrast` — foreground on solid/hard
+- `focusRing` — keyboard focus indicator
 
 ### Light surfaces
 

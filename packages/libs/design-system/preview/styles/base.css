@@ -26,7 +26,7 @@
 .eyebrow,
 .meta {
   margin: 0 0 var(--rds-space-2);
-  color: var(--rds-color-brand-text);
+  color: var(--rds-color-brand-fg);
   font-size: var(--rds-typography-caption-font-size);
   font-weight: var(--rds-typography-weight-bold);
   letter-spacing: var(--rds-typography-caption-letter-spacing);
@@ -194,12 +194,12 @@
 }
 
 .theme-switch[aria-checked='true'] {
-  border-color: var(--rds-color-brand-border);
+  border-color: var(--rds-color-control-primary-border);
   color: var(--rds-color-text-primary);
 }
 
 .theme-switch[aria-checked='true'] .theme-switch-track {
-  background: var(--rds-color-brand-solid);
+  background: var(--rds-color-control-primary-bg);
 }
 
 .theme-switch[aria-checked='true'] .theme-switch-thumb {
@@ -213,9 +213,18 @@
 }
 
 .tab.is-active {
-  border-color: var(--rds-color-brand-solid);
-  background: var(--rds-color-brand-solid);
-  color: var(--rds-color-text-inverse);
+  border-color: var(--rds-color-control-primary-border);
+  background: var(--rds-color-control-primary-bg);
+  color: var(--rds-color-control-primary-fg-contrast);
+}
+
+.tab.is-active:hover {
+  border-color: var(--rds-color-control-primary-border-hover);
+  background: var(--rds-color-control-primary-bg-hover);
+}
+
+.tab.is-active:active {
+  background: var(--rds-color-control-primary-bg-active);
 }
 
 .tab-panel {

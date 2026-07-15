@@ -123,6 +123,7 @@ import {
   overlayAndUtilityComponents,
   startsTokenGroup,
 } from '../previewModel';
+import { displayTokenPath } from '../tokenSource';
 
 const muiDemoCellSx = {
   display: 'grid',
@@ -200,15 +201,25 @@ export function MuiPanel() {
                   }}
                 />
                 <Typography variant="body2">{label}</Typography>
-                <Typography color="text.secondary" variant="caption">
+                <Typography
+                  color="text.secondary"
+                  sx={{ display: 'block', overflowWrap: 'anywhere', whiteSpace: 'normal' }}
+                  variant="caption"
+                >
                   {color}
                 </Typography>
                 <Typography
                   color="text.secondary"
-                  sx={{ fontFamily: 'monospace', opacity: 0.78 }}
+                  sx={{
+                    display: 'block',
+                    fontFamily: 'monospace',
+                    opacity: 0.78,
+                    overflowWrap: 'anywhere',
+                    whiteSpace: 'normal',
+                  }}
                   variant="caption"
                 >
-                  {sourceToken}
+                  {displayTokenPath(sourceToken)}
                 </Typography>
               </Box>
             ))}

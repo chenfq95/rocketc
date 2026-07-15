@@ -105,7 +105,7 @@ export function App() {
         </section>
 
         <section className={`tab-panel${activeTab === 'plain-html' ? ' is-active' : ''}`}>
-          <PlainHtmlPanel mode={mode} />
+          <PlainHtmlPanel themeName={themeName} />
         </section>
 
         <section className={`tab-panel${activeTab === 'mui' ? ' is-active' : ''}`}>

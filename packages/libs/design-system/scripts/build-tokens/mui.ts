@@ -223,25 +223,25 @@ export const buildMuiTheme = (theme: ThemeName, tokens: FlatTokenTheme): MuiThem
     secondary: muiControlPalette(tokens, 'secondary'),
     success: {
       main: colorToken(tokens, 'color.success.solid'),
-      dark: colorToken(tokens, 'color.success.hard'),
+      dark: colorToken(tokens, 'color.success.solidHover'),
       light: colorToken(tokens, 'color.success.soft'),
       contrastText: colorToken(tokens, 'color.success.contrast'),
     },
     warning: {
       main: colorToken(tokens, 'color.warning.solid'),
-      dark: colorToken(tokens, 'color.warning.hard'),
+      dark: colorToken(tokens, 'color.warning.solidHover'),
       light: colorToken(tokens, 'color.warning.soft'),
       contrastText: colorToken(tokens, 'color.warning.contrast'),
     },
     error: {
       main: colorToken(tokens, 'color.danger.solid'),
-      dark: colorToken(tokens, 'color.danger.hard'),
+      dark: colorToken(tokens, 'color.danger.solidHover'),
       light: colorToken(tokens, 'color.danger.soft'),
       contrastText: colorToken(tokens, 'color.danger.contrast'),
     },
     info: {
       main: colorToken(tokens, 'color.info.solid'),
-      dark: colorToken(tokens, 'color.info.hard'),
+      dark: colorToken(tokens, 'color.info.solidHover'),
       light: colorToken(tokens, 'color.info.soft'),
       contrastText: colorToken(tokens, 'color.info.contrast'),
     },
@@ -292,7 +292,7 @@ export const buildMuiTheme = (theme: ThemeName, tokens: FlatTokenTheme): MuiThem
 
 *::selection {
   background-color: ${colorToken(tokens, 'color.brand.soft')};
-  color: ${colorToken(tokens, 'color.brand.text')};
+  color: ${colorToken(tokens, 'color.brand.fg')};
 }
 
 :focus-visible {

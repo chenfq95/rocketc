@@ -199,7 +199,7 @@
   min-height: var(--rds-space-11);
   border: var(--rds-border-sm) solid var(--rds-color-border-subtle);
   background: var(--rds-color-brand-soft);
-  color: var(--rds-color-brand-text);
+  color: var(--rds-color-brand-fg);
 }
 
 .radius-grid span {

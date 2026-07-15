@@ -102,6 +102,7 @@ import {
   startsTokenGroup,
   type DesignThemeName,
 } from '../previewModel';
+import { displayTokenPath } from '../tokenSource';
 
 const chakraItems = createListCollection({
   items: [
@@ -233,17 +234,26 @@ export function ChakraPanel({ themeName }: { themeName: DesignThemeName }) {
                   <Text as="strong" fontSize="xs" minW={0} overflowWrap="anywhere">
                     {label}
                   </Text>
-                  <Code color="fg.muted" fontSize="xs" minW={0} overflowWrap="anywhere">
+                  <Code
+                    color="fg.muted"
+                    display="block"
+                    fontSize="xs"
+                    minW={0}
+                    overflowWrap="anywhere"
+                    whiteSpace="normal"
+                  >
                     {tokenPath}
                   </Code>
                   <Code
                     color="fg.muted"
+                    display="block"
                     fontSize="xs"
                     minW={0}
                     opacity={0.78}
                     overflowWrap="anywhere"
+                    whiteSpace="normal"
                   >
-                    {sourceToken}
+                    {displayTokenPath(sourceToken)}
                   </Code>
                 </Box>
               ))}
