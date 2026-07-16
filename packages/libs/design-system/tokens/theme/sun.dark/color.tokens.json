@@ -112,18 +112,6 @@
       }
     },
     "success": {
-      "solid": {
-        "$value": "{color.green.500}",
-        "$type": "color"
-      },
-      "solidHover": {
-        "$value": "{color.green.400}",
-        "$type": "color"
-      },
-      "solidActive": {
-        "$value": "{color.green.300}",
-        "$type": "color"
-      },
       "soft": {
         "$value": "{color.green.950}",
         "$type": "color"
@@ -146,18 +134,6 @@
       }
     },
     "warning": {
-      "solid": {
-        "$value": "{color.amber.500}",
-        "$type": "color"
-      },
-      "solidHover": {
-        "$value": "{color.amber.400}",
-        "$type": "color"
-      },
-      "solidActive": {
-        "$value": "{color.amber.300}",
-        "$type": "color"
-      },
       "soft": {
         "$value": "{color.amber.950}",
         "$type": "color"
@@ -180,18 +156,6 @@
       }
     },
     "danger": {
-      "solid": {
-        "$value": "{color.red.500}",
-        "$type": "color"
-      },
-      "solidHover": {
-        "$value": "{color.red.400}",
-        "$type": "color"
-      },
-      "solidActive": {
-        "$value": "{color.red.300}",
-        "$type": "color"
-      },
       "soft": {
         "$value": "{color.red.950}",
         "$type": "color"

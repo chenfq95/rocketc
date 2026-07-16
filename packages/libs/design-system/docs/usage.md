@@ -29,12 +29,12 @@ Two theme **families** × two **modes** = four compiled themes.
 
 两个主题**族** × 两种**模式** = 四套编译主题。
 
-| Theme / 主题    | Character / 性格                                       | CSS selector / CSS 选择器               |
-| --------------- | ------------------------------------------------------ | --------------------------------------- |
-| `default.light` | Black brand, Next.js-like light / 黑品牌、偏 Next 亮色 | `:root`, `[data-theme='default.light']` |
-| `default.dark`  | Black brand, neutral dark / 黑品牌、中性暗色           | `[data-theme='default.dark']`           |
-| `sun.light`     | Orange brand, light / 橙品牌亮色                       | `[data-theme='sun.light']`              |
-| `sun.dark`      | Orange brand, dark / 橙品牌暗色                        | `[data-theme='sun.dark']`               |
+| Theme / 主题    | Character / 性格                                            | CSS selector / CSS 选择器               |
+| --------------- | ----------------------------------------------------------- | --------------------------------------- |
+| `default.light` | Black brand, Next.js-like light / 黑品牌、偏 Next 亮色      | `:root`, `[data-theme='default.light']` |
+| `default.dark`  | Light solid brand on dark chrome / 暗色壳层上的浅色实心品牌 | `[data-theme='default.dark']`           |
+| `sun.light`     | Orange brand, light / 橙品牌亮色                            | `[data-theme='sun.light']`              |
+| `sun.dark`      | Orange brand, dark / 橙品牌暗色                             | `[data-theme='sun.dark']`               |
 
 `tokens/theme/default.light/` is intentionally empty because it uses the semantic baseline directly.
 

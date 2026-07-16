@@ -301,7 +301,7 @@
   width: min(var(--measure), 100%);
   height: var(--rds-space-2);
   border-radius: var(--rds-radius-full);
-  background: var(--rds-color-text-primary);
+  background: var(--rds-color-control-primary-bg);
 }
 
 .measure-item code,
@@ -346,7 +346,7 @@
   width: var(--box-size);
   height: var(--box-size);
   border-radius: var(--rds-radius-sm);
-  background: var(--rds-color-text-primary);
+  background: var(--rds-color-control-primary-bg);
 }
 
 .size-row em,
@@ -381,8 +381,8 @@
   justify-content: center;
   min-height: var(--rds-space-11);
   border: var(--rds-border-sm) solid var(--rds-color-border-subtle);
-  background: var(--rds-color-brand-soft);
-  color: var(--rds-color-brand-fg);
+  background: var(--rds-color-control-primary-bg);
+  color: var(--rds-color-control-primary-fg-contrast);
 }
 
 .radius-grid span {
@@ -395,12 +395,17 @@
   border-radius: var(--rds-radius-md);
 }
 
+.blur-grid span {
+  background: var(--rds-color-surface-elevated);
+  color: var(--rds-color-text-secondary);
+}
+
 .blur-grid span::before {
   content: '';
   position: absolute;
   inset: 9px;
   border-radius: var(--rds-radius-full);
-  background: var(--rds-color-brand-solid);
+  background: var(--rds-color-control-primary-bg);
   filter: blur(var(--blur));
 }
 
@@ -472,7 +477,7 @@
   display: block;
   width: 100%;
   height: var(--rds-space-5);
-  border: var(--border-width) solid var(--rds-color-text-primary);
+  border: var(--border-width) solid var(--rds-color-control-primary-border);
   border-radius: var(--rds-radius-sm);
   background: var(--rds-color-surface-canvas);
 }
@@ -489,10 +494,10 @@
   border-radius: var(--rds-radius-md);
   background: color-mix(
     in srgb,
-    var(--rds-color-text-primary) calc(100% * var(--alpha)),
+    var(--rds-color-control-primary-bg) calc(100% * var(--alpha)),
     transparent
   );
-  color: var(--rds-color-text-primary);
+  color: var(--rds-color-control-primary-fg-contrast);
 }
 
 .motion-list > div {
@@ -506,8 +511,8 @@
   display: block;
   width: var(--motion-width);
   border-radius: var(--rds-radius-full);
-  background: var(--rds-color-brand-solid);
-  color: var(--rds-color-text-inverse);
+  background: var(--rds-color-control-primary-bg);
+  color: var(--rds-color-control-primary-fg-contrast);
   padding: var(--rds-space-1) var(--rds-space-2);
   font-size: var(--rds-typography-caption-font-size);
   font-weight: var(--rds-typography-weight-bold);
