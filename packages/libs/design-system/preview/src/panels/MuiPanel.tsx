@@ -106,24 +106,36 @@ import {
   Tabs,
   TextField,
   TextareaAutosize,
-  ThemeProvider,
   ToggleButton,
   ToggleButtonGroup,
   Toolbar,
   Tooltip,
   Typography,
-  createTheme,
 } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import { useState } from 'react';
 
+import { ColorSwatch } from '../ColorSwatch';
 import { MuiPreviewIcon } from '../MuiPreviewIcon';
 import {
   muiPaletteRoles,
   muiTypographyVariants,
   overlayAndUtilityComponents,
   startsTokenGroup,
+  type DesignThemeName,
 } from '../previewModel';
-import { displayTokenPath } from '../tokenSource';
+import { displayColorSource } from '../tokenSource';
+
+const resolveMuiPaletteColor = (palette: object, path: string): string => {
+  const value = path.split('.').reduce<unknown>((node, key) => {
+    if (node && typeof node === 'object' && key in node) {
+      return (node as Record<string, unknown>)[key];
+    }
+    return undefined;
+  }, palette);
+
+  return typeof value === 'string' ? value : path;
+};
 
 const muiDemoCellSx = {
   display: 'grid',
@@ -157,7 +169,8 @@ const muiButtonVariants = [
   { label: 'disabled', disabled: true, variant: 'contained' },
 ] as const;
 
-export function MuiPanel() {
+export function MuiPanel({ themeName }: { themeName: DesignThemeName }) {
+  const theme = useTheme();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [buttonMenuAnchor, setButtonMenuAnchor] = useState<HTMLElement | null>(null);
 
@@ -170,60 +183,17 @@ export function MuiPanel() {
             <Typography variant="h2">Palette roles</Typography>
           </Box>
 
-          <Box
-            sx={{
-              display: 'grid',
-              gap: 1,
-              gridTemplateColumns: {
-                xs: 'repeat(2, minmax(0, 1fr))',
-                md: 'repeat(6, minmax(0, 1fr))',
-              },
-              mb: 1.5,
-            }}
-          >
-            {muiPaletteRoles.map(([label, color, sourceToken], index) => (
-              <Box
+          <div className="color-swatch-grid" style={{ marginBottom: 12 }}>
+            {muiPaletteRoles.map(([, color, sourceToken], index) => (
+              <ColorSwatch
+                background={resolveMuiPaletteColor(theme.palette, color)}
                 key={color}
-                sx={{
-                  display: 'grid',
-                  gap: 0.5,
-                  gridColumnStart: startsTokenGroup(muiPaletteRoles, index) ? 1 : undefined,
-                  minWidth: 0,
-                }}
-              >
-                <Box
-                  sx={{
-                    bgcolor: color,
-                    border: 1,
-                    borderColor: 'divider',
-                    borderRadius: 0.6667,
-                    height: 32,
-                  }}
-                />
-                <Typography variant="body2">{label}</Typography>
-                <Typography
-                  color="text.secondary"
-                  sx={{ display: 'block', overflowWrap: 'anywhere', whiteSpace: 'normal' }}
-                  variant="caption"
-                >
-                  {color}
-                </Typography>
-                <Typography
-                  color="text.secondary"
-                  sx={{
-                    display: 'block',
-                    fontFamily: 'monospace',
-                    opacity: 0.78,
-                    overflowWrap: 'anywhere',
-                    whiteSpace: 'normal',
-                  }}
-                  variant="caption"
-                >
-                  {displayTokenPath(sourceToken)}
-                </Typography>
-              </Box>
+                mapping={displayColorSource(themeName, sourceToken)}
+                startsGroup={startsTokenGroup(muiPaletteRoles, index)}
+                token={color}
+              />
             ))}
-          </Box>
+          </div>
         </Paper>
 
         <Paper sx={{ minWidth: 0, p: 1.5 }} variant="outlined">

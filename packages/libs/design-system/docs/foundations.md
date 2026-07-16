@@ -55,17 +55,17 @@ Semantic roles intentionally use only a subset. Extra hues are reserved for futu
 
 ### Semantic color groups / 语义色彩组
 
-| Group / 组                              | Roles / 角色                                                             | Purpose / 用途                                               |
-| --------------------------------------- | ------------------------------------------------------------------------ | ------------------------------------------------------------ |
-| `surface`                               | `canvas`, `panel`, `elevated`, `inverse`                                 | Page stage and container fills / 页面舞台与容器填充          |
-| `text`                                  | `primary`, `secondary`, `muted`, `inverse`                               | Content hierarchy / 内容层级                                 |
-| `border`                                | `subtle`, `default`, `strong`, `focus`                                   | Structure + focus outline color / 结构 + 聚焦描边色          |
-| `action`                                | `active`, `hover`, `selected`, `disabled`, `disabledBackground`, `focus` | Shared list/row/chrome interaction / 列表行等共享交互        |
-| `control.primary` / `control.secondary` | `bg`, `bgHover`, `bgActive`, `fg`, `fgContrast`, `border`, `borderHover` | Complete control recipes / 完整控件配方                      |
-| `brand`                                 | palette slots (below)                                                    | Active identity color family / 当前身份色族                  |
-| `success` / `warning` / `danger`        | palette slots                                                            | Status only—never decoration / 仅状态，不作装饰              |
-| `info`                                  | palette slots                                                            | Informational chrome / 信息性 chrome                         |
-| `common`                                | `black`, `white`                                                         | Absolute anchors for contrast recipes / 对比度配方的绝对锚点 |
+| Group / 组                              | Roles / 角色                                                                     | Purpose / 用途                                               |
+| --------------------------------------- | -------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| `surface`                               | `canvas`, `panel`, `elevated`, `inverse`                                         | Page stage and container fills / 页面舞台与容器填充          |
+| `text`                                  | `primary`, `secondary`, `muted`, `inverse`                                       | Content hierarchy / 内容层级                                 |
+| `border`                                | `subtle`, `default`, `strong`, `focus`                                           | Structure + focus outline color / 结构 + 聚焦描边色          |
+| `action`                                | `fg`, `fgDisabled`, `bgHover`, `bgActive`, `bgSelected`, `bgDisabled`, `bgFocus` | Shared list/row/chrome interaction / 列表行等共享交互        |
+| `control.primary` / `control.secondary` | `bg`, `bgHover`, `bgActive`, `fg`, `fgContrast`, `border`, `borderHover`         | Complete control recipes / 完整控件配方                      |
+| `brand`                                 | palette slots (below)                                                            | Active identity color family / 当前身份色族                  |
+| `success` / `warning` / `danger`        | palette slots                                                                    | Status only—never decoration / 仅状态，不作装饰              |
+| `info`                                  | palette slots                                                                    | Informational chrome / 信息性 chrome                         |
+| `common`                                | `black`, `white`                                                                 | Absolute anchors for contrast recipes / 对比度配方的绝对锚点 |
 
 ### Surfaces / 表面
 
@@ -86,16 +86,16 @@ In light modes, panel and elevated may be close in fill—depth then relies more
 
 ### Text & border / 文字与边框
 
-| Role / 角色      | Intent / 意图                                                                                                 |
-| ---------------- | ------------------------------------------------------------------------------------------------------------- |
-| `text.primary`   | Default readable copy / 默认可读正文                                                                          |
-| `text.secondary` | Supporting copy / 次要说明                                                                                    |
-| `text.muted`     | Meta, placeholders, disabled-adjacent / 元信息、占位                                                          |
-| `text.inverse`   | On inverse / solid bands / 反转带上文字                                                                       |
-| `border.subtle`  | Hairline structure / 细结构线                                                                                 |
-| `border.default` | Standard control and card edges / 常规控件与卡片边                                                            |
-| `border.strong`  | Strong separation / hover borders / 强分隔、悬停边                                                            |
-| `border.focus`   | Focus outline **color** (pair with `shadow.focus` for the ring) / 聚焦描边**色**（环形状配合 `shadow.focus`） |
+| Role / 角色      | Intent / 意图                                                                                                                                |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `text.primary`   | Default readable copy / 默认可读正文                                                                                                         |
+| `text.secondary` | Supporting copy / 次要说明                                                                                                                   |
+| `text.muted`     | Meta, placeholders, disabled-adjacent / 元信息、占位                                                                                         |
+| `text.inverse`   | On inverse / solid bands / 反转带上文字                                                                                                      |
+| `border.subtle`  | Hairline structure / 细结构线                                                                                                                |
+| `border.default` | Standard control and card edges / 常规控件与卡片边                                                                                           |
+| `border.strong`  | Strong separation / hover borders / 强分隔、悬停边                                                                                           |
+| `border.focus`   | Neutral focus outline **color** (not brand); pair with `shadow.focus` for the ring / 中性聚焦描边**色**（非品牌）；环形状配合 `shadow.focus` |
 
 ### Palette recipe (brand / status / info) / 色板槽位
 
@@ -103,14 +103,14 @@ In light modes, panel and elevated may be close in fill—depth then relies more
 
 `brand`、`success`、`warning`、`danger`、`info` 共用同一套槽位：
 
-| Slot / 槽位                            | Use / 用途                                                                              |
-| -------------------------------------- | --------------------------------------------------------------------------------------- |
-| `soft` / `softHover` / `softActive`    | Low-emphasis fills (chips, selected rows, soft badges) / 低强调填充                     |
-| `solid` / `solidHover` / `solidActive` | Filled controls and strong emphasis / 实心控件与强强调                                  |
-| `fg`                                   | Foreground on soft or canvas / soft 或画布上的前景                                      |
-| `contrast`                             | Foreground on solid / solid 上的前景                                                    |
-| `border`                               | Outline / accent border / 描边                                                          |
-| `focusRing`                            | Keyboard focus indicator color (often aliases `border`) / 键盘焦点色（常映射 `border`） |
+| Slot / 槽位                            | Use / 用途                                                                                                                                                      |
+| -------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `soft` / `softHover` / `softActive`    | Low-emphasis fills (chips, selected rows, soft badges) / 低强调填充                                                                                             |
+| `solid` / `solidHover` / `solidActive` | Filled controls and strong emphasis / 实心控件与强强调                                                                                                          |
+| `fg`                                   | Foreground on soft or canvas / soft 或画布上的前景                                                                                                              |
+| `contrast`                             | Foreground on solid / solid 上的前景                                                                                                                            |
+| `border`                               | Outline / accent border / 描边                                                                                                                                  |
+| `focusRing`                            | Keyboard focus indicator; brand uses neutral `border.focus`, status may alias its own border / 键盘焦点色；brand 用中性 `border.focus`，状态族可映射自身 border |
 
 **Do not** mix slots across families (e.g. `success.solid` + `brand.fg`). Pick one family and stay inside its recipe.
 
@@ -126,16 +126,21 @@ Status hues stay in the status lane: success / warning / danger for validation a
 
 `color.action.*` 是共享的**环境交互 chrome**——列表行、菜单项、图标按钮、表格选中、导航项。它不是完整按钮配方；有独立填充/描边/标签栈的边界控件用 `control.*`。
 
-| Token                             | Meaning / 含义                                                                                                                                                                                                                                                                                                                                              |
-| --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `color.action.active`             | Default **foreground** for interactive affordances (icons, action glyphs) in the resting/armed state—readable on panel, not a fill. / 交互示能（图标、操作字形）在静止/待用态的默认**前景**——画在 panel 上可读，不是填充色。                                                                                                                                |
-| `color.action.hover`              | **Background wash** while the pointer hovers an interactive row or soft control. / 指针悬停交互行或轻量控件时的**背景叠色**。                                                                                                                                                                                                                               |
-| `color.action.selected`           | **Background** for a selected / toggled-on item in a list, table, or nav. Stronger or more persistent than hover. / 列表、表格、导航中选中/打开项的**背景**。比 hover 更强或更持久。                                                                                                                                                                        |
-| `color.action.disabled`           | **Foreground** for disabled interactive content (icons, labels that must stay in the action lane). Usually aligns with muted text. / 禁用交互内容的**前景**（仍走 action 车道的图标、标签）。通常与 muted 文字一致。                                                                                                                                        |
-| `color.action.disabledBackground` | **Background** for disabled filled or hit-target areas that still need a surface (disabled chips, inert rows). / 仍需表面的禁用填充/热区**背景**（禁用芯片、失效行）。                                                                                                                                                                                      |
-| `color.action.focus`              | **Background wash** for keyboard focus on ambient chrome (soft highlight under the focused row/item). Pair with `border.focus` / `shadow.focus` for the outline ring—this token is the fill cue, not the ring. / 环境 chrome 键盘聚焦时的**背景叠色**（聚焦行/项下的柔和高亮）。描边环用 `border.focus` / `shadow.focus`——本 token 是填充提示，不是焦点环。 |
+| Token                     | Meaning / 含义                                                                                                                                                                                                                                                                                                                     |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `color.action.fg`         | Default **foreground** for interactive affordances (icons, action glyphs) in the resting/armed state—readable on panel, not a fill. / 交互示能（图标、操作字形）在静止/待用态的默认**前景**——画在 panel 上可读，不是填充色。                                                                                                       |
+| `color.action.fgDisabled` | **Foreground** for disabled interactive content in the action lane. Usually aligns with muted text. / 禁用交互内容的**前景**。通常与 muted 文字一致。                                                                                                                                                                              |
+| `color.action.bgHover`    | **Background wash** while the pointer hovers an interactive row or soft control. / 指针悬停交互行或轻量控件时的**背景叠色**。                                                                                                                                                                                                      |
+| `color.action.bgActive`   | **Background wash** while pressed (pointer down)—transient, not a sticky selected state. / 按下时的**背景叠色**（瞬时，不是持久选中）。                                                                                                                                                                                            |
+| `color.action.bgSelected` | **Background** for a selected / toggled-on item in a list, table, or nav. Stronger or more persistent than hover. / 列表、表格、导航中选中/打开项的**背景**。比 hover 更强或更持久。                                                                                                                                               |
+| `color.action.bgDisabled` | **Background** for disabled filled or hit-target areas that still need a surface (disabled chips, inert rows). / 仍需表面的禁用填充/热区**背景**（禁用芯片、失效行）。                                                                                                                                                             |
+| `color.action.bgFocus`    | **Background wash** for keyboard focus on ambient chrome (soft highlight under the focused row/item). Pair with `border.focus` / `shadow.focus` for the outline ring—this token is the fill cue, not the ring. / 环境 chrome 键盘聚焦时的**背景叠色**。描边环用 `border.focus` / `shadow.focus`——本 token 是填充提示，不是焦点环。 |
 
-Related opacity roles (`opacity.action.hover`, `selected`, `disabled`, `focus`, `activated`) are alpha multipliers when an adapter composites washes onto a surface instead of using opaque fills. Prefer the color tokens when a solid wash is already defined.
+Names encode channel: `fg*` = foreground, `bg*` = background wash/fill.
+
+命名带通道：`fg*` = 前景，`bg*` = 背景叠色/填充。
+
+Related opacity roles (`opacity.action.bgHover`, `bgSelected`, `fgDisabled`, `bgFocus`, `bgActivated`) are alpha multipliers when an adapter composites washes onto a surface instead of using opaque fills. Prefer the color tokens when a solid wash is already defined.
 
 相关透明度角色（`opacity.action.*`）用于适配器把叠色合成到表面、而非使用不透明填充时。已有实色叠色定义时优先用颜色 token。
 
@@ -145,10 +150,10 @@ Related opacity roles (`opacity.action.hover`, `selected`, `disabled`, `focus`, 
 
 `color.control.*` 是**完整控件配方**：静止 / 悬停 / 按下填充、标签色与描边，用于单个边界控件（按钮、分段选项、作为控件的密集芯片）。两个强调级别共用同一套槽位名。
 
-| Recipe / 配方       | Role in the UI / 界面角色                                                                                                                                                                                                            |
-| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `control.primary`   | Main CTA and filled emphasis. Values typically track the brand solid ladder and contrast label. / 主 CTA 与实心强调。色值通常跟随品牌 solid 阶梯与 contrast 标签。                                                                   |
-| `control.secondary` | Quiet bordered control on the stage. Values typically track panel, text, and structural borders (hover wash may alias `action.hover`). / 舞台上的安静描边控件。色值通常跟随 panel、文字与结构边框（悬停叠色可映射 `action.hover`）。 |
+| Recipe / 配方       | Role in the UI / 界面角色                                                                                                                                                                                                                                                       |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `control.primary`   | Main CTA and filled emphasis. Values typically track the brand solid ladder and contrast label. / 主 CTA 与实心强调。色值通常跟随品牌 solid 阶梯与 contrast 标签。                                                                                                              |
+| `control.secondary` | Quiet bordered control on the stage. Values typically track panel, text, and structural borders (`bgHover`/`bgActive` alias `action.bgHover`/`bgActive`). / 舞台上的安静描边控件。色值通常跟随 panel、文字与结构边框（`bgHover`/`bgActive` 映射 `action.bgHover`/`bgActive`）。 |
 
 #### Shared slots / 共用槽位
 
@@ -178,9 +183,9 @@ Prefer `control.*` for buttons and similar chrome. Reach for raw `brand.*` only 
 
 按钮类 chrome 优先 `control.*`；仅在非控件品牌强调时直接用 `brand.*`。主题可重映射解析值，但不改变角色名。
 
-**Action vs control / Action 与 control：** use `action.*` when many items share one ambient wash language; use `control.*` when a single control owns its full fill–border–label recipe. Do not mix (e.g. `control.primary.bg` + `action.hover` on the same button) unless an adapter deliberately bridges them (secondary hover may alias `action.hover` by design).
+**Action vs control / Action 与 control：** use `action.*` when many items share one ambient wash language; use `control.*` when a single control owns its full fill–border–label recipe. Do not mix (e.g. `control.primary.bg` + `action.bgHover` on the same button) unless an adapter deliberately bridges them (`control.secondary` aliases `action.bgHover` / `action.bgActive` by design).
 
-多项目共享一套环境叠色语言时用 `action.*`；单个控件自带完整填充–描边–标签配方时用 `control.*`。不要混用（例如同一按钮上 `control.primary.bg` + `action.hover`），除非适配器有意桥接（secondary 的 hover 按设计可映射 `action.hover`）。
+多项目共享一套环境叠色语言时用 `action.*`；单个控件自带完整填充–描边–标签配方时用 `control.*`。不要混用（例如同一按钮上 `control.primary.bg` + `action.bgHover`），除非适配器有意桥接（`control.secondary` 按设计映射 `action.bgHover` / `action.bgActive`）。
 
 ---
 
@@ -355,12 +360,12 @@ Do not invent one-off z-index numbers in components when a role exists.
 
 ### Semantic opacity / 语义透明度
 
-| Role / 角色                           | Typical use / 典型用途                                                                                    |
-| ------------------------------------- | --------------------------------------------------------------------------------------------------------- |
-| `opacity.disabled`                    | Disabled control affordance / 禁用态                                                                      |
-| `opacity.hover` / `pressed` / `muted` | Lightweight state cues / 轻量状态提示                                                                     |
-| `opacity.overlay` / `scrim`           | Dimmed backdrops / 遮罩                                                                                   |
-| `opacity.action.*`                    | Fine-grained action overlays (`hover`, `selected`, `disabled`, `focus`, `activated`) / 更细的 action 叠色 |
+| Role / 角色                           | Typical use / 典型用途                                                                                              |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| `opacity.disabled`                    | Disabled control affordance / 禁用态                                                                                |
+| `opacity.hover` / `pressed` / `muted` | Lightweight state cues / 轻量状态提示                                                                               |
+| `opacity.overlay` / `scrim`           | Dimmed backdrops / 遮罩                                                                                             |
+| `opacity.action.*`                    | Fine-grained action overlays (`bgHover`, `bgSelected`, `fgDisabled`, `bgFocus`, `bgActivated`) / 更细的 action 叠色 |
 
 Prefer these roles over hard-coded alphas in components.
 

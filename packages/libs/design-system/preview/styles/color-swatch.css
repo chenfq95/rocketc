@@ -1,0 +1,63 @@
+.color-swatch {
+  display: grid;
+  gap: var(--rds-space-1);
+  min-width: 0;
+  max-width: 100%;
+}
+
+.color-swatch__chip {
+  display: flex;
+  align-items: flex-end;
+  min-width: 0;
+  min-height: var(--rds-space-10);
+  padding: var(--rds-space-1);
+  overflow: hidden;
+  border: var(--rds-border-sm) solid var(--rds-color-border-subtle);
+  border-radius: var(--rds-radius-sm);
+}
+
+.color-swatch.is-elevated .color-swatch__chip {
+  border-color: transparent;
+  box-shadow: var(--rds-shadow-raised);
+}
+
+.color-swatch.is-panel .color-swatch__chip {
+  box-shadow: var(--rds-shadow-surface);
+}
+
+.color-swatch__token,
+.color-swatch__mapping {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  font-family: var(--rds-typography-code-font-family);
+  font-size: var(--rds-typography-caption-font-size);
+  line-height: var(--rds-typography-caption-line-height, 1.25);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.color-swatch__token {
+  width: 100%;
+  background: transparent;
+}
+
+.color-swatch__mapping {
+  color: var(--rds-color-text-muted);
+}
+
+.color-swatch-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--rds-space-2);
+}
+
+/* Full-row breaker so a new token group always starts on the next line. */
+.color-swatch-grid__break {
+  grid-column: 1 / -1;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  pointer-events: none;
+}

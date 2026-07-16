@@ -93,6 +93,7 @@ import defaultDarkChakraTheme from '../../../dist/chakra/default.dark';
 import defaultLightChakraTheme from '../../../dist/chakra/default.light';
 import sunDarkChakraTheme from '../../../dist/chakra/sun.dark';
 import sunLightChakraTheme from '../../../dist/chakra/sun.light';
+import { ColorSwatch } from '../ColorSwatch';
 import {
   chakraColorRoles,
   chakraSemantic,
@@ -102,7 +103,7 @@ import {
   startsTokenGroup,
   type DesignThemeName,
 } from '../previewModel';
-import { displayTokenPath } from '../tokenSource';
+import { displayColorSource } from '../tokenSource';
 
 const chakraItems = createListCollection({
   items: [
@@ -215,49 +216,17 @@ export function ChakraPanel({ themeName }: { themeName: DesignThemeName }) {
             <Card.Title>Semantic color tokens</Card.Title>
           </Card.Header>
           <Card.Body>
-            <SimpleGrid columns={{ base: 2, md: 6 }} gap={2}>
-              {chakraColorRoles.map(([label, tokenPath, sourceToken], index) => (
-                <Box
-                  display="grid"
-                  gap={1}
-                  gridColumnStart={startsTokenGroup(chakraColorRoles, index) ? 1 : undefined}
+            <div className="color-swatch-grid">
+              {chakraColorRoles.map(([, tokenPath, sourceToken], index) => (
+                <ColorSwatch
+                  background={chakraSemantic(theme, tokenPath)}
                   key={tokenPath}
-                  minW={0}
-                >
-                  <Box
-                    bg={chakraSemantic(theme, tokenPath)}
-                    borderColor="border.subtle"
-                    borderRadius="sm"
-                    borderWidth="sm"
-                    h={8}
-                  />
-                  <Text as="strong" fontSize="xs" minW={0} overflowWrap="anywhere">
-                    {label}
-                  </Text>
-                  <Code
-                    color="fg.muted"
-                    display="block"
-                    fontSize="xs"
-                    minW={0}
-                    overflowWrap="anywhere"
-                    whiteSpace="normal"
-                  >
-                    {tokenPath}
-                  </Code>
-                  <Code
-                    color="fg.muted"
-                    display="block"
-                    fontSize="xs"
-                    minW={0}
-                    opacity={0.78}
-                    overflowWrap="anywhere"
-                    whiteSpace="normal"
-                  >
-                    {displayTokenPath(sourceToken)}
-                  </Code>
-                </Box>
+                  mapping={displayColorSource(themeName, sourceToken)}
+                  startsGroup={startsTokenGroup(chakraColorRoles, index)}
+                  token={tokenPath.replace(/^colors\./, '')}
+                />
               ))}
-            </SimpleGrid>
+            </div>
           </Card.Body>
         </Card.Root>
 
@@ -347,24 +316,24 @@ export function ChakraPanel({ themeName }: { themeName: DesignThemeName }) {
                         Related controls
                       </Text>
                       <Stack direction="row" flexWrap="wrap" gap={2}>
-                        <ButtonGroup size="sm" variant="outline">
+                        <ButtonGroup colorPalette="secondary" size="sm" variant="outline">
                           <Button>Day</Button>
                           <Button>Week</Button>
                           <Button>Month</Button>
                         </ButtonGroup>
-                        <IconButton aria-label="IconButton" colorPalette="brand" size="sm">
+                        <IconButton aria-label="IconButton" colorPalette="primary" size="sm">
                           <ChakraPreviewIcon />
                         </IconButton>
                         <IconButton
                           aria-label="Outline IconButton"
-                          colorPalette="brand"
+                          colorPalette="secondary"
                           size="sm"
                           variant="outline"
                         >
                           <ChakraPreviewIcon />
                         </IconButton>
                         <CloseButton size="sm" />
-                        <Button colorPalette="brand" loading loadingText="Loading" size="sm">
+                        <Button colorPalette="primary" loading loadingText="Loading" size="sm">
                           Loading
                         </Button>
                         <Menu.Root positioning={{ gutter: 4 }}>
@@ -457,21 +426,21 @@ export function ChakraPanel({ themeName }: { themeName: DesignThemeName }) {
                         </Select.Positioner>
                       </Select.Root>
                     </Field.Root>
-                    <Switch.Root defaultChecked colorPalette="brand">
+                    <Switch.Root defaultChecked colorPalette="primary">
                       <Switch.HiddenInput />
                       <Switch.Control>
                         <Switch.Thumb />
                       </Switch.Control>
                       <Switch.Label>Use semantic tokens</Switch.Label>
                     </Switch.Root>
-                    <Checkbox.Root defaultChecked colorPalette="brand">
+                    <Checkbox.Root defaultChecked colorPalette="primary">
                       <Checkbox.HiddenInput />
                       <Checkbox.Control>
                         <Checkbox.Indicator />
                       </Checkbox.Control>
                       <Checkbox.Label>Checkbox</Checkbox.Label>
                     </Checkbox.Root>
-                    <RadioGroup.Root defaultValue="light" colorPalette="brand">
+                    <RadioGroup.Root defaultValue="light" colorPalette="primary">
                       <RadioGroup.Label>RadioGroup</RadioGroup.Label>
                       <Stack direction="row" gap={4}>
                         {['light', 'dark'].map((value) => (
@@ -506,7 +475,7 @@ export function ChakraPanel({ themeName }: { themeName: DesignThemeName }) {
                       </TagsInput.Control>
                       <TagsInput.HiddenInput />
                     </TagsInput.Root>
-                    <SegmentGroup.Root defaultValue="preview" colorPalette="brand">
+                    <SegmentGroup.Root defaultValue="preview" colorPalette="primary">
                       <SegmentGroup.Indicator />
                       {chakraItems.items.map((item) => (
                         <SegmentGroup.Item key={item.value} value={item.value}>
@@ -515,7 +484,7 @@ export function ChakraPanel({ themeName }: { themeName: DesignThemeName }) {
                         </SegmentGroup.Item>
                       ))}
                     </SegmentGroup.Root>
-                    <Slider.Root defaultValue={[64]} colorPalette="brand">
+                    <Slider.Root defaultValue={[64]} colorPalette="primary">
                       <Slider.Label>Slider</Slider.Label>
                       <Slider.Control>
                         <Slider.Track>
@@ -526,7 +495,7 @@ export function ChakraPanel({ themeName }: { themeName: DesignThemeName }) {
                         </Slider.Thumb>
                       </Slider.Control>
                     </Slider.Root>
-                    <RatingGroup.Root defaultValue={4} count={5} colorPalette="brand">
+                    <RatingGroup.Root defaultValue={4} count={5} colorPalette="primary">
                       <RatingGroup.Label>RatingGroup</RatingGroup.Label>
                       <RatingGroup.Control>
                         <RatingGroup.Items />
@@ -564,12 +533,12 @@ export function ChakraPanel({ themeName }: { themeName: DesignThemeName }) {
                         </Alert.Description>
                       </Alert.Content>
                     </Alert.Root>
-                    <Progress.Root colorPalette="brand" value={64}>
+                    <Progress.Root colorPalette="primary" value={64}>
                       <Progress.Track>
                         <Progress.Range />
                       </Progress.Track>
                     </Progress.Root>
-                    <ProgressCircle.Root colorPalette="brand" value={72}>
+                    <ProgressCircle.Root colorPalette="primary" value={72}>
                       <ProgressCircle.Circle>
                         <ProgressCircle.Track />
                         <ProgressCircle.Range />
@@ -578,7 +547,7 @@ export function ChakraPanel({ themeName }: { themeName: DesignThemeName }) {
                     </ProgressCircle.Root>
                     <Stack alignItems="center" direction="row" gap={3}>
                       <Spinner color="brand.solid" />
-                      <Loader colorPalette="brand" />
+                      <Loader colorPalette="primary" />
                       <Skeleton height="8" width="32" />
                       <SkeletonCircle size="10" />
                     </Stack>
@@ -690,7 +659,7 @@ export function ChakraPanel({ themeName }: { themeName: DesignThemeName }) {
                         </Breadcrumb.Item>
                       </Breadcrumb.List>
                     </Breadcrumb.Root>
-                    <Tabs.Root defaultValue="components" colorPalette="brand">
+                    <Tabs.Root defaultValue="components" colorPalette="primary">
                       <Tabs.List>
                         <Tabs.Trigger value="color">Color</Tabs.Trigger>
                         <Tabs.Trigger value="components">Components</Tabs.Trigger>
@@ -934,7 +903,7 @@ export function ChakraPanel({ themeName }: { themeName: DesignThemeName }) {
                         ))}
                       </Steps.List>
                     </Steps.Root>
-                    <Toggle.Root defaultPressed colorPalette="brand">
+                    <Toggle.Root defaultPressed colorPalette="primary">
                       <Toggle.Indicator />
                       Toggle
                     </Toggle.Root>
@@ -962,7 +931,7 @@ export function ChakraPanel({ themeName }: { themeName: DesignThemeName }) {
                         </Table.Header>
                         <Table.Body>
                           {[
-                            ['Button', 'colorPalette.brand', 'Ready'],
+                            ['Button', 'colorPalette.primary', 'Ready'],
                             ['Input', 'semantic surface tokens', 'Ready'],
                             ['Alert', 'state colors', 'Ready'],
                           ].map(([component, source, status]) => (

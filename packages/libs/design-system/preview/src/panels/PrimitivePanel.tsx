@@ -1,6 +1,38 @@
-import type { CSSProperties } from 'react';
+import { useLayoutEffect, useRef, useState, type CSSProperties } from 'react';
 
+import { ColorSwatch } from '../ColorSwatch';
 import { colorScales, colorSteps } from '../previewModel';
+import { semanticGlossarySections } from '../semanticGlossary';
+import { contrastOnBackground } from '../swatchContrast';
+
+function PrimitiveScaleSwatch({
+  label,
+  token,
+  variable,
+}: {
+  label: string;
+  token: string;
+  variable: string;
+}) {
+  const chipRef = useRef<HTMLSpanElement>(null);
+  const [ink, setInk] = useState('rgb(8 8 8)');
+
+  useLayoutEffect(() => {
+    const el = chipRef.current;
+    if (!el) return;
+    setInk(contrastOnBackground(getComputedStyle(el).backgroundColor));
+  }, [variable]);
+
+  return (
+    <span
+      ref={chipRef}
+      style={{ '--swatch-color': variable, color: ink } as CSSProperties}
+      title={token}
+    >
+      {label}
+    </span>
+  );
+}
 
 const spaceSteps = [
   ['0', '0'],
@@ -226,32 +258,64 @@ export function PrimitivePanel() {
               <strong>{scale}</strong>
               <div className="primitive-scale">
                 {(scale === 'neutral' ? ['0', ...colorSteps] : colorSteps).map((step) => (
-                  <span
+                  <PrimitiveScaleSwatch
                     key={step}
-                    style={
-                      { '--swatch-color': `var(--rds-color-${scale}-${step})` } as CSSProperties
-                    }
-                  >
-                    {step}
-                  </span>
+                    label={step}
+                    token={`${scale}.${step}`}
+                    variable={`var(--rds-color-${scale}-${step})`}
+                  />
                 ))}
               </div>
             </div>
           ))}
           <div className="primitive-row">
             <strong>single</strong>
-            <div className="primitive-single-grid">
+            <div className="color-swatch-grid">
               {singleColors.map(([color, value]) => (
-                <span
+                <ColorSwatch
+                  background={`var(--rds-color-${color})`}
                   key={color}
-                  style={{ '--swatch-color': `var(--rds-color-${color})` } as CSSProperties}
-                >
-                  <code>{color}</code>
-                  <em>{value}</em>
-                </span>
+                  mapping={value}
+                  token={color}
+                />
               ))}
             </div>
           </div>
+        </div>
+      </article>
+
+      <article className="panel primitive-panel primitive-panel-wide">
+        <div className="panel-header">
+          <div>
+            <p className="meta">Semantic roles</p>
+            <h2>What product tokens mean</h2>
+          </div>
+          <span className="badge">Contract</span>
+        </div>
+        <p className="primitive-glossary-lede">
+          Apps consume semantic roles; the raw scales above only build those roles. Prefer{' '}
+          <code>control.*</code> / <code>surface.*</code> / <code>typography.*</code> over
+          primitives. Themes remap values without renaming roles.
+        </p>
+        <div className="primitive-glossary">
+          {semanticGlossarySections.map((section) => (
+            <section className="primitive-glossary-section" key={section.title}>
+              <header>
+                <h3>{section.title}</h3>
+                <p>{section.blurb}</p>
+              </header>
+              <dl>
+                {section.entries.map((entry) => (
+                  <div key={entry.token}>
+                    <dt>
+                      <code>{entry.token}</code>
+                    </dt>
+                    <dd>{entry.meaning}</dd>
+                  </div>
+                ))}
+              </dl>
+            </section>
+          ))}
         </div>
       </article>
 
@@ -262,38 +326,42 @@ export function PrimitivePanel() {
             <h2>Spacing, size, measure, radius, border, and breakpoint</h2>
           </div>
         </div>
-        <div className="primitive-measure-grid">
-          <div className="measure-list">
+        <div className="primitive-dimension-stack">
+          <div className="measure-list measure-list--inline">
             <h3>Space</h3>
-            {spaceSteps.map(([step, value, varStep = step]) => (
-              <div
-                className="measure-item"
-                key={step}
-                style={{ '--measure': `var(--rds-space-${varStep})` } as CSSProperties}
-              >
-                <code>space.{step}</code>
-                <span />
-                <em>{value}</em>
-              </div>
-            ))}
+            <div className="measure-list__track">
+              {spaceSteps.map(([step, value, varStep = step]) => (
+                <div
+                  className="measure-item"
+                  key={step}
+                  style={{ '--measure': `var(--rds-space-${varStep})` } as CSSProperties}
+                >
+                  <code>space.{step}</code>
+                  <span />
+                  <em>{value}</em>
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="measure-list">
+          <div className="measure-list measure-list--inline">
             <h3>Size</h3>
-            {sizeSteps.map(([step, value]) => (
-              <div
-                className="size-row"
-                key={step}
-                style={{ '--box-size': `var(--rds-size-${step})` } as CSSProperties}
-              >
-                <span />
-                <code>size.{step}</code>
-                <em>{value}</em>
-              </div>
-            ))}
+            <div className="measure-list__track">
+              {sizeSteps.map(([step, value]) => (
+                <div
+                  className="size-row"
+                  key={step}
+                  style={{ '--box-size': `var(--rds-size-${step})` } as CSSProperties}
+                >
+                  <span />
+                  <code>size.{step}</code>
+                  <em>{value}</em>
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="measure-list">
+          <div className="measure-list measure-list--inline">
             <h3>Radius</h3>
-            <div className="radius-grid">
+            <div className="measure-list__track radius-grid">
               {radiusSteps.map(([radius, value]) => (
                 <span
                   key={radius}
@@ -305,11 +373,11 @@ export function PrimitivePanel() {
               ))}
             </div>
           </div>
-          <div className="measure-list">
+          <div className="measure-list measure-list--inline">
             <h3>Border</h3>
-            <div className="token-table">
+            <div className="measure-list__track">
               {borderSteps.map(([step, value]) => (
-                <div key={step}>
+                <div className="dimension-chip" key={step}>
                   <code>border.{step}</code>
                   <span
                     className="border-sample"
@@ -320,22 +388,22 @@ export function PrimitivePanel() {
               ))}
             </div>
           </div>
-          <div className="measure-list">
+          <div className="measure-list measure-list--inline">
             <h3>Measure</h3>
-            <div className="token-table">
+            <div className="measure-list__track">
               {measureSteps.map(([step, value]) => (
-                <div key={step}>
+                <div className="dimension-chip" key={step}>
                   <code>measure.{step}</code>
                   <em>{value}</em>
                 </div>
               ))}
             </div>
           </div>
-          <div className="measure-list">
+          <div className="measure-list measure-list--inline">
             <h3>Breakpoint</h3>
-            <div className="token-table">
+            <div className="measure-list__track">
               {breakpointSteps.map(([step, value]) => (
-                <div key={step}>
+                <div className="dimension-chip" key={step}>
                   <code>breakpoint.{step}</code>
                   <em>{value}</em>
                 </div>
@@ -445,83 +513,75 @@ export function PrimitivePanel() {
         </div>
       </article>
 
-      <article className="panel primitive-panel">
+      <article className="panel primitive-panel primitive-panel-wide">
         <div className="panel-header">
           <div>
-            <p className="meta">Primitive shadow</p>
-            <h2>Elevation shadows</h2>
+            <p className="meta">Primitive effect</p>
+            <h2>Shadow, opacity, blur, and motion</h2>
           </div>
         </div>
-        <div className="shadow-grid">
-          {shadowSteps.map(([shadow, value]) => (
-            <span
-              key={shadow}
-              style={{ '--shadow-sample': `var(--rds-shadow-${shadow})` } as CSSProperties}
-            >
-              <code>{shadow}</code>
-              <em>{value}</em>
-            </span>
-          ))}
-        </div>
-      </article>
-
-      <article className="panel primitive-panel">
-        <div className="panel-header">
-          <div>
-            <p className="meta">Primitive opacity</p>
-            <h2>Alpha scale</h2>
-          </div>
-        </div>
-        <div className="opacity-list">
-          {opacitySteps.map(([opacity, value]) => (
-            <span
-              key={opacity}
-              style={{ '--alpha': `var(--rds-opacity-${opacity})` } as CSSProperties}
-            >
-              <code>{opacity}</code>
-              <em>{value}</em>
-            </span>
-          ))}
-        </div>
-      </article>
-
-      <article className="panel primitive-panel">
-        <div className="panel-header">
-          <div>
-            <p className="meta">Primitive blur</p>
-            <h2>Backdrop blur scale</h2>
-          </div>
-        </div>
-        <div className="blur-grid">
-          {blurSteps.map(([blur, value]) => (
-            <span key={blur} style={{ '--blur': `var(--rds-blur-${blur})` } as CSSProperties}>
-              <code>{blur}</code>
-              <em>{value}</em>
-            </span>
-          ))}
-        </div>
-      </article>
-
-      <article className="panel primitive-panel">
-        <div className="panel-header">
-          <div>
-            <p className="meta">Primitive motion</p>
-            <h2>Duration and easing</h2>
-          </div>
-        </div>
-        <div className="motion-list">
-          {durationSteps.map(([duration, value, width]) => (
-            <div key={duration}>
-              <code>duration.{duration}</code>
-              <span style={{ '--motion-width': width } as CSSProperties}>{value}</span>
+        <div className="primitive-dimension-stack">
+          <div className="measure-list measure-list--inline">
+            <h3>Shadow</h3>
+            <div className="measure-list__track shadow-grid">
+              {shadowSteps.map(([shadow, value]) => (
+                <span
+                  key={shadow}
+                  style={{ '--shadow-sample': `var(--rds-shadow-${shadow})` } as CSSProperties}
+                >
+                  <code>{shadow}</code>
+                  <em>{value}</em>
+                </span>
+              ))}
             </div>
-          ))}
-          {easingSteps.map(([easing, value]) => (
-            <div key={easing}>
-              <code>easing.{easing}</code>
-              <em>{value}</em>
+          </div>
+          <div className="measure-list measure-list--inline">
+            <h3>Opacity</h3>
+            <div className="measure-list__track opacity-list">
+              {opacitySteps.map(([opacity, value]) => (
+                <span
+                  key={opacity}
+                  style={{ '--alpha': `var(--rds-opacity-${opacity})` } as CSSProperties}
+                >
+                  <code>{opacity}</code>
+                  <em>{value}</em>
+                </span>
+              ))}
             </div>
-          ))}
+          </div>
+          <div className="measure-list measure-list--inline">
+            <h3>Blur</h3>
+            <div className="measure-list__track blur-grid">
+              {blurSteps.map(([blur, value]) => (
+                <span key={blur} style={{ '--blur': `var(--rds-blur-${blur})` } as CSSProperties}>
+                  <code>{blur}</code>
+                  <em>{value}</em>
+                </span>
+              ))}
+            </div>
+          </div>
+          <div className="measure-list measure-list--inline">
+            <h3>Duration</h3>
+            <div className="measure-list__track motion-list">
+              {durationSteps.map(([duration, value, width]) => (
+                <div key={duration}>
+                  <code>duration.{duration}</code>
+                  <span style={{ '--motion-width': width } as CSSProperties}>{value}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="measure-list measure-list--inline">
+            <h3>Easing</h3>
+            <div className="measure-list__track motion-list">
+              {easingSteps.map(([easing, value]) => (
+                <div key={easing}>
+                  <code>easing.{easing}</code>
+                  <em>{value}</em>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </article>
 

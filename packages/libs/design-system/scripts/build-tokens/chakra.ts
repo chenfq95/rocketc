@@ -22,53 +22,190 @@ interface ChakraTokenTree {
 const colorScales = ['neutral', 'red', 'orange', 'amber', 'green', 'teal', 'blue', 'purple'];
 const colorSteps = ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900', '950'];
 
-const DESIGN_SYSTEM_COLOR_GROUPS = {
-  brand: 'color.brand',
-  success: 'color.success',
-  warning: 'color.warning',
-  info: 'color.info',
-  danger: 'color.danger',
-} as const;
-
-const CHAKRA_PALETTE_ALIASES = {
-  red: 'color.danger',
-  orange: 'color.brand',
-  yellow: 'color.warning',
-  green: 'color.success',
-  blue: 'color.info',
-} as const;
-
-const CHAKRA_COLOR_ROLE_MAP = {
-  solid: 'solid',
-  contrast: 'contrast',
-  fg: 'fg',
-  muted: 'softHover',
-  subtle: 'soft',
-  emphasized: 'softActive',
-  border: 'border',
-  focusRing: 'focusRing',
-} as const;
-
-const CHAKRA_CONTROL_TOKEN_MAP = {
-  primary: {
-    solid: 'color.control.primary.bg',
-    contrast: 'color.control.primary.fgContrast',
-    fg: 'color.control.primary.fg',
-    muted: 'color.brand.softHover',
-    subtle: 'color.brand.soft',
-    emphasized: 'color.brand.softActive',
-    border: 'color.brand.border',
-    focusRing: 'color.control.primary.borderHover',
+/**
+ * Single source of Chakra ← design-system semantic mappings.
+ * Prefer editing this table when wiring changes; builders below only resolve it.
+ */
+const CHAKRA_SEMANTIC_MAP = {
+  /** Chakra palette slot → DS palette recipe suffix (`brand.soft` etc.). */
+  paletteSlots: {
+    solid: 'solid',
+    contrast: 'contrast',
+    fg: 'fg',
+    muted: 'softHover',
+    subtle: 'soft',
+    emphasized: 'softActive',
+    border: 'border',
+    focusRing: 'focusRing',
   },
-  secondary: {
-    solid: 'color.control.secondary.bg',
-    contrast: 'color.control.secondary.fgContrast',
-    fg: 'color.control.secondary.fg',
-    muted: 'color.control.secondary.bgActive',
-    subtle: 'color.control.secondary.bgHover',
-    emphasized: 'color.control.secondary.bgActive',
-    border: 'color.control.secondary.border',
-    focusRing: 'color.control.secondary.borderHover',
+
+  /**
+   * Nested Chakra color keys → absolute DS token paths.
+   * Covers chrome (`bg`/`fg`/`border`) and control recipes (`primary`/`secondary`).
+   */
+  colors: {
+    bg: {
+      DEFAULT: 'color.surface.canvas',
+      panel: 'color.surface.panel',
+      elevated: 'color.surface.elevated',
+      subtle: 'color.surface.canvas',
+      muted: 'color.action.bgHover',
+      // Stronger chrome wash (e.g. Switch off track)—not focus blue.
+      emphasized: 'color.action.bgActive',
+      inverted: 'color.surface.inverse',
+      error: 'color.danger.soft',
+      warning: 'color.warning.soft',
+      success: 'color.success.soft',
+      info: 'color.info.soft',
+    },
+    fg: {
+      DEFAULT: 'color.text.primary',
+      muted: 'color.text.muted',
+      subtle: 'color.text.secondary',
+      inverted: 'color.text.inverse',
+      error: 'color.danger.fg',
+      warning: 'color.warning.fg',
+      success: 'color.success.fg',
+      info: 'color.info.fg',
+    },
+    border: {
+      DEFAULT: 'color.border.default',
+      muted: 'color.border.subtle',
+      subtle: 'color.border.subtle',
+      emphasized: 'color.border.strong',
+      inverted: 'color.border.strong',
+      error: 'color.danger.border',
+      warning: 'color.warning.border',
+      success: 'color.success.border',
+      info: 'color.info.border',
+      focus: 'color.border.focus',
+    },
+    primary: {
+      solid: 'color.control.primary.bg',
+      contrast: 'color.control.primary.fgContrast',
+      fg: 'color.control.primary.fg',
+      muted: 'color.brand.softHover',
+      subtle: 'color.brand.soft',
+      emphasized: 'color.brand.softActive',
+      border: 'color.brand.border',
+      focusRing: 'color.border.focus',
+    },
+    secondary: {
+      solid: 'color.control.secondary.bg',
+      contrast: 'color.control.secondary.fgContrast',
+      fg: 'color.control.secondary.fg',
+      muted: 'color.control.secondary.bgActive',
+      subtle: 'color.control.secondary.bgHover',
+      emphasized: 'color.control.secondary.bgActive',
+      border: 'color.control.secondary.border',
+      focusRing: 'color.border.focus',
+    },
+  },
+
+  /** Status / identity palettes → DS `color.<family>` prefix (resolved via `paletteSlots`). */
+  palettes: {
+    brand: 'color.brand',
+    success: 'color.success',
+    warning: 'color.warning',
+    info: 'color.info',
+    danger: 'color.danger',
+    // Chakra built-in hue aliases
+    red: 'color.danger',
+    orange: 'color.brand',
+    yellow: 'color.warning',
+    green: 'color.success',
+    blue: 'color.info',
+  },
+
+  /**
+   * Mode-step palettes built from primitive ramps (not DS semantic families).
+   * `contrast` may be a fixed token path instead of a scale step.
+   */
+  scalePalettes: {
+    gray: {
+      scale: 'neutral',
+      light: {
+        solid: '800',
+        contrast: '0',
+        fg: '700',
+        muted: '100',
+        subtle: '50',
+        emphasized: '200',
+        border: '300',
+        focusRing: '500',
+      },
+      dark: {
+        solid: '200',
+        contrast: '950',
+        fg: '300',
+        muted: '800',
+        subtle: '900',
+        emphasized: '700',
+        border: '700',
+        focusRing: '400',
+      },
+    },
+    teal: {
+      scale: 'teal',
+      contrast: 'color.common.white',
+      light: {
+        solid: '600',
+        fg: '700',
+        muted: '100',
+        subtle: '50',
+        emphasized: '700',
+        border: '300',
+        focusRing: '500',
+      },
+      dark: {
+        solid: '600',
+        fg: '300',
+        muted: '900',
+        subtle: '950',
+        emphasized: '700',
+        border: '700',
+        focusRing: '400',
+      },
+    },
+    purple: {
+      scale: 'purple',
+      contrast: 'color.common.white',
+      light: {
+        solid: '600',
+        fg: '700',
+        muted: '100',
+        subtle: '50',
+        emphasized: '700',
+        border: '300',
+        focusRing: '500',
+      },
+      dark: {
+        solid: '600',
+        fg: '300',
+        muted: '900',
+        subtle: '950',
+        emphasized: '700',
+        border: '700',
+        focusRing: '400',
+      },
+    },
+  },
+
+  radii: {
+    l1: 'radius.xs',
+    l2: 'radius.sm',
+    l3: 'radius.md',
+  },
+
+  shadows: {
+    xs: 'shadow.xs',
+    sm: 'shadow.sm',
+    md: 'shadow.md',
+    lg: 'shadow.lg',
+    xl: 'shadow.xl',
+    '2xl': 'shadow.2xl',
+    inner: 'shadow.inner',
+    inset: 'shadow.inset',
   },
 } as const;
 
@@ -198,183 +335,81 @@ const colorTokens = (tokens: FlatTokenTheme): ChakraTokenTree => ({
   white: token(colorToken(tokens, 'color.common.white')),
 });
 
-const chakraBaseSemanticColors = (tokens: FlatTokenTheme): ChakraTokenTree => ({
-  bg: {
-    DEFAULT: token(colorToken(tokens, 'color.surface.canvas')),
-    panel: token(colorToken(tokens, 'color.surface.panel')),
-    elevated: token(colorToken(tokens, 'color.surface.elevated')),
-    subtle: token(colorToken(tokens, 'color.surface.canvas')),
-    muted: token(colorToken(tokens, 'color.action.hover')),
-    emphasized: token(colorToken(tokens, 'color.action.focus')),
-    inverted: token(colorToken(tokens, 'color.surface.inverse')),
-    error: token(colorToken(tokens, 'color.danger.soft')),
-    warning: token(colorToken(tokens, 'color.warning.soft')),
-    success: token(colorToken(tokens, 'color.success.soft')),
-    info: token(colorToken(tokens, 'color.info.soft')),
-  },
-  fg: {
-    DEFAULT: token(colorToken(tokens, 'color.text.primary')),
-    muted: token(colorToken(tokens, 'color.text.muted')),
-    subtle: token(colorToken(tokens, 'color.text.secondary')),
-    inverted: token(colorToken(tokens, 'color.text.inverse')),
-    error: token(colorToken(tokens, 'color.danger.fg')),
-    warning: token(colorToken(tokens, 'color.warning.fg')),
-    success: token(colorToken(tokens, 'color.success.fg')),
-    info: token(colorToken(tokens, 'color.info.fg')),
-  },
-  border: {
-    DEFAULT: token(colorToken(tokens, 'color.border.default')),
-    muted: token(colorToken(tokens, 'color.border.subtle')),
-    subtle: token(colorToken(tokens, 'color.border.subtle')),
-    emphasized: token(colorToken(tokens, 'color.border.strong')),
-    inverted: token(colorToken(tokens, 'color.border.strong')),
-    error: token(colorToken(tokens, 'color.danger.border')),
-    warning: token(colorToken(tokens, 'color.warning.border')),
-    success: token(colorToken(tokens, 'color.success.border')),
-    info: token(colorToken(tokens, 'color.info.border')),
-    focus: token(colorToken(tokens, 'color.border.focus')),
-  },
-});
-
-const chakraPaletteSemanticRoles = (
+const mapTokenPaths = (
   tokens: FlatTokenTheme,
-  prefix:
-    | (typeof DESIGN_SYSTEM_COLOR_GROUPS)[keyof typeof DESIGN_SYSTEM_COLOR_GROUPS]
-    | (typeof CHAKRA_PALETTE_ALIASES)[keyof typeof CHAKRA_PALETTE_ALIASES],
+  paths: Record<string, string>,
+  resolve: (tokens: FlatTokenTheme, path: string) => string = colorToken,
 ): ChakraTokenTree =>
   Object.fromEntries(
-    Object.entries(CHAKRA_COLOR_ROLE_MAP).map(([chakraRole, sourceRole]) => [
-      chakraRole,
-      token(colorToken(tokens, `${prefix}.${sourceRole}`)),
-    ]),
+    Object.entries(paths).map(([key, path]) => [key, token(resolve(tokens, path))]),
   );
 
-const chakraControlSemanticColors = (
+const mapNestedTokenPaths = (
   tokens: FlatTokenTheme,
-  role: 'primary' | 'secondary',
+  groups: Record<string, Record<string, string>>,
 ): ChakraTokenTree =>
   Object.fromEntries(
-    Object.entries(CHAKRA_CONTROL_TOKEN_MAP[role]).map(([chakraRole, sourceToken]) => [
-      chakraRole,
-      token(colorToken(tokens, sourceToken)),
-    ]),
+    Object.entries(groups).map(([group, paths]) => [group, mapTokenPaths(tokens, paths)]),
   );
 
-const chakraGraySemanticColors = (theme: ThemeName, tokens: FlatTokenTheme): ChakraTokenTree => {
-  const roles =
-    themeMode(theme) === 'dark'
-      ? {
-          solid: '200',
-          contrast: '950',
-          fg: '300',
-          muted: '800',
-          subtle: '900',
-          emphasized: '700',
-          border: '700',
-          focusRing: '400',
-        }
-      : {
-          solid: '800',
-          contrast: '0',
-          fg: '700',
-          muted: '100',
-          subtle: '50',
-          emphasized: '200',
-          border: '300',
-          focusRing: '500',
-        };
-
-  return Object.fromEntries(
-    Object.entries(roles).map(([role, step]) => [
-      role,
-      token(colorToken(tokens, `color.neutral.${step}`)),
-    ]),
-  );
-};
-
-const chakraPrimitiveSemanticColors = (
-  theme: ThemeName,
-  tokens: FlatTokenTheme,
-  scale: 'purple' | 'teal',
-): ChakraTokenTree => {
-  const roles =
-    themeMode(theme) === 'dark'
-      ? {
-          solid: '600',
-          fg: '300',
-          muted: '900',
-          subtle: '950',
-          emphasized: '700',
-          border: '700',
-          focusRing: '400',
-        }
-      : {
-          solid: '600',
-          fg: '700',
-          muted: '100',
-          subtle: '50',
-          emphasized: '700',
-          border: '300',
-          focusRing: '500',
-        };
-
-  return {
-    ...Object.fromEntries(
-      Object.entries(roles).map(([role, step]) => [
-        role,
-        token(colorToken(tokens, `color.${scale}.${step}`)),
+const paletteFromPrefix = (tokens: FlatTokenTheme, prefix: string): ChakraTokenTree =>
+  mapTokenPaths(
+    tokens,
+    Object.fromEntries(
+      Object.entries(CHAKRA_SEMANTIC_MAP.paletteSlots).map(([chakraSlot, dsSuffix]) => [
+        chakraSlot,
+        `${prefix}.${dsSuffix}`,
       ]),
     ),
-    contrast: token(colorToken(tokens, 'color.common.white')),
+  );
+
+const scalePaletteColors = (
+  theme: ThemeName,
+  tokens: FlatTokenTheme,
+  name: keyof typeof CHAKRA_SEMANTIC_MAP.scalePalettes,
+): ChakraTokenTree => {
+  const recipe = CHAKRA_SEMANTIC_MAP.scalePalettes[name];
+  const steps = themeMode(theme) === 'dark' ? recipe.dark : recipe.light;
+  const fromSteps = mapTokenPaths(
+    tokens,
+    Object.fromEntries(
+      Object.entries(steps).map(([slot, step]) => [slot, `color.${recipe.scale}.${step}`]),
+    ),
+  );
+
+  if (!('contrast' in recipe)) {
+    return fromSteps;
+  }
+
+  return {
+    ...fromSteps,
+    contrast: token(colorToken(tokens, recipe.contrast)),
   };
 };
 
-const chakraPaletteAliasSemanticColors = (
-  theme: ThemeName,
-  tokens: FlatTokenTheme,
-): ChakraTokenTree => ({
-  gray: chakraGraySemanticColors(theme, tokens),
-  ...Object.fromEntries(
-    Object.entries(CHAKRA_PALETTE_ALIASES).map(([group, prefix]) => [
-      group,
-      chakraPaletteSemanticRoles(tokens, prefix),
-    ]),
-  ),
-  teal: chakraPrimitiveSemanticColors(theme, tokens, 'teal'),
-  purple: chakraPrimitiveSemanticColors(theme, tokens, 'purple'),
-});
-
 const semanticColorTokens = (theme: ThemeName, tokens: FlatTokenTheme): ChakraTokenTree =>
   ({
-    ...chakraBaseSemanticColors(tokens),
-    ...chakraPaletteAliasSemanticColors(theme, tokens),
-    primary: chakraControlSemanticColors(tokens, 'primary'),
-    secondary: chakraControlSemanticColors(tokens, 'secondary'),
+    ...mapNestedTokenPaths(tokens, CHAKRA_SEMANTIC_MAP.colors),
     ...Object.fromEntries(
-      Object.entries(DESIGN_SYSTEM_COLOR_GROUPS).map(([group, prefix]) => [
-        group,
-        chakraPaletteSemanticRoles(tokens, prefix),
+      Object.entries(CHAKRA_SEMANTIC_MAP.palettes).map(([name, prefix]) => [
+        name,
+        paletteFromPrefix(tokens, prefix),
       ]),
+    ),
+    ...Object.fromEntries(
+      (
+        Object.keys(CHAKRA_SEMANTIC_MAP.scalePalettes) as Array<
+          keyof typeof CHAKRA_SEMANTIC_MAP.scalePalettes
+        >
+      ).map((name) => [name, scalePaletteColors(theme, tokens, name)]),
     ),
   }) as ChakraTokenTree;
 
-const semanticRadiusTokens = (tokens: FlatTokenTheme): ChakraTokenTree => ({
-  l1: token(dimensionCssToken(tokens, 'radius.xs')),
-  l2: token(dimensionCssToken(tokens, 'radius.sm')),
-  l3: token(dimensionCssToken(tokens, 'radius.md')),
-});
+const semanticRadiusTokens = (tokens: FlatTokenTheme): ChakraTokenTree =>
+  mapTokenPaths(tokens, CHAKRA_SEMANTIC_MAP.radii, dimensionCssToken);
 
-const semanticShadowTokens = (tokens: FlatTokenTheme): ChakraTokenTree => ({
-  xs: token(shadowToken(tokens, 'shadow.xs')),
-  sm: token(shadowToken(tokens, 'shadow.sm')),
-  md: token(shadowToken(tokens, 'shadow.md')),
-  lg: token(shadowToken(tokens, 'shadow.lg')),
-  xl: token(shadowToken(tokens, 'shadow.xl')),
-  '2xl': token(shadowToken(tokens, 'shadow.2xl')),
-  inner: token(shadowToken(tokens, 'shadow.inner')),
-  inset: token(shadowToken(tokens, 'shadow.inset')),
-});
-
+const semanticShadowTokens = (tokens: FlatTokenTheme): ChakraTokenTree =>
+  mapTokenPaths(tokens, CHAKRA_SEMANTIC_MAP.shadows, shadowToken);
 export const buildChakraTheme = (theme: ThemeName, tokens: FlatTokenTheme): ChakraThemeConfig => ({
   conditions: {
     dark: CHAKRA_DARK_CONDITION,

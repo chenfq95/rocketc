@@ -4,6 +4,7 @@
 @import '../dist/css/sun.dark.css' layer(rds);
 
 @import './styles/base.css';
+@import './styles/color-swatch.css';
 @import './styles/plain-html.css';
 @import './styles/primitive.css';
 @import './styles/responsive.css';

@@ -26,23 +26,23 @@
       "$type": "number"
     },
     "action": {
-      "hover": {
+      "bgHover": {
         "$value": "{opacity.4}",
         "$type": "number"
       },
-      "selected": {
+      "bgSelected": {
         "$value": "{opacity.8}",
         "$type": "number"
       },
-      "disabled": {
+      "fgDisabled": {
         "$value": "{opacity.38}",
         "$type": "number"
       },
-      "focus": {
+      "bgFocus": {
         "$value": "{opacity.12}",
         "$type": "number"
       },
-      "activated": {
+      "bgActivated": {
         "$value": "{opacity.12}",
         "$type": "number"
       }

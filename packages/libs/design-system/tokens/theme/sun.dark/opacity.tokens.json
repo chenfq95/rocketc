@@ -2,15 +2,15 @@
   "$schema": "https://www.designtokens.org/schemas/2025.10/format.json",
   "opacity": {
     "action": {
-      "hover": {
+      "bgHover": {
         "$value": "{opacity.8}",
         "$type": "number"
       },
-      "selected": {
+      "bgSelected": {
         "$value": "{opacity.12}",
         "$type": "number"
       },
-      "activated": {
+      "bgActivated": {
         "$value": "{opacity.24}",
         "$type": "number"
       }

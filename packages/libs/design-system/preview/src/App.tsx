@@ -109,7 +109,7 @@ export function App() {
         </section>
 
         <section className={`tab-panel${activeTab === 'mui' ? ' is-active' : ''}`}>
-          <MuiPanel />
+          <MuiPanel themeName={themeName} />
         </section>
 
         <section className={`tab-panel${activeTab === 'chakra' ? ' is-active' : ''}`}>

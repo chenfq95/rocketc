@@ -235,6 +235,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 Notes / 说明：
 
 - Semantic color roles become Chakra semantic tokens / palettes / 语义色成为 Chakra 语义 Token / 色板
+- Controls: `colorPalette="primary|secondary"` ← `control.primary|secondary` / 控件用 primary/secondary
+- Identity accents: `colorPalette="brand"` ← `brand.*` / 身份强调用 brand
 - Text styles map to typography roles / 文本样式映射字阶角色
 - Baseline styles apply through generated `globalCss` / 基线经生成的 `globalCss` 生效
 - Prefer semantic token names in product code over library color aliases / 产品代码优先语义名，而非库色别名

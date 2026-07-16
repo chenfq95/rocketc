@@ -17,15 +17,16 @@
       "subtle": { "$value": "{color.neutral.800}", "$type": "color" },
       "default": { "$value": "{color.neutral.700}", "$type": "color" },
       "strong": { "$value": "{color.neutral.500}", "$type": "color" },
-      "focus": { "$value": "{color.blue.600}", "$type": "color" }
+      "focus": { "$value": "{color.neutral.400}", "$type": "color" }
     },
     "action": {
-      "active": { "$value": "{color.text.primary}", "$type": "color" },
-      "hover": { "$value": "{color.neutral.900}", "$type": "color" },
-      "selected": { "$value": "{color.neutral.800}", "$type": "color" },
-      "disabled": { "$value": "{color.text.muted}", "$type": "color" },
-      "disabledBackground": { "$value": "{color.neutral.900}", "$type": "color" },
-      "focus": { "$value": "{color.blue.950}", "$type": "color" }
+      "fg": { "$value": "{color.text.primary}", "$type": "color" },
+      "fgDisabled": { "$value": "{color.text.muted}", "$type": "color" },
+      "bgHover": { "$value": "{color.neutral.900}", "$type": "color" },
+      "bgActive": { "$value": "{color.neutral.800}", "$type": "color" },
+      "bgSelected": { "$value": "{color.neutral.800}", "$type": "color" },
+      "bgDisabled": { "$value": "{color.neutral.900}", "$type": "color" },
+      "bgFocus": { "$value": "{color.neutral.800}", "$type": "color" }
     },
     "control": {
       "primary": {
@@ -35,9 +36,6 @@
         "fgContrast": { "$value": "{color.neutral.950}", "$type": "color" },
         "border": { "$value": "{color.neutral.50}", "$type": "color" },
         "borderHover": { "$value": "{color.neutral.200}", "$type": "color" }
-      },
-      "secondary": {
-        "bgActive": { "$value": "{color.neutral.800}", "$type": "color" }
       }
     },
     "brand": {

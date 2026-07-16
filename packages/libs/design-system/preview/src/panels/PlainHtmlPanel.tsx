@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react';
 
+import { ColorSwatch } from '../ColorSwatch';
 import {
   colorRoles,
   elevationSteps,
@@ -13,7 +14,7 @@ const plainButtonPalettes = [
   {
     label: 'Default',
     vars: {
-      '--button-soft': 'var(--rds-color-action-hover)',
+      '--button-soft': 'var(--rds-color-action-bg-hover)',
       '--button-border': 'var(--rds-color-border-default)',
       '--button-text': 'var(--rds-color-text-primary)',
       '--button-solid': 'var(--rds-color-text-primary)',
@@ -109,24 +110,22 @@ export function PlainHtmlPanel({ themeName }: { themeName: DesignThemeName }) {
           Color is assigned by role first. Brand carries identity, control roles define interactive
           recipes, and status colors are reserved for communication and feedback.
         </p>
-        <div className="overview-swatches">
-          {colorRoles.map(([label, token, color], index) => (
-            <div
-              className={[
-                startsTokenGroup(colorRoles, index) ? 'starts-color-group' : undefined,
-                token === 'surface.panel' ? 'is-panel' : undefined,
-                token === 'surface.elevated' ? 'is-elevated' : undefined,
-              ]
-                .filter(Boolean)
-                .join(' ')}
+        <div className="color-swatch-grid" style={{ marginTop: 'var(--rds-space-3)' }}>
+          {colorRoles.map(([, token, color], index) => (
+            <ColorSwatch
+              background={color}
+              className={
+                token === 'surface.panel'
+                  ? 'is-panel'
+                  : token === 'surface.elevated'
+                    ? 'is-elevated'
+                    : undefined
+              }
               key={token}
-              style={{ '--swatch-color': color } as CSSProperties}
-            >
-              <span />
-              <strong>{label}</strong>
-              <code>{token}</code>
-              <code className="primitive-source">{semanticColorSource(themeName, token)}</code>
-            </div>
+              mapping={semanticColorSource(themeName, token)}
+              startsGroup={startsTokenGroup(colorRoles, index)}
+              token={token}
+            />
           ))}
         </div>
       </article>

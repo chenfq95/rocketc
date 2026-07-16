@@ -5,6 +5,87 @@
   padding-top: var(--rds-space-4);
 }
 
+.primitive-glossary-lede {
+  margin: 0 0 var(--rds-space-3);
+  color: var(--rds-color-text-secondary);
+  font-size: var(--rds-typography-body-small-font-size);
+  line-height: var(--rds-typography-body-small-line-height);
+}
+
+.primitive-glossary-lede code {
+  font-family: var(--rds-typography-code-font-family);
+  font-size: var(--rds-typography-caption-font-size);
+}
+
+.primitive-glossary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--rds-space-3);
+}
+
+.primitive-glossary-section {
+  min-width: 0;
+  border: var(--rds-border-sm) solid var(--rds-color-border-subtle);
+  border-radius: var(--rds-radius-md);
+  background: var(--rds-color-surface-elevated);
+  padding: var(--rds-space-3);
+}
+
+.primitive-glossary-section header {
+  margin-bottom: var(--rds-space-2);
+}
+
+.primitive-glossary-section h3 {
+  margin: 0 0 var(--rds-space-1);
+  font-size: var(--rds-typography-label-font-size);
+  font-weight: var(--rds-typography-label-font-weight);
+  letter-spacing: var(--rds-typography-label-letter-spacing);
+}
+
+.primitive-glossary-section header p {
+  margin: 0;
+  color: var(--rds-color-text-secondary);
+  font-size: var(--rds-typography-caption-font-size);
+  line-height: var(--rds-typography-caption-line-height);
+}
+
+.primitive-glossary-section dl {
+  display: grid;
+  gap: var(--rds-space-1-5, 6px);
+  margin: 0;
+}
+
+.primitive-glossary-section dl > div {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: var(--rds-space-2);
+  align-items: baseline;
+  padding-top: var(--rds-space-1);
+  border-top: var(--rds-border-sm) solid var(--rds-color-border-subtle);
+}
+
+.primitive-glossary-section dt {
+  margin: 0;
+  min-width: 0;
+}
+
+.primitive-glossary-section dt code {
+  display: block;
+  overflow: hidden;
+  color: var(--rds-color-text-primary);
+  font-family: var(--rds-typography-code-font-family);
+  font-size: var(--rds-typography-caption-font-size);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.primitive-glossary-section dd {
+  margin: 0;
+  color: var(--rds-color-text-secondary);
+  font-size: var(--rds-typography-caption-font-size);
+  line-height: var(--rds-typography-caption-line-height);
+}
+
 .primitive-panel {
   min-width: 0;
 }
@@ -51,49 +132,26 @@
   display: flex;
   align-items: end;
   justify-content: center;
-  height: 32px;
+  height: 40px;
   padding: var(--rds-space-1);
+  overflow: hidden;
   background: var(--swatch-color);
-  color: var(--rds-color-common-black);
   font-family: var(--rds-typography-code-font-family);
   font-size: var(--rds-typography-caption-font-size);
   font-weight: var(--rds-typography-weight-bold);
-}
-
-.primitive-scale span:nth-last-child(-n + 5) {
-  color: var(--rds-color-common-white);
-}
-
-.primitive-single-grid {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.primitive-single-grid span {
-  display: flex;
-  flex-direction: column;
-  gap: var(--rds-space-1);
-  justify-content: center;
-  min-height: var(--rds-space-12);
-  border: var(--rds-border-sm) solid var(--rds-color-border-subtle);
-  border-radius: var(--rds-radius-md);
-  background: var(--swatch-color);
-  padding: var(--rds-space-2);
-  color: var(--rds-color-common-black);
-}
-
-.primitive-single-grid span:first-child {
-  color: var(--rds-color-common-white);
-}
-
-.primitive-single-grid code,
-.primitive-single-grid em {
-  font-family: var(--rds-typography-code-font-family);
-  font-size: var(--rds-typography-caption-font-size);
-  font-style: normal;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .primitive-measure-grid {
   grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.primitive-dimension-stack {
+  display: grid;
+  gap: var(--rds-space-3);
+  margin-top: var(--rds-space-3);
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .measure-list {
@@ -102,6 +160,131 @@
   border-radius: var(--rds-radius-md);
   background: var(--rds-color-surface-elevated);
   padding: var(--rds-space-3);
+}
+
+.measure-list--inline {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  gap: var(--rds-space-3);
+  align-items: start;
+}
+
+.measure-list--inline > h3 {
+  margin: 0;
+  padding-top: var(--rds-space-1);
+}
+
+.measure-list__track {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--rds-space-2);
+  min-width: 0;
+  align-items: stretch;
+}
+
+.measure-list--inline .measure-item,
+.measure-list--inline .size-row,
+.measure-list--inline .dimension-chip {
+  margin-top: 0;
+  flex: 0 0 auto;
+}
+
+.measure-list--inline .measure-item {
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: auto auto auto;
+  gap: var(--rds-space-1);
+  justify-items: start;
+  min-width: 72px;
+  min-height: 0;
+  padding: var(--rds-space-2);
+  border: var(--rds-border-sm) solid var(--rds-color-border-subtle);
+  border-radius: var(--rds-radius-sm);
+  background: var(--rds-color-surface-panel);
+}
+
+.measure-list--inline .measure-item span {
+  width: min(var(--measure), 64px);
+}
+
+.measure-list--inline .measure-item em {
+  text-align: left;
+}
+
+.measure-list--inline .size-row {
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: auto auto auto;
+  gap: var(--rds-space-1);
+  justify-items: center;
+  min-width: 64px;
+  min-height: 0;
+  padding: var(--rds-space-2);
+  border: var(--rds-border-sm) solid var(--rds-color-border-subtle);
+  border-radius: var(--rds-radius-sm);
+  background: var(--rds-color-surface-panel);
+}
+
+.measure-list--inline .radius-grid,
+.measure-list--inline .shadow-grid,
+.measure-list--inline .opacity-list,
+.measure-list--inline .blur-grid,
+.measure-list--inline .motion-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--rds-space-2);
+  margin-top: 0;
+  grid-template-columns: unset;
+}
+
+.measure-list--inline .radius-grid span,
+.measure-list--inline .shadow-grid span,
+.measure-list--inline .opacity-list span,
+.measure-list--inline .blur-grid span {
+  min-width: 64px;
+  min-height: var(--rds-space-12);
+  padding: var(--rds-space-2);
+  flex: 0 0 auto;
+}
+
+.measure-list--inline .motion-list > div {
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: auto auto;
+  gap: var(--rds-space-1);
+  justify-items: start;
+  min-width: 96px;
+  padding: var(--rds-space-2);
+  border: var(--rds-border-sm) solid var(--rds-color-border-subtle);
+  border-radius: var(--rds-radius-sm);
+  background: var(--rds-color-surface-panel);
+  flex: 0 0 auto;
+}
+
+.measure-list--inline .motion-list span {
+  width: min(var(--motion-width), 100%);
+}
+
+.dimension-chip {
+  display: grid;
+  gap: var(--rds-space-1);
+  justify-items: start;
+  min-width: 88px;
+  padding: var(--rds-space-2);
+  border: var(--rds-border-sm) solid var(--rds-color-border-subtle);
+  border-radius: var(--rds-radius-sm);
+  background: var(--rds-color-surface-panel);
+}
+
+.dimension-chip code,
+.dimension-chip em {
+  font-family: var(--rds-typography-code-font-family);
+  font-size: var(--rds-typography-caption-font-size);
+  font-style: normal;
+}
+
+.dimension-chip em {
+  color: var(--rds-color-text-muted);
 }
 
 .measure-item {
@@ -118,7 +301,7 @@
   width: min(var(--measure), 100%);
   height: var(--rds-space-2);
   border-radius: var(--rds-radius-full);
-  background: var(--rds-color-brand-solid);
+  background: var(--rds-color-text-primary);
 }
 
 .measure-item code,
@@ -163,7 +346,7 @@
   width: var(--box-size);
   height: var(--box-size);
   border-radius: var(--rds-radius-sm);
-  background: var(--rds-color-brand-solid);
+  background: var(--rds-color-text-primary);
 }
 
 .size-row em,
@@ -289,9 +472,9 @@
   display: block;
   width: 100%;
   height: var(--rds-space-5);
-  border: var(--border-width) solid var(--rds-color-brand-solid);
+  border: var(--border-width) solid var(--rds-color-text-primary);
   border-radius: var(--rds-radius-sm);
-  background: var(--rds-color-brand-soft);
+  background: var(--rds-color-surface-canvas);
 }
 
 .shadow-grid span {
@@ -304,7 +487,11 @@
 .opacity-list span {
   min-height: var(--rds-space-12);
   border-radius: var(--rds-radius-md);
-  background: rgb(249 115 22 / var(--alpha));
+  background: color-mix(
+    in srgb,
+    var(--rds-color-text-primary) calc(100% * var(--alpha)),
+    transparent
+  );
   color: var(--rds-color-text-primary);
 }
 

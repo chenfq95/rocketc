@@ -102,7 +102,7 @@
 }
 
 .theme-family-button.is-active {
-  background: var(--rds-color-action-selected);
+  background: var(--rds-color-action-bg-selected);
   color: var(--rds-color-text-primary);
 }
 

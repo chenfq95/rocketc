@@ -47,38 +47,34 @@
         "$type": "color"
       },
       "focus": {
-        "$value": "{color.neutral.500}",
+        "$value": "{color.neutral.400}",
         "$type": "color"
       }
     },
     "action": {
-      "active": {
+      "fg": {
         "$value": "{color.text.secondary}",
         "$type": "color"
       },
-      "hover": {
+      "bgHover": {
         "$value": "{color.neutral.800}",
         "$type": "color"
       },
-      "selected": {
+      "bgActive": {
+        "$value": "{color.neutral.700}",
+        "$type": "color"
+      },
+      "bgSelected": {
         "$value": "{color.brand.soft}",
         "$type": "color"
       },
-      "disabledBackground": {
+      "bgDisabled": {
         "$value": "{color.neutral.800}",
         "$type": "color"
       },
-      "focus": {
+      "bgFocus": {
         "$value": "{color.neutral.700}",
         "$type": "color"
-      }
-    },
-    "control": {
-      "secondary": {
-        "bgActive": {
-          "$value": "{color.neutral.700}",
-          "$type": "color"
-        }
       }
     },
     "brand": {
