@@ -1,13 +1,13 @@
 import type { CSSProperties } from 'react';
 
-export type PreviewTab = 'primitive' | 'plain-html' | 'mui' | 'chakra' | 'shadcn';
+export type PreviewTab = 'primitive' | 'web-components' | 'mui' | 'chakra' | 'shadcn';
 export type ThemeFamily = 'default' | 'sun';
 export type ThemeMode = 'light' | 'dark';
 export type DesignThemeName = `${ThemeFamily}.${ThemeMode}`;
 
 export const tabs: Array<{ label: string; value: PreviewTab }> = [
   { label: 'Primitive', value: 'primitive' },
-  { label: 'Plain HTML', value: 'plain-html' },
+  { label: 'Web Components', value: 'web-components' },
   { label: 'MUI', value: 'mui' },
   { label: 'Chakra', value: 'chakra' },
   { label: 'shadcn', value: 'shadcn' },

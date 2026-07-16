@@ -10,6 +10,14 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(import.meta.dirname, 'preview/src'),
+      '@rocketc/web-components/register': path.resolve(
+        import.meta.dirname,
+        '../web-components/src/register.ts',
+      ),
+      '@rocketc/web-components': path.resolve(
+        import.meta.dirname,
+        '../web-components/src/index.ts',
+      ),
     },
   },
 });

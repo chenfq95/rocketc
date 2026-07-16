@@ -10,9 +10,9 @@ import {
 } from '../../dist/mui';
 import { ChakraPanel } from './panels/ChakraPanel';
 import { MuiPanel } from './panels/MuiPanel';
-import { PlainHtmlPanel } from './panels/PlainHtmlPanel';
 import { PrimitivePanel } from './panels/PrimitivePanel';
 import { ShadcnPanel } from './panels/ShadcnPanel';
+import { WebComponentsPanel } from './panels/WebComponentsPanel';
 import {
   tabs,
   type DesignThemeName,
@@ -105,8 +105,8 @@ export function App() {
           <PrimitivePanel />
         </section>
 
-        <section className={`tab-panel${activeTab === 'plain-html' ? ' is-active' : ''}`}>
-          <PlainHtmlPanel themeName={themeName} />
+        <section className={`tab-panel${activeTab === 'web-components' ? ' is-active' : ''}`}>
+          <WebComponentsPanel themeName={themeName} />
         </section>
 
         <section className={`tab-panel${activeTab === 'mui' ? ' is-active' : ''}`}>

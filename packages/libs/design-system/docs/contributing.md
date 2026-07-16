@@ -191,8 +191,8 @@ Do not edit `dist/` by hand. / 不要手改 `dist/`。
 
 - [ ] All four themes reviewed in preview (`default|sun` × `light|dark`)  
        预览中核对全部四套主题
-- [ ] Plain HTML elevation ladder still reads as three clear steps  
-       纯 HTML 纵深阶梯仍清晰可读为三级
+- [ ] Web Components elevation ladder still reads as three clear steps  
+       Web Components 页纵深阶梯仍清晰可读为三级
 - [ ] Brand identity comes only from the active family (`default` black / `sun` orange)—no ad-hoc third brand hue  
        品牌身份只来自当前族（`default` 黑 / `sun` 橙）——不要临时第三品牌色
 - [ ] Secondary chrome uses neutral semantic roles; info remains informational  
