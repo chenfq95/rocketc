@@ -12,7 +12,9 @@ Load a theme stylesheet, then register components:
 
 ```ts
 import '@rocketc/design-system/css/default.light.css';
-import '@rocketc/web-components/register';
+import { registerRocketcWebComponents } from '@rocketc/web-components';
+
+await registerRocketcWebComponents();
 ```
 
 ```html

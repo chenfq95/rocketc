@@ -388,11 +388,10 @@ bun run dev
 
 Tabs / 页签：
 
-1. **Primitive / 原始** — raw scales / 原始刻度
-2. **Web Components** — semantic recipes + `@rocketc/web-components` / 语义配方与 Web Components
-3. **MUI** — adapter stress surface / 适配器压测面
-4. **Chakra** — adapter stress surface / 适配器压测面
-5. **shadcn** — Tailwind adapter stress surface / Tailwind 适配器压测面
+1. **Design System** — Primitive / Semantic / Component / Explanation
+2. **MUI** — adapter stress surface / 适配器压测面
+3. **Chakra** — adapter stress surface / 适配器压测面
+4. **shadcn** — Tailwind adapter stress surface / Tailwind 适配器压测面
 
 Use the family control and theme switch to verify all four variants (`default|sun` × `light|dark`).
 

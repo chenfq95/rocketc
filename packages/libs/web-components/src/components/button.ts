@@ -1,7 +1,6 @@
 import { LitElement, css, html, nothing, type PropertyValues } from 'lit';
 
-import { defineElement } from '../internal/define';
-import { forwardAttributes } from '../internal/forward-attrs';
+import { ControlRelayController } from '../internal/control-relay';
 import { hostStyles } from '../internal/shared-styles';
 
 export type RdsButtonVariant = 'solid' | 'subtle' | 'outline' | 'ghost' | 'destructive';
@@ -13,7 +12,7 @@ export type RdsButtonSize = 'sm' | 'md' | 'lg';
  *
  * Host API props (`variant` / `size` / `loading`) stay on the host.
  * Native button props + `aria-*` / `data-*` / `title` are forwarded to the
- * inner `<button>`.
+ * inner `<button>`; inner control events are re-dispatched from the host.
  *
  * @element rds-button
  * @slot - Button label / content
@@ -72,21 +71,21 @@ export class RdsButton extends LitElement {
       }
       
       :host([size='sm']) button {
-        min-height: var(--rds-space-8);
-        padding: 0 var(--rds-space-3);
+        min-height: var(--rds-space-7);
+        padding: 0 var(--rds-space-2);
         font-size: var(--rds-typography-caption-font-size);
       }
       
       :host([size='md']) button,
       :host(:not([size])) button {
-        min-height: var(--rds-space-9);
-        padding: 0 var(--rds-space-4);
+        min-height: var(--rds-space-8);
+        padding: 0 var(--rds-space-3);
         font-size: var(--rds-typography-label-font-size);
       }
       
       :host([size='lg']) button {
-        min-height: var(--rds-space-10);
-        padding: 0 var(--rds-space-8);
+        min-height: var(--rds-space-9);
+        padding: 0 var(--rds-space-4);
         font-size: var(--rds-typography-body-font-size);
       }
       
@@ -168,7 +167,6 @@ export class RdsButton extends LitElement {
   declare autofocus: boolean;
 
   #button: HTMLButtonElement | null = null;
-  #attrObserver?: MutationObserver;
 
   constructor() {
     super();
@@ -181,36 +179,23 @@ export class RdsButton extends LitElement {
     this.disabled = false;
     this.loading = false;
     this.autofocus = false;
-  }
 
-  override connectedCallback(): void {
-    super.connectedCallback();
-    this.#attrObserver ??= new MutationObserver(() => this.#syncForwardedAttrs());
-    this.#attrObserver.observe(this, { attributes: true });
-  }
-
-  override disconnectedCallback(): void {
-    this.#attrObserver?.disconnect();
-    super.disconnectedCallback();
+    this.addController(
+      new ControlRelayController(this, {
+        target: () => this.#button ?? this.renderRoot.querySelector('button'),
+        attrs: { include: ['name', 'value', 'form', 'type'] },
+      }),
+    );
   }
 
   protected override firstUpdated(): void {
     this.#button = this.renderRoot.querySelector('button');
-    this.#syncForwardedAttrs();
   }
 
   protected override updated(changed: PropertyValues<this>): void {
     if (changed.has('disabled') || changed.has('loading')) {
       this.setAttribute('aria-busy', this.loading ? 'true' : 'false');
     }
-    this.#syncForwardedAttrs();
-  }
-
-  #syncForwardedAttrs(): void {
-    if (!this.#button) return;
-    forwardAttributes(this, this.#button, {
-      include: ['name', 'value', 'form', 'type'],
-    });
   }
 
   override render() {
@@ -235,8 +220,6 @@ export class RdsButton extends LitElement {
     `;
   }
 }
-
-defineElement('rds-button', RdsButton);
 
 declare global {
   interface HTMLElementTagNameMap {

@@ -15,6 +15,7 @@ declare module 'react' {
         type?: string;
         disabled?: boolean;
         loading?: boolean;
+        onClick?: (event: Event) => void;
       };
       'rds-card': RdsProps;
       'rds-input': RdsProps & {
@@ -34,6 +35,7 @@ declare module 'react' {
         checked?: boolean;
         disabled?: boolean;
         name?: string;
+        onChange?: (event: Event) => void;
       };
     }
   }

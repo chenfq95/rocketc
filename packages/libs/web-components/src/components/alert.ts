@@ -1,6 +1,5 @@
 import { LitElement, css, html } from 'lit';
 
-import { defineElement } from '../internal/define';
 import { hostStyles } from '../internal/shared-styles';
 
 export type RdsAlertVariant = 'default' | 'destructive' | 'success' | 'warning' | 'info';
@@ -96,8 +95,6 @@ export class RdsAlert extends LitElement {
     `;
   }
 }
-
-defineElement('rds-alert', RdsAlert);
 
 declare global {
   interface HTMLElementTagNameMap {

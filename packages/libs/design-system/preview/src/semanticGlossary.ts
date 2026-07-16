@@ -1,4 +1,4 @@
-/** Semantic token meanings shown in the Primitive preview (product-facing roles). */
+/** Semantic token meanings shown in the Design System preview (product-facing roles). */
 
 export type GlossaryEntry = {
   token: string;
@@ -167,8 +167,21 @@ export const semanticGlossarySections: GlossarySection[] = [
       { token: 'layout.toolbar.height', meaning: 'Toolbar height / 工具栏高度' },
       { token: 'layout.sidebar.width', meaning: 'Sidebar width / 侧栏宽度' },
       {
+        token: 'layout.sidebar.collapsedWidth',
+        meaning: 'Collapsed sidebar rail / 收起侧栏',
+      },
+      { token: 'layout.content.maxWidth', meaning: 'Content column cap / 内容栏上限' },
+      {
         token: 'zIndex.base → tooltip',
         meaning: 'base · raised · dropdown · sticky · overlay · modal · popover · toast · tooltip',
+      },
+      {
+        token: 'opacity.disabled|hover|pressed|muted|overlay|scrim',
+        meaning: 'State and backdrop alphas / 状态与遮罩透明度',
+      },
+      {
+        token: 'opacity.action.*',
+        meaning: 'Fine-grained action overlays / 细粒度 action 叠色',
       },
     ],
   },

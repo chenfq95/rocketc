@@ -15,7 +15,6 @@ export default defineConfig({
     lib: {
       entry: {
         index: 'src/index.ts',
-        register: 'src/register.ts',
       },
       formats: ['es'],
     },

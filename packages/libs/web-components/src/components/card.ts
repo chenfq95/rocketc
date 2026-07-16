@@ -1,6 +1,5 @@
 import { LitElement, css, html } from 'lit';
 
-import { defineElement } from '../internal/define';
 import { hostStyles } from '../internal/shared-styles';
 
 /**
@@ -48,8 +47,6 @@ export class RdsCard extends LitElement {
     `;
   }
 }
-
-defineElement('rds-card', RdsCard);
 
 declare global {
   interface HTMLElementTagNameMap {

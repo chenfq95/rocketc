@@ -1,6 +1,5 @@
 import { LitElement, css, html } from 'lit';
 
-import { defineElement } from '../internal/define';
 import { hostStyles } from '../internal/shared-styles';
 
 export type RdsBadgeVariant =
@@ -95,8 +94,6 @@ export class RdsBadge extends LitElement {
     `;
   }
 }
-
-defineElement('rds-badge', RdsBadge);
 
 declare global {
   interface HTMLElementTagNameMap {

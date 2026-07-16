@@ -1,16 +1,25 @@
 import { LitElement, css, html } from 'lit';
 
-import { defineElement } from '../internal/define';
+import { ControlRelayController } from '../internal/control-relay';
 import { hostStyles } from '../internal/shared-styles';
 
 /**
  * Single-line text field bound to design-system form chrome tokens.
  *
+ * Pair with `rds-label` via matching light-DOM `id` / `for`.
+ * Host API props stay on the host; `aria-*` / `data-*` / `title` relay to
+ * the inner `<input>`. Interactive events relay on demand.
+ *
  * @element rds-input
- * @fires input - Native input event (composed)
- * @fires change - Native change event (composed)
+ * @fires input - Native input event (composed / relayed)
+ * @fires change - Native change event (composed / relayed)
  */
 export class RdsInput extends LitElement {
+  static override shadowRootOptions: ShadowRootInit = {
+    ...LitElement.shadowRootOptions,
+    delegatesFocus: true,
+  };
+
   static override properties = {
     type: { type: String, reflect: true },
     name: { type: String, reflect: true },
@@ -72,6 +81,7 @@ export class RdsInput extends LitElement {
   declare required: boolean;
 
   #internals = this.attachInternals();
+  #input: HTMLInputElement | null = null;
 
   constructor() {
     super();
@@ -82,17 +92,25 @@ export class RdsInput extends LitElement {
     this.disabled = false;
     this.readonly = false;
     this.required = false;
+
+    this.addController(
+      new ControlRelayController(this, {
+        target: () => this.#input ?? this.renderRoot.querySelector('input'),
+        attrs: {
+          hostOnly: ['type', 'name', 'value', 'placeholder', 'disabled', 'readonly', 'required'],
+        },
+      }),
+    );
+  }
+
+  protected override firstUpdated(): void {
+    this.#input = this.renderRoot.querySelector('input');
   }
 
   #onInput(event: Event) {
     const target = event.target as HTMLInputElement;
     this.value = target.value;
     this.#internals.setFormValue(this.value);
-    this.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
-  }
-
-  #onChange() {
-    this.dispatchEvent(new Event('change', { bubbles: true, composed: true }));
   }
 
   override render() {
@@ -105,14 +123,11 @@ export class RdsInput extends LitElement {
         name=${this.name}
         placeholder=${this.placeholder}
         type=${this.type}
-        @change=${this.#onChange}
         @input=${this.#onInput}
       />
     `;
   }
 }
-
-defineElement('rds-input', RdsInput);
 
 declare global {
   interface HTMLElementTagNameMap {

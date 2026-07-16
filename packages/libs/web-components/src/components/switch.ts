@@ -1,15 +1,24 @@
 import { LitElement, css, html } from 'lit';
 
-import { defineElement } from '../internal/define';
+import { ControlRelayController } from '../internal/control-relay';
 import { hostStyles } from '../internal/shared-styles';
 
 /**
  * Binary toggle control.
  *
+ * Host API props (`checked` / `disabled` / `name`) stay on the host.
+ * `aria-*` / `data-*` / `title` are forwarded to the inner `<button>`;
+ * inner control events are re-dispatched from the host.
+ *
  * @element rds-switch
  * @fires change - Fired when checked state changes (`detail.checked`)
  */
 export class RdsSwitch extends LitElement {
+  static override shadowRootOptions: ShadowRootInit = {
+    ...LitElement.shadowRootOptions,
+    delegatesFocus: true,
+  };
+
   static override properties = {
     checked: { type: Boolean, reflect: true },
     disabled: { type: Boolean, reflect: true },
@@ -79,12 +88,24 @@ export class RdsSwitch extends LitElement {
   declare name: string;
 
   #internals = this.attachInternals();
+  #button: HTMLButtonElement | null = null;
 
   constructor() {
     super();
     this.checked = false;
     this.disabled = false;
     this.name = '';
+
+    this.addController(
+      new ControlRelayController(this, {
+        target: () => this.#button ?? this.renderRoot.querySelector('button'),
+        attrs: { hostOnly: ['checked', 'disabled', 'name', 'aria-checked'] },
+      }),
+    );
+  }
+
+  protected override firstUpdated(): void {
+    this.#button = this.renderRoot.querySelector('button');
   }
 
   #toggle() {
@@ -114,8 +135,6 @@ export class RdsSwitch extends LitElement {
     `;
   }
 }
-
-defineElement('rds-switch', RdsSwitch);
 
 declare global {
   interface HTMLElementTagNameMap {
