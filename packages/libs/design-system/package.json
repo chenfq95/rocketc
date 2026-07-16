@@ -83,13 +83,14 @@
     "./chakra/sun.light": {
       "types": "./dist/chakra/sun.light.d.ts",
       "import": "./dist/chakra/sun.light.js"
-    }
+    },
+    "./tailwind/theme.css": "./dist/tailwind/theme.css"
   },
   "scripts": {
     "build": "bun run build:tokens",
-    "build:preview": "vite build preview --outDir ../.vite-preview --emptyOutDir",
+    "build:preview": "vite build ./preview --outDir ../.vite-preview --emptyOutDir",
     "build:tokens": "bun scripts/build-tokens.ts",
-    "dev": "vite . --host 0.0.0.0",
+    "dev": "vite ./preview --host 0.0.0.0",
     "format": "oxfmt",
     "typecheck": "tsc -b"
   },
@@ -98,14 +99,30 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@mui/material": "^7.3.6",
+    "@radix-ui/react-checkbox": "^1.3.7",
+    "@radix-ui/react-dialog": "^1.1.19",
+    "@radix-ui/react-label": "^2.1.11",
+    "@radix-ui/react-select": "^2.3.3",
+    "@radix-ui/react-separator": "^1.1.11",
+    "@radix-ui/react-slot": "^1.3.0",
+    "@radix-ui/react-switch": "^1.3.3",
+    "@radix-ui/react-tabs": "^1.1.17",
+    "@tailwindcss/postcss": "^4.3.2",
+    "@tailwindcss/vite": "^4.3.2",
     "@types/bun": "^1.3.5",
+    "@types/node": "^26.1.1",
     "@types/react": "^18.3.27",
     "@types/react-dom": "^18.3.7",
     "@vitejs/plugin-react": "^5.1.1",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.24.0",
     "normalize.css": "^8.0.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "style-dictionary": "^5.5.0",
+    "tailwind-merge": "^3.6.0",
+    "tailwindcss": "^4.3.2",
     "typescript": "^5.9.3",
     "vite": "^7.3.0"
   },

@@ -1,6 +1,6 @@
 import type { CSSProperties } from 'react';
 
-export type PreviewTab = 'primitive' | 'plain-html' | 'mui' | 'chakra';
+export type PreviewTab = 'primitive' | 'plain-html' | 'mui' | 'chakra' | 'shadcn';
 export type ThemeFamily = 'default' | 'sun';
 export type ThemeMode = 'light' | 'dark';
 export type DesignThemeName = `${ThemeFamily}.${ThemeMode}`;
@@ -10,6 +10,7 @@ export const tabs: Array<{ label: string; value: PreviewTab }> = [
   { label: 'Plain HTML', value: 'plain-html' },
   { label: 'MUI', value: 'mui' },
   { label: 'Chakra', value: 'chakra' },
+  { label: 'shadcn', value: 'shadcn' },
 ];
 
 export const colorRoles = [

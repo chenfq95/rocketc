@@ -52,6 +52,11 @@
   gap: var(--rds-space-2);
 }
 
+/* Denser grid for short shadcn role names (pairs read better at 6 cols). */
+.color-swatch-grid--shadcn {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
 /* Full-row breaker so a new token group always starts on the next line. */
 .color-swatch-grid__break {
   grid-column: 1 / -1;

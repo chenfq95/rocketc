@@ -12,6 +12,7 @@ import { ChakraPanel } from './panels/ChakraPanel';
 import { MuiPanel } from './panels/MuiPanel';
 import { PlainHtmlPanel } from './panels/PlainHtmlPanel';
 import { PrimitivePanel } from './panels/PrimitivePanel';
+import { ShadcnPanel } from './panels/ShadcnPanel';
 import {
   tabs,
   type DesignThemeName,
@@ -114,6 +115,10 @@ export function App() {
 
         <section className={`tab-panel${activeTab === 'chakra' ? ' is-active' : ''}`}>
           <ChakraPanel themeName={themeName} />
+        </section>
+
+        <section className={`tab-panel${activeTab === 'shadcn' ? ' is-active' : ''}`}>
+          <ShadcnPanel themeName={themeName} />
         </section>
       </main>
     </ThemeProvider>

@@ -6,8 +6,8 @@
 
 - Design principles for personal tool UI
 - DTCG design tokens (primitive → semantic → theme)
-- Compiled outputs: CSS variables, JS token maps, MUI themes, Chakra system configs
-- A multi-surface preview (primitives, plain HTML recipes, MUI, Chakra)
+- Compiled outputs: CSS variables, JS token maps, MUI themes, Chakra system configs, Tailwind / shadcn CSS bridges
+- A multi-surface preview (primitives, plain HTML recipes, MUI, Chakra, shadcn)
 
 It is the **source of truth for look and feel**, not a React/Vue/Svelte component kit.
 
@@ -15,21 +15,21 @@ It is the **source of truth for look and feel**, not a React/Vue/Svelte componen
 
 - 面向个人工具 UI 的设计原则
 - DTCG 设计 Token（原始 → 语义 → 主题）
-- 编译产物：CSS 变量、JS Token 映射、MUI 主题、Chakra 系统配置
-- 多表面预览（原始刻度、纯 HTML 配方、MUI、Chakra）
+- 编译产物：CSS 变量、JS Token 映射、MUI 主题、Chakra 系统配置、Tailwind / shadcn CSS 桥
+- 多表面预览（原始刻度、纯 HTML 配方、MUI、Chakra、shadcn）
 
 它是**观感的唯一事实来源**，不是 React / Vue / Svelte 组件库。
 
 ## What it is not / 它不是什么
 
 - Not a component library (buttons, inputs, tables live in adapters or app packages)
-- Not a Tailwind preset (yet)—principles allow it; this package does not ship one today
+- Not a component library for Tailwind/shadcn—only the CSS-variable theme bridge
 - Not a Figma library sync (tokens are code-first)
 
 `@rocketc/design-system` replaces the deprecated `@rocketc/react` package as Rocketc's visual contract. Use its tokens and framework adapters with the component library appropriate for each application.
 
 - 不是组件库（按钮、输入框、表格等留在适配器或应用包中）
-- 尚不是 Tailwind 预设——原则允许，但本包暂未提供
+- 不是 Tailwind/shadcn 组件库——只提供 CSS 变量主题桥
 - 不是 Figma 库同步（Token 以代码为先）
 
 `@rocketc/design-system` 取代已废弃的 `@rocketc/react`，作为 Rocketc 的视觉契约。各应用应搭配合适的组件库使用其 Token 与框架适配器。
@@ -60,8 +60,8 @@ Typical surfaces / 典型场景：
 
 1. **Recognizable / 可识别** — Brand family (`default` or `sun`) + hierarchy feel owned without noisy decoration.  
    品牌族（`default` 或 `sun`）加层级，足够有归属感，不靠嘈杂装饰。
-2. **Portable / 可移植** — One token source compiles to CSS, JS, MUI, and Chakra.  
-   同一套 Token 源编译到 CSS、JS、MUI、Chakra。
+2. **Portable / 可移植** — One token source compiles to CSS, JS, MUI, Chakra, and Tailwind.
+   同一套 Token 源编译到 CSS、JS、MUI、Chakra、Tailwind。
 3. **Semantic-first / 语义优先** — Apps consume roles (`color.control.primary.bg`, `shadow.raised`), not raw neutrals or oranges.  
    应用消费角色（如 `color.control.primary.bg`、`shadow.raised`），而不是原始灰阶或橙色。
 4. **Comparable / 可对比** — Preview makes brand family, light/dark, and framework parity easy to check.  

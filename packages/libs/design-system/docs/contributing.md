@@ -197,8 +197,8 @@ Do not edit `dist/` by hand. / 不要手改 `dist/`。
        品牌身份只来自当前族（`default` 黑 / `sun` 橙）——不要临时第三品牌色
 - [ ] Secondary chrome uses neutral semantic roles; info remains informational  
        次要 chrome 使用中性语义角色；info 保持信息性
-- [ ] MUI and Chakra tabs do not regress obvious theme wiring  
-       MUI / Chakra 页没有明显主题接线回退
+- [ ] MUI, Chakra, and shadcn tabs do not regress obvious theme wiring
+      MUI / Chakra / shadcn 页没有明显主题接线回退
 - [ ] Docs updated (bilingual) if you introduce a new public role or change a contract  
        若新增公共角色或变更契约，同步更新中英文档
 
@@ -244,8 +244,8 @@ Do not edit `dist/` by hand. / 不要手改 `dist/`。
    增加 `<family>.light` / `<family>.dark` 覆盖集。
 2. Register the theme names in the build pipeline (`scripts/build-tokens`).  
    在构建流水线中注册主题名。
-3. Export CSS/JS/MUI/Chakra paths from `package.json`.  
-   在 `package.json` 导出 CSS/JS/MUI/Chakra 路径。
+3. Export CSS/JS/MUI/Chakra/Tailwind paths from `package.json`.
+   在 `package.json` 导出 CSS/JS/MUI/Chakra/Tailwind 路径。
 4. Extend preview family controls and bilingual docs.  
    扩展预览品牌族控件与中英文档。
 
@@ -253,7 +253,7 @@ Do not edit `dist/` by hand. / 不要手改 `dist/`。
 
 1. Keep token JSON free of framework keys.  
    Token JSON 不写框架键。
-2. Map in `scripts/build-tokens/mui.ts` or `chakra.ts` (or a new adapter module).  
+2. Map in `scripts/build-tokens/mui.ts`, `chakra.ts`, or `tailwind.ts` (or a new adapter module).  
    在 `mui.ts` / `chakra.ts`（或新适配模块）中映射。
 3. Export through `package.json` `exports`.  
    经 `package.json` `exports` 导出。

@@ -1,0 +1,15 @@
+/*
+ * Isolated Tailwind entry for the shadcn preview tab.
+ * Keep only @imports here — PostCSS may emit @source after utilities expand.
+ *
+ * Layer order:
+ * - `base` = Tailwind preflight
+ * - `reset` = Chakra/Emotion (must sit above `base` so Chakra chrome is not wiped)
+ * - `utilities` = Tailwind utilities (must sit above `reset` so shadcn controls win)
+ */
+@layer theme, base, reset, components, utilities;
+
+@import 'tailwindcss/theme.css' layer(theme);
+@import '../../dist/tailwind/theme.css';
+@import 'tailwindcss/preflight.css' layer(base);
+@import 'tailwindcss/utilities.css' layer(utilities) source('../src');

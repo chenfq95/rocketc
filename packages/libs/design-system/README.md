@@ -17,7 +17,7 @@ It is not a React, Vue, or Tailwind component library. It defines the visual lan
 | ---------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
 | [Introduction & Principles / 介绍与原则](./docs/introduction.md) | Scope, goals, and design rules / 定位、目标与设计原则                               |
 | [Foundations / 基础](./docs/foundations.md)                      | Color, type, space, elevation, motion / 色彩、字体、间距、纵深、动效                |
-| [Usage / 用法](./docs/usage.md)                                  | Themes, adapters (CSS/JS/MUI/Chakra), and recipes / 主题、适配器与常用配方          |
+| [Usage / 用法](./docs/usage.md)                                  | Themes, adapters (CSS/JS/MUI/Chakra/Tailwind), and recipes / 主题、适配器与常用配方 |
 | [Contributing / 贡献](./docs/contributing.md)                    | Token layers, format, build, and change workflow / Token 分层、格式、构建与改动流程 |
 
 Local preview / 本地预览：`bun run dev`
@@ -49,7 +49,8 @@ packages/libs/design-system/
 │   ├── css/
 │   ├── js/
 │   ├── mui/
-│   └── chakra/
+│   ├── chakra/
+│   └── tailwind/
 └── preview/              # Vite theme playground / 主题预览
 ```
 
@@ -73,9 +74,9 @@ See / 详见 [docs/contributing.md](./docs/contributing.md)（Token 源与构建
 bun run dev
 ```
 
-The preview includes primitive scales, plain HTML semantic recipes, and MUI / Chakra adapter surfaces across all four themes.
+The preview includes primitive scales, plain HTML semantic recipes, and MUI / Chakra / shadcn adapter surfaces across all four themes.
 
-预览包含原始刻度、纯 HTML 语义配方，以及覆盖全部四套主题的 MUI / Chakra 适配表面。
+预览包含原始刻度、纯 HTML 语义配方，以及覆盖全部四套主题的 MUI / Chakra / shadcn 适配表面。
 
 ## Build Tokens / 构建 Token
 
@@ -97,8 +98,10 @@ dist/
 ├── mui/
 │   ├── index.js
 │   └── {default,sun}.{light,dark}.{js,d.ts}
-└── chakra/
-    └── {default,sun}.{light,dark}.{js,d.ts}
+├── chakra/
+│   └── {default,sun}.{light,dark}.{js,d.ts}
+└── tailwind/
+    └── theme.css
 ```
 
 Package exports only expose compiled assets. `default.light` is the `:root` fallback; other variants activate through `data-theme` values such as `sun.dark`.
@@ -109,6 +112,7 @@ Package exports only expose compiled assets. `default.light` is the `:root` fall
 import { defaultLightTokens, type TokenTheme } from '@rocketc/design-system/js';
 import { defaultLightMuiTheme, sunDarkMuiTheme } from '@rocketc/design-system/mui';
 import defaultLightChakraTheme from '@rocketc/design-system/chakra/default.light';
+// Tailwind / shadcn: import CSS bridges — see docs/usage.md
 ```
 
 The CSS theme files inline `normalize.css`. MUI receives the same baseline through `theme.components.MuiCssBaseline`—render `<CssBaseline />` when using the MUI adapter alone. Chakra receives the baseline through `globalCss` when the generated system config is passed to `ChakraProvider`.

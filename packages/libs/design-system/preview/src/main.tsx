@@ -1,4 +1,5 @@
 import '../styles.css';
+import '../styles/shadcn.css';
 
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';

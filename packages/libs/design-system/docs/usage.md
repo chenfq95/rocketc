@@ -103,14 +103,15 @@ Role meaning → [Foundations](./foundations.md).
 
 ## Output surfaces / 输出面
 
-| Export / 导出                            | Purpose / 用途                                                     |
-| ---------------------------------------- | ------------------------------------------------------------------ |
-| `@rocketc/design-system/css/<theme>.css` | CSS variables + normalize + baseline / CSS 变量 + normalize + 基线 |
-| `@rocketc/design-system/js`              | All token maps + types / 全部 Token 映射与类型                     |
-| `@rocketc/design-system/js/<theme>`      | Per-theme map / 单主题映射                                         |
-| `@rocketc/design-system/mui`             | All MUI `ThemeOptions` / 全部 MUI 主题选项                         |
-| `@rocketc/design-system/mui/<theme>`     | Per-theme MUI options / 单主题 MUI                                 |
-| `@rocketc/design-system/chakra/<theme>`  | Per-theme Chakra v3 system config / 单主题 Chakra 配置             |
+| Export / 导出                               | Purpose / 用途                                                     |
+| ------------------------------------------- | ------------------------------------------------------------------ |
+| `@rocketc/design-system/css/<theme>.css`    | CSS variables + normalize + baseline / CSS 变量 + normalize + 基线 |
+| `@rocketc/design-system/js`                 | All token maps + types / 全部 Token 映射与类型                     |
+| `@rocketc/design-system/js/<theme>`         | Per-theme map / 单主题映射                                         |
+| `@rocketc/design-system/mui`                | All MUI `ThemeOptions` / 全部 MUI 主题选项                         |
+| `@rocketc/design-system/mui/<theme>`        | Per-theme MUI options / 单主题 MUI                                 |
+| `@rocketc/design-system/chakra/<theme>`     | Per-theme Chakra v3 system config / 单主题 Chakra 配置             |
+| `@rocketc/design-system/tailwind/theme.css` | Tailwind v4 theme + shadcn aliases / Tailwind 主题与 shadcn 别名   |
 
 CSS variable prefix / CSS 变量前缀： **`rds`** (`--rds-*`).
 
@@ -247,22 +248,91 @@ Switch themes by selecting the matching generated Chakra config, and keep `data-
 
 ---
 
+## Tailwind adapter / Tailwind 适配器
+
+CSS-variable bridge for Tailwind v4 utilities and shadcn/ui. It does **not** ship components—only the theme contract those stacks read.
+
+面向 Tailwind v4 工具类与 shadcn/ui 的 CSS 变量桥。不提供组件，只提供这些栈读取的主题契约。
+
+Load base `--rds-*` CSS (the themes you need), then the Tailwind theme contract:
+
+先加载基础 `--rds-*` CSS（按需主题），再加载 Tailwind 主题契约：
+
+```css
+@import 'tailwindcss';
+@import '@rocketc/design-system/css/default.light.css';
+@import '@rocketc/design-system/css/default.dark.css';
+@import '@rocketc/design-system/tailwind/theme.css';
+```
+
+```ts
+document.documentElement.dataset.theme = 'default.dark';
+// Keep using data-theme — do not maintain a separate .dark color sheet.
+// 继续用 data-theme，不要另维护一份 .dark 色板。
+```
+
+Notes / 说明：
+
+**Two tracks / 双轨**
+
+1. **shadcn short names** — full official scaffold (`background`…`ring`, `chart-1`…`5`, `sidebar-*`)  
+   plus status (`success` / `warning` / `info`).  
+   `:root` aliases → `--rds-*`; `@theme` maps utilities to those aliases.  
+   覆盖官方脚手架全量短名，并额外提供 status；`:root` → `--rds-*`，`@theme` 再接短名。
+2. **Full DS semantic utilities** — path → kebab, e.g.  
+   `color.control.primary.bg` → `bg-control-primary-bg`  
+   `color.text.secondary` → `text-text-secondary`  
+   `shadow.raised` → `shadow-raised`  
+   `space.4` → `p-4` / `gap-4` (via `--spacing-4`)  
+   完整语义与常用刻度都进了 `@theme inline`。
+
+| Theme key family / 主题键族    | Source / 来源                | Example utility / 示例               |
+| ------------------------------ | ---------------------------- | ------------------------------------ |
+| `--color-{role…}`              | semantic `color.*` roles     | `bg-surface-canvas`, `text-brand-fg` |
+| `--color-{shadcn}`             | shadcn aliases               | `bg-primary`, `border-border`        |
+| `--text-*`                     | type scale + roles           | `text-body`, `text-md`               |
+| `--font-*` / `--font-weight-*` | families / weights           | `font-sans`, `font-weight-semibold`  |
+| `--leading-*` / `--tracking-*` | line height / letter spacing | `leading-relaxed`                    |
+| `--spacing-*`                  | `space.*` + layout dims      | `p-4`, `gap-layout-page-gutter`      |
+| `--size-*`                     | `size.*`                     | `size-8`                             |
+| `--radius-*`                   | `radius.*`                   | `rounded-md`                         |
+| `--border-width-*`             | `border.*` widths            | `border-sm` (width token)            |
+| `--shadow-*`                   | `shadow.*`                   | `shadow-raised`                      |
+| `--blur-*`                     | `blur.*`                     | `blur-md`                            |
+| `--opacity-*`                  | `opacity.*`                  | `opacity-muted`                      |
+| `--z-index-*`                  | `zIndex.*`                   | `z-modal`                            |
+| `--duration-*` / `--ease-*`    | motion                       | `duration-fast`, `ease-emphasized`   |
+| `--max-width-*`                | layout `*.maxWidth`          | `max-w-page`                         |
+
+Primitive color ramps (`neutral.500`, `orange.400`, …) stay on `--rds-*` only—prefer semantic roles in product UI.
+
+原始色阶仍只在 `--rds-*`；产品 UI 优先语义角色。
+
+Works with shadcn when `cssVariables: true`; keep switching via `data-theme` (do not maintain a separate `.dark` palette).
+
+在 `cssVariables: true` 下可直接驱动 shadcn；主题切换仍走 `data-theme`（不要另维护 `.dark` 色板）。
+
+Tailwind is a peer of the consuming app (not of this package). No Tailwind dependency is required to build tokens.
+
+Tailwind 是消费方应用的依赖（不是本包 peer）。构建 Token 不需要安装 Tailwind。
+
+---
+
 ## Parity expectations / 对齐预期
 
-Adapters remap the **same semantic roles**. They do not restyle every default MUI/Chakra component recipe. For strict visual parity:
+Adapters remap the **same semantic roles**. They do not restyle every default MUI/Chakra/shadcn component recipe. For strict visual parity:
 
-适配器映射的是**同一套语义角色**。它们不会重绘每个默认 MUI/Chakra 组件配方。若要严格视觉对齐：
+适配器映射的是**同一套语义角色**。它们不会重绘每个默认 MUI/Chakra/shadcn 组件配方。若要严格视觉对齐：
 
 1. Prefer semantic tokens / text styles from the generated theme  
    优先使用生成主题中的语义 Token / 文本样式
 2. Override component recipes in the app when library defaults leak  
    库默认样式泄露时，在应用层覆盖组件配方
-3. Check the preview’s MUI and Chakra tabs across all four themes after token changes  
-   Token 变更后，在预览的 MUI / Chakra 页核对全部四套主题
+3. Check the preview’s MUI, Chakra, and shadcn tabs across all four themes after token changes  
+   Token 变更后，在预览的 MUI / Chakra / shadcn 页核对全部四套主题
 
 ## Not shipped yet / 尚未提供
 
-- Tailwind / CSS-first utility bridge / Tailwind / 工具类桥
 - Native iOS/Android token exports / 原生 iOS/Android Token 导出
 - Figma Tokens sync / Figma Tokens 同步
 
@@ -322,6 +392,7 @@ Tabs / 页签：
 2. **Plain HTML / 纯 HTML** — semantic recipes (color, type, elevation, controls) / 语义配方
 3. **MUI** — adapter stress surface / 适配器压测面
 4. **Chakra** — adapter stress surface / 适配器压测面
+5. **shadcn** — Tailwind adapter stress surface / Tailwind 适配器压测面
 
 Use the family control and theme switch to verify all four variants (`default|sun` × `light|dark`).
 

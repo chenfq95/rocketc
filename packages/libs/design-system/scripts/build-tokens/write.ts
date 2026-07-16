@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { HEADER, OUT_DIR, THEMES } from './constants.ts';
+import { buildTailwindTheme } from './tailwind.ts';
 import type { ThemeBuildResult, ThemeName } from './types.ts';
 
 export const cleanOutput = (): void => {
@@ -12,6 +13,7 @@ export const ensureOutputDirs = (): void => {
   fs.mkdirSync(path.join(OUT_DIR, 'js'), { recursive: true });
   fs.mkdirSync(path.join(OUT_DIR, 'mui'), { recursive: true });
   fs.mkdirSync(path.join(OUT_DIR, 'chakra'), { recursive: true });
+  fs.mkdirSync(path.join(OUT_DIR, 'tailwind'), { recursive: true });
 };
 
 const writeText = (filePath: string, content: string): void => {
@@ -95,6 +97,10 @@ export const writeTheme = ({
     'SystemConfig',
     '@chakra-ui/react',
   );
+};
+
+export const writeTailwind = (tokens: ThemeBuildResult['jsTokens']): void => {
+  writeText(path.join(OUT_DIR, 'tailwind', 'theme.css'), buildTailwindTheme(tokens));
 };
 
 export const writeJsIndex = (): void => {
