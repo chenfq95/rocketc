@@ -235,7 +235,7 @@ packages/libs/design-system/
 │   └── theme/            # default|sun × light|dark overrides / 主题覆盖
 ├── scripts/build-tokens/ # Style Dictionary pipeline / 构建流水线
 ├── dist/                 # Compiled assets / 编译产物
-└── preview/              # Vite playground / 预览
+└── site/                 # Astro playground / 预览
 ```
 
 Published package contents are mainly `dist/` plus the package README. Source tokens and docs live in the repo for authors and consumers who work from source.

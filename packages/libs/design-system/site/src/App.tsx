@@ -1,5 +1,6 @@
 import { ThemeProvider, createTheme } from '@mui/material';
 import type { ThemeOptions } from '@mui/material/styles';
+import { registerRocketcCustomElements } from '@rocketc/web-components';
 import { useEffect, useMemo, useRef, useState, type RefObject } from 'react';
 
 import {
@@ -19,6 +20,8 @@ import {
   type ThemeFamily,
   type ThemeMode,
 } from './previewModel';
+
+registerRocketcCustomElements();
 
 const muiThemes: Record<DesignThemeName, ThemeOptions> = {
   'default.light': defaultLightMuiTheme,

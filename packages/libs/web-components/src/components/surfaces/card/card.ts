@@ -16,11 +16,16 @@ export class RdsCard extends LitElement {
     css`
       :host {
         display: block;
+        height: 100%;
+        box-sizing: border-box;
       }
       
       .root {
         display: grid;
+        align-content: start;
         gap: var(--rds-space-3);
+        box-sizing: border-box;
+        height: 100%;
         border: var(--rds-border-sm) solid var(--rds-color-border-subtle);
         border-radius: var(--rds-radius-xl);
         background: var(--rds-color-surface-panel);

@@ -2,21 +2,21 @@ import { useEffect, useRef, useState } from 'react';
 
 import type { DesignThemeName } from '../../previewModel';
 import { ComponentView } from './ComponentView';
-import { ExplanationView } from './ExplanationView';
+import { PrinciplesView } from './PrinciplesView';
 import { PrimitiveView } from './PrimitiveView';
 import { SemanticView } from './SemanticView';
 
-type DesignSystemView = 'primitive' | 'semantic' | 'component' | 'explanation';
+type DesignSystemView = 'principles' | 'primitive' | 'semantic' | 'component';
 
 const views = [
+  ['principles', 'Principles'],
   ['primitive', 'Primitive'],
   ['semantic', 'Semantic'],
   ['component', 'Component'],
-  ['explanation', 'Explanation'],
 ] as const satisfies ReadonlyArray<readonly [DesignSystemView, string]>;
 
 export function DesignSystemPanel({ themeName }: { themeName: DesignThemeName }) {
-  const [view, setView] = useState('primitive' as DesignSystemView);
+  const [view, setView] = useState('principles' as DesignSystemView);
   const tabsRef = useRef<HTMLElementTagNameMap['rds-tabs']>(null);
 
   useEffect(() => {
@@ -41,6 +41,9 @@ export function DesignSystemPanel({ themeName }: { themeName: DesignThemeName })
           </rds-tab>
         ))}
 
+        <div slot="panel" data-value="principles">
+          {view === 'principles' ? <PrinciplesView /> : null}
+        </div>
         <div slot="panel" data-value="primitive">
           {view === 'primitive' ? <PrimitiveView /> : null}
         </div>
@@ -49,9 +52,6 @@ export function DesignSystemPanel({ themeName }: { themeName: DesignThemeName })
         </div>
         <div slot="panel" data-value="component">
           {view === 'component' ? <ComponentView /> : null}
-        </div>
-        <div slot="panel" data-value="explanation">
-          {view === 'explanation' ? <ExplanationView /> : null}
         </div>
       </rds-tabs>
     </div>

@@ -18,6 +18,15 @@
     grid-template-columns: 1fr;
   }
 
+  .principles-layout rds-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .principles-glossary-row {
+    grid-template-columns: 1fr;
+    gap: var(--rds-space-1);
+  }
+
   .measure-list--inline {
     grid-template-columns: 1fr;
   }

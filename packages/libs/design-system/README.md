@@ -51,7 +51,7 @@ packages/libs/design-system/
 │   ├── mui/
 │   ├── chakra/
 │   └── tailwind/
-└── preview/              # Vite theme playground / 主题预览
+└── site/                 # Astro theme playground / 主题预览
 ```
 
 ## Token Layers / Token 分层

@@ -15,7 +15,11 @@ export class RdsTable extends LitElement {
     hostStyles,
     css`
       :host {
-        display: block;
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+        height: 100%;
+        min-height: 0;
         overflow: auto;
         border: var(--rds-border-sm) solid var(--rds-color-border-subtle);
         border-radius: var(--rds-radius-lg);
@@ -23,6 +27,8 @@ export class RdsTable extends LitElement {
       }
       
       .caption {
+        display: none;
+        flex: none;
         padding: var(--rds-space-3) var(--rds-space-4);
         border-bottom: var(--rds-border-sm) solid var(--rds-color-border-subtle);
         color: var(--rds-color-text-secondary);
@@ -30,8 +36,14 @@ export class RdsTable extends LitElement {
         font-weight: var(--rds-typography-weight-medium);
       }
       
+      :host(:has([slot='caption'])) .caption {
+        display: block;
+      }
+      
       .frame {
+        flex: 1 1 auto;
         width: 100%;
+        min-height: 0;
       }
       
       ::slotted(table) {
@@ -48,7 +60,7 @@ export class RdsTable extends LitElement {
       }
       
       /* Slotted table cells cannot be deeply styled in all browsers via ::slotted(th).
-                                       Prefer consumers adding a class, or style via part later. */
+                                                   Prefer consumers adding a class, or style via part later. */
       :host([compact]) {
         --rds-table-cell-padding: var(--rds-space-2) var(--rds-space-3);
       }

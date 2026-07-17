@@ -153,7 +153,7 @@ bun run build:tokens
 # 3. Visual check / 视觉核对
 bun run dev
 
-# 4. Types (scripts + preview projects) / 类型检查
+# 4. Types (scripts + site projects) / 类型检查
 bun run typecheck
 ```
 
@@ -208,7 +208,7 @@ Do not edit `dist/` by hand. / 不要手改 `dist/`。
 | ------------------------- | ----------------------------------------------------------------------------------- |
 | `tokens/**`               | Design values (source of truth) / 设计值（事实来源）                                |
 | `scripts/build-tokens/**` | Compile pipeline / adapters / 编译流水线与适配器                                    |
-| `preview/**`              | Visual verification only—not another token source / 仅视觉验证，不是第二套 Token 源 |
+| `site/**`                 | Visual verification only—not another token source / 仅视觉验证，不是第二套 Token 源 |
 | `docs/**`                 | Human contracts and guides (EN + ZH) / 人读契约与指南（中英）                       |
 | `dist/**`                 | Generated—do not hand-edit / 生成物——勿手改                                         |
 

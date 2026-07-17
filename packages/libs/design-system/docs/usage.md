@@ -388,7 +388,7 @@ bun run dev
 
 Tabs / 页签：
 
-1. **Design System** — Primitive / Semantic / Component / Explanation
+1. **Design System** — Principles / Primitive / Semantic / Component
 2. **MUI** — adapter stress surface / 适配器压测面
 3. **Chakra** — adapter stress surface / 适配器压测面
 4. **shadcn** — Tailwind adapter stress surface / Tailwind 适配器压测面
