@@ -1,0 +1,1 @@
+export { RdsCheckbox } from './checkbox';

@@ -1,45 +1,3 @@
-.preview-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
-  gap: var(--rds-space-3);
-  padding-top: var(--rds-space-4);
-}
-
-.overview-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: var(--rds-space-3);
-  padding-top: var(--rds-space-4);
-}
-
-.overview-section {
-  min-width: 0;
-}
-
-.overview-section-wide {
-  grid-column: 1 / -1;
-}
-
-.panel {
-  border: var(--rds-border-sm) solid var(--rds-color-border-subtle);
-  border-radius: var(--rds-radius-md);
-  background: var(--rds-color-surface-panel);
-  box-shadow: var(--rds-shadow-surface);
-  padding: var(--rds-space-3);
-}
-
-.panel.elevated {
-  border-color: transparent;
-  background: var(--rds-color-surface-elevated);
-  box-shadow: var(--rds-shadow-raised);
-}
-
-.panel.overlay {
-  border-color: transparent;
-  background: var(--rds-color-surface-elevated);
-  box-shadow: var(--rds-shadow-overlay);
-}
-
 .elevation-stage {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -73,17 +31,11 @@
   overflow-wrap: anywhere;
 }
 
-.elevation-card p {
+.elevation-card rds-typography {
   margin: var(--rds-space-2) 0 0;
   color: var(--rds-color-text-secondary);
   font-size: var(--rds-typography-body-small-font-size);
   line-height: var(--rds-typography-body-small-line-height);
-}
-
-.surface-stage {
-  border: var(--rds-border-sm) dashed var(--rds-color-border-default);
-  background: var(--rds-color-surface-canvas);
-  box-shadow: none;
 }
 
 .surface-panel {
@@ -122,36 +74,6 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: var(--rds-space-2);
-}
-
-.badge,
-.kbd,
-.status {
-  display: inline-flex;
-  align-items: center;
-  min-height: var(--rds-space-5);
-  border-radius: var(--rds-radius-full);
-  padding: 0 var(--rds-space-2);
-  font-family: var(--rds-typography-caption-font-family);
-  font-size: var(--rds-typography-caption-font-size);
-  font-weight: var(--rds-typography-caption-font-weight);
-  line-height: var(--rds-typography-caption-line-height);
-  letter-spacing: var(--rds-typography-caption-letter-spacing);
-  white-space: nowrap;
-}
-
-.badge {
-  border: var(--rds-border-sm) solid var(--rds-color-border-default);
-  background: var(--rds-color-action-bg-hover);
-  color: var(--rds-color-text-secondary);
-}
-
-.kbd {
-  border: var(--rds-border-sm) solid var(--rds-color-border-default);
-  border-radius: var(--rds-radius-sm);
-  background: var(--rds-color-surface-elevated);
-  color: var(--rds-color-text-secondary);
-  font-family: var(--rds-typography-code-font-family);
 }
 
 .button-row {
@@ -202,49 +124,6 @@
   margin-top: var(--rds-space-3);
 }
 
-.small {
-  color: var(--rds-color-text-muted);
-  font-size: var(--rds-typography-body-font-size);
-}
-
-.table-panel {
-  grid-column: 1 / -1;
-}
-
-.table-panel table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: var(--rds-space-3);
-  font-family: var(--rds-typography-label-font-family);
-  font-size: var(--rds-typography-label-font-size);
-  font-weight: var(--rds-typography-label-font-weight);
-  line-height: var(--rds-typography-label-line-height);
-  letter-spacing: var(--rds-typography-label-letter-spacing);
-}
-
-.table-panel th,
-.table-panel td {
-  border-bottom: var(--rds-border-sm) solid var(--rds-color-border-subtle);
-  padding: var(--rds-space-1) var(--rds-space-2);
-  text-align: left;
-  vertical-align: middle;
-}
-
-.table-panel th {
-  color: var(--rds-color-text-muted);
-  font-family: var(--rds-typography-caption-font-family);
-  font-size: var(--rds-typography-caption-font-size);
-  font-weight: var(--rds-typography-caption-font-weight);
-  line-height: var(--rds-typography-caption-line-height);
-  letter-spacing: var(--rds-typography-caption-letter-spacing);
-  text-transform: uppercase;
-}
-
-.table-panel td:first-child {
-  font-family: var(--rds-typography-code-font-family);
-  font-size: var(--rds-typography-body-small-font-size);
-}
-
 .overview-type {
   display: grid;
   gap: var(--rds-space-2);
@@ -267,8 +146,7 @@
 }
 
 .overview-type strong,
-.overview-type span,
-.overview-type p {
+.overview-type span {
   margin: 0;
 }
 
@@ -279,33 +157,47 @@
 
 .overview-components {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--rds-space-3);
   margin-top: var(--rds-space-3);
 }
 
-.component-demo {
+.overview-components > * {
   min-width: 0;
-  border: var(--rds-border-sm) solid var(--rds-color-border-subtle);
-  border-radius: var(--rds-radius-md);
-  background: var(--rds-color-surface-elevated);
-  padding: var(--rds-space-3);
 }
 
-.component-demo-wide {
-  grid-column: 1 / -1;
+.wc-category-stack {
+  display: grid;
+  gap: var(--rds-space-6);
+  margin-top: var(--rds-space-4);
 }
 
-.compact-table {
-  margin-top: var(--rds-space-3);
+.wc-category {
+  display: grid;
+  gap: var(--rds-space-3);
 }
 
-.compact-table td:first-child {
-  font-family: var(--rds-typography-code-font-family);
+.wc-category-header rds-typography {
+  margin: 0;
 }
+
+.preview-panel {
+  min-width: 0;
+}
+
+.wc-category .overview-components {
+  margin-top: 0;
+}
+
+.component-demo-title {
+  margin: 0;
+  color: var(--rds-color-text-secondary);
+  text-transform: uppercase;
+}
+
 .primitive-layout {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--rds-space-3);
   padding-top: var(--rds-space-4);
 }
@@ -314,55 +206,8 @@
   padding-top: var(--rds-space-4);
 }
 
-.design-system-panel > .subtabs {
-  margin: 0 0 var(--rds-space-3);
-}
-
-.design-system-panel > .primitive-layout {
+.design-system-panel .primitive-layout {
   padding-top: 0;
-}
-
-.subtabs {
-  display: flex;
-  gap: var(--rds-space-1);
-  margin: 0 0 var(--rds-space-3);
-}
-
-.subtab {
-  min-height: var(--rds-space-7);
-  border: var(--rds-border-sm) solid var(--rds-color-border-default);
-  border-radius: var(--rds-radius-sm);
-  background: var(--rds-color-surface-panel);
-  color: var(--rds-color-text-secondary);
-  cursor: pointer;
-  padding: 0 var(--rds-space-3);
-  font-size: var(--rds-typography-caption-font-size);
-  font-weight: var(--rds-typography-label-font-weight);
-  transition:
-    background var(--rds-duration-fast) var(--rds-easing-standard),
-    border-color var(--rds-duration-fast) var(--rds-easing-standard),
-    color var(--rds-duration-fast) var(--rds-easing-standard);
-}
-
-.subtab:hover {
-  border-color: var(--rds-color-border-strong);
-  color: var(--rds-color-text-primary);
-}
-
-.subtab:focus-visible {
-  outline: 0;
-  border-color: var(--rds-color-border-focus);
-  box-shadow: var(--rds-shadow-focus);
-}
-
-.subtab.is-active {
-  border-color: var(--rds-color-border-strong);
-  background: var(--rds-color-action-bg-selected);
-  color: var(--rds-color-text-primary);
-}
-
-.subtab-panel > p:first-child {
-  margin-top: 0;
 }
 
 .primitive-glossary-lede {
@@ -395,18 +240,14 @@
   margin-bottom: var(--rds-space-2);
 }
 
-.primitive-glossary-section h3 {
-  margin: 0 0 var(--rds-space-1);
-  font-size: var(--rds-typography-label-font-size);
-  font-weight: var(--rds-typography-label-font-weight);
-  letter-spacing: var(--rds-typography-label-letter-spacing);
+.primitive-glossary-section header rds-typography {
+  display: block;
+  margin: 0;
 }
 
-.primitive-glossary-section header p {
-  margin: 0;
+.primitive-glossary-section header rds-typography + rds-typography {
+  margin-top: var(--rds-space-1);
   color: var(--rds-color-text-secondary);
-  font-size: var(--rds-typography-caption-font-size);
-  line-height: var(--rds-typography-caption-line-height);
 }
 
 .primitive-glossary-section dl {
@@ -446,15 +287,11 @@
   line-height: var(--rds-typography-caption-line-height);
 }
 
-.primitive-panel {
-  min-width: 0;
-}
-
 .primitive-panel-wide {
   grid-column: 1 / -1;
 }
 
-.primitive-panel .measure-list {
+.preview-panel .measure-list {
   margin-top: var(--rds-space-3);
 }
 
@@ -469,7 +306,6 @@
 
 .primitive-color-stack,
 .primitive-measure-grid,
-.primitive-single-grid,
 .token-table,
 .type-scale,
 .motion-list {
@@ -542,7 +378,7 @@
   align-items: start;
 }
 
-.measure-list--inline > h3 {
+.measure-list--inline > rds-typography {
   margin: 0;
   padding-top: var(--rds-space-1);
 }

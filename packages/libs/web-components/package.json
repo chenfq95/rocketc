@@ -20,9 +20,7 @@
     "README.md"
   ],
   "type": "module",
-  "sideEffects": [
-    "./dist/register.js"
-  ],
+  "sideEffects": false,
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -31,7 +29,11 @@
     }
   },
   "scripts": {
-    "build": "tsc -b && vite build",
+    "build": "tsc -b",
+    "build:watch": "tsc -b --watch",
+    "site:dev": "tsc -b && bun run --filter @rocketc/web-components-site dev",
+    "site:build": "tsc -b && bun run --filter @rocketc/web-components-site build",
+    "site:preview": "bun run --filter @rocketc/web-components-site preview",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
     "format": "oxfmt",
@@ -45,9 +47,7 @@
     "@types/node": "^24.10.4",
     "oxfmt": "^0.23.0",
     "oxlint": "^1.36.0",
-    "typescript": "^5.9.3",
-    "unplugin-dts": "1.0.0-beta.6",
-    "vite": "^7.3.0"
+    "typescript": "^5.9.3"
   },
   "peerDependencies": {
     "@rocketc/design-system": ">=0.0.1"

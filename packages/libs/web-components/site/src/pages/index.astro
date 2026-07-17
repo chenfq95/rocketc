@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getNav } from '../lib/catalog';
+
+const nav = getNav();
+const total = nav.reduce((sum, category) => sum + category.components.length, 0);
+---
+
+<BaseLayout title="Components" description="Usage site for Rocketc web components.">
+  <rds-stack gap="lg">
+    <rds-stack gap="sm">
+      <rds-typography variant="title" as="h1">Components</rds-typography>
+      <rds-typography variant="body" color="secondary" as="p">
+        {total} families · each page has one preview and API reference.
+      </rds-typography>
+    </rds-stack>
+
+    {
+      nav.map((category) => (
+        <rds-stack gap="sm">
+          <rds-stack direction="horizontal" gap="sm" align="center">
+            <rds-typography variant="heading" as="h2">
+              {category.category}
+            </rds-typography>
+            <rds-badge variant="secondary">{category.components.length}</rds-badge>
+          </rds-stack>
+
+          <rds-grid columns={3} gap="sm">
+            {category.components.map((component) => (
+              <rds-card>
+                <rds-stack gap="xs" slot="header">
+                  {/* Native <a> so Astro ClientRouter can intercept (rds-link keeps <a> in shadow DOM). */}
+                  <a class="site-card-link" href={component.href}>
+                    <rds-typography variant="subheading" as="span">
+                      {component.component}
+                    </rds-typography>
+                  </a>
+                  <rds-typography variant="caption" color="muted" as="p">
+                    {component.tags.join(' · ') || 'preview + API'}
+                  </rds-typography>
+                </rds-stack>
+              </rds-card>
+            ))}
+          </rds-grid>
+        </rds-stack>
+      ))
+    }
+  </rds-stack>
+</BaseLayout>

@@ -1,0 +1,249 @@
+/* Thin shell only — chrome comes from rds-* components + design tokens. */
+
+/* Avoid FOUC while custom elements upgrade on first paint / hard refresh. */
+:not(:defined) {
+  visibility: hidden;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background: var(--rds-color-surface-canvas, #f6f7f9);
+  color: var(--rds-color-text-primary, #111);
+}
+
+body {
+  min-height: 100vh;
+}
+
+.site-app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  border-bottom: 1px solid var(--rds-color-border-subtle, #e5e7eb);
+  background: color-mix(in srgb, var(--rds-color-surface-panel, #fff) 88%, transparent);
+  backdrop-filter: blur(10px);
+}
+
+.site-header > .site-header-inner {
+  width: 100%;
+  padding: 0.75rem 1.25rem;
+}
+
+.site-header-controls {
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.site-shell {
+  display: flex;
+  align-items: stretch;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.site-shell > rds-sidebar.site-sidebar {
+  position: sticky;
+  top: 3.75rem;
+  height: calc(100vh - 3.75rem);
+  flex: 0 0 auto;
+  /* Drop the component's hard divider — canvas/panel contrast is enough. */
+  border-right: 0;
+  background: transparent;
+}
+
+.site-main {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.site-main-inner {
+  max-width: 72rem;
+  margin-inline: auto;
+}
+
+/* Keep scroll-area behavior, strip its chrome so the sidebar stays quiet. */
+.site-nav-scroll::part(viewport) {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  padding: var(--rds-space-3, 0.75rem) 0;
+}
+
+.site-nav {
+  min-width: 0;
+}
+
+.site-nav-label {
+  padding-inline: 0.5rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.site-nav-link {
+  display: block;
+  border-radius: var(--rds-radius-md, 0.5rem);
+  padding: 0.4rem 0.55rem;
+  color: var(--rds-color-text-secondary, #6b7280);
+  font-size: var(--rds-typography-body-small-font-size, 0.875rem);
+  line-height: 1.35;
+  text-decoration: none;
+}
+
+.site-nav-link:hover {
+  color: var(--rds-color-text-primary, #111);
+  background: color-mix(in srgb, var(--rds-color-text-primary, #111) 5%, transparent);
+}
+
+.site-nav-link.is-active {
+  color: var(--rds-color-text-primary, #111);
+  background: color-mix(in srgb, var(--rds-color-text-primary, #111) 8%, transparent);
+  font-weight: 600;
+}
+
+.site-card-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.site-card-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.example-panel-header {
+  width: 100%;
+}
+
+.example-view[hidden] {
+  display: none !important;
+}
+
+.example-code {
+  overflow: auto;
+  border-radius: var(--rds-radius-md, 0.5rem);
+}
+
+.example-code .shiki {
+  margin: 0;
+  overflow: auto;
+  border-radius: var(--rds-radius-md, 0.5rem);
+  padding: 1rem 1.1rem;
+  font-family: var(--rds-typography-code-font-family, ui-monospace, monospace);
+  font-size: var(--rds-typography-code-font-size, 0.8125rem);
+  line-height: 1.55;
+  tab-size: 2;
+  background: var(--shiki-light-bg, #fff) !important;
+}
+
+.example-code .shiki code {
+  display: block;
+  width: max-content;
+  min-width: 100%;
+  font: inherit;
+}
+
+.example-code .shiki span {
+  color: var(--shiki-light) !important;
+}
+
+html[data-theme$='.dark'] .example-code .shiki {
+  background: var(--shiki-dark-bg, #0d1117) !important;
+}
+
+html[data-theme$='.dark'] .example-code .shiki span {
+  color: var(--shiki-dark) !important;
+}
+
+.rds-demo-stack {
+  display: grid;
+  gap: var(--rds-space-5, 1.5rem);
+}
+
+.rds-demo-host .rds-demo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--rds-space-3, 0.75rem);
+  align-items: center;
+}
+
+.api-table-wrap {
+  overflow: auto;
+}
+
+.api-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--rds-typography-body-small-font-size, 0.875rem);
+}
+
+.api-table th,
+.api-table td {
+  padding: 0.55rem 0.65rem;
+  border-bottom: 1px solid var(--rds-color-border-subtle, #e5e7eb);
+  text-align: left;
+  vertical-align: top;
+}
+
+.api-table th {
+  color: var(--rds-color-text-secondary, #6b7280);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.api-table code {
+  font-family: var(--rds-typography-code-font-family, ui-monospace, monospace);
+  font-size: 0.8em;
+}
+
+.rds-demo-host .rds-demo:has(rds-stack),
+.rds-demo-host .rds-demo:has(rds-field),
+.rds-demo-host .rds-demo:has(rds-fieldset),
+.rds-demo-host .rds-demo:has(rds-tabs),
+.rds-demo-host .rds-demo:has(rds-accordion),
+.rds-demo-host .rds-demo:has(rds-list),
+.rds-demo-host .rds-demo:has(rds-table),
+.rds-demo-host .rds-demo:has(rds-grid),
+.rds-demo-host .rds-demo:has(rds-flex),
+.rds-demo-host .rds-demo:has(rds-box),
+.rds-demo-host .rds-demo:has(rds-alert),
+.rds-demo-host .rds-demo:has(rds-sidebar),
+.rds-demo-host .rds-demo:has(rds-steps),
+.rds-demo-host .rds-demo:has(rds-timeline),
+.rds-demo-host .rds-demo:has(rds-menu),
+.rds-demo-host .rds-demo:has(rds-radio-group),
+.rds-demo-host .rds-demo:has(rds-progress),
+.rds-demo-host .rds-demo:has(rds-scroll-area),
+.rds-demo-host .rds-demo:has(rds-typography) {
+  display: grid;
+  justify-items: start;
+  align-items: stretch;
+}
+
+@media (max-width: 860px) {
+  .site-shell {
+    flex-direction: column;
+  }
+
+  .site-shell > rds-sidebar.site-sidebar {
+    position: relative;
+    top: 0;
+    height: auto;
+    width: 100%;
+  }
+
+  .site-nav-scroll {
+    --rds-scroll-max-height: none;
+  }
+
+  .site-header > .site-header-inner {
+    padding-inline: 1rem;
+  }
+}

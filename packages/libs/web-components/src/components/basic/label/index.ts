@@ -1,0 +1,1 @@
+export { RdsLabel } from './label';

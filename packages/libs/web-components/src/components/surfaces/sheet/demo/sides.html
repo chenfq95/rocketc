@@ -1,0 +1,15 @@
+<!-- surfaces/sheet — sides — usage snippet for @rocketc/web-components -->
+<div class="rds-demo">
+<rds-button size="sm" variant="outline" onclick="document.getElementById('sheet-bottom').show()">Bottom</rds-button>
+  <rds-button size="sm" variant="outline" onclick="document.getElementById('sheet-left').show()">Left</rds-button>
+  <rds-sheet id="sheet-bottom" side="bottom">
+    <span slot="header">Bottom sheet</span>
+    Useful for mobile actions.
+    <rds-button slot="footer" size="sm" onclick="this.closest('rds-sheet').close()">Close</rds-button>
+  </rds-sheet>
+  <rds-sheet id="sheet-left" side="left">
+    <span slot="header">Left sheet</span>
+    Alternative side placement.
+    <rds-button slot="footer" size="sm" onclick="this.closest('rds-sheet').close()">Close</rds-button>
+  </rds-sheet>
+</div>

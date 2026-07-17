@@ -1,0 +1,29 @@
+---
+---
+
+<header class="site-header" transition:persist="site-header">
+  <rds-stack class="site-header-inner" direction="horizontal" gap="md" align="center" justify="between">
+    <rds-stack direction="horizontal" gap="sm" align="center">
+      <rds-typography variant="subheading" as="p">Rocketc</rds-typography>
+      <rds-badge variant="secondary">web-components</rds-badge>
+    </rds-stack>
+
+    <rds-stack
+      class="site-header-controls"
+      direction="horizontal"
+      gap="md"
+      align="center"
+      aria-label="Theme controls"
+    >
+      <rds-segment id="theme-family" value="default" size="sm" aria-label="Theme family">
+        <rds-segment-item value="default">Default</rds-segment-item>
+        <rds-segment-item value="sun">Sun</rds-segment-item>
+      </rds-segment>
+
+      <rds-stack direction="horizontal" gap="sm" align="center">
+        <rds-label for="theme-dark">Dark</rds-label>
+        <rds-switch id="theme-dark" aria-label="Dark mode"></rds-switch>
+      </rds-stack>
+    </rds-stack>
+  </rds-stack>
+</header>

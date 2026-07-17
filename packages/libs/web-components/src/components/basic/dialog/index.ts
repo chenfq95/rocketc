@@ -1,0 +1,1 @@
+export { RdsDialog } from './dialog';

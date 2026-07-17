@@ -8,12 +8,17 @@ export default defineConfig({
   },
   plugins: [react()],
   resolve: {
-    alias: {
-      '@': path.resolve(import.meta.dirname, 'preview/src'),
-      '@rocketc/web-components': path.resolve(
-        import.meta.dirname,
-        '../web-components/src/index.ts',
-      ),
-    },
+    alias: [
+      { find: '@', replacement: path.resolve(import.meta.dirname, 'preview/src') },
+      // Use built WC (tsc emits standard decorators). Run WC `build:watch` for HMR.
+      {
+        find: /^@rocketc\/web-components\/(.*)/,
+        replacement: path.resolve(import.meta.dirname, '../web-components/dist/$1'),
+      },
+      {
+        find: /^@rocketc\/web-components$/,
+        replacement: path.resolve(import.meta.dirname, '../web-components/dist/index.js'),
+      },
+    ],
   },
 });

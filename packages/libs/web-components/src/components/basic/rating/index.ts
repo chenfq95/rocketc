@@ -1,0 +1,1 @@
+export { RdsRating } from './rating';

@@ -1,6 +1,6 @@
 import { ThemeProvider, createTheme } from '@mui/material';
 import type { ThemeOptions } from '@mui/material/styles';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState, type RefObject } from 'react';
 
 import {
   defaultDarkMuiTheme,
@@ -27,11 +27,31 @@ const muiThemes: Record<DesignThemeName, ThemeOptions> = {
   'sun.dark': sunDarkMuiTheme,
 };
 
+function useSegmentChange<T extends string>(
+  ref: RefObject<HTMLElementTagNameMap['rds-segment'] | null>,
+  onValue: (value: T) => void,
+) {
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const onChange = (event: Event) => {
+      // Ignore bubbled `change` from nested controls inside other panels.
+      if (event.target !== el) return;
+      const value = (event as CustomEvent<{ value: string }>).detail?.value;
+      if (value) onValue(value as T);
+    };
+    el.addEventListener('change', onChange);
+    return () => el.removeEventListener('change', onChange);
+  }, [ref, onValue]);
+}
+
 export function App() {
   const [mode, setMode] = useState<ThemeMode>('light');
   const [family, setFamily] = useState<ThemeFamily>('default');
   const [activeTab, setActiveTab] = useState<PreviewTab>('design-system');
   const darkSwitchRef = useRef<HTMLElementTagNameMap['rds-switch']>(null);
+  const familySegmentRef = useRef<HTMLElementTagNameMap['rds-segment']>(null);
+  const tabSegmentRef = useRef<HTMLElementTagNameMap['rds-segment']>(null);
   const themeName: DesignThemeName = `${family}.${mode}`;
 
   useEffect(() => {
@@ -49,6 +69,9 @@ export function App() {
     return () => el.removeEventListener('change', onChange);
   }, []);
 
+  useSegmentChange<ThemeFamily>(familySegmentRef, (value) => setFamily(value));
+  useSegmentChange<PreviewTab>(tabSegmentRef, (value) => setActiveTab(value));
+
   const muiTheme = useMemo(
     () =>
       createTheme({
@@ -63,51 +86,42 @@ export function App() {
       <main className="shell">
         <header className="hero">
           <div>
-            <p className="eyebrow">Rocketc Design System</p>
-            <h1>Personal Tool UI</h1>
-            <p className="lede">
+            <rds-typography class="eyebrow" variant="caption" as="p">
+              Rocketc Design System
+            </rds-typography>
+            <rds-typography class="hero-title" variant="display" as="h1">
+              Personal Tool UI
+            </rds-typography>
+            <rds-typography class="lede" variant="body" color="secondary" as="p">
               Neutral default chrome, optional orange brand focus, and dense hierarchy for tools,
               dashboards, and content surfaces—portable across frameworks.
-            </p>
+            </rds-typography>
           </div>
           <div className="hero-actions" aria-label="Theme controls">
-            <div className="theme-family" role="group" aria-label="Theme family">
-              {(['default', 'sun'] as const).map((value) => (
-                <rds-button
-                  key={value}
-                  size="sm"
-                  type="button"
-                  variant={family === value ? 'solid' : 'ghost'}
-                  aria-pressed={family === value}
-                  onClick={() => setFamily(value)}
-                >
-                  {value === 'default' ? 'Default' : 'Sun'}
-                </rds-button>
-              ))}
-            </div>
-            <label className="theme-switch">
-              <span>Dark</span>
+            <rds-segment ref={familySegmentRef} value={family} size="sm" aria-label="Theme family">
+              <rds-segment-item value="default">Default</rds-segment-item>
+              <rds-segment-item value="sun">Sun</rds-segment-item>
+            </rds-segment>
+            <div className="theme-switch">
+              <rds-label {...{ for: 'dark-mode' }}>Dark</rds-label>
               <rds-switch
+                id="dark-mode"
                 ref={darkSwitchRef}
                 checked={mode === 'dark' || undefined}
                 aria-label="Dark mode"
               />
-            </label>
+            </div>
           </div>
         </header>
 
         <nav className="tabs" aria-label="Preview sections">
-          {tabs.map((tab) => (
-            <rds-button
-              key={tab.value}
-              size="sm"
-              type="button"
-              variant={activeTab === tab.value ? 'solid' : 'outline'}
-              onClick={() => setActiveTab(tab.value)}
-            >
-              {tab.label}
-            </rds-button>
-          ))}
+          <rds-segment ref={tabSegmentRef} value={activeTab} size="sm">
+            {tabs.map((tab) => (
+              <rds-segment-item key={tab.value} value={tab.value}>
+                {tab.label}
+              </rds-segment-item>
+            ))}
+          </rds-segment>
         </nav>
 
         <section className={`tab-panel${activeTab === 'design-system' ? ' is-active' : ''}`}>

@@ -1,0 +1,1 @@
+export { RdsSlider } from './slider';

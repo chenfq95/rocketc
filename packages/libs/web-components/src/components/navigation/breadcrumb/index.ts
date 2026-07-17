@@ -1,0 +1,1 @@
+export { RdsBreadcrumb } from './breadcrumb';

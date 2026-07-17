@@ -1,7 +1,8 @@
 import '../styles.css';
 import '../styles/shadcn.css';
 
-import { registerRocketcWebComponents } from '@rocketc/web-components';
+import { registerRocketcCustomElements } from '@rocketc/web-components';
+
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
@@ -13,10 +14,10 @@ if (!root) {
   throw new Error('Preview root element was not found.');
 }
 
-void registerRocketcWebComponents().then(() => {
-  createRoot(root).render(
-    <StrictMode>
-      <App />
-    </StrictMode>,
-  );
-});
+registerRocketcCustomElements();
+
+createRoot(root).render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+);

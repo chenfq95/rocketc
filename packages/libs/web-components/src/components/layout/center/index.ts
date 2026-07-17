@@ -1,0 +1,1 @@
+export { RdsCenter } from './center';

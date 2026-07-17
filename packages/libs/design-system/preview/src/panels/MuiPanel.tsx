@@ -86,7 +86,6 @@ import {
   Stack,
   Step,
   StepButton,
-  StepConnector,
   StepContent,
   StepIcon,
   StepLabel,
@@ -590,7 +589,6 @@ export function MuiPanel({ themeName }: { themeName: DesignThemeName }) {
                     <Step>
                       <StepLabel>Review</StepLabel>
                     </Step>
-                    <StepConnector />
                   </Stepper>
                   <GridLegacy container spacing={1}>
                     <GridLegacy item xs={6}>

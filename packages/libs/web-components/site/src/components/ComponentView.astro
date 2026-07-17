@@ -1,0 +1,204 @@
+---
+import type { ComponentPage } from '../lib/catalog';
+import { formatAndHighlightHtml } from '../lib/highlight';
+
+type Props = {
+  page: ComponentPage;
+};
+
+const { page } = Astro.props;
+const highlightedCode = await formatAndHighlightHtml(page.sourceCode);
+---
+
+<rds-stack gap="lg">
+  <rds-stack gap="xs">
+    <rds-stack direction="horizontal" gap="sm" align="center" wrap>
+      <rds-typography variant="title" as="h1">{page.component}</rds-typography>
+      <rds-badge variant="outline">{page.category}</rds-badge>
+    </rds-stack>
+    <rds-stack direction="horizontal" gap="xs" wrap>
+      {
+        page.tags.map((tag) => (
+          <rds-typography variant="code">{tag}</rds-typography>
+        ))
+      }
+    </rds-stack>
+  </rds-stack>
+
+  <rds-panel class="example-panel" bordered padded>
+    <rds-stack
+      slot="header"
+      class="example-panel-header"
+      direction="horizontal"
+      gap="md"
+      align="center"
+      justify="between"
+    >
+      <rds-typography variant="label" color="muted" as="p">Example</rds-typography>
+      <rds-segment class="example-view-toggle" value="preview" size="sm" aria-label="Example view">
+        <rds-segment-item value="preview">Preview</rds-segment-item>
+        <rds-segment-item value="code">Code</rds-segment-item>
+      </rds-segment>
+    </rds-stack>
+
+    <div class="example-view is-active" data-example-view="preview">
+      <div class="rds-demo-host" set:html={page.previewHtml} />
+    </div>
+    <div class="example-view example-code" data-example-view="code" hidden set:html={highlightedCode} />
+  </rds-panel>
+
+  <rds-stack gap="md">
+    <rds-typography variant="heading" as="h2">API</rds-typography>
+
+    {
+      page.elements.length === 0 ? (
+        <rds-typography variant="body" color="secondary" as="p">
+          No element metadata found for this folder.
+        </rds-typography>
+      ) : (
+        page.elements.map((element) => (
+          <rds-panel bordered padded>
+            <rds-stack slot="header" gap="xs">
+              <rds-stack direction="horizontal" gap="sm" align="center" wrap>
+                <rds-typography variant="subheading" as="h3">
+                  {element.tag}
+                </rds-typography>
+                <rds-badge variant="secondary">{element.file}</rds-badge>
+              </rds-stack>
+              {element.summary ? (
+                <rds-typography variant="body-small" color="secondary" as="p">
+                  {element.summary}
+                </rds-typography>
+              ) : null}
+            </rds-stack>
+
+            <rds-stack gap="md">
+              {element.props.length > 0 ? (
+                <rds-stack gap="sm">
+                  <rds-typography variant="label" color="muted" as="p">
+                    Properties
+                  </rds-typography>
+                  <div class="api-table-wrap">
+                    <table class="api-table">
+                      <thead>
+                        <tr>
+                          <th>Name</th>
+                          <th>Type</th>
+                          <th>Attribute</th>
+                          <th>Default</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {element.props.map((prop) => (
+                          <tr>
+                            <td>
+                              <code>{prop.name}</code>
+                            </td>
+                            <td>
+                              <code>{prop.type}</code>
+                            </td>
+                            <td>
+                              {prop.attribute ? <code>{prop.attribute}</code> : '—'}
+                            </td>
+                            <td>
+                              <code>{prop.defaultValue}</code>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </rds-stack>
+              ) : null}
+
+              {element.slots.length > 0 ? (
+                <rds-stack gap="sm">
+                  <rds-typography variant="label" color="muted" as="p">
+                    Slots
+                  </rds-typography>
+                  <div class="api-table-wrap">
+                    <table class="api-table">
+                      <thead>
+                        <tr>
+                          <th>Name</th>
+                          <th>Description</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {element.slots.map((slot) => (
+                          <tr>
+                            <td>
+                              <code>{slot.name}</code>
+                            </td>
+                            <td>{slot.description || '—'}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </rds-stack>
+              ) : null}
+
+              {element.events.length > 0 ? (
+                <rds-stack gap="sm">
+                  <rds-typography variant="label" color="muted" as="p">
+                    Events
+                  </rds-typography>
+                  <div class="api-table-wrap">
+                    <table class="api-table">
+                      <thead>
+                        <tr>
+                          <th>Name</th>
+                          <th>Description</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {element.events.map((event) => (
+                          <tr>
+                            <td>
+                              <code>{event.name}</code>
+                            </td>
+                            <td>{event.description || '—'}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </rds-stack>
+              ) : null}
+            </rds-stack>
+          </rds-panel>
+        ))
+      )
+    }
+  </rds-stack>
+</rds-stack>
+
+<script>
+  function bindExampleToggles() {
+    document.querySelectorAll('.example-panel').forEach((panel) => {
+      if (!(panel instanceof HTMLElement) || panel.dataset.bound === '1') return;
+      const toggle = panel.querySelector('.example-view-toggle');
+      if (!toggle) return;
+      panel.dataset.bound = '1';
+
+      const setView = (view: string) => {
+        panel.querySelectorAll<HTMLElement>('[data-example-view]').forEach((section) => {
+          const active = section.dataset.exampleView === view;
+          section.classList.toggle('is-active', active);
+          section.hidden = !active;
+        });
+      };
+
+      toggle.addEventListener('change', (event) => {
+        if (event.target !== toggle) return;
+        const value = (event as CustomEvent<{ value?: string }>).detail?.value;
+        if (value) setView(value);
+      });
+    });
+  }
+
+  customElements.whenDefined('rds-segment').then(bindExampleToggles);
+  document.addEventListener('astro:page-load', bindExampleToggles);
+  bindExampleToggles();
+</script>

@@ -1,0 +1,1 @@
+export { RdsStat } from './stat';

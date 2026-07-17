@@ -4,15 +4,8 @@
     padding: var(--rds-space-6) 0;
   }
 
-  .hero,
-  .preview-grid,
-  .overview-layout,
-  .overview-components,
-  .surface-stack {
-    grid-template-columns: 1fr;
-  }
-
   .hero {
+    grid-template-columns: 1fr;
     min-height: 0;
   }
 
@@ -20,7 +13,6 @@
     justify-content: flex-start;
   }
 
-  .primitive-layout,
   .primitive-measure-grid,
   .primitive-glossary {
     grid-template-columns: 1fr;
@@ -43,27 +35,11 @@
     gap: var(--rds-space-1);
   }
 
-  .plain-button-row {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .plain-button-row > strong {
-    grid-column: 1 / -1;
-  }
-
-  .radio-card-grid {
-    grid-template-columns: 1fr;
-  }
-
   .primitive-row {
     grid-template-columns: 1fr;
   }
 
   .z-index-ladder {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  h1 {
-    font-size: var(--rds-typography-display-font-size);
   }
 }

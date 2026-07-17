@@ -1,0 +1,1 @@
+export { RdsPagination } from './pagination';

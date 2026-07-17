@@ -1,0 +1,1 @@
+export { RdsDetails } from './details';

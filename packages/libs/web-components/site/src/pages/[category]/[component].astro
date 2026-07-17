@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ComponentView from '../../components/ComponentView.astro';
+import { components, getComponent } from '../../lib/catalog';
+
+export function getStaticPaths() {
+  return components.map((page) => ({
+    params: {
+      category: page.category,
+      component: page.component,
+    },
+  }));
+}
+
+const { category = '', component = '' } = Astro.params;
+const page = getComponent(category, component);
+
+if (!page) {
+  return Astro.redirect('/');
+}
+---
+
+<BaseLayout
+  title={page.component}
+  description={`Preview and API for ${page.category}/${page.component}.`}
+  activeHref={page.href}
+>
+  <ComponentView page={page} />
+</BaseLayout>

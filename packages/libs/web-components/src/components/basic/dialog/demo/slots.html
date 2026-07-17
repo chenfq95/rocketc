@@ -1,0 +1,14 @@
+<!-- basic/dialog — slots — usage snippet for @rocketc/web-components -->
+<div class="rds-demo">
+<rds-button size="sm" variant="outline" onclick="document.getElementById('demo-dialog-slots').showModal()">
+    Open with slots
+  </rds-button>
+  <rds-dialog id="demo-dialog-slots">
+    <span slot="title">Publish theme</span>
+    Confirm the token package before shipping.
+    <div slot="footer">
+      <rds-button size="sm" variant="ghost" onclick="this.closest('rds-dialog').close()">Later</rds-button>
+      <rds-button size="sm" onclick="this.closest('rds-dialog').close()">Publish</rds-button>
+    </div>
+  </rds-dialog>
+</div>

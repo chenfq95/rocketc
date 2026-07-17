@@ -1,0 +1,14 @@
+<!-- basic/dialog — basic — usage snippet for @rocketc/web-components -->
+<div class="rds-demo">
+<rds-button size="sm" variant="outline" onclick="document.getElementById('demo-dialog').showModal()">
+    Open dialog
+  </rds-button>
+  <rds-dialog id="demo-dialog">
+    <span slot="title">Confirm deploy</span>
+    Publish the current token build to the selected target?
+    <div slot="footer">
+      <rds-button size="sm" variant="outline" onclick="this.closest('rds-dialog').close()">Cancel</rds-button>
+      <rds-button size="sm" onclick="this.closest('rds-dialog').close()">Confirm</rds-button>
+    </div>
+  </rds-dialog>
+</div>

@@ -1,0 +1,13 @@
+<!-- surfaces/sheet — basic — usage snippet for @rocketc/web-components -->
+<div class="rds-demo">
+<rds-button size="sm" variant="outline" onclick="document.getElementById('demo-sheet').show()">
+    Open sheet
+  </rds-button>
+  <rds-sheet id="demo-sheet" side="right">
+    <span slot="header">Sheet</span>
+    Side panel for secondary tasks.
+    <div slot="footer">
+      <rds-button size="sm" onclick="this.closest('rds-sheet').close()">Close</rds-button>
+    </div>
+  </rds-sheet>
+</div>

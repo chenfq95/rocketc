@@ -1,0 +1,68 @@
+---
+import { ClientRouter } from 'astro:transitions';
+
+import '@rocketc/design-system/css/default.light.css';
+import '@rocketc/design-system/css/default.dark.css';
+import '@rocketc/design-system/css/sun.light.css';
+import '@rocketc/design-system/css/sun.dark.css';
+import '../styles/site.css';
+import Sidebar from '../components/Sidebar.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+
+type Props = {
+  title: string;
+  description?: string;
+  activeHref?: string;
+};
+
+const { title, description, activeHref } = Astro.props;
+const pageTitle = `${title} · Rocketc Web Components`;
+---
+
+<!doctype html>
+<html lang="en" data-theme="default.light" style="color-scheme: light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{pageTitle}</title>
+    {description ? <meta name="description" content={description} /> : null}
+    <script is:inline>
+      try {
+        const raw = localStorage.getItem('rocketc.wc.site.theme');
+        if (raw) {
+          const { family = 'default', mode = 'light' } = JSON.parse(raw);
+          const theme = `${family}.${mode}`;
+          document.documentElement.dataset.theme = theme;
+          document.documentElement.style.colorScheme = mode;
+        }
+      } catch {}
+    </script>
+    <ClientRouter />
+  </head>
+  <body>
+    <div class="site-app">
+      <SiteHeader />
+      <div class="site-shell">
+        <Sidebar activeHref={activeHref} />
+        <rds-box class="site-main" p="lg" bg="canvas" transition:animate="none">
+          <div class="site-main-inner">
+            <slot />
+          </div>
+        </rds-box>
+      </div>
+    </div>
+    <script>
+      import { registerRocketcCustomElements } from '@rocketc/web-components';
+      import { initTheme } from '../scripts/theme';
+
+      function boot() {
+        registerRocketcCustomElements();
+        initTheme();
+      }
+
+      boot();
+      document.addEventListener('astro:page-load', boot);
+    </script>
+  </body>
+</html>

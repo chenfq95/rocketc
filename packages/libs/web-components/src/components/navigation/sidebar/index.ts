@@ -1,0 +1,1 @@
+export { RdsSidebar } from './sidebar';

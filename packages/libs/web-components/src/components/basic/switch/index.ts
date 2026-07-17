@@ -1,0 +1,1 @@
+export { RdsSwitch } from './switch';

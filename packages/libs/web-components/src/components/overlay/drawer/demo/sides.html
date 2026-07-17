@@ -1,0 +1,15 @@
+<!-- overlay/drawer — sides — usage snippet for @rocketc/web-components -->
+<div class="rds-demo">
+<rds-button size="sm" variant="outline" onclick="document.getElementById('drawer-right').show()">Right</rds-button>
+  <rds-button size="sm" variant="outline" onclick="document.getElementById('drawer-left').show()">Left</rds-button>
+  <rds-drawer id="drawer-right" side="right">
+    <span slot="header">Right drawer</span>
+    Filters and secondary navigation.
+    <rds-button slot="footer" size="sm" onclick="this.closest('rds-drawer').close()">Close</rds-button>
+  </rds-drawer>
+  <rds-drawer id="drawer-left" side="left">
+    <span slot="header">Left drawer</span>
+    Alternate side placement.
+    <rds-button slot="footer" size="sm" onclick="this.closest('rds-drawer').close()">Close</rds-button>
+  </rds-drawer>
+</div>

@@ -1,0 +1,23 @@
+{
+  "name": "@rocketc/web-components-site",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev --host 0.0.0.0",
+    "build": "astro build",
+    "preview": "astro preview --host 0.0.0.0",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@rocketc/design-system": "workspace:*",
+    "@rocketc/web-components": "workspace:*",
+    "astro": "^7.1.0",
+    "astro-relative-links": "^0.4.2",
+    "prettier": "^3.9.5",
+    "shiki": "^4.3.1"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  }
+}
