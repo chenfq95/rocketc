@@ -1,27 +1,27 @@
-import { LitElement, css, html } from 'lit';
+import { css, html } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { mixinElementInternals } from '../../../internal/element-internals';
+import { RcStyledElement } from '../../../internal/styled-element';
+
+import { mixinElementInternals } from '../../../internal/mixin-element-internals';
 import {
   getFormValue,
   mixinFormAssociated,
   type FormRestoreReason,
   type FormRestoreState,
-} from '../../../internal/form-associated';
-import { hostStyles } from '../../../internal/shared-styles';
+} from '../../../internal/mixin-form-associated';
 
-const base = mixinFormAssociated(mixinElementInternals(LitElement));
+const base = mixinFormAssociated(mixinElementInternals(RcStyledElement));
 
 /**
  * Color picker with swatch + hex field.
  *
- * @element rds-color-picker
+ * @element rc-color-picker
  * @fires change - When color commits (`detail.value`)
  * @fires input - While adjusting (`detail.value`)
  */
-export class RdsColorPicker extends base {
+export class RcColorPicker extends base {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: block;
@@ -29,39 +29,39 @@ export class RdsColorPicker extends base {
       
       .root {
         display: grid;
-        grid-template-columns: var(--rds-space-9) 1fr;
-        gap: var(--rds-space-2);
+        grid-template-columns: var(--rc-space-9) 1fr;
+        gap: var(--rc-space-2);
         align-items: center;
       }
       
       input[type='color'] {
-        width: var(--rds-space-9);
-        height: var(--rds-space-9);
+        width: var(--rc-space-9);
+        height: var(--rc-space-9);
         margin: 0;
-        border: var(--rds-border-sm) solid var(--rds-color-border-default);
-        border-radius: var(--rds-radius-md);
-        background: var(--rds-color-surface-panel);
-        padding: var(--rds-space-1);
+        border: var(--rc-border-sm) solid var(--rc-color-border-default);
+        border-radius: var(--rc-radius-md);
+        background: var(--rc-color-surface-panel);
+        padding: var(--rc-space-1);
         cursor: pointer;
       }
       
       input[type='text'] {
-        min-height: var(--rds-space-9);
+        min-height: var(--rc-space-9);
         margin: 0;
-        border: var(--rds-border-sm) solid var(--rds-color-border-default);
-        border-radius: var(--rds-radius-md);
-        background: var(--rds-color-surface-panel);
-        padding: 0 var(--rds-space-3);
+        border: var(--rc-border-sm) solid var(--rc-color-border-default);
+        border-radius: var(--rc-radius-md);
+        background: var(--rc-color-surface-panel);
+        padding: 0 var(--rc-space-3);
         color: inherit;
         font: inherit;
-        font-family: var(--rds-typography-code-font-family);
-        font-size: var(--rds-typography-body-small-font-size);
+        font-family: var(--rc-typography-code-font-family);
+        font-size: var(--rc-typography-body-small-font-size);
       }
       
       input:focus-visible {
         outline: none;
-        border-color: var(--rds-color-border-focus);
-        box-shadow: 0 0 0 3px color-mix(in oklab, var(--rds-color-border-focus) 30%, transparent);
+        border-color: var(--rc-color-border-focus);
+        box-shadow: 0 0 0 3px color-mix(in oklab, var(--rc-color-border-focus) 30%, transparent);
       }
     `,
   ];
@@ -95,8 +95,8 @@ export class RdsColorPicker extends base {
 
   override render() {
     return html`
-      <div class="root">
-        <input
+      <div class="root" part="container root">
+        <input part="control"
           type="color"
           .value=${this.value}
           ?disabled=${this.disabled}
@@ -104,7 +104,7 @@ export class RdsColorPicker extends base {
           @input=${(e: Event) => this.#emit('input', (e.target as HTMLInputElement).value)}
           @change=${(e: Event) => this.#emit('change', (e.target as HTMLInputElement).value)}
         />
-        <input
+        <input part="control"
           type="text"
           .value=${this.value}
           ?disabled=${this.disabled}
@@ -120,6 +120,6 @@ export class RdsColorPicker extends base {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-color-picker': RdsColorPicker;
+    'rc-color-picker': RcColorPicker;
   }
 }

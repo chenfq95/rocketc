@@ -1,1 +1,1 @@
-export { RdsRating } from './rating';
+export { RcRating } from './rating';

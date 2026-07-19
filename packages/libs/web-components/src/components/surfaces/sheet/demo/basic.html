@@ -1,13 +1,16 @@
-<!-- surfaces/sheet — basic — usage snippet for @rocketc/web-components -->
-<div class="rds-demo">
-<rds-button size="sm" variant="outline" onclick="document.getElementById('demo-sheet').show()">
-    Open sheet
-  </rds-button>
-  <rds-sheet id="demo-sheet" side="right">
-    <span slot="header">Sheet</span>
-    Side panel for secondary tasks.
+<!--
+title: 基础 / Basic
+description: 展示使用默认配置的实用侧边面板示例。 / Shows a practical sheet example with its default configuration.
+-->
+<div class="rc-demo">
+  <rc-button size="sm" variant="outline" onclick="document.getElementById('demo-sheet').show()">
+    打开侧边面板 / Open sheet
+  </rc-button>
+  <rc-sheet id="demo-sheet" side="right">
+    <span slot="header">侧边面板 / Sheet</span>
+    用于次要任务的侧边面板。 / Side panel for secondary tasks.
     <div slot="footer">
-      <rds-button size="sm" onclick="this.closest('rds-sheet').close()">Close</rds-button>
+      <rc-button size="sm" onclick="this.closest('rc-sheet').close()">关闭 / Close</rc-button>
     </div>
-  </rds-sheet>
+  </rc-sheet>
 </div>

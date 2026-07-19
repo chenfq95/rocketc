@@ -1,0 +1,92 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { highlightCode } from '../../lib/highlight';
+
+const themesCode = await highlightCode(
+  `import '@rocketc/design-system/css/default.light.css';
+import '@rocketc/design-system/css/default.dark.css';
+import '@rocketc/design-system/css/sun.light.css';
+import '@rocketc/design-system/css/sun.dark.css';`,
+  'ts',
+);
+const switchCode = await highlightCode(
+  `document.documentElement.dataset.theme = 'sun.dark';
+document.documentElement.style.colorScheme = 'dark';`,
+  'ts',
+);
+const tokenCode = await highlightCode(
+  `.account-shell {
+  background: var(--rc-color-surface-canvas);
+  color: var(--rc-color-text-primary);
+  padding: var(--rc-space-6);
+  border: var(--rc-border-sm) solid var(--rc-color-border-subtle);
+}`,
+  'css',
+);
+---
+
+<BaseLayout
+  title="设计系统 / Design System"
+  description="在 Rocketc Web Components 中加载主题并使用语义 Token。 / Load themes and use semantic tokens with Rocketc Web Components."
+  activeHref="/guides/design-system/"
+>
+  <rc-stack gap="lg">
+    <rc-stack gap="xs">
+      <rc-typography variant="title" as="h1">设计系统 / Design System</rc-typography>
+      <rc-typography variant="body" color="secondary" as="p">
+        Web Components 使用 <code>@rocketc/design-system</code> 提供的 <code>--rc-*</code> 语义
+        Token。主题决定品牌与明暗模式，组件 API 无需随主题变化。 / Web Components consume
+        the <code>--rc-*</code> semantic tokens from <code>@rocketc/design-system</code>. Themes control
+        brand and color mode without changing component APIs.
+      </rc-typography>
+    </rc-stack>
+
+    <rc-panel bordered padded>
+      <rc-stack slot="header" gap="xs">
+        <rc-typography variant="heading" as="h2">加载主题 / Load Themes</rc-typography>
+        <rc-typography variant="body-small" color="secondary" as="p">
+          只需固定主题时导入一个 CSS 文件；需要运行时切换时导入所有候选主题。 / Import one
+          CSS file for a fixed theme, or import every candidate theme for runtime switching.
+        </rc-typography>
+      </rc-stack>
+      <div class="example-code" set:html={themesCode} />
+    </rc-panel>
+
+    <rc-panel bordered padded>
+      <rc-stack slot="header" gap="xs">
+        <rc-typography variant="heading" as="h2">切换主题 / Switch Themes</rc-typography>
+        <rc-typography variant="body-small" color="secondary" as="p">
+          在根元素设置 <code>data-theme</code>。可用值为 <code>default.light</code>、<code
+          >default.dark</code>、<code>sun.light</code> 和 <code>sun.dark</code>；同时更新
+          <code>color-scheme</code> 以同步原生控件。 / Set <code>data-theme</code> on the root element.
+          The available values are <code>default.light</code>, <code>default.dark</code>,
+          <code>sun.light</code>, and <code>sun.dark</code>; update <code>color-scheme</code> as well so
+          native controls stay in sync.
+        </rc-typography>
+      </rc-stack>
+      <div class="example-code" set:html={switchCode} />
+    </rc-panel>
+
+    <rc-panel bordered padded>
+      <rc-stack slot="header" gap="xs">
+        <rc-typography variant="heading" as="h2">消费 Token / Consume Tokens</rc-typography>
+        <rc-typography variant="body-small" color="secondary" as="p">
+          业务样式优先使用表达用途的语义 Token，例如 surface、text、border；仅在组合局部配方时
+          使用原始刻度。这样主题切换无需修改业务 CSS。 / Prefer role-based semantic tokens such
+          as surface, text, and border in application styles. Use primitive scales only for local
+          recipes, so theme switching requires no application CSS changes.
+        </rc-typography>
+      </rc-stack>
+      <div class="example-code" set:html={tokenCode} />
+    </rc-panel>
+
+    <rc-alert variant="info">
+      <span slot="title">主题基线 / Theme Baseline</span>
+      <span>
+        主题 CSS 已包含 normalize 基线；<code>default.light</code> 同时提供 <code>:root</code>
+        回退。 / Theme CSS includes the normalize baseline, and <code>default.light</code> also
+        provides the <code>:root</code> fallback.
+      </span>
+    </rc-alert>
+  </rc-stack>
+</BaseLayout>

@@ -1,1 +1,1 @@
-export { RdsTextarea } from './textarea';
+export { RcTextarea } from './textarea';

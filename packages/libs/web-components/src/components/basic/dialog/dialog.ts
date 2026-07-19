@@ -1,7 +1,7 @@
-import { LitElement, css, html, nothing, type PropertyValues } from 'lit';
+import { css, html, nothing, type PropertyValues } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { hostStyles } from '../../../internal/shared-styles';
+import { RcStyledElement } from '../../../internal/styled-element';
 
 /**
  * Modal / non-modal dialog backed by native `<dialog>`.
@@ -9,7 +9,7 @@ import { hostStyles } from '../../../internal/shared-styles';
  * Call `show()`, `showModal()`, or `close()`. Setting `open` toggles non-modal
  * open state; prefer `showModal()` for overlays.
  *
- * @element rds-dialog
+ * @element rc-dialog
  * @fires close - Native dialog close (composed)
  * @fires cancel - Native dialog cancel (composed)
  * @slot - Dialog body
@@ -17,9 +17,8 @@ import { hostStyles } from '../../../internal/shared-styles';
  * @slot footer - Optional footer actions
  * @slot title - Title text (also used for accessible name when present)
  */
-export class RdsDialog extends LitElement {
+export class RcDialog extends RcStyledElement {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: contents;
@@ -27,77 +26,77 @@ export class RdsDialog extends LitElement {
       
       dialog {
         margin: auto;
-        border: var(--rds-border-sm) solid var(--rds-color-border-default);
-        border-radius: var(--rds-radius-lg);
-        background: var(--rds-color-surface-panel);
+        border: var(--rc-border-sm) solid var(--rc-color-border-default);
+        border-radius: var(--rc-radius-lg);
+        background: var(--rc-color-surface-panel);
         padding: 0;
-        color: var(--rds-color-text-primary);
-        box-shadow: var(--rds-shadow-overlay, var(--rds-shadow-surface));
-        max-width: min(32rem, calc(100vw - var(--rds-space-8)));
+        color: var(--rc-color-text-primary);
+        box-shadow: var(--rc-shadow-overlay, var(--rc-shadow-surface));
+        max-width: min(32rem, calc(100vw - var(--rc-space-8)));
         width: 100%;
       }
       
       dialog::backdrop {
-        background: color-mix(in oklab, var(--rds-color-common-black, #000) 50%, transparent);
+        background: color-mix(in oklab, var(--rc-color-common-black, #000) 50%, transparent);
       }
       
       .panel {
         display: grid;
-        gap: var(--rds-space-4);
-        padding: var(--rds-space-5);
+        gap: var(--rc-space-4);
+        padding: var(--rc-space-5);
       }
       
       .header {
         display: grid;
-        gap: var(--rds-space-1);
-        padding-right: var(--rds-space-8);
+        gap: var(--rc-space-1);
+        padding-right: var(--rc-space-8);
       }
       
       .title {
         margin: 0;
-        font-size: var(--rds-typography-title-font-size, var(--rds-typography-body-font-size));
-        font-weight: var(--rds-typography-weight-semibold);
-        line-height: var(--rds-typography-label-line-height);
+        font-size: var(--rc-typography-title-font-size, var(--rc-typography-body-font-size));
+        font-weight: var(--rc-typography-weight-semibold);
+        line-height: var(--rc-typography-label-line-height);
       }
       
       .body {
-        color: var(--rds-color-text-secondary);
-        font-size: var(--rds-typography-body-font-size);
+        color: var(--rc-color-text-secondary);
+        font-size: var(--rc-typography-body-font-size);
       }
       
       .footer {
         display: flex;
         flex-wrap: wrap;
         justify-content: flex-end;
-        gap: var(--rds-space-2);
+        gap: var(--rc-space-2);
       }
       
       .close {
         position: absolute;
-        top: var(--rds-space-3);
-        right: var(--rds-space-3);
+        top: var(--rc-space-3);
+        right: var(--rc-space-3);
         display: inline-grid;
         place-items: center;
-        width: var(--rds-space-7);
-        height: var(--rds-space-7);
+        width: var(--rc-space-7);
+        height: var(--rc-space-7);
         margin: 0;
         border: 0;
-        border-radius: var(--rds-radius-md);
+        border-radius: var(--rc-radius-md);
         background: transparent;
-        color: var(--rds-color-text-secondary);
+        color: var(--rc-color-text-secondary);
         cursor: pointer;
       }
       
       .close:hover {
-        background: var(--rds-color-action-bg-hover);
-        color: var(--rds-color-text-primary);
+        background: var(--rc-color-action-bg-hover);
+        color: var(--rc-color-text-primary);
       }
       
       .close:focus-visible {
         outline: none;
         box-shadow:
-          0 0 0 2px var(--rds-color-surface-panel),
-          0 0 0 4px var(--rds-color-border-focus);
+          0 0 0 2px var(--rc-color-surface-panel),
+          0 0 0 4px var(--rc-color-border-focus);
       }
       
       .panel {
@@ -164,13 +163,13 @@ export class RdsDialog extends LitElement {
 
   override render() {
     return html`
-      <dialog
+      <dialog part="container dialog"
         returnValue=${this.returnValue || nothing}
         @cancel=${() => this.#setOpen(false)}
         @close=${this.#onClose}
       >
-        <div class="panel">
-          <button class="close" type="button" aria-label="Close" @click=${() => this.close()}>
+        <div class="panel" part="panel">
+          <button class="close" part="control close" type="button" aria-label="Close" @click=${() => this.close()}>
             <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
               <path
                 d="M3.5 3.5 12.5 12.5M12.5 3.5 3.5 12.5"
@@ -181,12 +180,12 @@ export class RdsDialog extends LitElement {
               />
             </svg>
           </button>
-          <div class="header">
-            <h2 class="title"><slot name="title"></slot></h2>
+          <div class="header" part="header">
+            <h2 class="title" part="title"><slot name="title"></slot></h2>
             <slot name="header"></slot>
           </div>
-          <div class="body"><slot></slot></div>
-          <div class="footer"><slot name="footer"></slot></div>
+          <div class="body" part="body"><slot></slot></div>
+          <div class="footer" part="footer"><slot name="footer"></slot></div>
         </div>
       </dialog>
     `;
@@ -195,6 +194,6 @@ export class RdsDialog extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-dialog': RdsDialog;
+    'rc-dialog': RcDialog;
   }
 }

@@ -1,1 +1,1 @@
-export { RdsBanner, type RdsBannerVariant } from './banner';
+export { RcBanner, type RcBannerVariant } from './banner';

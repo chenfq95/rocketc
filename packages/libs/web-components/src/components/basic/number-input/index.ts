@@ -1,1 +1,1 @@
-export { RdsNumberInput } from './number-input';
+export { RcNumberInput } from './number-input';

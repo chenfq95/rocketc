@@ -99,6 +99,48 @@
         "$type": "color"
       }
     },
+    "warmNeutral": {
+      "600": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.360784, 0.247059, 0.184314],
+          "alpha": 1
+        },
+        "$type": "color"
+      },
+      "700": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.25098, 0.172549, 0.129412],
+          "alpha": 1
+        },
+        "$type": "color"
+      },
+      "800": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.168627, 0.113725, 0.082353],
+          "alpha": 1
+        },
+        "$type": "color"
+      },
+      "900": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.113725, 0.07451, 0.054902],
+          "alpha": 1
+        },
+        "$type": "color"
+      },
+      "950": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.062745, 0.039216, 0.027451],
+          "alpha": 1
+        },
+        "$type": "color"
+      }
+    },
     "red": {
       "50": {
         "$value": {
@@ -190,6 +232,14 @@
       }
     },
     "orange": {
+      "25": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [1, 0.980392, 0.960784],
+          "alpha": 1
+        },
+        "$type": "color"
+      },
       "50": {
         "$value": {
           "colorSpace": "srgb",

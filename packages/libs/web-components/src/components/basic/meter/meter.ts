@@ -1,16 +1,15 @@
-import { LitElement, css, html, nothing } from 'lit';
+import { css, html, nothing } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { hostStyles } from '../../../internal/shared-styles';
+import { RcStyledElement } from '../../../internal/styled-element';
 
 /**
  * Scalar gauge backed by native `<meter>`.
  *
- * @element rds-meter
+ * @element rc-meter
  */
-export class RdsMeter extends LitElement {
+export class RcMeter extends RcStyledElement {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: block;
@@ -19,37 +18,37 @@ export class RdsMeter extends LitElement {
       meter {
         display: block;
         width: 100%;
-        height: var(--rds-space-2);
+        height: var(--rc-space-2);
         border: 0;
-        border-radius: var(--rds-radius-full);
+        border-radius: var(--rc-radius-full);
         overflow: hidden;
-        background: var(--rds-color-border-subtle);
+        background: var(--rc-color-border-subtle);
       }
       
       meter::-webkit-meter-bar {
-        background: var(--rds-color-border-subtle);
+        background: var(--rc-color-border-subtle);
         border: 0;
-        border-radius: var(--rds-radius-full);
+        border-radius: var(--rc-radius-full);
       }
       
       meter::-webkit-meter-optimum-value {
-        background: var(--rds-color-success-solid);
-        border-radius: var(--rds-radius-full);
+        background: var(--rc-color-success-solid);
+        border-radius: var(--rc-radius-full);
       }
       
       meter::-webkit-meter-suboptimum-value {
-        background: var(--rds-color-warning-solid);
-        border-radius: var(--rds-radius-full);
+        background: var(--rc-color-warning-solid);
+        border-radius: var(--rc-radius-full);
       }
       
       meter::-webkit-meter-even-less-good-value {
-        background: var(--rds-color-danger-solid);
-        border-radius: var(--rds-radius-full);
+        background: var(--rc-color-danger-solid);
+        border-radius: var(--rc-radius-full);
       }
       
       meter::-moz-meter-bar {
-        background: var(--rds-color-control-primary-bg);
-        border-radius: var(--rds-radius-full);
+        background: var(--rc-color-control-primary-bg);
+        border-radius: var(--rc-radius-full);
       }
     `,
   ];
@@ -74,7 +73,7 @@ export class RdsMeter extends LitElement {
 
   override render() {
     return html`
-      <meter
+      <meter part="control"
         value=${this.value}
         min=${this.min}
         max=${this.max}
@@ -88,6 +87,6 @@ export class RdsMeter extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-meter': RdsMeter;
+    'rc-meter': RcMeter;
   }
 }

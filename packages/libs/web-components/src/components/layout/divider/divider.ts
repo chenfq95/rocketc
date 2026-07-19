@@ -1,16 +1,15 @@
-import { LitElement, css, html } from 'lit';
+import { css, html } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { hostStyles } from '../../../internal/shared-styles';
+import { RcStyledElement } from '../../../internal/styled-element';
 
 /**
- * Layout divider with optional inset spacing (companion to `rds-separator`).
+ * Layout divider with optional inset spacing (companion to `rc-separator`).
  *
- * @element rds-divider
+ * @element rc-divider
  */
-export class RdsDivider extends LitElement {
+export class RcDivider extends RcStyledElement {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: block;
@@ -20,27 +19,27 @@ export class RdsDivider extends LitElement {
         display: inline-flex;
         align-self: stretch;
         height: auto;
-        min-height: var(--rds-space-4);
+        min-height: var(--rc-space-4);
       }
       
       .root {
         display: flex;
         align-items: center;
-        gap: var(--rds-space-3);
+        gap: var(--rc-space-3);
         width: 100%;
-        color: var(--rds-color-text-muted);
-        font-size: var(--rds-typography-caption-font-size);
+        color: var(--rc-color-text-muted);
+        font-size: var(--rc-typography-caption-font-size);
       }
       
       :host([inset]) .root {
-        margin-inline: var(--rds-space-4);
+        margin-inline: var(--rc-space-4);
         width: auto;
       }
       
       .line {
         flex: 1;
-        height: var(--rds-border-sm);
-        background: var(--rds-color-border-subtle);
+        height: var(--rc-border-sm);
+        background: var(--rc-color-border-subtle);
       }
       
       :host([orientation='vertical']) .root {
@@ -50,7 +49,7 @@ export class RdsDivider extends LitElement {
       }
       
       :host([orientation='vertical']) .line {
-        width: var(--rds-border-sm);
+        width: var(--rc-border-sm);
         height: auto;
         flex: 1;
       }
@@ -72,14 +71,13 @@ export class RdsDivider extends LitElement {
 
   override render() {
     return html`
-      <div
-        class="root"
+      <div class="root" part="container root"
         role="separator"
         aria-orientation=${this.orientation}
       >
-        <span class="line"></span>
-        <span class="label">${this.label}<slot></slot></span>
-        <span class="line"></span>
+        <span class="line" part="line"></span>
+        <span class="label" part="label">${this.label}<slot></slot></span>
+        <span class="line" part="line"></span>
       </div>
     `;
   }
@@ -87,6 +85,6 @@ export class RdsDivider extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-divider': RdsDivider;
+    'rc-divider': RcDivider;
   }
 }

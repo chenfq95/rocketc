@@ -1,1 +1,1 @@
-export { RdsSelect } from './select';
+export { RcSelect } from './select';

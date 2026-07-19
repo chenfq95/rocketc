@@ -1,20 +1,19 @@
-import { LitElement, css, html } from 'lit';
+import { css, html } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { hostStyles } from '../../../internal/shared-styles';
+import { RcStyledElement } from '../../../internal/styled-element';
 
-export type RdsPopoverPlacement = 'top' | 'bottom' | 'left' | 'right';
+export type RcPopoverPlacement = 'top' | 'bottom' | 'left' | 'right';
 
 /**
  * Anchored popover surface. Toggle with `open` or `show()` / `hide()`.
  *
- * @element rds-popover
+ * @element rc-popover
  * @slot - Popover content
  * @slot trigger - Anchor / trigger control
  */
-export class RdsPopover extends LitElement {
+export class RcPopover extends RcStyledElement {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: inline-block;
@@ -26,12 +25,12 @@ export class RdsPopover extends LitElement {
         z-index: 40;
         display: none;
         min-width: 12rem;
-        border: var(--rds-border-sm) solid var(--rds-color-border-subtle);
-        border-radius: var(--rds-radius-lg);
-        background: var(--rds-color-surface-elevated, var(--rds-color-surface-panel));
-        padding: var(--rds-space-3);
-        box-shadow: var(--rds-shadow-raised, var(--rds-shadow-surface));
-        color: var(--rds-color-text-primary);
+        border: var(--rc-border-sm) solid var(--rc-color-border-subtle);
+        border-radius: var(--rc-radius-lg);
+        background: var(--rc-color-surface-elevated, var(--rc-color-surface-panel));
+        padding: var(--rc-space-3);
+        box-shadow: var(--rc-shadow-raised, var(--rc-shadow-surface));
+        color: var(--rc-color-text-primary);
       }
       
       :host([open]) .panel {
@@ -40,22 +39,22 @@ export class RdsPopover extends LitElement {
       
       :host([placement='bottom']) .panel,
       :host(:not([placement])) .panel {
-        top: calc(100% + var(--rds-space-2));
+        top: calc(100% + var(--rc-space-2));
         left: 0;
       }
       
       :host([placement='top']) .panel {
-        bottom: calc(100% + var(--rds-space-2));
+        bottom: calc(100% + var(--rc-space-2));
         left: 0;
       }
       
       :host([placement='left']) .panel {
-        right: calc(100% + var(--rds-space-2));
+        right: calc(100% + var(--rc-space-2));
         top: 0;
       }
       
       :host([placement='right']) .panel {
-        left: calc(100% + var(--rds-space-2));
+        left: calc(100% + var(--rc-space-2));
         top: 0;
       }
     `,
@@ -65,7 +64,7 @@ export class RdsPopover extends LitElement {
   accessor open: boolean = false;
 
   @property({ type: String, reflect: true })
-  accessor placement: RdsPopoverPlacement = 'bottom';
+  accessor placement: RcPopoverPlacement = 'bottom';
 
   override connectedCallback(): void {
     super.connectedCallback();
@@ -107,10 +106,10 @@ export class RdsPopover extends LitElement {
 
   override render() {
     return html`
-      <span class="trigger" @click=${this.#onTriggerClick}>
+      <span class="trigger" part="trigger" @click=${this.#onTriggerClick}>
         <slot name="trigger"></slot>
       </span>
-      <div class="panel" role="dialog" ?hidden=${!this.open}>
+      <div class="panel" part="panel" role="dialog" ?hidden=${!this.open}>
         <slot></slot>
       </div>
     `;
@@ -119,6 +118,6 @@ export class RdsPopover extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-popover': RdsPopover;
+    'rc-popover': RcPopover;
   }
 }

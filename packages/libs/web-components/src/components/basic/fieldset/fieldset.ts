@@ -1,18 +1,17 @@
-import { LitElement, css, html, nothing } from 'lit';
+import { css, html, nothing } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { hostStyles } from '../../../internal/shared-styles';
+import { RcStyledElement } from '../../../internal/styled-element';
 
 /**
  * Form field grouping backed by native `<fieldset>` / `<legend>`.
  *
- * @element rds-fieldset
+ * @element rc-fieldset
  * @slot - Fieldset content
  * @slot legend - Legend label
  */
-export class RdsFieldset extends LitElement {
+export class RcFieldset extends RcStyledElement {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: block;
@@ -20,28 +19,28 @@ export class RdsFieldset extends LitElement {
       
       fieldset {
         margin: 0;
-        border: var(--rds-border-sm) solid var(--rds-color-border-subtle);
-        border-radius: var(--rds-radius-lg);
-        background: var(--rds-color-surface-panel);
-        padding: var(--rds-space-4);
+        border: var(--rc-border-sm) solid var(--rc-color-border-subtle);
+        border-radius: var(--rc-radius-lg);
+        background: var(--rc-color-surface-panel);
+        padding: var(--rc-space-4);
         min-inline-size: 0;
       }
       
       legend {
-        padding: 0 var(--rds-space-1);
-        color: var(--rds-color-text-primary);
-        font-size: var(--rds-typography-label-font-size);
-        font-weight: var(--rds-typography-weight-semibold);
-        letter-spacing: var(--rds-typography-label-letter-spacing);
+        padding: 0 var(--rc-space-1);
+        color: var(--rc-color-text-primary);
+        font-size: var(--rc-typography-label-font-size);
+        font-weight: var(--rc-typography-weight-semibold);
+        letter-spacing: var(--rc-typography-label-letter-spacing);
       }
       
       .content {
         display: grid;
-        gap: var(--rds-space-3);
+        gap: var(--rc-space-3);
       }
       
       fieldset:disabled {
-        opacity: var(--rds-opacity-disabled);
+        opacity: var(--rc-opacity-disabled);
       }
     `,
   ];
@@ -58,12 +57,13 @@ export class RdsFieldset extends LitElement {
   override render() {
     return html`
       <fieldset
+        part="container fieldset"
         ?disabled=${this.disabled}
         form=${this.form || nothing}
         name=${this.name || nothing}
       >
-        <legend><slot name="legend"></slot></legend>
-        <div class="content"><slot></slot></div>
+        <legend part="label legend"><slot name="legend"></slot></legend>
+        <div class="content" part="content"><slot></slot></div>
       </fieldset>
     `;
   }
@@ -71,6 +71,6 @@ export class RdsFieldset extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-fieldset': RdsFieldset;
+    'rc-fieldset': RcFieldset;
   }
 }

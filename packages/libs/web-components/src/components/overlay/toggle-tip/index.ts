@@ -1,1 +1,1 @@
-export { RdsToggleTip } from './toggle-tip';
+export { RcToggleTip } from './toggle-tip';

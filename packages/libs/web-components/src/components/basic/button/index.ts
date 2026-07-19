@@ -1,3 +1,3 @@
-export { RdsButton, type RdsButtonVariant, type RdsButtonSize } from './button';
-export { RdsIconButton } from './icon-button';
-export { RdsCloseButton } from './close-button';
+export { RcButton, type RcButtonVariant, type RcButtonSize } from './button';
+export { RcIconButton } from './icon-button';
+export { RcCloseButton } from './close-button';

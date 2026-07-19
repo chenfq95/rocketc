@@ -1,7 +1,1 @@
-export {
-  RdsBox,
-  type RdsBoxSpace,
-  type RdsBoxDisplay,
-  type RdsBoxBg,
-  type RdsBoxRounded,
-} from './box';
+export { RcBox } from './box';

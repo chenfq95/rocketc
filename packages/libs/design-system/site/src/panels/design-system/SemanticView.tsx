@@ -21,11 +21,11 @@ export function SemanticView({ themeName }: { themeName: DesignThemeName }) {
         title="Brand, control, and state roles"
         badge="Semantic"
       >
-        <rds-typography variant="body" color="secondary" as="p">
+        <rc-typography variant="body" color="secondary" as="p">
           Color is assigned by role first. Brand carries identity, control roles define interactive
           recipes, and status colors are reserved for communication and feedback.
-        </rds-typography>
-        <div className="color-swatch-grid" style={{ marginTop: 'var(--rds-space-3)' }}>
+        </rc-typography>
+        <div className="color-swatch-grid" style={{ marginTop: 'var(--rc-space-3)' }}>
           {colorRoles.map(([, token, color], index) => (
             <ColorSwatch
               background={color}
@@ -54,11 +54,11 @@ export function SemanticView({ themeName }: { themeName: DesignThemeName }) {
                 className="type-sample"
                 style={
                   {
-                    fontFamily: `var(--rds-typography-${cssName}-font-family)`,
-                    fontSize: `var(--rds-typography-${cssName}-font-size)`,
-                    fontWeight: `var(--rds-typography-${cssName}-font-weight)`,
-                    lineHeight: `var(--rds-typography-${cssName}-line-height)`,
-                    letterSpacing: `var(--rds-typography-${cssName}-letter-spacing)`,
+                    fontFamily: `var(--rc-typography-${cssName}-font-family)`,
+                    fontSize: `var(--rc-typography-${cssName}-font-size)`,
+                    fontWeight: `var(--rc-typography-${cssName}-font-weight)`,
+                    lineHeight: `var(--rc-typography-${cssName}-line-height)`,
+                    letterSpacing: `var(--rc-typography-${cssName}-letter-spacing)`,
                   } as CSSProperties
                 }
               >
@@ -71,34 +71,34 @@ export function SemanticView({ themeName }: { themeName: DesignThemeName }) {
       </PreviewPanel>
 
       <PreviewPanel meta="Semantic elevation" title="Three depth steps for tool UI" badge="Depth">
-        <rds-typography variant="body" color="secondary" as="p">
+        <rc-typography variant="body" color="secondary" as="p">
           Light mode separates depth with border and shadow; dark mode leans on surface color steps.
           Elevated surfaces must use <code>shadow.raised</code>.
-        </rds-typography>
+        </rc-typography>
         <div className="elevation-stage" aria-label="Elevation ladder">
           {elevationSteps.map(([label, token, recipe, detail]) => (
             <div className={`elevation-card surface-${recipe}`} key={recipe}>
               <strong>{label}</strong>
               <code>{token}</code>
-              <rds-typography variant="body" color="secondary" as="p">
+              <rc-typography variant="body" color="secondary" as="p">
                 {detail}
-              </rds-typography>
+              </rc-typography>
             </div>
           ))}
         </div>
       </PreviewPanel>
 
       <PreviewPanel meta="Semantic shadow" title="Surface, raised, overlay, and focus">
-        <rds-typography variant="body" color="secondary" as="p">
+        <rc-typography variant="body" color="secondary" as="p">
           Product UI stays on these four roles. Pair <code>surface.elevated</code> with{' '}
           <code>shadow.raised</code> (or <code>shadow.overlay</code> for top chrome).
-        </rds-typography>
+        </rc-typography>
         <div className="measure-list">
           <div className="measure-list__track shadow-grid">
             {shadowRoles.map(([role, token, detail, source]) => (
               <span
                 key={token}
-                style={{ '--shadow-sample': `var(--rds-shadow-${role})` } as CSSProperties}
+                style={{ '--shadow-sample': `var(--rc-shadow-${role})` } as CSSProperties}
                 title={detail}
               >
                 <code>{token}</code>
@@ -110,16 +110,16 @@ export function SemanticView({ themeName }: { themeName: DesignThemeName }) {
       </PreviewPanel>
 
       <PreviewPanel meta="Semantic layout" title="Shell geometry roles">
-        <rds-typography variant="body" color="secondary" as="p">
+        <rc-typography variant="body" color="secondary" as="p">
           Prefer these over magic numbers for page, reading, header, toolbar, and sidebar rhythm.
-        </rds-typography>
+        </rc-typography>
         <div className="measure-list">
           <div className="measure-list__track">
             {layoutRoles.map(([label, token, cssName, value]) => (
               <div
                 className="dimension-chip"
                 key={token}
-                title={`${token} → --rds-layout-${cssName}`}
+                title={`${token} → --rc-layout-${cssName}`}
               >
                 <code>{label}</code>
                 <em>{value}</em>
@@ -130,10 +130,10 @@ export function SemanticView({ themeName }: { themeName: DesignThemeName }) {
       </PreviewPanel>
 
       <PreviewPanel meta="Semantic z-index" title="Stacking roles">
-        <rds-typography variant="body" color="secondary" as="p">
+        <rc-typography variant="body" color="secondary" as="p">
           Low → high: base · raised · dropdown · sticky · overlay · modal · popover · toast ·
           tooltip. Pair with elevation—modals use <code>shadow.overlay</code>.
-        </rds-typography>
+        </rc-typography>
         <div className="z-index-ladder">
           {zIndexRoles.map(([role, token, value], index) => (
             <span
@@ -141,7 +141,7 @@ export function SemanticView({ themeName }: { themeName: DesignThemeName }) {
               style={
                 {
                   '--layer': index,
-                  '--z-token': `var(--rds-z-index-${role})`,
+                  '--z-token': `var(--rc-z-index-${role})`,
                 } as CSSProperties
               }
             >
@@ -153,15 +153,15 @@ export function SemanticView({ themeName }: { themeName: DesignThemeName }) {
       </PreviewPanel>
 
       <PreviewPanel meta="Semantic opacity" title="State and overlay alphas">
-        <rds-typography variant="body" color="secondary" as="p">
+        <rc-typography variant="body" color="secondary" as="p">
           Prefer these roles over hard-coded alphas in components.
-        </rds-typography>
+        </rc-typography>
         <div className="measure-list">
           <div className="measure-list__track opacity-list">
             {opacityRoles.map(([label, token, cssName, value]) => (
               <span
                 key={token}
-                style={{ '--alpha': `var(--rds-opacity-${cssName})` } as CSSProperties}
+                style={{ '--alpha': `var(--rc-opacity-${cssName})` } as CSSProperties}
                 title={token}
               >
                 <code>{label}</code>

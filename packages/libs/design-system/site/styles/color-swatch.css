@@ -1,6 +1,6 @@
 .color-swatch {
   display: grid;
-  gap: var(--rds-space-1);
+  gap: var(--rc-space-1);
   min-width: 0;
   max-width: 100%;
 }
@@ -9,20 +9,20 @@
   display: flex;
   align-items: flex-end;
   min-width: 0;
-  min-height: var(--rds-space-10);
-  padding: var(--rds-space-1);
+  min-height: var(--rc-space-10);
+  padding: var(--rc-space-1);
   overflow: hidden;
-  border: var(--rds-border-sm) solid var(--rds-color-border-subtle);
-  border-radius: var(--rds-radius-sm);
+  border: var(--rc-border-sm) solid var(--rc-color-border-subtle);
+  border-radius: var(--rc-radius-sm);
 }
 
 .color-swatch.is-elevated .color-swatch__chip {
   border-color: transparent;
-  box-shadow: var(--rds-shadow-raised);
+  box-shadow: var(--rc-shadow-raised);
 }
 
 .color-swatch.is-panel .color-swatch__chip {
-  box-shadow: var(--rds-shadow-surface);
+  box-shadow: var(--rc-shadow-surface);
 }
 
 .color-swatch__token,
@@ -30,9 +30,9 @@
   display: block;
   min-width: 0;
   overflow: hidden;
-  font-family: var(--rds-typography-code-font-family);
-  font-size: var(--rds-typography-caption-font-size);
-  line-height: var(--rds-typography-caption-line-height, 1.25);
+  font-family: var(--rc-typography-code-font-family);
+  font-size: var(--rc-typography-caption-font-size);
+  line-height: var(--rc-typography-caption-line-height, 1.25);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -43,13 +43,13 @@
 }
 
 .color-swatch__mapping {
-  color: var(--rds-color-text-muted);
+  color: var(--rc-color-text-muted);
 }
 
 .color-swatch-grid {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: var(--rds-space-2);
+  gap: var(--rc-space-2);
 }
 
 /* Denser grid for short shadcn role names (pairs read better at 6 cols). */

@@ -1,19 +1,18 @@
-import { LitElement, css, html } from 'lit';
+import { css, html } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { hostStyles } from '../../../internal/shared-styles';
+import { RcStyledElement } from '../../../internal/styled-element';
 
 /**
- * Trigger + menu dropdown. Compose with `rds-menu` in the default slot.
+ * Trigger + menu dropdown. Compose with `rc-menu` in the default slot.
  *
- * @element rds-dropdown
+ * @element rc-dropdown
  * @fires change - Bubbles from selected menu item (`detail.value`)
- * @slot - Dropdown panel (e.g. `rds-menu`)
+ * @slot - Dropdown panel (e.g. `rc-menu`)
  * @slot trigger - Trigger control
  */
-export class RdsDropdown extends LitElement {
+export class RcDropdown extends RcStyledElement {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: inline-block;
@@ -22,7 +21,7 @@ export class RdsDropdown extends LitElement {
       
       .panel {
         position: absolute;
-        top: calc(100% + var(--rds-space-2));
+        top: calc(100% + var(--rc-space-2));
         left: 0;
         z-index: 45;
         display: none;
@@ -84,10 +83,10 @@ export class RdsDropdown extends LitElement {
 
   override render() {
     return html`
-      <span class="trigger" @click=${this.#onTriggerClick}>
+      <span class="trigger" part="trigger" @click=${this.#onTriggerClick}>
         <slot name="trigger"></slot>
       </span>
-      <div class="panel" ?hidden=${!this.open}>
+      <div class="panel" part="panel" ?hidden=${!this.open}>
         <slot></slot>
       </div>
     `;
@@ -96,6 +95,6 @@ export class RdsDropdown extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-dropdown': RdsDropdown;
+    'rc-dropdown': RcDropdown;
   }
 }

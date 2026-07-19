@@ -1,14 +1,23 @@
-<!-- basic/dialog — slots — usage snippet for @rocketc/web-components -->
-<div class="rds-demo">
-<rds-button size="sm" variant="outline" onclick="document.getElementById('demo-dialog-slots').showModal()">
-    Open with slots
-  </rds-button>
-  <rds-dialog id="demo-dialog-slots">
-    <span slot="title">Publish theme</span>
-    Confirm the token package before shipping.
+<!--
+title: 插槽 / Slots
+description: 演示命名插槽如何组织对话框内容。 / Demonstrates how named slots structure content inside dialog.
+-->
+<div class="rc-demo">
+  <rc-button
+    size="sm"
+    variant="outline"
+    onclick="document.getElementById('demo-dialog-slots').showModal()"
+  >
+    使用插槽打开 / Open with slots
+  </rc-button>
+  <rc-dialog id="demo-dialog-slots">
+    <span slot="title">发布主题 / Publish theme</span>
+    发布前请确认令牌包。 / Confirm the token package before shipping.
     <div slot="footer">
-      <rds-button size="sm" variant="ghost" onclick="this.closest('rds-dialog').close()">Later</rds-button>
-      <rds-button size="sm" onclick="this.closest('rds-dialog').close()">Publish</rds-button>
+      <rc-button size="sm" variant="ghost" onclick="this.closest('rc-dialog').close()"
+        >稍后 / Later</rc-button
+      >
+      <rc-button size="sm" onclick="this.closest('rc-dialog').close()">发布 / Publish</rc-button>
     </div>
-  </rds-dialog>
+  </rc-dialog>
 </div>

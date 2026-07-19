@@ -1,65 +1,65 @@
-import { RdsButton, RdsIconButton, RdsCloseButton } from './components/basic/button';
-import { RdsCheckbox } from './components/basic/checkbox';
-import { RdsColorPicker } from './components/basic/color-picker';
-import { RdsCombobox, RdsComboboxOption } from './components/basic/combobox';
-import { RdsDetails } from './components/basic/details';
-import { RdsDialog } from './components/basic/dialog';
-import { RdsField } from './components/basic/field';
-import { RdsFieldset } from './components/basic/fieldset';
-import { RdsFileUpload } from './components/basic/file-upload';
-import { RdsInput } from './components/basic/input';
-import { RdsLabel } from './components/basic/label';
-import { RdsLink } from './components/basic/link';
-import { RdsMeter } from './components/basic/meter';
-import { RdsNumberInput } from './components/basic/number-input';
-import { RdsPasswordInput } from './components/basic/password-input';
-import { RdsPinInput } from './components/basic/pin-input';
-import { RdsProgress, RdsProgressCircle, RdsSpinner } from './components/basic/progress';
-import { RdsRadio, RdsRadioGroup } from './components/basic/radio';
-import { RdsRating } from './components/basic/rating';
-import { RdsSegment, RdsSegmentItem } from './components/basic/segment';
-import { RdsSelect } from './components/basic/select';
-import { RdsSlider } from './components/basic/slider';
-import { RdsSwitch } from './components/basic/switch';
-import { RdsTagsInput } from './components/basic/tags-input';
-import { RdsTextarea } from './components/basic/textarea';
-import { RdsTypography } from './components/basic/typography';
-import { RdsAvatar } from './components/data/avatar';
-import { RdsEmpty } from './components/data/empty';
-import { RdsList, RdsListItem } from './components/data/list';
-import { RdsStat } from './components/data/stat';
-import { RdsTable } from './components/data/table';
-import { RdsAlert } from './components/feedback/alert';
-import { RdsBadge, RdsTag } from './components/feedback/badge';
-import { RdsBanner } from './components/feedback/banner';
-import { RdsSkeleton } from './components/feedback/skeleton';
-import { RdsSnackbar } from './components/feedback/snackbar';
-import { RdsToast } from './components/feedback/toast';
-import { RdsBox } from './components/layout/box';
-import { RdsCenter } from './components/layout/center';
-import { RdsDivider } from './components/layout/divider';
-import { RdsFlex } from './components/layout/flex';
-import { RdsGrid } from './components/layout/grid';
-import { RdsScrollArea } from './components/layout/scroll-area';
-import { RdsSeparator } from './components/layout/separator';
-import { RdsStack } from './components/layout/stack';
-import { RdsAccordion, RdsAccordionItem } from './components/navigation/accordion';
-import { RdsBreadcrumb } from './components/navigation/breadcrumb';
-import { RdsMenu, RdsMenuItem } from './components/navigation/menu';
-import { RdsPagination } from './components/navigation/pagination';
-import { RdsSidebar } from './components/navigation/sidebar';
-import { RdsSteps, RdsStep } from './components/navigation/steps';
-import { RdsTabs, RdsTab } from './components/navigation/tabs';
-import { RdsTimeline, RdsTimelineItem } from './components/navigation/timeline';
-import { RdsDrawer } from './components/overlay/drawer';
-import { RdsDropdown } from './components/overlay/dropdown';
-import { RdsHoverCard } from './components/overlay/hover-card';
-import { RdsToggleTip } from './components/overlay/toggle-tip';
-import { RdsTooltip } from './components/overlay/tooltip';
-import { RdsCard } from './components/surfaces/card';
-import { RdsPanel } from './components/surfaces/panel';
-import { RdsPopover } from './components/surfaces/popover';
-import { RdsSheet } from './components/surfaces/sheet';
+import { RcButton, RcIconButton, RcCloseButton } from './components/basic/button';
+import { RcCheckbox } from './components/basic/checkbox';
+import { RcColorPicker } from './components/basic/color-picker';
+import { RcCombobox, RcComboboxOption } from './components/basic/combobox';
+import { RcDetails } from './components/basic/details';
+import { RcDialog } from './components/basic/dialog';
+import { RcField } from './components/basic/field';
+import { RcFieldset } from './components/basic/fieldset';
+import { RcFileUpload } from './components/basic/file-upload';
+import { RcInput } from './components/basic/input';
+import { RcLabel } from './components/basic/label';
+import { RcLink } from './components/basic/link';
+import { RcMeter } from './components/basic/meter';
+import { RcNumberInput } from './components/basic/number-input';
+import { RcPasswordInput } from './components/basic/password-input';
+import { RcPinInput } from './components/basic/pin-input';
+import { RcProgress, RcProgressCircle, RcSpinner } from './components/basic/progress';
+import { RcRadio, RcRadioGroup } from './components/basic/radio';
+import { RcRating } from './components/basic/rating';
+import { RcSegment, RcSegmentItem } from './components/basic/segment';
+import { RcSelect } from './components/basic/select';
+import { RcSlider } from './components/basic/slider';
+import { RcSwitch } from './components/basic/switch';
+import { RcTagsInput } from './components/basic/tags-input';
+import { RcTextarea } from './components/basic/textarea';
+import { RcTypography } from './components/basic/typography';
+import { RcAvatar } from './components/data/avatar';
+import { RcEmpty } from './components/data/empty';
+import { RcList, RcListItem } from './components/data/list';
+import { RcStat } from './components/data/stat';
+import { RcTable } from './components/data/table';
+import { RcAlert } from './components/feedback/alert';
+import { RcBadge, RcTag } from './components/feedback/badge';
+import { RcBanner } from './components/feedback/banner';
+import { RcSkeleton } from './components/feedback/skeleton';
+import { RcSnackbar } from './components/feedback/snackbar';
+import { RcToast } from './components/feedback/toast';
+import { RcBox } from './components/layout/box';
+import { RcCenter } from './components/layout/center';
+import { RcDivider } from './components/layout/divider';
+import { RcFlex } from './components/layout/flex';
+import { RcGrid } from './components/layout/grid';
+import { RcScrollArea } from './components/layout/scroll-area';
+import { RcSeparator } from './components/layout/separator';
+import { RcStack } from './components/layout/stack';
+import { RcAccordion, RcAccordionItem } from './components/navigation/accordion';
+import { RcBreadcrumb } from './components/navigation/breadcrumb';
+import { RcMenu, RcMenuItem } from './components/navigation/menu';
+import { RcPagination } from './components/navigation/pagination';
+import { RcSidebar } from './components/navigation/sidebar';
+import { RcSteps, RcStep } from './components/navigation/steps';
+import { RcTabs, RcTab } from './components/navigation/tabs';
+import { RcTimeline, RcTimelineItem } from './components/navigation/timeline';
+import { RcDrawer } from './components/overlay/drawer';
+import { RcDropdown } from './components/overlay/dropdown';
+import { RcHoverCard } from './components/overlay/hover-card';
+import { RcToggleTip } from './components/overlay/toggle-tip';
+import { RcTooltip } from './components/overlay/tooltip';
+import { RcCard } from './components/surfaces/card';
+import { RcPanel } from './components/surfaces/panel';
+import { RcPopover } from './components/surfaces/popover';
+import { RcSheet } from './components/surfaces/sheet';
 import { defineElement } from './internal/define';
 
 export * from './components/basic/button';
@@ -131,13 +131,13 @@ export {
   mixinDelegatesAria,
   type ARIAMixinStrict,
   type ARIAProperty,
-} from './internal/delegate-aria';
+} from './internal/mixin-delegates-aria';
 export { defineElement } from './internal/define';
 export {
   internals,
   mixinElementInternals,
   type WithElementInternals,
-} from './internal/element-internals';
+} from './internal/mixin-element-internals';
 export {
   getFormState,
   getFormValue,
@@ -146,97 +146,114 @@ export {
   type FormRestoreReason,
   type FormRestoreState,
   type FormValue,
-} from './internal/form-associated';
+} from './internal/mixin-form-associated';
+export {
+  rcStyleProperties,
+  type RcBorderWidthValue,
+  type RcFontWeightValue,
+  type RcJustifyValue,
+  type RcOpenString,
+  type RcRadiusValue,
+  type RcSpaceValue,
+  type RcStylePropertyDefinition,
+  type RcStylePropertyName,
+  type RcStyleProps,
+  type RcSurfaceValue,
+  type RcTextColorValue,
+  type RcTypographyValue,
+} from './internal/style-properties';
+export { resolveRcStyleValue } from './internal/style-value';
+export { RcStyledElement } from './internal/styled-element';
 
 /** Register every shipped custom element (idempotent). */
 export function registerRocketcCustomElements(): void {
   // basic
-  defineElement('rds-button', RdsButton);
-  defineElement('rds-close-button', RdsCloseButton);
-  defineElement('rds-color-picker', RdsColorPicker);
-  defineElement('rds-combobox', RdsCombobox);
-  defineElement('rds-combobox-option', RdsComboboxOption);
-  defineElement('rds-checkbox', RdsCheckbox);
-  defineElement('rds-details', RdsDetails);
-  defineElement('rds-dialog', RdsDialog);
-  defineElement('rds-field', RdsField);
-  defineElement('rds-fieldset', RdsFieldset);
-  defineElement('rds-file-upload', RdsFileUpload);
-  defineElement('rds-icon-button', RdsIconButton);
-  defineElement('rds-input', RdsInput);
-  defineElement('rds-label', RdsLabel);
-  defineElement('rds-link', RdsLink);
-  defineElement('rds-meter', RdsMeter);
-  defineElement('rds-number-input', RdsNumberInput);
-  defineElement('rds-password-input', RdsPasswordInput);
-  defineElement('rds-pin-input', RdsPinInput);
-  defineElement('rds-progress', RdsProgress);
-  defineElement('rds-progress-circle', RdsProgressCircle);
-  defineElement('rds-radio', RdsRadio);
-  defineElement('rds-radio-group', RdsRadioGroup);
-  defineElement('rds-rating', RdsRating);
-  defineElement('rds-segment', RdsSegment);
-  defineElement('rds-segment-item', RdsSegmentItem);
-  defineElement('rds-select', RdsSelect);
-  defineElement('rds-slider', RdsSlider);
-  defineElement('rds-spinner', RdsSpinner);
-  defineElement('rds-switch', RdsSwitch);
-  defineElement('rds-tags-input', RdsTagsInput);
-  defineElement('rds-textarea', RdsTextarea);
-  defineElement('rds-typography', RdsTypography);
+  defineElement('rc-button', RcButton);
+  defineElement('rc-close-button', RcCloseButton);
+  defineElement('rc-color-picker', RcColorPicker);
+  defineElement('rc-combobox', RcCombobox);
+  defineElement('rc-combobox-option', RcComboboxOption);
+  defineElement('rc-checkbox', RcCheckbox);
+  defineElement('rc-details', RcDetails);
+  defineElement('rc-dialog', RcDialog);
+  defineElement('rc-field', RcField);
+  defineElement('rc-fieldset', RcFieldset);
+  defineElement('rc-file-upload', RcFileUpload);
+  defineElement('rc-icon-button', RcIconButton);
+  defineElement('rc-input', RcInput);
+  defineElement('rc-label', RcLabel);
+  defineElement('rc-link', RcLink);
+  defineElement('rc-meter', RcMeter);
+  defineElement('rc-number-input', RcNumberInput);
+  defineElement('rc-password-input', RcPasswordInput);
+  defineElement('rc-pin-input', RcPinInput);
+  defineElement('rc-progress', RcProgress);
+  defineElement('rc-progress-circle', RcProgressCircle);
+  defineElement('rc-radio', RcRadio);
+  defineElement('rc-radio-group', RcRadioGroup);
+  defineElement('rc-rating', RcRating);
+  defineElement('rc-segment', RcSegment);
+  defineElement('rc-segment-item', RcSegmentItem);
+  defineElement('rc-select', RcSelect);
+  defineElement('rc-slider', RcSlider);
+  defineElement('rc-spinner', RcSpinner);
+  defineElement('rc-switch', RcSwitch);
+  defineElement('rc-tags-input', RcTagsInput);
+  defineElement('rc-textarea', RcTextarea);
+  defineElement('rc-typography', RcTypography);
 
   // feedback
-  defineElement('rds-alert', RdsAlert);
-  defineElement('rds-badge', RdsBadge);
-  defineElement('rds-banner', RdsBanner);
-  defineElement('rds-skeleton', RdsSkeleton);
-  defineElement('rds-snackbar', RdsSnackbar);
-  defineElement('rds-tag', RdsTag);
-  defineElement('rds-toast', RdsToast);
+  defineElement('rc-alert', RcAlert);
+  defineElement('rc-badge', RcBadge);
+  defineElement('rc-banner', RcBanner);
+  defineElement('rc-skeleton', RcSkeleton);
+  defineElement('rc-snackbar', RcSnackbar);
+  defineElement('rc-tag', RcTag);
+  defineElement('rc-toast', RcToast);
 
   // surfaces
-  defineElement('rds-card', RdsCard);
-  defineElement('rds-panel', RdsPanel);
-  defineElement('rds-popover', RdsPopover);
-  defineElement('rds-sheet', RdsSheet);
+  defineElement('rc-card', RcCard);
+  defineElement('rc-panel', RcPanel);
+  defineElement('rc-popover', RcPopover);
+  defineElement('rc-sheet', RcSheet);
 
   // navigation
-  defineElement('rds-accordion', RdsAccordion);
-  defineElement('rds-accordion-item', RdsAccordionItem);
-  defineElement('rds-breadcrumb', RdsBreadcrumb);
-  defineElement('rds-menu', RdsMenu);
-  defineElement('rds-menu-item', RdsMenuItem);
-  defineElement('rds-pagination', RdsPagination);
-  defineElement('rds-sidebar', RdsSidebar);
-  defineElement('rds-step', RdsStep);
-  defineElement('rds-steps', RdsSteps);
-  defineElement('rds-tab', RdsTab);
-  defineElement('rds-tabs', RdsTabs);
-  defineElement('rds-timeline', RdsTimeline);
-  defineElement('rds-timeline-item', RdsTimelineItem);
+  defineElement('rc-accordion', RcAccordion);
+  defineElement('rc-accordion-item', RcAccordionItem);
+  defineElement('rc-breadcrumb', RcBreadcrumb);
+  defineElement('rc-menu', RcMenu);
+  defineElement('rc-menu-item', RcMenuItem);
+  defineElement('rc-pagination', RcPagination);
+  defineElement('rc-sidebar', RcSidebar);
+  defineElement('rc-step', RcStep);
+  defineElement('rc-steps', RcSteps);
+  defineElement('rc-tab', RcTab);
+  defineElement('rc-tabs', RcTabs);
+  defineElement('rc-timeline', RcTimeline);
+  defineElement('rc-timeline-item', RcTimelineItem);
 
   // overlay
-  defineElement('rds-drawer', RdsDrawer);
-  defineElement('rds-dropdown', RdsDropdown);
-  defineElement('rds-hover-card', RdsHoverCard);
-  defineElement('rds-toggle-tip', RdsToggleTip);
-  defineElement('rds-tooltip', RdsTooltip);
+  defineElement('rc-drawer', RcDrawer);
+  defineElement('rc-dropdown', RcDropdown);
+  defineElement('rc-hover-card', RcHoverCard);
+  defineElement('rc-toggle-tip', RcToggleTip);
+  defineElement('rc-tooltip', RcTooltip);
 
   // data
-  defineElement('rds-avatar', RdsAvatar);
-  defineElement('rds-empty', RdsEmpty);
-  defineElement('rds-list', RdsList);
-  defineElement('rds-list-item', RdsListItem);
-  defineElement('rds-stat', RdsStat);
-  defineElement('rds-table', RdsTable);
+  defineElement('rc-avatar', RcAvatar);
+  defineElement('rc-empty', RcEmpty);
+  defineElement('rc-list', RcList);
+  defineElement('rc-list-item', RcListItem);
+  defineElement('rc-stat', RcStat);
+  defineElement('rc-table', RcTable);
 
   // layout
-  defineElement('rds-box', RdsBox);
-  defineElement('rds-center', RdsCenter);
-  defineElement('rds-divider', RdsDivider);
-  defineElement('rds-flex', RdsFlex);
-  defineElement('rds-grid', RdsGrid);
-  defineElement('rds-scroll-area', RdsScrollArea);
-  defineElement('rds-separator', RdsSeparator);
-  defineElement('rds-stack', RdsStack);
+  defineElement('rc-box', RcBox);
+  defineElement('rc-center', RcCenter);
+  defineElement('rc-divider', RcDivider);
+  defineElement('rc-flex', RcFlex);
+  defineElement('rc-grid', RcGrid);
+  defineElement('rc-scroll-area', RcScrollArea);
+  defineElement('rc-separator', RcSeparator);
+  defineElement('rc-stack', RcStack);
 }

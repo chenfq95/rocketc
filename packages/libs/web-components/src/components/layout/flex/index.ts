@@ -1,7 +1,1 @@
-export {
-  RdsFlex,
-  type RdsFlexDirection,
-  type RdsFlexGap,
-  type RdsFlexAlign,
-  type RdsFlexJustify,
-} from './flex';
+export { RcFlex, type RcFlexDirection, type RcFlexAlign } from './flex';

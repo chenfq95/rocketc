@@ -1,1 +1,1 @@
-export { RdsTypography, type RdsTypographyVariant, type RdsTypographyColor } from './typography';
+export { RcTypography, type RcTypographyVariant, type RcTypographyColor } from './typography';

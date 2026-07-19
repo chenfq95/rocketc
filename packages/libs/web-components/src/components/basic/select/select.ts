@@ -1,35 +1,35 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { mixinDelegatesAria, type ARIAMixinStrict } from '../../../internal/delegate-aria';
-import { mixinElementInternals } from '../../../internal/element-internals';
+import { RcStyledElement } from '../../../internal/styled-element';
+
+import { mixinDelegatesAria, type ARIAMixinStrict } from '../../../internal/mixin-delegates-aria';
+import { mixinElementInternals } from '../../../internal/mixin-element-internals';
 import {
   getFormValue,
   mixinFormAssociated,
   type FormRestoreReason,
   type FormRestoreState,
-} from '../../../internal/form-associated';
-import { hostStyles } from '../../../internal/shared-styles';
+} from '../../../internal/mixin-form-associated';
 
-const selectBase = mixinDelegatesAria(mixinFormAssociated(mixinElementInternals(LitElement)));
+const selectBase = mixinDelegatesAria(mixinFormAssociated(mixinElementInternals(RcStyledElement)));
 
 /**
  * Native-backed select. Place `<option>` / `<optgroup>` as light-DOM children;
  * they are synced into the internal `<select>`.
  *
- * @element rds-select
+ * @element rc-select
  * @fires input - Native input event (composed; retargeted to the host)
  * @fires change - Composed CustomEvent when the value changes (`detail.value`)
  * @slot - Options / optgroups
  */
-export class RdsSelect extends selectBase {
+export class RcSelect extends selectBase {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     delegatesFocus: true,
   };
 
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: block;
@@ -42,28 +42,28 @@ export class RdsSelect extends selectBase {
       select {
         display: block;
         width: 100%;
-        min-height: var(--rds-space-9);
+        min-height: var(--rc-space-9);
         margin: 0;
-        border: var(--rds-border-sm) solid var(--rds-color-border-default);
-        border-radius: var(--rds-radius-md);
-        background: var(--rds-color-surface-panel);
-        padding: 0 var(--rds-space-3);
-        color: var(--rds-color-text-primary);
+        border: var(--rc-border-sm) solid var(--rc-color-border-default);
+        border-radius: var(--rc-radius-md);
+        background: var(--rc-color-surface-panel);
+        padding: 0 var(--rc-space-3);
+        color: var(--rc-color-text-primary);
         font: inherit;
-        font-size: var(--rds-typography-body-font-size);
+        font-size: var(--rc-typography-body-font-size);
       }
       
       select:focus-visible {
         outline: none;
-        border-color: var(--rds-color-border-focus);
-        box-shadow: 0 0 0 3px color-mix(in oklab, var(--rds-color-border-focus) 30%, transparent);
+        border-color: var(--rc-color-border-focus);
+        box-shadow: 0 0 0 3px color-mix(in oklab, var(--rc-color-border-focus) 30%, transparent);
       }
       
       select:disabled {
         cursor: not-allowed;
-        background: var(--rds-color-action-bg-disabled);
-        color: var(--rds-color-action-fg-disabled);
-        opacity: var(--rds-opacity-disabled);
+        background: var(--rc-color-action-bg-disabled);
+        color: var(--rc-color-action-fg-disabled);
+        opacity: var(--rc-opacity-disabled);
       }
     `,
   ];
@@ -149,10 +149,10 @@ export class RdsSelect extends selectBase {
     const { ariaLabel, ariaInvalid, ariaRequired, role } = this as ARIAMixinStrict;
 
     return html`
-      <div class="options">
+      <div class="options" part="options">
         <slot @slotchange=${this.#onSlotChange}></slot>
       </div>
-      <select
+      <select part="control"
         aria-invalid=${ariaInvalid || nothing}
         aria-label=${ariaLabel || nothing}
         aria-required=${ariaRequired || nothing}
@@ -171,6 +171,6 @@ export class RdsSelect extends selectBase {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-select': RdsSelect;
+    'rc-select': RcSelect;
   }
 }

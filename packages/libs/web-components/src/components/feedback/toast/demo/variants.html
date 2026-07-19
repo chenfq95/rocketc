@@ -1,15 +1,18 @@
-<!-- feedback/toast — variants — usage snippet for @rocketc/web-components -->
-<div class="rds-demo">
-<rds-toast open duration="0" variant="info">
-    <span slot="title">Queued</span>
-    Build job is waiting for a runner.
-  </rds-toast>
-  <rds-toast open duration="0" variant="warning">
-    <span slot="title">Slow</span>
-    Token compile is taking longer than usual.
-  </rds-toast>
-  <rds-toast open duration="0" variant="destructive">
-    <span slot="title">Error</span>
-    Could not write CSS outputs.
-  </rds-toast>
+<!--
+title: 变体 / Variants
+description: 对比通知可用的视觉变体和强调级别。 / Compares the visual variants and emphasis levels available to toast.
+-->
+<div class="rc-demo">
+  <rc-toast open duration="0" variant="info">
+    <span slot="title">排队中 / Queued</span>
+    构建任务正在等待运行器。 / Build job is waiting for a runner.
+  </rc-toast>
+  <rc-toast open duration="0" variant="warning">
+    <span slot="title">较慢 / Slow</span>
+    令牌编译耗时超过预期。 / Token compile is taking longer than usual.
+  </rc-toast>
+  <rc-toast open duration="0" variant="destructive">
+    <span slot="title">错误 / Error</span>
+    无法写入 CSS 输出。 / Could not write CSS outputs.
+  </rc-toast>
 </div>

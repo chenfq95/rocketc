@@ -1,1 +1,1 @@
-export { RdsLabel } from './label';
+export { RcLabel } from './label';

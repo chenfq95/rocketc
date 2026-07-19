@@ -1,2 +1,2 @@
-export { RdsMenu } from './menu';
-export { RdsMenuItem } from './menu-item';
+export { RcMenu } from './menu';
+export { RcMenuItem } from './menu-item';

@@ -1,18 +1,17 @@
-import { LitElement, css, html } from 'lit';
+import { css, html } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { hostStyles } from '../../../internal/shared-styles';
+import { RcStyledElement } from '../../../internal/styled-element';
 
 /**
  * Content shown on hover / focus of the trigger.
  *
- * @element rds-hover-card
+ * @element rc-hover-card
  * @slot - Card content
  * @slot trigger - Hover / focus target
  */
-export class RdsHoverCard extends LitElement {
+export class RcHoverCard extends RcStyledElement {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: inline-block;
@@ -22,15 +21,15 @@ export class RdsHoverCard extends LitElement {
       .panel {
         position: absolute;
         z-index: 40;
-        top: calc(100% + var(--rds-space-2));
+        top: calc(100% + var(--rc-space-2));
         left: 0;
         display: none;
         min-width: 12rem;
-        border: var(--rds-border-sm) solid var(--rds-color-border-subtle);
-        border-radius: var(--rds-radius-lg);
-        background: var(--rds-color-surface-elevated, var(--rds-color-surface-panel));
-        padding: var(--rds-space-3);
-        box-shadow: var(--rds-shadow-raised, var(--rds-shadow-surface));
+        border: var(--rc-border-sm) solid var(--rc-color-border-subtle);
+        border-radius: var(--rc-radius-lg);
+        background: var(--rc-color-surface-elevated, var(--rc-color-surface-panel));
+        padding: var(--rc-space-3);
+        box-shadow: var(--rc-shadow-raised, var(--rc-shadow-surface));
       }
       
       :host([open]) .panel {
@@ -57,9 +56,15 @@ export class RdsHoverCard extends LitElement {
 
   override render() {
     return html`
-      <span @mouseenter=${this.#show} @mouseleave=${this.#hide} @focusin=${this.#show} @focusout=${this.#hide}>
+      <span
+        part="container trigger"
+        @mouseenter=${this.#show}
+        @mouseleave=${this.#hide}
+        @focusin=${this.#show}
+        @focusout=${this.#hide}
+      >
         <slot name="trigger"></slot>
-        <div class="panel" role="tooltip" @mouseenter=${this.#show} @mouseleave=${this.#hide}>
+        <div class="panel" part="panel" role="tooltip" @mouseenter=${this.#show} @mouseleave=${this.#hide}>
           <slot></slot>
         </div>
       </span>
@@ -69,6 +74,6 @@ export class RdsHoverCard extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-hover-card': RdsHoverCard;
+    'rc-hover-card': RcHoverCard;
   }
 }

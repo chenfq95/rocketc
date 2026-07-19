@@ -3,4 +3,4 @@
 ## 0.0.1
 
 - Initial package: Lit web components on Rocketc Design System tokens
-- Elements: `rds-button`, `rds-badge`, `rds-input`, `rds-label`, `rds-switch`, `rds-card`, `rds-alert`
+- Elements: `rc-button`, `rc-badge`, `rc-input`, `rc-label`, `rc-switch`, `rc-card`, `rc-alert`

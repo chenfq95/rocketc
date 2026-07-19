@@ -1,7 +1,7 @@
 @media (max-width: 820px) {
   .shell {
-    width: min(100vw - var(--rds-space-6), var(--rds-measure-xl));
-    padding: var(--rds-space-6) 0;
+    width: min(100vw - var(--rc-space-6), var(--rc-measure-xl));
+    padding: var(--rc-space-6) 0;
   }
 
   .hero {
@@ -18,13 +18,13 @@
     grid-template-columns: 1fr;
   }
 
-  .principles-layout rds-grid {
+  .principles-layout rc-grid {
     grid-template-columns: 1fr !important;
   }
 
   .principles-glossary-row {
     grid-template-columns: 1fr;
-    gap: var(--rds-space-1);
+    gap: var(--rc-space-1);
   }
 
   .measure-list--inline {
@@ -41,7 +41,7 @@
 
   .overview-type > div {
     grid-template-columns: 1fr;
-    gap: var(--rds-space-1);
+    gap: var(--rc-space-1);
   }
 
   .primitive-row {

@@ -1,24 +1,23 @@
-import { LitElement, css, html, type PropertyValues } from 'lit';
+import { css, html } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { hostStyles } from '../../../internal/shared-styles';
+import { RcStyledElement } from '../../../internal/styled-element';
 
 /**
  * Centers children on both axes (Chakra-style `Center`).
  *
- * @element rds-center
+ * @element rc-center
  * @slot - Centered content
  */
-export class RdsCenter extends LitElement {
+export class RcCenter extends RcStyledElement {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: flex;
         align-items: center;
         justify-content: center;
         min-width: 0;
-        min-height: var(--_min-height, auto);
+        min-height: var(--rc-space-16);
       }
       
       :host([inline]) {
@@ -30,17 +29,6 @@ export class RdsCenter extends LitElement {
   @property({ type: Boolean, reflect: true })
   accessor inline: boolean = false;
 
-  @property({ type: String, attribute: 'min-height', reflect: true })
-  accessor minHeight: string = '';
-
-  protected override updated(_changed: PropertyValues<this>): void {
-    if (this.minHeight) {
-      this.style.setProperty('--_min-height', this.minHeight);
-    } else {
-      this.style.removeProperty('--_min-height');
-    }
-  }
-
   override render() {
     return html`
       <slot></slot>
@@ -50,6 +38,6 @@ export class RdsCenter extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-center': RdsCenter;
+    'rc-center': RcCenter;
   }
 }

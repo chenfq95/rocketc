@@ -1,15 +1,26 @@
-<!-- overlay/drawer — sides — usage snippet for @rocketc/web-components -->
-<div class="rds-demo">
-<rds-button size="sm" variant="outline" onclick="document.getElementById('drawer-right').show()">Right</rds-button>
-  <rds-button size="sm" variant="outline" onclick="document.getElementById('drawer-left').show()">Left</rds-button>
-  <rds-drawer id="drawer-right" side="right">
-    <span slot="header">Right drawer</span>
-    Filters and secondary navigation.
-    <rds-button slot="footer" size="sm" onclick="this.closest('rds-drawer').close()">Close</rds-button>
-  </rds-drawer>
-  <rds-drawer id="drawer-left" side="left">
-    <span slot="header">Left drawer</span>
-    Alternate side placement.
-    <rds-button slot="footer" size="sm" onclick="this.closest('rds-drawer').close()">Close</rds-button>
-  </rds-drawer>
+<!--
+title: 侧边位置 / Sides
+description: 对比抽屉从不同侧边进入视口的效果。 / Compares the sides from which drawer can enter the viewport.
+-->
+<div class="rc-demo">
+  <rc-button size="sm" variant="outline" onclick="document.getElementById('drawer-right').show()"
+    >右侧 / Right</rc-button
+  >
+  <rc-button size="sm" variant="outline" onclick="document.getElementById('drawer-left').show()"
+    >左侧 / Left</rc-button
+  >
+  <rc-drawer id="drawer-right" side="right">
+    <span slot="header">右侧抽屉 / Right drawer</span>
+    筛选器和次级导航。 / Filters and secondary navigation.
+    <rc-button slot="footer" size="sm" onclick="this.closest('rc-drawer').close()"
+      >关闭 / Close</rc-button
+    >
+  </rc-drawer>
+  <rc-drawer id="drawer-left" side="left">
+    <span slot="header">左侧抽屉 / Left drawer</span>
+    另一侧的位置。 / Alternate side placement.
+    <rc-button slot="footer" size="sm" onclick="this.closest('rc-drawer').close()"
+      >关闭 / Close</rc-button
+    >
+  </rc-drawer>
 </div>

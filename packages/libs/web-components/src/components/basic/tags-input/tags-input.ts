@@ -1,26 +1,26 @@
-import { LitElement, css, html, nothing } from 'lit';
+import { css, html, nothing } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { mixinElementInternals } from '../../../internal/element-internals';
+import { RcStyledElement } from '../../../internal/styled-element';
+
+import { mixinElementInternals } from '../../../internal/mixin-element-internals';
 import {
   getFormValue,
   mixinFormAssociated,
   type FormRestoreReason,
   type FormRestoreState,
-} from '../../../internal/form-associated';
-import { hostStyles } from '../../../internal/shared-styles';
+} from '../../../internal/mixin-form-associated';
 
-const base = mixinFormAssociated(mixinElementInternals(LitElement));
+const base = mixinFormAssociated(mixinElementInternals(RcStyledElement));
 
 /**
  * Multi-value tag entry. `value` is a comma-separated string.
  *
- * @element rds-tags-input
+ * @element rc-tags-input
  * @fires change - When tags change (`detail.value` / `detail.tags`)
  */
-export class RdsTagsInput extends base {
+export class RcTagsInput extends base {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: block;
@@ -29,29 +29,29 @@ export class RdsTagsInput extends base {
       .root {
         display: flex;
         flex-wrap: wrap;
-        gap: var(--rds-space-2);
+        gap: var(--rc-space-2);
         align-items: center;
-        min-height: var(--rds-space-9);
-        border: var(--rds-border-sm) solid var(--rds-color-border-default);
-        border-radius: var(--rds-radius-md);
-        background: var(--rds-color-surface-panel);
-        padding: var(--rds-space-1) var(--rds-space-2);
+        min-height: var(--rc-space-9);
+        border: var(--rc-border-sm) solid var(--rc-color-border-default);
+        border-radius: var(--rc-radius-md);
+        background: var(--rc-color-surface-panel);
+        padding: var(--rc-space-1) var(--rc-space-2);
       }
       
       :host(:focus-within) .root {
-        border-color: var(--rds-color-border-focus);
-        box-shadow: 0 0 0 3px color-mix(in oklab, var(--rds-color-border-focus) 30%, transparent);
+        border-color: var(--rc-color-border-focus);
+        box-shadow: 0 0 0 3px color-mix(in oklab, var(--rc-color-border-focus) 30%, transparent);
       }
       
       .tag {
         display: inline-flex;
         align-items: center;
-        gap: var(--rds-space-1);
-        border-radius: var(--rds-radius-full);
-        background: var(--rds-color-control-secondary-bg-hover);
-        color: var(--rds-color-control-secondary-fg);
-        padding: 2px var(--rds-space-2);
-        font-size: var(--rds-typography-caption-font-size);
+        gap: var(--rc-space-1);
+        border-radius: var(--rc-radius-full);
+        background: var(--rc-color-control-secondary-bg-hover);
+        color: var(--rc-color-control-secondary-fg);
+        padding: 2px var(--rc-space-2);
+        font-size: var(--rc-typography-caption-font-size);
       }
       
       .tag button {
@@ -71,10 +71,10 @@ export class RdsTagsInput extends base {
         margin: 0;
         border: 0;
         background: transparent;
-        min-height: var(--rds-space-7);
+        min-height: var(--rc-space-7);
         color: inherit;
         font: inherit;
-        font-size: var(--rds-typography-body-font-size);
+        font-size: var(--rc-typography-body-font-size);
       }
       
       input:focus {
@@ -152,12 +152,12 @@ export class RdsTagsInput extends base {
 
   override render() {
     return html`
-      <div class="root" @click=${() => this.renderRoot.querySelector('input')?.focus()}>
+      <div class="root" part="container root" @click=${() => this.renderRoot.querySelector('input')?.focus()}>
         ${this.tags.map(
           (tag) => html`
-            <span class="tag">
+            <span class="tag" part="tag">
               ${tag}
-              <button
+              <button part="control remove"
                 type="button"
                 aria-label=${`Remove ${tag}`}
                 ?disabled=${this.disabled}
@@ -171,7 +171,7 @@ export class RdsTagsInput extends base {
             </span>
           `,
         )}
-        <input
+        <input part="control input"
           .value=${this.#draft}
           placeholder=${this.tags.length ? nothing : this.placeholder}
           ?disabled=${this.disabled}
@@ -190,6 +190,6 @@ export class RdsTagsInput extends base {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-tags-input': RdsTagsInput;
+    'rc-tags-input': RcTagsInput;
   }
 }

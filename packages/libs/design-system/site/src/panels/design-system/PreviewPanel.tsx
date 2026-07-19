@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 
-/** Shared token-panel chrome on `rds-panel`. */
+/** Shared token-panel chrome on `rc-panel`. */
 export function PreviewPanel({
   meta,
   title,
@@ -15,19 +15,19 @@ export function PreviewPanel({
   children: ReactNode;
 }) {
   return (
-    <rds-panel bordered padded class={['preview-panel', className].filter(Boolean).join(' ')}>
+    <rc-panel bordered padded class={['preview-panel', className].filter(Boolean).join(' ')}>
       <div className="panel-header" slot="header">
         <div>
-          <rds-typography class="meta" variant="caption" as="p">
+          <rc-typography class="meta" variant="caption" as="p">
             {meta}
-          </rds-typography>
-          <rds-typography variant="heading" as="h2">
+          </rc-typography>
+          <rc-typography variant="heading" as="h2">
             {title}
-          </rds-typography>
+          </rc-typography>
         </div>
-        {badge ? <rds-badge variant="secondary">{badge}</rds-badge> : null}
+        {badge ? <rc-badge variant="secondary">{badge}</rc-badge> : null}
       </div>
       {children}
-    </rds-panel>
+    </rc-panel>
   );
 }

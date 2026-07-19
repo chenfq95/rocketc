@@ -1,1 +1,1 @@
-export { RdsSnackbar } from './snackbar';
+export { RcSnackbar } from './snackbar';

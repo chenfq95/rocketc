@@ -1,11 +1,15 @@
-<!-- basic/details — states — usage snippet for @rocketc/web-components -->
-<div class="rds-demo">
-<rds-details>
-    <span slot="summary">Collapsed</span>
-    Hidden until opened.
-  </rds-details>
-  <rds-details open>
-    <span slot="summary">Expanded</span>
-    Visible by default with the <code>open</code> attribute.
-  </rds-details>
+<!--
+title: 状态 / States
+description: 对比详情折叠支持的主要交互状态。 / Compares the primary interactive states supported by details.
+-->
+<div class="rc-demo">
+  <rc-details>
+    <span slot="summary">已折叠 / Collapsed</span>
+    打开前保持隐藏。 / Hidden until opened.
+  </rc-details>
+  <rc-details open>
+    <span slot="summary">已展开 / Expanded</span>
+    使用 <code>open</code> 特性时默认可见。 / Visible by default with the <code>open</code>
+    attribute.
+  </rc-details>
 </div>

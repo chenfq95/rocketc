@@ -1,1 +1,1 @@
-export { RdsStat } from './stat';
+export { RcStat } from './stat';

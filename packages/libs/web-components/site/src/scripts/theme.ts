@@ -47,9 +47,9 @@ function applyTheme(state: ThemeState) {
 
 function syncControls(state: ThemeState) {
   const family = document.getElementById('theme-family') as
-    | HTMLElementTagNameMap['rds-segment']
+    | HTMLElementTagNameMap['rc-segment']
     | null;
-  const dark = document.getElementById('theme-dark') as HTMLElementTagNameMap['rds-switch'] | null;
+  const dark = document.getElementById('theme-dark') as HTMLElementTagNameMap['rc-switch'] | null;
 
   if (family && family.value !== state.family) {
     family.value = state.family;
@@ -91,8 +91,8 @@ export function initTheme() {
   applyTheme(state);
 
   const ready = Promise.all([
-    customElements.whenDefined('rds-segment'),
-    customElements.whenDefined('rds-switch'),
+    customElements.whenDefined('rc-segment'),
+    customElements.whenDefined('rc-switch'),
   ]);
 
   void ready.then(() => {

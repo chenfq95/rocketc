@@ -2,218 +2,83 @@
   "$schema": "https://www.designtokens.org/schemas/2025.10/format.json",
   "color": {
     "surface": {
-      "canvas": {
-        "$value": "{color.neutral.950}",
-        "$type": "color"
-      },
-      "panel": {
-        "$value": "{color.neutral.900}",
-        "$type": "color"
-      },
-      "elevated": {
-        "$value": "{color.neutral.800}",
-        "$type": "color"
-      },
-      "inverse": {
-        "$value": "{color.neutral.0}",
-        "$type": "color"
-      }
+      "canvas": { "$value": "{color.warmNeutral.950}", "$type": "color" },
+      "panel": { "$value": "{color.warmNeutral.900}", "$type": "color" },
+      "elevated": { "$value": "{color.warmNeutral.800}", "$type": "color" },
+      "inverse": { "$value": "{color.orange.25}", "$type": "color" }
     },
     "text": {
-      "primary": {
-        "$value": "{color.neutral.50}",
-        "$type": "color"
-      },
-      "secondary": {
-        "$value": "{color.neutral.300}",
-        "$type": "color"
-      },
-      "muted": {
-        "$value": "{color.neutral.400}",
-        "$type": "color"
-      },
-      "inverse": {
-        "$value": "{color.neutral.950}",
-        "$type": "color"
-      }
+      "primary": { "$value": "{color.orange.25}", "$type": "color" },
+      "secondary": { "$value": "{color.neutral.400}", "$type": "color" },
+      "muted": { "$value": "{color.neutral.500}", "$type": "color" },
+      "inverse": { "$value": "{color.warmNeutral.950}", "$type": "color" }
     },
     "border": {
-      "subtle": {
-        "$value": "{color.neutral.800}",
-        "$type": "color"
-      },
-      "default": {
-        "$value": "{color.neutral.700}",
-        "$type": "color"
-      },
-      "focus": {
-        "$value": "{color.neutral.400}",
-        "$type": "color"
-      }
+      "subtle": { "$value": "{color.warmNeutral.800}", "$type": "color" },
+      "default": { "$value": "{color.warmNeutral.700}", "$type": "color" },
+      "strong": { "$value": "{color.warmNeutral.600}", "$type": "color" },
+      "focus": { "$value": "{color.orange.400}", "$type": "color" }
     },
     "action": {
-      "fg": {
-        "$value": "{color.text.secondary}",
-        "$type": "color"
-      },
-      "bgHover": {
-        "$value": "{color.neutral.800}",
-        "$type": "color"
-      },
-      "bgActive": {
-        "$value": "{color.neutral.700}",
-        "$type": "color"
-      },
-      "bgSelected": {
-        "$value": "{color.brand.soft}",
-        "$type": "color"
-      },
-      "bgDisabled": {
-        "$value": "{color.neutral.800}",
-        "$type": "color"
-      },
-      "bgFocus": {
-        "$value": "{color.neutral.700}",
-        "$type": "color"
-      }
+      "fg": { "$value": "{color.text.secondary}", "$type": "color" },
+      "fgDisabled": { "$value": "{color.text.muted}", "$type": "color" },
+      "bgHover": { "$value": "{color.warmNeutral.800}", "$type": "color" },
+      "bgActive": { "$value": "{color.warmNeutral.700}", "$type": "color" },
+      "bgSelected": { "$value": "{color.orange.950}", "$type": "color" },
+      "bgDisabled": { "$value": "{color.warmNeutral.800}", "$type": "color" },
+      "bgFocus": { "$value": "{color.warmNeutral.700}", "$type": "color" }
     },
     "brand": {
-      "solid": {
-        "$value": "{color.orange.500}",
-        "$type": "color"
-      },
-      "solidHover": {
-        "$value": "{color.orange.400}",
-        "$type": "color"
-      },
-      "solidActive": {
-        "$value": "{color.orange.300}",
-        "$type": "color"
-      },
-      "soft": {
-        "$value": "{color.orange.950}",
-        "$type": "color"
-      },
-      "softHover": {
-        "$value": "{color.orange.900}",
-        "$type": "color"
-      },
-      "softActive": {
-        "$value": "{color.orange.800}",
-        "$type": "color"
-      },
-      "fg": {
-        "$value": "{color.orange.300}",
-        "$type": "color"
-      },
-      "border": {
-        "$value": "{color.orange.600}",
-        "$type": "color"
-      }
+      "solid": { "$value": "{color.orange.500}", "$type": "color" },
+      "solidHover": { "$value": "{color.orange.400}", "$type": "color" },
+      "solidActive": { "$value": "{color.orange.600}", "$type": "color" },
+      "soft": { "$value": "{color.orange.950}", "$type": "color" },
+      "softHover": { "$value": "{color.orange.900}", "$type": "color" },
+      "softActive": { "$value": "{color.orange.800}", "$type": "color" },
+      "fg": { "$value": "{color.orange.300}", "$type": "color" },
+      "border": { "$value": "{color.orange.600}", "$type": "color" },
+      "focusRing": { "$value": "{color.orange.400}", "$type": "color" },
+      "contrast": { "$value": "{color.common.white}", "$type": "color" }
     },
     "success": {
-      "soft": {
-        "$value": "{color.green.950}",
-        "$type": "color"
-      },
-      "softHover": {
-        "$value": "{color.green.900}",
-        "$type": "color"
-      },
-      "softActive": {
-        "$value": "{color.green.800}",
-        "$type": "color"
-      },
-      "fg": {
-        "$value": "{color.green.300}",
-        "$type": "color"
-      },
-      "border": {
-        "$value": "{color.green.700}",
-        "$type": "color"
-      }
+      "solidHover": { "$value": "{color.green.600}", "$type": "color" },
+      "solidActive": { "$value": "{color.green.700}", "$type": "color" },
+      "soft": { "$value": "{color.green.950}", "$type": "color" },
+      "softHover": { "$value": "{color.green.900}", "$type": "color" },
+      "softActive": { "$value": "{color.green.800}", "$type": "color" },
+      "fg": { "$value": "{color.green.300}", "$type": "color" },
+      "border": { "$value": "{color.green.700}", "$type": "color" },
+      "contrast": { "$value": "{color.neutral.950}", "$type": "color" }
     },
     "warning": {
-      "soft": {
-        "$value": "{color.amber.950}",
-        "$type": "color"
-      },
-      "softHover": {
-        "$value": "{color.amber.900}",
-        "$type": "color"
-      },
-      "softActive": {
-        "$value": "{color.amber.800}",
-        "$type": "color"
-      },
-      "fg": {
-        "$value": "{color.amber.300}",
-        "$type": "color"
-      },
-      "border": {
-        "$value": "{color.amber.700}",
-        "$type": "color"
-      }
+      "solidHover": { "$value": "{color.amber.600}", "$type": "color" },
+      "solidActive": { "$value": "{color.amber.700}", "$type": "color" },
+      "soft": { "$value": "{color.amber.950}", "$type": "color" },
+      "softHover": { "$value": "{color.amber.900}", "$type": "color" },
+      "softActive": { "$value": "{color.amber.800}", "$type": "color" },
+      "fg": { "$value": "{color.amber.300}", "$type": "color" },
+      "border": { "$value": "{color.amber.700}", "$type": "color" },
+      "contrast": { "$value": "{color.neutral.950}", "$type": "color" }
     },
     "danger": {
-      "soft": {
-        "$value": "{color.red.950}",
-        "$type": "color"
-      },
-      "softHover": {
-        "$value": "{color.red.900}",
-        "$type": "color"
-      },
-      "softActive": {
-        "$value": "{color.red.800}",
-        "$type": "color"
-      },
-      "fg": {
-        "$value": "{color.red.300}",
-        "$type": "color"
-      },
-      "border": {
-        "$value": "{color.red.700}",
-        "$type": "color"
-      }
+      "solidHover": { "$value": "{color.red.600}", "$type": "color" },
+      "solidActive": { "$value": "{color.red.700}", "$type": "color" },
+      "soft": { "$value": "{color.red.950}", "$type": "color" },
+      "softHover": { "$value": "{color.red.900}", "$type": "color" },
+      "softActive": { "$value": "{color.red.800}", "$type": "color" },
+      "fg": { "$value": "{color.red.300}", "$type": "color" },
+      "border": { "$value": "{color.red.700}", "$type": "color" },
+      "contrast": { "$value": "{color.neutral.950}", "$type": "color" }
     },
     "info": {
-      "solid": {
-        "$value": "{color.neutral.700}",
-        "$type": "color"
-      },
-      "solidHover": {
-        "$value": "{color.neutral.600}",
-        "$type": "color"
-      },
-      "solidActive": {
-        "$value": "{color.neutral.500}",
-        "$type": "color"
-      },
-      "soft": {
-        "$value": "{color.neutral.800}",
-        "$type": "color"
-      },
-      "softHover": {
-        "$value": "{color.neutral.700}",
-        "$type": "color"
-      },
-      "softActive": {
-        "$value": "{color.neutral.600}",
-        "$type": "color"
-      },
-      "fg": {
-        "$value": "{color.neutral.300}",
-        "$type": "color"
-      },
-      "border": {
-        "$value": "{color.neutral.700}",
-        "$type": "color"
-      },
-      "contrast": {
-        "$value": "{color.neutral.50}",
-        "$type": "color"
-      }
+      "solidHover": { "$value": "{color.blue.700}", "$type": "color" },
+      "solidActive": { "$value": "{color.blue.800}", "$type": "color" },
+      "soft": { "$value": "{color.blue.950}", "$type": "color" },
+      "softHover": { "$value": "{color.blue.900}", "$type": "color" },
+      "softActive": { "$value": "{color.blue.800}", "$type": "color" },
+      "fg": { "$value": "{color.blue.300}", "$type": "color" },
+      "border": { "$value": "{color.blue.700}", "$type": "color" },
+      "contrast": { "$value": "{color.common.white}", "$type": "color" }
     }
   }
 }

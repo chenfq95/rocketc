@@ -1,2 +1,2 @@
-export { RdsList } from './list';
-export { RdsListItem } from './list-item';
+export { RcList } from './list';
+export { RcListItem } from './list-item';

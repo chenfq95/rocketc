@@ -1,22 +1,22 @@
-import { LitElement, css, html } from 'lit';
+import { css, html } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { hostStyles } from '../../../internal/shared-styles';
-import type { RdsSegmentItem } from './segment-item';
+import { RcStyledElement } from '../../../internal/styled-element';
 
-export type RdsSegmentSize = 'sm' | 'md' | 'lg';
+import type { RcSegmentItem } from './segment-item';
+
+export type RcSegmentSize = 'sm' | 'md' | 'lg';
 
 /**
  * Segmented control for mutually exclusive options.
- * Compose with `rds-segment-item`.
+ * Compose with `rc-segment-item`.
  *
- * @element rds-segment
+ * @element rc-segment
  * @fires change - When the selection changes (`detail.value`)
- * @slot - Segment items (`rds-segment-item`)
+ * @slot - Segment items (`rc-segment-item`)
  */
-export class RdsSegment extends LitElement {
+export class RcSegment extends RcStyledElement {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: inline-flex;
@@ -32,16 +32,16 @@ export class RdsSegment extends LitElement {
       .root {
         display: flex;
         align-items: stretch;
-        gap: var(--rds-space-1);
+        gap: var(--rc-space-1);
         width: 100%;
-        border: var(--rds-border-sm) solid var(--rds-color-border-subtle);
-        border-radius: var(--rds-radius-md);
-        background: var(--rds-color-action-bg-hover);
+        border: var(--rc-border-sm) solid var(--rc-color-border-subtle);
+        border-radius: var(--rc-radius-md);
+        background: var(--rc-color-action-bg-hover);
         padding: 2px;
       }
       
       :host([disabled]) {
-        opacity: var(--rds-opacity-disabled);
+        opacity: var(--rc-opacity-disabled);
         pointer-events: none;
       }
     `,
@@ -57,19 +57,19 @@ export class RdsSegment extends LitElement {
   accessor disabled: boolean = false;
 
   @property({ type: String, reflect: true })
-  accessor size: RdsSegmentSize = 'md';
+  accessor size: RcSegmentSize = 'md';
 
   @property({ type: Boolean, attribute: 'full-width', reflect: true })
   accessor fullWidth: boolean = false;
 
   override connectedCallback(): void {
     super.connectedCallback();
-    this.addEventListener('rds-segment-select', this.#onSelect as EventListener);
+    this.addEventListener('rc-segment-select', this.#onSelect as EventListener);
     this.addEventListener('keydown', this.#onKeyDown);
   }
 
   override disconnectedCallback(): void {
-    this.removeEventListener('rds-segment-select', this.#onSelect as EventListener);
+    this.removeEventListener('rc-segment-select', this.#onSelect as EventListener);
     this.removeEventListener('keydown', this.#onKeyDown);
     super.disconnectedCallback();
   }
@@ -86,8 +86,8 @@ export class RdsSegment extends LitElement {
     this.#sync();
   }
 
-  #items(): RdsSegmentItem[] {
-    return [...this.querySelectorAll<RdsSegmentItem>(':scope > rds-segment-item')];
+  #items(): RcSegmentItem[] {
+    return [...this.querySelectorAll<RcSegmentItem>(':scope > rc-segment-item')];
   }
 
   #sync() {
@@ -145,7 +145,7 @@ export class RdsSegment extends LitElement {
 
   override render() {
     return html`
-      <div class="root" role="radiogroup" aria-disabled=${this.disabled ? 'true' : 'false'}>
+      <div class="root" part="container root" role="radiogroup" aria-disabled=${this.disabled ? 'true' : 'false'}>
         <slot></slot>
       </div>
     `;
@@ -154,6 +154,6 @@ export class RdsSegment extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-segment': RdsSegment;
+    'rc-segment': RcSegment;
   }
 }

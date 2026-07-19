@@ -80,12 +80,12 @@ import '@rocketc/design-system/css/sun.dark.css';
 
 ```css
 /* Good / 推荐 */
-color: var(--rds-color-text-primary);
-background: var(--rds-color-surface-panel);
-box-shadow: var(--rds-shadow-surface);
+color: var(--rc-color-text-primary);
+background: var(--rc-color-surface-panel);
+box-shadow: var(--rc-shadow-surface);
 
 /* Avoid when a role exists / 已有角色时避免 */
-color: var(--rds-color-neutral-950);
+color: var(--rc-color-neutral-950);
 ```
 
 ```ts
@@ -113,7 +113,7 @@ Role meaning → [Foundations](./foundations.md).
 | `@rocketc/design-system/chakra/<theme>`     | Per-theme Chakra v3 system config / 单主题 Chakra 配置             |
 | `@rocketc/design-system/tailwind/theme.css` | Tailwind v4 theme + shadcn aliases / Tailwind 主题与 shadcn 别名   |
 
-CSS variable prefix / CSS 变量前缀： **`rds`** (`--rds-*`).
+CSS variable prefix / CSS 变量前缀： **`rc`** (`--rc-*`).
 
 ---
 
@@ -123,7 +123,7 @@ Best for plain HTML, custom components, and any stack that reads custom properti
 
 适合纯 HTML、自定义组件，以及任何读取自定义属性的技术栈。
 
-- Prefer semantic variables / 优先语义变量：`--rds-color-text-primary`, `--rds-shadow-raised`
+- Prefer semantic variables / 优先语义变量：`--rc-color-text-primary`, `--rc-shadow-raised`
 - Typography roles expand to multiple properties / 字体角色展开为多属性
 - Baseline normalize is inlined in the generated CSS / 生成 CSS 已内联 normalize
 
@@ -139,19 +139,19 @@ document.documentElement.dataset.theme = `${preferredFamily}.${preferredMode}`;
 
 ```css
 .card {
-  border: var(--rds-border-sm) solid var(--rds-color-border-subtle);
-  border-radius: var(--rds-radius-md);
-  background: var(--rds-color-surface-panel);
-  box-shadow: var(--rds-shadow-surface);
-  color: var(--rds-color-text-primary);
-  font: var(--rds-typography-body-font-weight) var(--rds-typography-body-font-size) /
-    var(--rds-typography-body-line-height) var(--rds-typography-body-font-family);
+  border: var(--rc-border-sm) solid var(--rc-color-border-subtle);
+  border-radius: var(--rc-radius-md);
+  background: var(--rc-color-surface-panel);
+  box-shadow: var(--rc-shadow-surface);
+  color: var(--rc-color-text-primary);
+  font: var(--rc-typography-body-font-weight) var(--rc-typography-body-font-size) /
+    var(--rc-typography-body-line-height) var(--rc-typography-body-font-family);
 }
 
 .card.floating {
   border-color: transparent;
-  background: var(--rds-color-surface-elevated);
-  box-shadow: var(--rds-shadow-raised);
+  background: var(--rc-color-surface-elevated);
+  box-shadow: var(--rc-shadow-raised);
 }
 ```
 
@@ -215,9 +215,9 @@ Notes / 说明：
 - Normalize/baseline ships via `MuiCssBaseline`—render `<CssBaseline />` when using MUI alone  
   基线通过 `MuiCssBaseline` 提供——单独用 MUI 时请渲染 `<CssBaseline />`
 
-You may still import CSS variables alongside MUI if custom islands need `--rds-*`. MUI peer dependency is optional.
+You may still import CSS variables alongside MUI if custom islands need `--rc-*`. MUI peer dependency is optional.
 
-若自定义区块需要 `--rds-*`，仍可与 MUI 并行导入 CSS 变量。MUI peer 依赖可选。
+若自定义区块需要 `--rc-*`，仍可与 MUI 并行导入 CSS 变量。MUI peer 依赖可选。
 
 ---
 
@@ -254,9 +254,9 @@ CSS-variable bridge for Tailwind v4 utilities and shadcn/ui. It does **not** shi
 
 面向 Tailwind v4 工具类与 shadcn/ui 的 CSS 变量桥。不提供组件，只提供这些栈读取的主题契约。
 
-Load base `--rds-*` CSS (the themes you need), then the Tailwind theme contract:
+Load base `--rc-*` CSS (the themes you need), then the Tailwind theme contract:
 
-先加载基础 `--rds-*` CSS（按需主题），再加载 Tailwind 主题契约：
+先加载基础 `--rc-*` CSS（按需主题），再加载 Tailwind 主题契约：
 
 ```css
 @import 'tailwindcss';
@@ -277,8 +277,8 @@ Notes / 说明：
 
 1. **shadcn short names** — full official scaffold (`background`…`ring`, `chart-1`…`5`, `sidebar-*`)  
    plus status (`success` / `warning` / `info`).  
-   `:root` aliases → `--rds-*`; `@theme` maps utilities to those aliases.  
-   覆盖官方脚手架全量短名，并额外提供 status；`:root` → `--rds-*`，`@theme` 再接短名。
+   `:root` aliases → `--rc-*`; `@theme` maps utilities to those aliases.
+   覆盖官方脚手架全量短名，并额外提供 status；`:root` → `--rc-*`，`@theme` 再接短名。
 2. **Full DS semantic utilities** — path → kebab, e.g.  
    `color.control.primary.bg` → `bg-control-primary-bg`  
    `color.text.secondary` → `text-text-secondary`  
@@ -304,9 +304,9 @@ Notes / 说明：
 | `--duration-*` / `--ease-*`    | motion                       | `duration-fast`, `ease-emphasized`   |
 | `--max-width-*`                | layout `*.maxWidth`          | `max-w-page`                         |
 
-Primitive color ramps (`neutral.500`, `orange.400`, …) stay on `--rds-*` only—prefer semantic roles in product UI.
+Primitive color ramps (`neutral.500`, `orange.400`, …) stay on `--rc-*` only—prefer semantic roles in product UI.
 
-原始色阶仍只在 `--rds-*`；产品 UI 优先语义角色。
+原始色阶仍只在 `--rc-*`；产品 UI 优先语义角色。
 
 Works with shadcn when `cssVariables: true`; keep switching via `data-theme` (do not maintain a separate `.dark` palette).
 

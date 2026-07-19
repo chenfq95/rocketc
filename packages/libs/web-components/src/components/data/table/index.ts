@@ -1,1 +1,1 @@
-export { RdsTable } from './table';
+export { RcTable } from './table';

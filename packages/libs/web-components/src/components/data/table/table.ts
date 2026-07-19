@@ -1,18 +1,17 @@
-import { LitElement, css, html } from 'lit';
+import { css, html } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { hostStyles } from '../../../internal/shared-styles';
+import { RcStyledElement } from '../../../internal/styled-element';
 
 /**
  * Styled table shell. Place a native `<table>` (or rows) in the default slot.
  *
- * @element rds-table
+ * @element rc-table
  * @slot - Table markup
  * @slot caption - Optional caption above the table
  */
-export class RdsTable extends LitElement {
+export class RcTable extends RcStyledElement {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: flex;
@@ -21,19 +20,19 @@ export class RdsTable extends LitElement {
         height: 100%;
         min-height: 0;
         overflow: auto;
-        border: var(--rds-border-sm) solid var(--rds-color-border-subtle);
-        border-radius: var(--rds-radius-lg);
-        background: var(--rds-color-surface-panel);
+        border: var(--rc-border-sm) solid var(--rc-color-border-subtle);
+        border-radius: var(--rc-radius-lg);
+        background: var(--rc-color-surface-panel);
       }
       
       .caption {
         display: none;
         flex: none;
-        padding: var(--rds-space-3) var(--rds-space-4);
-        border-bottom: var(--rds-border-sm) solid var(--rds-color-border-subtle);
-        color: var(--rds-color-text-secondary);
-        font-size: var(--rds-typography-caption-font-size);
-        font-weight: var(--rds-typography-weight-medium);
+        padding: var(--rc-space-3) var(--rc-space-4);
+        border-bottom: var(--rc-border-sm) solid var(--rc-color-border-subtle);
+        color: var(--rc-color-text-secondary);
+        font-size: var(--rc-typography-caption-font-size);
+        font-weight: var(--rc-typography-weight-medium);
       }
       
       :host(:has([slot='caption'])) .caption {
@@ -49,20 +48,20 @@ export class RdsTable extends LitElement {
       ::slotted(table) {
         width: 100%;
         border-collapse: collapse;
-        font-size: var(--rds-typography-body-small-font-size);
+        font-size: var(--rc-typography-body-small-font-size);
       }
       
       :host ::slotted(table) th,
       :host ::slotted(table) td {
-        padding: var(--rds-space-3) var(--rds-space-4);
-        border-bottom: var(--rds-border-sm) solid var(--rds-color-border-subtle);
+        padding: var(--rc-space-3) var(--rc-space-4);
+        border-bottom: var(--rc-border-sm) solid var(--rc-color-border-subtle);
         text-align: start;
       }
       
       /* Slotted table cells cannot be deeply styled in all browsers via ::slotted(th).
-                                                   Prefer consumers adding a class, or style via part later. */
+                                                                                             Prefer consumers adding a class, or style via part later. */
       :host([compact]) {
-        --rds-table-cell-padding: var(--rds-space-2) var(--rds-space-3);
+        --rc-table-cell-padding: var(--rc-space-2) var(--rc-space-3);
       }
     `,
   ];
@@ -75,14 +74,14 @@ export class RdsTable extends LitElement {
 
   override render() {
     return html`
-      <div class="caption"><slot name="caption"></slot></div>
-      <div class="frame"><slot></slot></div>
+      <div class="caption" part="caption"><slot name="caption"></slot></div>
+      <div class="frame" part="frame"><slot></slot></div>
     `;
   }
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-table': RdsTable;
+    'rc-table': RcTable;
   }
 }

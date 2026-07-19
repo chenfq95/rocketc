@@ -38,7 +38,7 @@ export function PrimitiveView() {
                     key={step}
                     label={step}
                     token={`${scale}.${step}`}
-                    variable={`var(--rds-color-${scale}-${step})`}
+                    variable={`var(--rc-color-${scale}-${step})`}
                   />
                 ))}
               </div>
@@ -49,7 +49,7 @@ export function PrimitiveView() {
             <div className="color-swatch-grid">
               {singleColors.map(([color, value]) => (
                 <ColorSwatch
-                  background={`var(--rds-color-${color})`}
+                  background={`var(--rc-color-${color})`}
                   key={color}
                   mapping={value}
                   token={color}
@@ -66,15 +66,15 @@ export function PrimitiveView() {
       >
         <div className="primitive-dimension-stack">
           <div className="measure-list measure-list--inline">
-            <rds-typography variant="label" as="h3">
+            <rc-typography variant="label" as="h3">
               Space
-            </rds-typography>
+            </rc-typography>
             <div className="measure-list__track">
               {spaceSteps.map(([step, value, varStep = step]) => (
                 <div
                   className="measure-item"
                   key={step}
-                  style={{ '--measure': `var(--rds-space-${varStep})` } as CSSProperties}
+                  style={{ '--measure': `var(--rc-space-${varStep})` } as CSSProperties}
                 >
                   <code>space.{step}</code>
                   <span />
@@ -84,15 +84,15 @@ export function PrimitiveView() {
             </div>
           </div>
           <div className="measure-list measure-list--inline">
-            <rds-typography variant="label" as="h3">
+            <rc-typography variant="label" as="h3">
               Size
-            </rds-typography>
+            </rc-typography>
             <div className="measure-list__track">
               {sizeSteps.map(([step, value]) => (
                 <div
                   className="size-row"
                   key={step}
-                  style={{ '--box-size': `var(--rds-size-${step})` } as CSSProperties}
+                  style={{ '--box-size': `var(--rc-size-${step})` } as CSSProperties}
                 >
                   <span />
                   <code>size.{step}</code>
@@ -102,14 +102,14 @@ export function PrimitiveView() {
             </div>
           </div>
           <div className="measure-list measure-list--inline">
-            <rds-typography variant="label" as="h3">
+            <rc-typography variant="label" as="h3">
               Radius
-            </rds-typography>
+            </rc-typography>
             <div className="measure-list__track radius-grid">
               {radiusSteps.map(([radius, value]) => (
                 <span
                   key={radius}
-                  style={{ '--radius': `var(--rds-radius-${radius})` } as CSSProperties}
+                  style={{ '--radius': `var(--rc-radius-${radius})` } as CSSProperties}
                 >
                   <code>{radius}</code>
                   <em>{value}</em>
@@ -118,16 +118,16 @@ export function PrimitiveView() {
             </div>
           </div>
           <div className="measure-list measure-list--inline">
-            <rds-typography variant="label" as="h3">
+            <rc-typography variant="label" as="h3">
               Border
-            </rds-typography>
+            </rc-typography>
             <div className="measure-list__track">
               {borderSteps.map(([step, value]) => (
                 <div className="dimension-chip" key={step}>
                   <code>border.{step}</code>
                   <span
                     className="border-sample"
-                    style={{ '--border-width': `var(--rds-border-${step})` } as CSSProperties}
+                    style={{ '--border-width': `var(--rc-border-${step})` } as CSSProperties}
                   />
                   <em>{value}</em>
                 </div>
@@ -135,9 +135,9 @@ export function PrimitiveView() {
             </div>
           </div>
           <div className="measure-list measure-list--inline">
-            <rds-typography variant="label" as="h3">
+            <rc-typography variant="label" as="h3">
               Measure
-            </rds-typography>
+            </rc-typography>
             <div className="measure-list__track">
               {measureSteps.map(([step, value]) => (
                 <div className="dimension-chip" key={step}>
@@ -148,9 +148,9 @@ export function PrimitiveView() {
             </div>
           </div>
           <div className="measure-list measure-list--inline">
-            <rds-typography variant="label" as="h3">
+            <rc-typography variant="label" as="h3">
               Breakpoint
-            </rds-typography>
+            </rc-typography>
             <div className="measure-list__track">
               {breakpointSteps.map(([step, value]) => (
                 <div className="dimension-chip" key={step}>
@@ -169,14 +169,14 @@ export function PrimitiveView() {
       >
         <div className="primitive-measure-grid">
           <div className="measure-list primitive-panel-wide">
-            <rds-typography variant="label" as="h3">
+            <rc-typography variant="label" as="h3">
               Size
-            </rds-typography>
+            </rc-typography>
             <div className="type-scale">
               {typographySizes.map(([size, value]) => (
                 <div
                   key={size}
-                  style={{ '--type-size': `var(--rds-typography-size-${size})` } as CSSProperties}
+                  style={{ '--type-size': `var(--rc-typography-size-${size})` } as CSSProperties}
                 >
                   <code>size.{size}</code>
                   <span>Rocketc typography</span>
@@ -186,9 +186,9 @@ export function PrimitiveView() {
             </div>
           </div>
           <div className="measure-list">
-            <rds-typography variant="label" as="h3">
+            <rc-typography variant="label" as="h3">
               Family
-            </rds-typography>
+            </rc-typography>
             <div className="token-table">
               <div>
                 <code>family.sans</code>
@@ -201,16 +201,16 @@ export function PrimitiveView() {
             </div>
           </div>
           <div className="measure-list">
-            <rds-typography variant="label" as="h3">
+            <rc-typography variant="label" as="h3">
               Weight
-            </rds-typography>
+            </rc-typography>
             <div className="token-table">
               {typographyWeights.map(([weight, value]) => (
                 <div key={weight}>
                   <code>weight.{weight}</code>
                   <span
                     style={
-                      { '--type-weight': `var(--rds-typography-weight-${weight})` } as CSSProperties
+                      { '--type-weight': `var(--rc-typography-weight-${weight})` } as CSSProperties
                     }
                   >
                     Aa
@@ -221,9 +221,9 @@ export function PrimitiveView() {
             </div>
           </div>
           <div className="measure-list">
-            <rds-typography variant="label" as="h3">
+            <rc-typography variant="label" as="h3">
               Line height
-            </rds-typography>
+            </rc-typography>
             <div className="token-table">
               {lineHeights.map(([step, value]) => (
                 <div key={step}>
@@ -232,7 +232,7 @@ export function PrimitiveView() {
                     className="line-height-sample"
                     style={
                       {
-                        '--line-height': `var(--rds-typography-line-height-${step})`,
+                        '--line-height': `var(--rc-typography-line-height-${step})`,
                       } as CSSProperties
                     }
                   >
@@ -246,9 +246,9 @@ export function PrimitiveView() {
             </div>
           </div>
           <div className="measure-list">
-            <rds-typography variant="label" as="h3">
+            <rc-typography variant="label" as="h3">
               Letter spacing
-            </rds-typography>
+            </rc-typography>
             <div className="token-table">
               {letterSpacings.map(([step, value]) => (
                 <div key={step}>
@@ -256,7 +256,7 @@ export function PrimitiveView() {
                   <span
                     style={
                       {
-                        '--letter-spacing': `var(--rds-typography-letter-spacing-${step})`,
+                        '--letter-spacing': `var(--rc-typography-letter-spacing-${step})`,
                       } as CSSProperties
                     }
                   >
@@ -273,14 +273,14 @@ export function PrimitiveView() {
       <PreviewPanel meta="Primitive effect" title="Shadow, opacity, blur, and motion">
         <div className="primitive-dimension-stack">
           <div className="measure-list measure-list--inline">
-            <rds-typography variant="label" as="h3">
+            <rc-typography variant="label" as="h3">
               Shadow
-            </rds-typography>
+            </rc-typography>
             <div className="measure-list__track shadow-grid">
               {shadowSteps.map(([shadow, value]) => (
                 <span
                   key={shadow}
-                  style={{ '--shadow-sample': `var(--rds-shadow-${shadow})` } as CSSProperties}
+                  style={{ '--shadow-sample': `var(--rc-shadow-${shadow})` } as CSSProperties}
                 >
                   <code>{shadow}</code>
                   <em>{value}</em>
@@ -289,14 +289,14 @@ export function PrimitiveView() {
             </div>
           </div>
           <div className="measure-list measure-list--inline">
-            <rds-typography variant="label" as="h3">
+            <rc-typography variant="label" as="h3">
               Opacity
-            </rds-typography>
+            </rc-typography>
             <div className="measure-list__track opacity-list">
               {opacitySteps.map(([opacity, value]) => (
                 <span
                   key={opacity}
-                  style={{ '--alpha': `var(--rds-opacity-${opacity})` } as CSSProperties}
+                  style={{ '--alpha': `var(--rc-opacity-${opacity})` } as CSSProperties}
                 >
                   <code>{opacity}</code>
                   <em>{value}</em>
@@ -305,12 +305,12 @@ export function PrimitiveView() {
             </div>
           </div>
           <div className="measure-list measure-list--inline">
-            <rds-typography variant="label" as="h3">
+            <rc-typography variant="label" as="h3">
               Blur
-            </rds-typography>
+            </rc-typography>
             <div className="measure-list__track blur-grid">
               {blurSteps.map(([blur, value]) => (
-                <span key={blur} style={{ '--blur': `var(--rds-blur-${blur})` } as CSSProperties}>
+                <span key={blur} style={{ '--blur': `var(--rc-blur-${blur})` } as CSSProperties}>
                   <code>{blur}</code>
                   <em>{value}</em>
                 </span>
@@ -318,9 +318,9 @@ export function PrimitiveView() {
             </div>
           </div>
           <div className="measure-list measure-list--inline">
-            <rds-typography variant="label" as="h3">
+            <rc-typography variant="label" as="h3">
               Duration
-            </rds-typography>
+            </rc-typography>
             <div className="measure-list__track motion-list">
               {durationSteps.map(([duration, value, width]) => (
                 <div key={duration}>
@@ -331,9 +331,9 @@ export function PrimitiveView() {
             </div>
           </div>
           <div className="measure-list measure-list--inline">
-            <rds-typography variant="label" as="h3">
+            <rc-typography variant="label" as="h3">
               Easing
-            </rds-typography>
+            </rc-typography>
             <div className="measure-list__track motion-list">
               {easingSteps.map(([easing, value]) => (
                 <div key={easing}>
@@ -354,7 +354,7 @@ export function PrimitiveView() {
               style={
                 {
                   '--layer': index,
-                  '--z-token': `var(--rds-z-index-${varStep})`,
+                  '--z-token': `var(--rc-z-index-${varStep})`,
                 } as CSSProperties
               }
             >

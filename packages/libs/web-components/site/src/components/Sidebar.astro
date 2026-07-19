@@ -1,5 +1,7 @@
 ---
 import { getNav } from '../lib/catalog';
+import { bilingualCategory, bilingualComponent } from '../lib/bilingual';
+import { guidePages } from '../lib/guides';
 
 type Props = {
   activeHref?: string;
@@ -16,17 +18,38 @@ function isActive(href: string) {
 }
 ---
 
-<rds-sidebar class="site-sidebar">
-  <rds-scroll-area class="site-nav-scroll" max-height="calc(100vh - 5.5rem)">
-    <nav class="site-nav" aria-label="Components">
-      <rds-stack gap="lg">
+<rc-sidebar class="site-sidebar">
+  <rc-scroll-area class="site-nav-scroll" max-height="calc(100vh - 5.5rem)">
+    <nav class="site-nav" aria-label="组件 / Components">
+      <rc-stack gap="lg">
+        <rc-stack gap="sm">
+          <rc-typography class="site-nav-label" variant="caption" color="muted" as="p">
+            指南 / Guides
+          </rc-typography>
+          <rc-stack gap="none">
+            {
+              guidePages.map((page) => {
+                const active = isActive(page.href);
+                return (
+                  <a
+                    class:list={['site-nav-link', { 'is-active': active }]}
+                    href={page.href}
+                    aria-current={active ? 'page' : undefined}
+                  >
+                    {page.title}
+                  </a>
+                );
+              })
+            }
+          </rc-stack>
+        </rc-stack>
         {
           nav.map((category) => (
-            <rds-stack gap="sm">
-              <rds-typography class="site-nav-label" variant="caption" color="muted" as="p">
-                {category.category}
-              </rds-typography>
-              <rds-stack gap="none">
+            <rc-stack gap="sm">
+              <rc-typography class="site-nav-label" variant="caption" color="muted" as="p">
+                {bilingualCategory(category.category)}
+              </rc-typography>
+              <rc-stack gap="none">
                 {category.components.map((component) => {
                   const active = isActive(component.href);
                   return (
@@ -35,15 +58,15 @@ function isActive(href: string) {
                       href={component.href}
                       aria-current={active ? 'page' : undefined}
                     >
-                      {component.component}
+                      {bilingualComponent(component.component)}
                     </a>
                   );
                 })}
-              </rds-stack>
-            </rds-stack>
+              </rc-stack>
+            </rc-stack>
           ))
         }
-      </rds-stack>
+      </rc-stack>
     </nav>
-  </rds-scroll-area>
-</rds-sidebar>
+  </rc-scroll-area>
+</rc-sidebar>

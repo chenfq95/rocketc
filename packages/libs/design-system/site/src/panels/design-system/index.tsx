@@ -17,13 +17,13 @@ const views = [
 
 export function DesignSystemPanel({ themeName }: { themeName: DesignThemeName }) {
   const [view, setView] = useState('principles' as DesignSystemView);
-  const tabsRef = useRef<HTMLElementTagNameMap['rds-tabs']>(null);
+  const tabsRef = useRef<HTMLElementTagNameMap['rc-tabs']>(null);
 
   useEffect(() => {
     const el = tabsRef.current;
     if (!el) return;
     const onChange = (event: Event) => {
-      // Nested controls (e.g. rds-segment) also emit bubbling `change`.
+      // Nested controls (e.g. rc-segment) also emit bubbling `change`.
       if (event.target !== el) return;
       const value = (event as CustomEvent<{ value: string }>).detail?.value;
       if (value) setView(value as DesignSystemView);
@@ -34,11 +34,11 @@ export function DesignSystemPanel({ themeName }: { themeName: DesignThemeName })
 
   return (
     <div className="design-system-panel">
-      <rds-tabs ref={tabsRef} value={view} aria-label="Design System views">
+      <rc-tabs ref={tabsRef} value={view} aria-label="Design System views">
         {views.map(([value, label]) => (
-          <rds-tab key={value} value={value}>
+          <rc-tab key={value} value={value}>
             {label}
-          </rds-tab>
+          </rc-tab>
         ))}
 
         <div slot="panel" data-value="principles">
@@ -53,7 +53,7 @@ export function DesignSystemPanel({ themeName }: { themeName: DesignThemeName })
         <div slot="panel" data-value="component">
           {view === 'component' ? <ComponentView /> : null}
         </div>
-      </rds-tabs>
+      </rc-tabs>
     </div>
   );
 }

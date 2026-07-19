@@ -1,18 +1,16 @@
-import { LitElement, css, html } from 'lit';
-
-import { hostStyles } from '../../../internal/shared-styles';
+import { css, html } from 'lit';
+import { RcStyledElement } from '../../../internal/styled-element';
 
 /**
  * Surface container for grouped content.
  *
- * @element rds-card
+ * @element rc-card
  * @slot - Card body
  * @slot header - Optional header region
  * @slot footer - Optional footer region
  */
-export class RdsCard extends LitElement {
+export class RcCard extends RcStyledElement {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: block;
@@ -23,34 +21,34 @@ export class RdsCard extends LitElement {
       .root {
         display: grid;
         align-content: start;
-        gap: var(--rds-space-3);
+        gap: var(--rc-space-3);
         box-sizing: border-box;
         height: 100%;
-        border: var(--rds-border-sm) solid var(--rds-color-border-subtle);
-        border-radius: var(--rds-radius-xl);
-        background: var(--rds-color-surface-panel);
-        padding: var(--rds-space-4, 1rem);
-        box-shadow: var(--rds-shadow-surface);
-        color: var(--rds-color-text-primary);
+        border: var(--rc-border-sm) solid var(--rc-color-border-subtle);
+        border-radius: var(--rc-radius-xl);
+        background: var(--rc-color-surface-panel);
+        padding: var(--rc-space-4, 1rem);
+        box-shadow: var(--rc-shadow-surface);
+        color: var(--rc-color-text-primary);
       }
       
       ::slotted([slot='header']) {
         display: grid;
-        gap: var(--rds-space-1);
+        gap: var(--rc-space-1);
       }
       
       ::slotted([slot='footer']) {
         display: grid;
-        gap: var(--rds-space-1);
-        padding-top: var(--rds-space-1);
-        border-top: var(--rds-border-sm) solid var(--rds-color-border-subtle);
+        gap: var(--rc-space-1);
+        padding-top: var(--rc-space-1);
+        border-top: var(--rc-border-sm) solid var(--rc-color-border-subtle);
       }
     `,
   ];
 
   override render() {
     return html`
-      <div class="root">
+      <div class="root" part="container root">
         <slot name="header"></slot>
         <slot></slot>
         <slot name="footer"></slot>
@@ -61,6 +59,6 @@ export class RdsCard extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-card': RdsCard;
+    'rc-card': RcCard;
   }
 }

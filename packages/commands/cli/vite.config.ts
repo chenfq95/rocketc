@@ -2,7 +2,9 @@ import { defineConfig } from 'vite';
 
 export default defineConfig({
   build: {
-    rollupOptions: {
+    target: 'node22',
+    sourcemap: true,
+    rolldownOptions: {
       input: {
         cli: 'bin/cli.ts',
       },
@@ -10,7 +12,6 @@ export default defineConfig({
         entryFileNames: 'cli.js',
         dir: 'dist/bin',
         format: 'es',
-        sourcemap: true,
         chunkFileNames: 'dist/chunks/[name]-[hash].js',
         assetFileNames: 'dist/assets/[name]-[hash].[ext]',
       },

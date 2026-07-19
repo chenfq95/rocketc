@@ -1,1 +1,1 @@
-export { RdsScrollArea } from './scroll-area';
+export { RcScrollArea } from './scroll-area';

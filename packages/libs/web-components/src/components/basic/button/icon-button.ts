@@ -1,26 +1,26 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { mixinDelegatesAria, type ARIAMixinStrict } from '../../../internal/delegate-aria';
-import { hostStyles } from '../../../internal/shared-styles';
-import type { RdsButtonSize, RdsButtonVariant } from './button';
+import { RcStyledElement } from '../../../internal/styled-element';
 
-const base = mixinDelegatesAria(LitElement);
+import { mixinDelegatesAria, type ARIAMixinStrict } from '../../../internal/mixin-delegates-aria';
+import type { RcButtonSize, RcButtonVariant } from './button';
+
+const base = mixinDelegatesAria(RcStyledElement);
 
 /**
  * Icon-only action button. Prefer an explicit `aria-label`.
  *
- * @element rds-icon-button
+ * @element rc-icon-button
  * @slot - Icon content
  */
-export class RdsIconButton extends base {
+export class RcIconButton extends base {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     delegatesFocus: true,
   };
 
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: inline-flex;
@@ -32,87 +32,87 @@ export class RdsIconButton extends base {
         align-items: center;
         justify-content: center;
         margin: 0;
-        border: var(--rds-border-sm) solid transparent;
-        border-radius: var(--rds-radius-md);
+        border: var(--rc-border-sm) solid transparent;
+        border-radius: var(--rc-radius-md);
         font: inherit;
         cursor: pointer;
         transition:
-          background-color var(--rds-duration-fast) var(--rds-easing-standard),
-          border-color var(--rds-duration-fast) var(--rds-easing-standard),
-          color var(--rds-duration-fast) var(--rds-easing-standard);
+          background-color var(--rc-duration-fast) var(--rc-easing-standard),
+          border-color var(--rc-duration-fast) var(--rc-easing-standard),
+          color var(--rc-duration-fast) var(--rc-easing-standard);
       }
       
       :host([size='sm']) button {
-        width: var(--rds-space-7);
-        height: var(--rds-space-7);
-        font-size: var(--rds-typography-caption-font-size);
+        width: var(--rc-space-7);
+        height: var(--rc-space-7);
+        font-size: var(--rc-typography-caption-font-size);
       }
       
       :host([size='md']) button,
       :host(:not([size])) button {
-        width: var(--rds-space-8);
-        height: var(--rds-space-8);
-        font-size: var(--rds-typography-label-font-size);
+        width: var(--rc-space-8);
+        height: var(--rc-space-8);
+        font-size: var(--rc-typography-label-font-size);
       }
       
       :host([size='lg']) button {
-        width: var(--rds-space-9);
-        height: var(--rds-space-9);
-        font-size: var(--rds-typography-body-font-size);
+        width: var(--rc-space-9);
+        height: var(--rc-space-9);
+        font-size: var(--rc-typography-body-font-size);
       }
       
       :host([variant='solid']) button,
       :host(:not([variant])) button {
-        background: var(--rds-color-control-primary-bg);
-        border-color: var(--rds-color-control-primary-border);
-        color: var(--rds-color-control-primary-fg-contrast);
+        background: var(--rc-color-control-primary-bg);
+        border-color: var(--rc-color-control-primary-border);
+        color: var(--rc-color-control-primary-fg-contrast);
       }
       
       :host([variant='subtle']) button {
-        background: var(--rds-color-control-secondary-bg-hover);
-        color: var(--rds-color-control-secondary-fg);
+        background: var(--rc-color-control-secondary-bg-hover);
+        color: var(--rc-color-control-secondary-fg);
       }
       
       :host([variant='outline']) button {
         background: transparent;
-        border-color: var(--rds-color-control-secondary-border);
-        color: var(--rds-color-control-secondary-fg);
+        border-color: var(--rc-color-control-secondary-border);
+        color: var(--rc-color-control-secondary-fg);
       }
       
       :host([variant='ghost']) button {
         background: transparent;
-        color: var(--rds-color-text-primary);
+        color: var(--rc-color-text-primary);
       }
       
       :host([variant='ghost']) button:hover:not(:disabled) {
-        background: var(--rds-color-action-bg-hover);
+        background: var(--rc-color-action-bg-hover);
       }
       
       :host([variant='destructive']) button {
-        background: var(--rds-color-danger-solid);
-        border-color: var(--rds-color-danger-solid);
-        color: var(--rds-color-danger-contrast);
+        background: var(--rc-color-danger-solid);
+        border-color: var(--rc-color-danger-solid);
+        color: var(--rc-color-danger-contrast);
       }
       
       button:focus-visible {
         outline: none;
         box-shadow:
-          0 0 0 2px var(--rds-color-surface-panel),
-          0 0 0 4px var(--rds-color-border-focus);
+          0 0 0 2px var(--rc-color-surface-panel),
+          0 0 0 4px var(--rc-color-border-focus);
       }
       
       button:disabled {
         cursor: not-allowed;
-        opacity: var(--rds-opacity-disabled);
+        opacity: var(--rc-opacity-disabled);
       }
     `,
   ];
 
   @property({ type: String, reflect: true })
-  accessor variant: RdsButtonVariant = 'ghost';
+  accessor variant: RcButtonVariant = 'ghost';
 
   @property({ type: String, reflect: true })
-  accessor size: RdsButtonSize = 'md';
+  accessor size: RcButtonSize = 'md';
 
   @property({ type: String, reflect: true })
   accessor type: 'button' | 'submit' | 'reset' = 'button';
@@ -126,7 +126,7 @@ export class RdsIconButton extends base {
   override render() {
     const { ariaLabel } = this as ARIAMixinStrict;
     return html`
-      <button
+      <button part="control"
         type=${this.type}
         aria-label=${ariaLabel || nothing}
         aria-busy=${this.loading ? 'true' : nothing}
@@ -135,7 +135,7 @@ export class RdsIconButton extends base {
         ${
           this.loading
             ? html`
-                <span aria-hidden="true">…</span>
+                <span part="spinner" aria-hidden="true">…</span>
               `
             : html`
                 <slot></slot>
@@ -148,6 +148,6 @@ export class RdsIconButton extends base {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-icon-button': RdsIconButton;
+    'rc-icon-button': RcIconButton;
   }
 }

@@ -15,6 +15,7 @@ export default defineConfig({
     }),
   ],
   build: {
+    target: ['chrome48', 'firefox38', 'safari10.1', 'edge79'],
     sourcemap: true,
     minify: false,
     lib: {
@@ -22,7 +23,7 @@ export default defineConfig({
       formats: ['es'],
       fileName: 'index',
     },
-    rollupOptions: {
+    rolldownOptions: {
       external: [
         'react/jsx-runtime',
         ...Object.keys(packageJson.dependencies || {}),

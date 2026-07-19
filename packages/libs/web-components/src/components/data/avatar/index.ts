@@ -1,1 +1,1 @@
-export { RdsAvatar, type RdsAvatarSize } from './avatar';
+export { RcAvatar, type RcAvatarSize } from './avatar';

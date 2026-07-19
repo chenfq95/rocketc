@@ -1,13 +1,16 @@
-<!-- data/stat — basic — usage snippet for @rocketc/web-components -->
-<div class="rds-demo">
-<rds-stat trend="up">
-    <span slot="label">Deploys</span>
+<!--
+title: 基础 / Basic
+description: 展示使用默认配置的实用统计数据示例。 / Shows a practical stat example with its default configuration.
+-->
+<div class="rc-demo">
+  <rc-stat trend="up">
+    <span slot="label">部署次数 / Deploys</span>
     <span slot="value">128</span>
     <span slot="trend">+12%</span>
-  </rds-stat>
-  <rds-stat trend="down">
-    <span slot="label">Errors</span>
+  </rc-stat>
+  <rc-stat trend="down">
+    <span slot="label">错误数 / Errors</span>
     <span slot="value">3</span>
     <span slot="trend">-40%</span>
-  </rds-stat>
+  </rc-stat>
 </div>

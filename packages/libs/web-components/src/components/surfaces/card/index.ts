@@ -1,1 +1,1 @@
-export { RdsCard } from './card';
+export { RcCard } from './card';

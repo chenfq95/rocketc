@@ -1,18 +1,17 @@
-import { LitElement, css, html } from 'lit';
+import { css, html } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { hostStyles } from '../../../internal/shared-styles';
+import { RcStyledElement } from '../../../internal/styled-element';
 
-export type RdsSkeletonVariant = 'text' | 'circular' | 'rectangular';
+export type RcSkeletonVariant = 'text' | 'circular' | 'rectangular';
 
 /**
  * Loading placeholder shimmer.
  *
- * @element rds-skeleton
+ * @element rc-skeleton
  */
-export class RdsSkeleton extends LitElement {
+export class RcSkeleton extends RcStyledElement {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: block;
@@ -23,34 +22,34 @@ export class RdsSkeleton extends LitElement {
         display: block;
         background: linear-gradient(
           90deg,
-          var(--rds-color-border-subtle) 0%,
-          color-mix(in oklab, var(--rds-color-border-subtle) 40%, var(--rds-color-surface-panel)) 50%,
-          var(--rds-color-border-subtle) 100%
+          var(--rc-color-border-subtle) 0%,
+          color-mix(in oklab, var(--rc-color-border-subtle) 40%, var(--rc-color-surface-panel)) 50%,
+          var(--rc-color-border-subtle) 100%
         );
         background-size: 200% 100%;
-        animation: shimmer 1.4s var(--rds-easing-standard, ease) infinite;
+        animation: shimmer 1.4s var(--rc-easing-standard, ease) infinite;
       }
       
       .block {
         width: var(--_width, 100%);
-        height: var(--_height, var(--rds-space-9));
-        border-radius: var(--rds-radius-md);
+        height: var(--_height, var(--rc-space-9));
+        border-radius: var(--rc-radius-md);
       }
       
       :host([variant='circular']) .block {
-        width: var(--_width, var(--rds-space-10, 2.5rem));
-        height: var(--_height, var(--rds-space-10, 2.5rem));
-        border-radius: var(--rds-radius-full);
+        width: var(--_width, var(--rc-space-10, 2.5rem));
+        height: var(--_height, var(--rc-space-10, 2.5rem));
+        border-radius: var(--rc-radius-full);
       }
       
       :host([variant='text']) .lines {
         display: grid;
-        gap: var(--rds-space-2);
+        gap: var(--rc-space-2);
       }
       
       :host([variant='text']) .line {
         height: 0.75em;
-        border-radius: var(--rds-radius-sm);
+        border-radius: var(--rc-radius-sm);
       }
       
       :host([variant='text']) .line:last-child {
@@ -69,7 +68,7 @@ export class RdsSkeleton extends LitElement {
   ];
 
   @property({ type: String, reflect: true })
-  accessor variant: RdsSkeletonVariant = 'text';
+  accessor variant: RcSkeletonVariant = 'text';
 
   @property({ type: String, reflect: true })
   accessor width: string = '';
@@ -91,11 +90,11 @@ export class RdsSkeleton extends LitElement {
     if (this.variant === 'text') {
       const count = Math.max(1, this.lines);
       return html`
-        <div class="lines" aria-hidden="true">
+        <div class="lines" part="lines" aria-hidden="true">
           ${Array.from(
             { length: count },
             () => html`
-              <span class="line"></span>
+              <span class="line" part="line"></span>
             `,
           )}
         </div>
@@ -103,13 +102,13 @@ export class RdsSkeleton extends LitElement {
     }
 
     return html`
-      <div class="block" style=${style || undefined} aria-hidden="true"></div>
+      <div class="block" part="block" style=${style || undefined} aria-hidden="true"></div>
     `;
   }
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-skeleton': RdsSkeleton;
+    'rc-skeleton': RcSkeleton;
   }
 }

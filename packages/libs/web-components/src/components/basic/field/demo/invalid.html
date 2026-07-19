@@ -1,8 +1,11 @@
-<!-- basic/field — invalid — usage snippet for @rocketc/web-components -->
-<div class="rds-demo">
-<rds-field invalid required>
-    <span slot="label">Notes</span>
-    <rds-textarea rows="2" placeholder="Optional notes"></rds-textarea>
-    <span slot="error">Notes are required for this deploy.</span>
-  </rds-field>
+<!--
+title: 无效状态 / Invalid
+description: 展示表单字段如何呈现校验错误和修复指引。 / Shows how field presents validation errors and recovery guidance.
+-->
+<div class="rc-demo">
+  <rc-field invalid required>
+    <span slot="label">备注 / Notes</span>
+    <rc-textarea rows="2" placeholder="可选备注 / Optional notes"></rc-textarea>
+    <span slot="error">本次部署必须填写备注。 / Notes are required for this deploy.</span>
+  </rc-field>
 </div>

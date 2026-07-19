@@ -1,20 +1,19 @@
-import { LitElement, css, html } from 'lit';
+import { css, html } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { hostStyles } from '../../../internal/shared-styles';
+import { RcStyledElement } from '../../../internal/styled-element';
 
 /**
  * Metric / KPI tile.
  *
- * @element rds-stat
+ * @element rc-stat
  * @slot - Optional footnote
  * @slot label - Metric label
  * @slot value - Metric value
  * @slot trend - Optional trend text
  */
-export class RdsStat extends LitElement {
+export class RcStat extends RcStyledElement {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: block;
@@ -22,42 +21,42 @@ export class RdsStat extends LitElement {
       
       .root {
         display: grid;
-        gap: var(--rds-space-1);
-        border: var(--rds-border-sm) solid var(--rds-color-border-subtle);
-        border-radius: var(--rds-radius-lg);
-        background: var(--rds-color-surface-panel);
-        padding: var(--rds-space-4);
+        gap: var(--rc-space-1);
+        border: var(--rc-border-sm) solid var(--rc-color-border-subtle);
+        border-radius: var(--rc-radius-lg);
+        background: var(--rc-color-surface-panel);
+        padding: var(--rc-space-4);
       }
       
       .label {
-        color: var(--rds-color-text-secondary);
-        font-size: var(--rds-typography-caption-font-size);
-        font-weight: var(--rds-typography-weight-medium);
+        color: var(--rc-color-text-secondary);
+        font-size: var(--rc-typography-caption-font-size);
+        font-weight: var(--rc-typography-weight-medium);
       }
       
       .value {
-        color: var(--rds-color-text-primary);
-        font-size: var(--rds-typography-title-font-size, 1.5rem);
-        font-weight: var(--rds-typography-weight-bold);
-        line-height: var(--rds-typography-title-line-height, 1.2);
+        color: var(--rc-color-text-primary);
+        font-size: var(--rc-typography-title-font-size, 1.5rem);
+        font-weight: var(--rc-typography-weight-bold);
+        line-height: var(--rc-typography-title-line-height, 1.2);
       }
       
       .trend {
-        color: var(--rds-color-text-muted);
-        font-size: var(--rds-typography-caption-font-size);
+        color: var(--rc-color-text-muted);
+        font-size: var(--rc-typography-caption-font-size);
       }
       
       :host([trend='up']) .trend {
-        color: var(--rds-color-success-fg);
+        color: var(--rc-color-success-fg);
       }
       
       :host([trend='down']) .trend {
-        color: var(--rds-color-danger-fg);
+        color: var(--rc-color-danger-fg);
       }
       
       .note {
-        color: var(--rds-color-text-secondary);
-        font-size: var(--rds-typography-body-small-font-size);
+        color: var(--rc-color-text-secondary);
+        font-size: var(--rc-typography-body-small-font-size);
       }
     `,
   ];
@@ -67,11 +66,11 @@ export class RdsStat extends LitElement {
 
   override render() {
     return html`
-      <div class="root">
-        <div class="label"><slot name="label"></slot></div>
-        <div class="value"><slot name="value"></slot></div>
-        <div class="trend"><slot name="trend"></slot></div>
-        <div class="note"><slot></slot></div>
+      <div class="root" part="container root">
+        <div class="label" part="label"><slot name="label"></slot></div>
+        <div class="value" part="value"><slot name="value"></slot></div>
+        <div class="trend" part="trend"><slot name="trend"></slot></div>
+        <div class="note" part="note"><slot></slot></div>
       </div>
     `;
   }
@@ -79,6 +78,6 @@ export class RdsStat extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-stat': RdsStat;
+    'rc-stat': RcStat;
   }
 }

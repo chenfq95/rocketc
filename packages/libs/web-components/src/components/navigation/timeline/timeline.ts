@@ -1,16 +1,14 @@
-import { LitElement, css, html } from 'lit';
-
-import { hostStyles } from '../../../internal/shared-styles';
+import { css, html } from 'lit';
+import { RcStyledElement } from '../../../internal/styled-element';
 
 /**
  * Vertical event timeline.
  *
- * @element rds-timeline
- * @slot - `rds-timeline-item` children
+ * @element rc-timeline
+ * @slot - `rc-timeline-item` children
  */
-export class RdsTimeline extends LitElement {
+export class RcTimeline extends RcStyledElement {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: block;
@@ -20,13 +18,13 @@ export class RdsTimeline extends LitElement {
 
   override render() {
     return html`
-      <div role="list"><slot></slot></div>
+      <div part="container list" role="list"><slot></slot></div>
     `;
   }
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-timeline': RdsTimeline;
+    'rc-timeline': RcTimeline;
   }
 }

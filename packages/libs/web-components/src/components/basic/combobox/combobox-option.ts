@@ -1,17 +1,16 @@
-import { LitElement, css, html } from 'lit';
+import { css, html } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { hostStyles } from '../../../internal/shared-styles';
+import { RcStyledElement } from '../../../internal/styled-element';
 
 /**
- * Option used inside `rds-combobox`.
+ * Option used inside `rc-combobox`.
  *
- * @element rds-combobox-option
+ * @element rc-combobox-option
  * @slot - Option label
  */
-export class RdsComboboxOption extends LitElement {
+export class RcComboboxOption extends RcStyledElement {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: block;
@@ -19,25 +18,25 @@ export class RdsComboboxOption extends LitElement {
       
       .item {
         display: block;
-        padding: var(--rds-space-2) var(--rds-space-3);
+        padding: var(--rc-space-2) var(--rc-space-3);
         cursor: pointer;
-        color: var(--rds-color-text-primary);
-        font-size: var(--rds-typography-body-font-size);
+        color: var(--rc-color-text-primary);
+        font-size: var(--rc-typography-body-font-size);
       }
       
       :host(:hover) .item,
       :host([data-active]) .item {
-        background: var(--rds-color-action-bg-hover);
+        background: var(--rc-color-action-bg-hover);
       }
       
       :host([selected]) .item {
-        background: var(--rds-color-action-bg-selected, var(--rds-color-control-secondary-bg-hover));
-        font-weight: var(--rds-typography-weight-medium);
+        background: var(--rc-color-action-bg-selected, var(--rc-color-control-secondary-bg-hover));
+        font-weight: var(--rc-typography-weight-medium);
       }
       
       :host([disabled]) .item {
         cursor: not-allowed;
-        opacity: var(--rds-opacity-disabled);
+        opacity: var(--rc-opacity-disabled);
       }
     `,
   ];
@@ -54,7 +53,7 @@ export class RdsComboboxOption extends LitElement {
   #onClick() {
     if (this.disabled) return;
     this.dispatchEvent(
-      new CustomEvent('rds-combobox-select', {
+      new CustomEvent('rc-combobox-select', {
         detail: { value: this.value, label: this.textContent?.trim() ?? this.value },
         bubbles: true,
         composed: true,
@@ -64,8 +63,7 @@ export class RdsComboboxOption extends LitElement {
 
   override render() {
     return html`
-      <div
-        class="item"
+      <div class="item" part="item"
         role="option"
         aria-selected=${this.selected ? 'true' : 'false'}
         @click=${this.#onClick}
@@ -78,6 +76,6 @@ export class RdsComboboxOption extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-combobox-option': RdsComboboxOption;
+    'rc-combobox-option': RcComboboxOption;
   }
 }

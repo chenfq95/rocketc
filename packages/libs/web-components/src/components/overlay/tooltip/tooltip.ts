@@ -1,21 +1,21 @@
-import { LitElement, css, html } from 'lit';
+import { css, html } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { nextId } from '../../../internal/a11y';
-import { hostStyles } from '../../../internal/shared-styles';
+import { RcStyledElement } from '../../../internal/styled-element';
 
-export type RdsTooltipPlacement = 'top' | 'bottom' | 'left' | 'right';
+import { nextId } from '../../../internal/a11y';
+
+export type RcTooltipPlacement = 'top' | 'bottom' | 'left' | 'right';
 
 /**
  * Hover / focus tooltip for a slotted trigger.
  *
- * @element rds-tooltip
+ * @element rc-tooltip
  * @slot - Trigger content
  * @slot content - Tooltip text / content
  */
-export class RdsTooltip extends LitElement {
+export class RcTooltip extends RcStyledElement {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: inline-flex;
@@ -27,12 +27,12 @@ export class RdsTooltip extends LitElement {
         z-index: 60;
         display: none;
         max-width: 16rem;
-        border-radius: var(--rds-radius-md);
-        background: var(--rds-color-surface-inverse, var(--rds-color-text-primary));
-        padding: var(--rds-space-1) var(--rds-space-2);
-        color: var(--rds-color-common-white, #fff);
-        font-size: var(--rds-typography-caption-font-size);
-        line-height: var(--rds-typography-caption-line-height);
+        border-radius: var(--rc-radius-md);
+        background: var(--rc-color-surface-inverse, var(--rc-color-text-primary));
+        padding: var(--rc-space-1) var(--rc-space-2);
+        color: var(--rc-color-common-white, #fff);
+        font-size: var(--rc-typography-caption-font-size);
+        line-height: var(--rc-typography-caption-line-height);
         pointer-events: none;
         white-space: nowrap;
       }
@@ -43,25 +43,25 @@ export class RdsTooltip extends LitElement {
       
       :host([placement='top']) .tip,
       :host(:not([placement])) .tip {
-        bottom: calc(100% + var(--rds-space-2));
+        bottom: calc(100% + var(--rc-space-2));
         left: 50%;
         translate: -50% 0;
       }
       
       :host([placement='bottom']) .tip {
-        top: calc(100% + var(--rds-space-2));
+        top: calc(100% + var(--rc-space-2));
         left: 50%;
         translate: -50% 0;
       }
       
       :host([placement='left']) .tip {
-        right: calc(100% + var(--rds-space-2));
+        right: calc(100% + var(--rc-space-2));
         top: 50%;
         translate: 0 -50%;
       }
       
       :host([placement='right']) .tip {
-        left: calc(100% + var(--rds-space-2));
+        left: calc(100% + var(--rc-space-2));
         top: 50%;
         translate: 0 -50%;
       }
@@ -72,7 +72,7 @@ export class RdsTooltip extends LitElement {
   accessor content: string = '';
 
   @property({ type: String, reflect: true })
-  accessor placement: RdsTooltipPlacement = 'top';
+  accessor placement: RcTooltipPlacement = 'top';
 
   @property({ type: Boolean, reflect: true })
   accessor open: boolean = false;
@@ -81,7 +81,7 @@ export class RdsTooltip extends LitElement {
 
   override connectedCallback(): void {
     super.connectedCallback();
-    if (!this.#tipId) this.#tipId = nextId('rds-tooltip');
+    if (!this.#tipId) this.#tipId = nextId('rc-tooltip');
   }
 
   #show = () => {
@@ -94,8 +94,7 @@ export class RdsTooltip extends LitElement {
 
   override render() {
     return html`
-      <span
-        class="trigger"
+      <span class="trigger" part="trigger"
         aria-describedby=${this.#tipId}
         @blur=${this.#hide}
         @focus=${this.#show}
@@ -104,7 +103,7 @@ export class RdsTooltip extends LitElement {
       >
         <slot></slot>
       </span>
-      <span class="tip" id=${this.#tipId} role="tooltip">
+      <span class="tip" part="tip" id=${this.#tipId} role="tooltip">
         <slot name="content">${this.content}</slot>
       </span>
     `;
@@ -113,6 +112,6 @@ export class RdsTooltip extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-tooltip': RdsTooltip;
+    'rc-tooltip': RcTooltip;
   }
 }

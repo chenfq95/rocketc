@@ -1,1 +1,1 @@
-export { RdsSheet, type RdsSheetSide } from './sheet';
+export { RcSheet, type RcSheetSide } from './sheet';

@@ -1,0 +1,123 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { highlightCode } from '../../lib/highlight';
+
+const installCode = await highlightCode(
+  'bun add @rocketc/web-components @rocketc/design-system',
+  'bash',
+);
+const setupCode = await highlightCode(
+  `import '@rocketc/design-system/css/default.light.css';
+import { registerRocketcCustomElements } from '@rocketc/web-components';
+
+registerRocketcCustomElements();`,
+  'ts',
+);
+const markupCode = await highlightCode(
+  `<rc-stack gap="md">
+  <rc-typography variant="heading">账户设置</rc-typography>
+  <rc-button variant="primary">保存</rc-button>
+</rc-stack>`,
+  'html',
+);
+const minCode = await highlightCode(
+  `import { registerRocketcCustomElements } from '@rocketc/web-components/min';`,
+  'ts',
+);
+const cdnCode = await highlightCode(
+  `<!doctype html>
+<html lang="zh-CN" data-theme="default.light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@rocketc/design-system@0.0.1/dist/css/default.light.css"
+    />
+    <script type="module">
+      import { registerRocketcCustomElements } from 'https://cdn.jsdelivr.net/npm/@rocketc/web-components@0.0.1/dist/index.min.js';
+
+      registerRocketcCustomElements();
+    </script>
+  </head>
+  <body>
+    <rc-button variant="primary">保存 / Save</rc-button>
+  </body>
+</html>`,
+  'html',
+);
+---
+
+<BaseLayout
+  title="安装与使用 / Installation & Usage"
+  description="安装并开始使用 Rocketc Web Components。 / Install and start using Rocketc Web Components."
+  activeHref="/guides/installation/"
+>
+  <rc-stack gap="lg">
+    <rc-stack gap="xs">
+      <rc-typography variant="title" as="h1">安装与使用 / Installation & Usage</rc-typography>
+      <rc-typography variant="body" color="secondary" as="p">
+        组件以标准 Custom Elements 运行，可用于原生 HTML 或任意前端框架。 / The components
+        run as standard Custom Elements and work with plain HTML or any frontend framework.
+      </rc-typography>
+    </rc-stack>
+
+    <rc-panel bordered padded>
+      <rc-stack slot="header" gap="xs">
+        <rc-typography variant="heading" as="h2">1. 安装 / Install</rc-typography>
+        <rc-typography variant="body-small" color="secondary" as="p">
+          同时安装组件包与提供主题 Token 的设计系统包。 / Install both the component package
+          and the design-system package that provides theme tokens.
+        </rc-typography>
+      </rc-stack>
+      <div class="example-code" set:html={installCode} />
+    </rc-panel>
+
+    <rc-panel bordered padded>
+      <rc-stack slot="header" gap="xs">
+        <rc-typography variant="heading" as="h2">2. 初始化 / Initialize</rc-typography>
+        <rc-typography variant="body-small" color="secondary" as="p">
+          在应用入口加载一个主题并注册全部元素。注册函数可重复调用，不会重复定义元素。 /
+          Load one theme and register all elements from the application entry point. The
+          registration function is idempotent.
+        </rc-typography>
+      </rc-stack>
+      <div class="example-code" set:html={setupCode} />
+    </rc-panel>
+
+    <rc-panel bordered padded>
+      <rc-stack slot="header" gap="xs">
+        <rc-typography variant="heading" as="h2">3. 使用组件 / Use Components</rc-typography>
+        <rc-typography variant="body-small" color="secondary" as="p">
+          注册完成后可直接使用 <code>rc-*</code> 元素。属性使用 kebab-case，布尔属性遵循原生
+          HTML 语义。 / After registration, use <code>rc-*</code> elements directly. Attributes use
+          kebab-case, and boolean attributes follow native HTML semantics.
+        </rc-typography>
+      </rc-stack>
+      <div class="example-code" set:html={markupCode} />
+    </rc-panel>
+
+    <rc-panel bordered padded>
+      <rc-stack slot="header" gap="xs">
+        <rc-typography variant="heading" as="h2">通过 CDN 使用 / Use from a CDN</rc-typography>
+        <rc-typography variant="body-small" color="secondary" as="p">
+          无需安装或构建工具，可从 jsDelivr 加载主题 CSS 和单文件 ESM 组件产物。生产环境请
+          固定明确版本号。 / Without installing packages or build tools, load the theme CSS and
+          single-file ESM component build from jsDelivr. Pin an explicit version in production.
+        </rc-typography>
+      </rc-stack>
+      <div class="example-code" set:html={cdnCode} />
+    </rc-panel>
+
+    <rc-panel bordered padded>
+      <rc-stack slot="header" gap="xs">
+        <rc-typography variant="heading" as="h2">压缩入口 / Minified Entry</rc-typography>
+        <rc-typography variant="body-small" color="secondary" as="p">
+          需要单文件 ESM 产物时，可改用包含运行时依赖的压缩入口。 / Use the minified entry
+          when a single-file ESM build containing runtime dependencies is preferred.
+        </rc-typography>
+      </rc-stack>
+      <div class="example-code" set:html={minCode} />
+    </rc-panel>
+  </rc-stack>
+</BaseLayout>

@@ -1,17 +1,16 @@
-import { LitElement, css, html, nothing } from 'lit';
+import { css, html, nothing } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { hostStyles } from '../../../internal/shared-styles';
+import { RcStyledElement } from '../../../internal/styled-element';
 
 /**
  * Progress indicator backed by native `<progress>`.
  * Omit `value` (or set `indeterminate`) for an indeterminate bar.
  *
- * @element rds-progress
+ * @element rc-progress
  */
-export class RdsProgress extends LitElement {
+export class RcProgress extends RcStyledElement {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: block;
@@ -20,27 +19,27 @@ export class RdsProgress extends LitElement {
       progress {
         display: block;
         width: 100%;
-        height: var(--rds-space-2);
+        height: var(--rc-space-2);
         border: 0;
-        border-radius: var(--rds-radius-full);
+        border-radius: var(--rc-radius-full);
         overflow: hidden;
-        accent-color: var(--rds-color-control-primary-bg);
-        background: var(--rds-color-border-subtle);
+        accent-color: var(--rc-color-control-primary-bg);
+        background: var(--rc-color-border-subtle);
       }
       
       progress::-webkit-progress-bar {
-        background: var(--rds-color-border-subtle);
-        border-radius: var(--rds-radius-full);
+        background: var(--rc-color-border-subtle);
+        border-radius: var(--rc-radius-full);
       }
       
       progress::-webkit-progress-value {
-        background: var(--rds-color-control-primary-bg);
-        border-radius: var(--rds-radius-full);
+        background: var(--rc-color-control-primary-bg);
+        border-radius: var(--rc-radius-full);
       }
       
       progress::-moz-progress-bar {
-        background: var(--rds-color-control-primary-bg);
-        border-radius: var(--rds-radius-full);
+        background: var(--rc-color-control-primary-bg);
+        border-radius: var(--rc-radius-full);
       }
     `,
   ];
@@ -58,7 +57,7 @@ export class RdsProgress extends LitElement {
     const hasValue = !this.indeterminate && !Number.isNaN(this.value);
 
     return html`
-      <progress
+      <progress part="control"
         max=${this.max}
         value=${hasValue ? this.value : nothing}
         aria-valuemax=${this.max}
@@ -71,6 +70,6 @@ export class RdsProgress extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-progress': RdsProgress;
+    'rc-progress': RcProgress;
   }
 }

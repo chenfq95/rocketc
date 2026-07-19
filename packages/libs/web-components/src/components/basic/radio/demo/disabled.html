@@ -1,9 +1,12 @@
-<!-- basic/radio — disabled — usage snippet for @rocketc/web-components -->
-<div class="rds-demo">
-<rds-radio-group name="env" value="staging" disabled>
-    <span slot="label">Environment</span>
-    <rds-radio value="dev">Dev</rds-radio>
-    <rds-radio value="staging">Staging</rds-radio>
-    <rds-radio value="prod">Prod</rds-radio>
-  </rds-radio-group>
+<!--
+title: 禁用 / Disabled
+description: 展示单选框如何表达并处理禁用状态。 / Shows how radio communicates and handles a disabled state.
+-->
+<div class="rc-demo">
+  <rc-radio-group name="env" value="staging" disabled>
+    <span slot="label">环境 / Environment</span>
+    <rc-radio value="dev">开发环境 / Dev</rc-radio>
+    <rc-radio value="staging">预发布环境 / Staging</rc-radio>
+    <rc-radio value="prod">生产环境 / Prod</rc-radio>
+  </rc-radio-group>
 </div>

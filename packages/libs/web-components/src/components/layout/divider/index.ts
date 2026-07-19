@@ -1,1 +1,1 @@
-export { RdsDivider } from './divider';
+export { RcDivider } from './divider';

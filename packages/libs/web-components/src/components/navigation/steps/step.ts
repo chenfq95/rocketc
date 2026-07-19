@@ -1,23 +1,22 @@
-import { LitElement, css, html } from 'lit';
+import { css, html } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { hostStyles } from '../../../internal/shared-styles';
+import { RcStyledElement } from '../../../internal/styled-element';
 
 /**
- * Step used inside `rds-steps`.
+ * Step used inside `rc-steps`.
  *
- * @element rds-step
+ * @element rc-step
  * @slot - Step title
  * @slot description - Optional description
  */
-export class RdsStep extends LitElement {
+export class RcStep extends RcStyledElement {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: grid;
         grid-template-columns: auto 1fr;
-        gap: var(--rds-space-2);
+        gap: var(--rc-space-2);
         align-items: start;
         min-width: 0;
       }
@@ -25,36 +24,36 @@ export class RdsStep extends LitElement {
       .indicator {
         display: grid;
         place-items: center;
-        width: var(--rds-space-7);
-        height: var(--rds-space-7);
-        border-radius: var(--rds-radius-full);
-        border: var(--rds-border-sm) solid var(--rds-color-border-default);
-        background: var(--rds-color-surface-panel);
-        color: var(--rds-color-text-secondary);
-        font-size: var(--rds-typography-caption-font-size);
-        font-weight: var(--rds-typography-weight-semibold);
+        width: var(--rc-space-7);
+        height: var(--rc-space-7);
+        border-radius: var(--rc-radius-full);
+        border: var(--rc-border-sm) solid var(--rc-color-border-default);
+        background: var(--rc-color-surface-panel);
+        color: var(--rc-color-text-secondary);
+        font-size: var(--rc-typography-caption-font-size);
+        font-weight: var(--rc-typography-weight-semibold);
       }
       
       :host([state='active']) .indicator {
-        border-color: var(--rds-color-control-primary-border);
-        background: var(--rds-color-control-primary-bg);
-        color: var(--rds-color-control-primary-fg-contrast);
+        border-color: var(--rc-color-control-primary-border);
+        background: var(--rc-color-control-primary-bg);
+        color: var(--rc-color-control-primary-fg-contrast);
       }
       
       :host([state='complete']) .indicator {
-        border-color: var(--rds-color-success-solid, var(--rds-color-control-primary-border));
-        background: var(--rds-color-success-solid, var(--rds-color-control-primary-bg));
-        color: var(--rds-color-success-contrast, var(--rds-color-control-primary-fg-contrast));
+        border-color: var(--rc-color-success-solid, var(--rc-color-control-primary-border));
+        background: var(--rc-color-success-solid, var(--rc-color-control-primary-bg));
+        color: var(--rc-color-success-contrast, var(--rc-color-control-primary-fg-contrast));
       }
       
       .title {
-        font-size: var(--rds-typography-label-font-size);
-        font-weight: var(--rds-typography-weight-medium);
+        font-size: var(--rc-typography-label-font-size);
+        font-weight: var(--rc-typography-weight-medium);
       }
       
       .description {
-        color: var(--rds-color-text-muted);
-        font-size: var(--rds-typography-caption-font-size);
+        color: var(--rc-color-text-muted);
+        font-size: var(--rc-typography-caption-font-size);
       }
     `,
   ];
@@ -71,10 +70,10 @@ export class RdsStep extends LitElement {
   override render() {
     const mark = this.state === 'complete' ? '✓' : String(this.index + 1);
     return html`
-      <div class="indicator" aria-hidden="true">${mark}</div>
-      <div>
-        <div class="title"><slot></slot></div>
-        <div class="description"><slot name="description"></slot></div>
+      <div class="indicator" part="indicator" aria-hidden="true">${mark}</div>
+      <div part="content">
+        <div class="title" part="title"><slot></slot></div>
+        <div class="description" part="description"><slot name="description"></slot></div>
       </div>
     `;
   }
@@ -82,6 +81,6 @@ export class RdsStep extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-step': RdsStep;
+    'rc-step': RcStep;
   }
 }

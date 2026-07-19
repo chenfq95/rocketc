@@ -1,0 +1,115 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { commonStyleProps } from '../../lib/catalog';
+import { highlightCode } from '../../lib/highlight';
+
+const exampleCode = await highlightCode(
+  `<rc-card
+  px="lg"
+  py="md"
+  mx="auto"
+  display="grid"
+  gap="md"
+  border="sm"
+  border-radius="xl"
+  bg="panel"
+  color="primary"
+></rc-card>`,
+  'html',
+);
+const rawCode = await highlightCode(
+  `<rc-box pd="4" width="full" bg="canvas"></rc-box>
+<rc-box pd="var(--app-section-space)" width="min(100%, 60rem)"></rc-box>
+<rc-box pd="clamp(1rem, 3vw, 2rem)" bg="color-mix(in srgb, white 90%, blue)"></rc-box>`,
+  'html',
+);
+---
+
+<BaseLayout
+  title="通用宿主样式 / Common Host Styles"
+  description="所有 Rocketc Web Components 共享的宿主样式属性。 / Host-style properties shared by all Rocketc Web Components."
+  activeHref="/guides/host-styles/"
+>
+  <rc-stack gap="lg">
+    <rc-stack gap="xs">
+      <rc-typography variant="title" as="h1">
+        通用宿主样式 / Common Host Styles
+      </rc-typography>
+      <rc-typography variant="body" color="secondary" as="p">
+        所有组件都接受同一组布局与外观属性。这些属性作用于自定义元素宿主，不会直接修改组件
+        内部语义节点。 / Every component accepts the same layout and appearance properties. They
+        target the custom-element host rather than its internal semantic nodes.
+      </rc-typography>
+    </rc-stack>
+
+    <rc-panel bordered padded>
+      <rc-stack slot="header" gap="xs">
+        <rc-typography variant="heading" as="h2">使用方式 / Usage</rc-typography>
+        <rc-typography variant="body-small" color="secondary" as="p">
+          属性可接收 Rocketc 别名、CSS 变量或任意合法 CSS 值。 / Attributes accept Rocketc
+          aliases, CSS variables, or any valid CSS value.
+        </rc-typography>
+      </rc-stack>
+      <div class="example-code" set:html={exampleCode} />
+    </rc-panel>
+
+    <rc-panel bordered padded>
+      <rc-stack slot="header" gap="xs">
+        <rc-typography variant="heading" as="h2">属性参考 / Property Reference</rc-typography>
+        <rc-typography variant="body-small" color="secondary" as="p">
+          JavaScript 属性使用 camelCase，HTML 特性使用表中的 kebab-case 名称。 / JavaScript
+          properties use camelCase; HTML attributes use the kebab-case names shown below.
+        </rc-typography>
+      </rc-stack>
+      <div class="api-table-wrap">
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>属性 / Property</th>
+              <th>特性 / Attribute</th>
+              <th>CSS 属性 / CSS Property</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              commonStyleProps.map((prop) => (
+                <tr>
+                  <td><code>{prop.name}</code></td>
+                  <td><code>{prop.attribute}</code></td>
+                  <td><code>{prop.cssProperty}</code></td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </rc-panel>
+
+    <rc-panel bordered padded>
+      <rc-stack slot="header" gap="xs">
+        <rc-typography variant="heading" as="h2">取值规则 / Value Resolution</rc-typography>
+        <rc-typography variant="body-small" color="secondary" as="p">
+          间距别名为 <code>none</code>、<code>xs</code>、<code>sm</code>、<code>md</code>、<code
+          >lg</code>、<code>xl</code>、<code>2xl</code>；也可使用 <code>0</code> 到 <code>64</code>
+          的 Token 刻度。表面、文字、边框、圆角和排版支持各自的语义别名，未识别值会作为原始
+          CSS 保留。 / Spacing aliases are <code>none</code>, <code>xs</code>, <code>sm</code>,
+          <code>md</code>, <code>lg</code>, <code>xl</code>, and <code>2xl</code>; token scales from
+          <code>0</code> through <code>64</code> are also accepted. Surface, text, border, radius, and
+          typography fields support semantic aliases, while unknown values remain raw CSS.
+        </rc-typography>
+      </rc-stack>
+      <div class="example-code" set:html={rawCode} />
+    </rc-panel>
+
+    <rc-alert variant="info">
+      <span slot="title">CSS 注入 / CSS Injection</span>
+      <span>
+        解析后的样式写入每个 Shadow Root 的 <code>:host</code> CSS 规则，不写入宿主的内联
+        <code>style</code>。组件内部节点请使用对应组件 API 中列出的 <code>::part()</code>。 /
+        Resolved styles are written to a <code>:host</code> CSS rule in each Shadow Root, not to the
+        host's inline <code>style</code>. Style internal nodes with the <code>::part()</code> names
+        listed in each component API.
+      </span>
+    </rc-alert>
+  </rc-stack>
+</BaseLayout>

@@ -1,22 +1,21 @@
-import { LitElement, css, html } from 'lit';
+import { css, html } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { hostStyles } from '../../../internal/shared-styles';
+import { RcStyledElement } from '../../../internal/styled-element';
 
 /**
- * Item used inside `rds-accordion`.
+ * Item used inside `rc-accordion`.
  *
- * @element rds-accordion-item
+ * @element rc-accordion-item
  * @slot - Panel content
  * @slot trigger - Trigger label
  */
-export class RdsAccordionItem extends LitElement {
+export class RcAccordionItem extends RcStyledElement {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: block;
-        border-bottom: var(--rds-border-sm) solid var(--rds-color-border-subtle);
+        border-bottom: var(--rc-border-sm) solid var(--rc-color-border-subtle);
       }
       
       :host(:last-child) {
@@ -27,16 +26,16 @@ export class RdsAccordionItem extends LitElement {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: var(--rds-space-3);
+        gap: var(--rc-space-3);
         width: 100%;
         margin: 0;
         border: 0;
         background: transparent;
-        padding: var(--rds-space-3) 0;
-        color: var(--rds-color-text-primary);
+        padding: var(--rc-space-3) 0;
+        color: var(--rc-color-text-primary);
         font: inherit;
-        font-size: var(--rds-typography-label-font-size);
-        font-weight: var(--rds-typography-weight-medium);
+        font-size: var(--rc-typography-label-font-size);
+        font-weight: var(--rc-typography-weight-medium);
         text-align: left;
         cursor: pointer;
       }
@@ -45,10 +44,10 @@ export class RdsAccordionItem extends LitElement {
         content: '';
         width: 0.4rem;
         height: 0.4rem;
-        border-right: var(--rds-border-sm) solid currentColor;
-        border-bottom: var(--rds-border-sm) solid currentColor;
+        border-right: var(--rc-border-sm) solid currentColor;
+        border-bottom: var(--rc-border-sm) solid currentColor;
         rotate: -45deg;
-        transition: rotate var(--rds-duration-fast) var(--rds-easing-standard);
+        transition: rotate var(--rc-duration-fast) var(--rc-easing-standard);
       }
       
       :host([open]) button::after {
@@ -58,21 +57,21 @@ export class RdsAccordionItem extends LitElement {
       button:focus-visible {
         outline: none;
         box-shadow:
-          0 0 0 2px var(--rds-color-surface-panel),
-          0 0 0 4px var(--rds-color-border-focus);
-        border-radius: var(--rds-radius-sm);
+          0 0 0 2px var(--rc-color-surface-panel),
+          0 0 0 4px var(--rc-color-border-focus);
+        border-radius: var(--rc-radius-sm);
       }
       
       button:disabled {
         cursor: not-allowed;
-        opacity: var(--rds-opacity-disabled);
+        opacity: var(--rc-opacity-disabled);
       }
       
       .panel {
         display: none;
-        padding: 0 0 var(--rds-space-3);
-        color: var(--rds-color-text-secondary);
-        font-size: var(--rds-typography-body-font-size);
+        padding: 0 0 var(--rc-space-3);
+        color: var(--rc-color-text-secondary);
+        font-size: var(--rc-typography-body-font-size);
       }
       
       :host([open]) .panel {
@@ -93,7 +92,7 @@ export class RdsAccordionItem extends LitElement {
   #toggle() {
     if (this.disabled) return;
     this.dispatchEvent(
-      new CustomEvent('rds-accordion-toggle', {
+      new CustomEvent('rc-accordion-toggle', {
         detail: { value: this.value, open: !this.open },
         bubbles: true,
         composed: true,
@@ -103,7 +102,7 @@ export class RdsAccordionItem extends LitElement {
 
   override render() {
     return html`
-      <button
+      <button part="control"
         type="button"
         aria-expanded=${this.open ? 'true' : 'false'}
         ?disabled=${this.disabled}
@@ -111,7 +110,7 @@ export class RdsAccordionItem extends LitElement {
       >
         <slot name="trigger">Item</slot>
       </button>
-      <div class="panel" role="region" ?hidden=${!this.open}>
+      <div class="panel" part="panel" role="region" ?hidden=${!this.open}>
         <slot></slot>
       </div>
     `;
@@ -120,6 +119,6 @@ export class RdsAccordionItem extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-accordion-item': RdsAccordionItem;
+    'rc-accordion-item': RcAccordionItem;
   }
 }

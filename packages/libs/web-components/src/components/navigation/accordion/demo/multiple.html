@@ -1,17 +1,20 @@
-<!-- navigation/accordion — multiple — usage snippet for @rocketc/web-components -->
-<div class="rds-demo">
-<rds-accordion multiple value="a,b">
-    <rds-accordion-item value="a">
-      <span slot="trigger">Tokens</span>
-      Semantic roles for color and space.
-    </rds-accordion-item>
-    <rds-accordion-item value="b">
-      <span slot="trigger">Components</span>
-      Lit elements consuming the same variables.
-    </rds-accordion-item>
-    <rds-accordion-item value="c" disabled>
-      <span slot="trigger">Adapters</span>
-      Coming soon.
-    </rds-accordion-item>
-  </rds-accordion>
+<!--
+title: 多选 / Multiple
+description: 展示手风琴同时接收或显示多个值。 / Shows accordion accepting or displaying multiple values at once.
+-->
+<div class="rc-demo">
+  <rc-accordion multiple value="a,b">
+    <rc-accordion-item value="a">
+      <span slot="trigger">令牌 / Tokens</span>
+      颜色和间距的语义角色。 / Semantic roles for color and space.
+    </rc-accordion-item>
+    <rc-accordion-item value="b">
+      <span slot="trigger">组件 / Components</span>
+      Lit 元素使用相同的变量。 / Lit elements consuming the same variables.
+    </rc-accordion-item>
+    <rc-accordion-item value="c" disabled>
+      <span slot="trigger">适配器 / Adapters</span>
+      即将推出。 / Coming soon.
+    </rc-accordion-item>
+  </rc-accordion>
 </div>

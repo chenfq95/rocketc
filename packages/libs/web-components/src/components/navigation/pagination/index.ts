@@ -1,1 +1,1 @@
-export { RdsPagination } from './pagination';
+export { RcPagination } from './pagination';

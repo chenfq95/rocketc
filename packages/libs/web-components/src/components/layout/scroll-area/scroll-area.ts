@@ -1,32 +1,30 @@
-import { LitElement, css, html } from 'lit';
-import { property } from 'lit/decorators.js';
-
-import { hostStyles } from '../../../internal/shared-styles';
+import { css, html } from 'lit';
+import { RcStyledElement } from '../../../internal/styled-element';
 
 /**
  * Scrollable region with token-styled scrollbars where supported.
  *
- * @element rds-scroll-area
+ * @element rc-scroll-area
  * @slot - Scrollable content
  */
-export class RdsScrollArea extends LitElement {
+export class RcScrollArea extends RcStyledElement {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: block;
         min-width: 0;
+        max-height: 12rem;
       }
       
       .viewport {
-        max-height: var(--rds-scroll-max-height, 12rem);
+        max-height: inherit;
         overflow: auto;
-        border: var(--rds-border-sm) solid var(--rds-color-border-subtle);
-        border-radius: var(--rds-radius-md);
-        background: var(--rds-color-surface-panel);
-        padding: var(--rds-space-3);
+        border: var(--rc-border-sm) solid var(--rc-color-border-subtle);
+        border-radius: var(--rc-radius-md);
+        background: var(--rc-color-surface-panel);
+        padding: var(--rc-space-3);
         scrollbar-width: thin;
-        scrollbar-color: var(--rds-color-border-default) transparent;
+        scrollbar-color: var(--rc-color-border-default) transparent;
       }
       
       .viewport::-webkit-scrollbar {
@@ -35,22 +33,11 @@ export class RdsScrollArea extends LitElement {
       }
       
       .viewport::-webkit-scrollbar-thumb {
-        background: var(--rds-color-border-default);
-        border-radius: var(--rds-radius-full);
+        background: var(--rc-color-border-default);
+        border-radius: var(--rc-radius-full);
       }
     `,
   ];
-
-  @property({ type: String, reflect: true, attribute: 'max-height' })
-  accessor maxHeight: string = '';
-
-  override updated() {
-    if (this.maxHeight) {
-      this.style.setProperty('--rds-scroll-max-height', this.maxHeight);
-    } else {
-      this.style.removeProperty('--rds-scroll-max-height');
-    }
-  }
 
   override render() {
     return html`
@@ -61,6 +48,6 @@ export class RdsScrollArea extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-scroll-area': RdsScrollArea;
+    'rc-scroll-area': RcScrollArea;
   }
 }

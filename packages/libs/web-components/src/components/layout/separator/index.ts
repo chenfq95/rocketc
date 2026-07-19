@@ -1,1 +1,1 @@
-export { RdsSeparator } from './separator';
+export { RcSeparator } from './separator';

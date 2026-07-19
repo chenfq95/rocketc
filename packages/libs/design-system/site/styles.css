@@ -1,7 +1,7 @@
-@import '../dist/css/default.light.css' layer(rds);
-@import '../dist/css/default.dark.css' layer(rds);
-@import '../dist/css/sun.light.css' layer(rds);
-@import '../dist/css/sun.dark.css' layer(rds);
+@import '../dist/css/default.light.css' layer(rc);
+@import '../dist/css/default.dark.css' layer(rc);
+@import '../dist/css/sun.light.css' layer(rc);
+@import '../dist/css/sun.dark.css' layer(rc);
 
 @import './styles/base.css';
 @import './styles/color-swatch.css';

@@ -1,1 +1,1 @@
-export { RdsHoverCard } from './hover-card';
+export { RcHoverCard } from './hover-card';

@@ -1,17 +1,20 @@
-<!-- navigation/steps — states — usage snippet for @rocketc/web-components -->
-<div class="rds-demo">
-<rds-steps index="1">
-    <rds-step value="plan" state="complete">
-      Plan
-      <span slot="description">Done</span>
-    </rds-step>
-    <rds-step value="build" state="active">
-      Build
-      <span slot="description">In progress</span>
-    </rds-step>
-    <rds-step value="ship" state="incomplete">
-      Ship
-      <span slot="description">Next</span>
-    </rds-step>
-  </rds-steps>
+<!--
+title: 状态 / States
+description: 对比步骤条支持的主要交互状态。 / Compares the primary interactive states supported by steps.
+-->
+<div class="rc-demo">
+  <rc-steps index="1">
+    <rc-step value="plan" state="complete">
+      计划 / Plan
+      <span slot="description">已完成 / Done</span>
+    </rc-step>
+    <rc-step value="build" state="active">
+      构建 / Build
+      <span slot="description">进行中 / In progress</span>
+    </rc-step>
+    <rc-step value="ship" state="incomplete">
+      发布 / Ship
+      <span slot="description">下一步 / Next</span>
+    </rc-step>
+  </rc-steps>
 </div>

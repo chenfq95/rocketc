@@ -1,18 +1,17 @@
-import { LitElement, css, html } from 'lit';
+import { css, html } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { hostStyles } from '../../../internal/shared-styles';
+import { RcStyledElement } from '../../../internal/styled-element';
 
 /**
  * Tip that toggles on click (tooltip look, popover behavior).
  *
- * @element rds-toggle-tip
+ * @element rc-toggle-tip
  * @slot - Tip content
  * @slot trigger - Toggle control
  */
-export class RdsToggleTip extends LitElement {
+export class RcToggleTip extends RcStyledElement {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: inline-block;
@@ -22,18 +21,18 @@ export class RdsToggleTip extends LitElement {
       .panel {
         position: absolute;
         z-index: 40;
-        top: calc(100% + var(--rds-space-2));
+        top: calc(100% + var(--rc-space-2));
         left: 0;
         display: none;
         min-width: 10rem;
         max-width: 16rem;
-        border: var(--rds-border-sm) solid var(--rds-color-border-subtle);
-        border-radius: var(--rds-radius-md);
-        background: var(--rds-color-surface-elevated, var(--rds-color-surface-panel));
-        padding: var(--rds-space-2) var(--rds-space-3);
-        box-shadow: var(--rds-shadow-raised, var(--rds-shadow-surface));
-        color: var(--rds-color-text-secondary);
-        font-size: var(--rds-typography-caption-font-size);
+        border: var(--rc-border-sm) solid var(--rc-color-border-subtle);
+        border-radius: var(--rc-radius-md);
+        background: var(--rc-color-surface-elevated, var(--rc-color-surface-panel));
+        padding: var(--rc-space-2) var(--rc-space-3);
+        box-shadow: var(--rc-shadow-raised, var(--rc-shadow-surface));
+        color: var(--rc-color-text-secondary);
+        font-size: var(--rc-typography-caption-font-size);
       }
       
       :host([open]) .panel {
@@ -67,18 +66,18 @@ export class RdsToggleTip extends LitElement {
 
   override render() {
     return html`
-      <span @click=${() => {
+      <span part="container trigger" @click=${() => {
         this.open = !this.open;
       }}>
         <slot name="trigger"></slot>
       </span>
-      <div class="panel" role="note"><slot></slot></div>
+      <div class="panel" part="panel" role="note"><slot></slot></div>
     `;
   }
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-toggle-tip': RdsToggleTip;
+    'rc-toggle-tip': RcToggleTip;
   }
 }

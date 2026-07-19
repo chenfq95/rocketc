@@ -1,19 +1,17 @@
-import { LitElement, css, html } from 'lit';
-
-import { hostStyles } from '../../../internal/shared-styles';
+import { css, html } from 'lit';
+import { RcStyledElement } from '../../../internal/styled-element';
 
 /**
  * Empty-state placeholder for lists / pages with no data.
  *
- * @element rds-empty
+ * @element rc-empty
  * @slot - Description
  * @slot title - Title text
  * @slot action - Optional CTA
  * @slot icon - Optional illustration / icon
  */
-export class RdsEmpty extends LitElement {
+export class RcEmpty extends RcStyledElement {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: grid;
@@ -23,43 +21,43 @@ export class RdsEmpty extends LitElement {
       
       .root {
         display: grid;
-        gap: var(--rds-space-3);
+        gap: var(--rc-space-3);
         justify-items: center;
         max-width: 24rem;
-        padding: var(--rds-space-8) var(--rds-space-4);
-        color: var(--rds-color-text-secondary);
+        padding: var(--rc-space-8) var(--rc-space-4);
+        color: var(--rc-color-text-secondary);
       }
       
       .icon {
         display: grid;
         place-items: center;
-        width: var(--rds-space-12, 3rem);
-        height: var(--rds-space-12, 3rem);
-        border-radius: var(--rds-radius-full);
-        background: var(--rds-color-action-bg-hover);
-        color: var(--rds-color-text-muted);
-        font-size: var(--rds-typography-title-font-size, 1.25rem);
+        width: var(--rc-space-12, 3rem);
+        height: var(--rc-space-12, 3rem);
+        border-radius: var(--rc-radius-full);
+        background: var(--rc-color-action-bg-hover);
+        color: var(--rc-color-text-muted);
+        font-size: var(--rc-typography-title-font-size, 1.25rem);
       }
       
       .title {
         margin: 0;
-        color: var(--rds-color-text-primary);
-        font-size: var(--rds-typography-heading-font-size, var(--rds-typography-body-font-size));
-        font-weight: var(--rds-typography-weight-semibold);
+        color: var(--rc-color-text-primary);
+        font-size: var(--rc-typography-heading-font-size, var(--rc-typography-body-font-size));
+        font-weight: var(--rc-typography-weight-semibold);
       }
       
       .body {
-        font-size: var(--rds-typography-body-small-font-size);
+        font-size: var(--rc-typography-body-small-font-size);
       }
     `,
   ];
 
   override render() {
     return html`
-      <div class="root">
-        <div class="icon"><slot name="icon">∅</slot></div>
-        <h3 class="title"><slot name="title">Nothing here</slot></h3>
-        <div class="body"><slot></slot></div>
+      <div class="root" part="container root">
+        <div class="icon" part="icon"><slot name="icon">∅</slot></div>
+        <h3 class="title" part="title"><slot name="title">Nothing here</slot></h3>
+        <div class="body" part="body"><slot></slot></div>
         <slot name="action"></slot>
       </div>
     `;
@@ -68,6 +66,6 @@ export class RdsEmpty extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-empty': RdsEmpty;
+    'rc-empty': RcEmpty;
   }
 }

@@ -1,33 +1,33 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { mixinDelegatesAria, type ARIAMixinStrict } from '../../../internal/delegate-aria';
-import { mixinElementInternals } from '../../../internal/element-internals';
+import { RcStyledElement } from '../../../internal/styled-element';
+
+import { mixinDelegatesAria, type ARIAMixinStrict } from '../../../internal/mixin-delegates-aria';
+import { mixinElementInternals } from '../../../internal/mixin-element-internals';
 import {
   getFormValue,
   mixinFormAssociated,
   type FormRestoreReason,
   type FormRestoreState,
-} from '../../../internal/form-associated';
-import { hostStyles } from '../../../internal/shared-styles';
+} from '../../../internal/mixin-form-associated';
 
-const base = mixinDelegatesAria(mixinFormAssociated(mixinElementInternals(LitElement)));
+const base = mixinDelegatesAria(mixinFormAssociated(mixinElementInternals(RcStyledElement)));
 
 /**
  * Password field with reveal toggle.
  *
- * @element rds-password-input
+ * @element rc-password-input
  * @fires input - While typing
  * @fires change - On commit
  */
-export class RdsPasswordInput extends base {
+export class RcPasswordInput extends base {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     delegatesFocus: true,
   };
 
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: block;
@@ -37,15 +37,15 @@ export class RdsPasswordInput extends base {
         display: grid;
         grid-template-columns: 1fr auto;
         align-items: stretch;
-        border: var(--rds-border-sm) solid var(--rds-color-border-default);
-        border-radius: var(--rds-radius-md);
-        background: var(--rds-color-surface-panel);
+        border: var(--rc-border-sm) solid var(--rc-color-border-default);
+        border-radius: var(--rc-radius-md);
+        background: var(--rc-color-surface-panel);
         overflow: hidden;
       }
       
       :host(:focus-within) .root {
-        border-color: var(--rds-color-border-focus);
-        box-shadow: 0 0 0 3px color-mix(in oklab, var(--rds-color-border-focus) 30%, transparent);
+        border-color: var(--rc-color-border-focus);
+        box-shadow: 0 0 0 3px color-mix(in oklab, var(--rc-color-border-focus) 30%, transparent);
       }
       
       input {
@@ -53,11 +53,11 @@ export class RdsPasswordInput extends base {
         margin: 0;
         border: 0;
         background: transparent;
-        padding: 0 var(--rds-space-3);
-        min-height: var(--rds-space-9);
+        padding: 0 var(--rc-space-3);
+        min-height: var(--rc-space-9);
         color: inherit;
         font: inherit;
-        font-size: var(--rds-typography-body-font-size);
+        font-size: var(--rc-typography-body-font-size);
       }
       
       input:focus {
@@ -67,21 +67,21 @@ export class RdsPasswordInput extends base {
       button {
         margin: 0;
         border: 0;
-        border-left: var(--rds-border-sm) solid var(--rds-color-border-subtle);
+        border-left: var(--rc-border-sm) solid var(--rc-color-border-subtle);
         background: transparent;
-        padding: 0 var(--rds-space-3);
-        color: var(--rds-color-text-secondary);
-        font-size: var(--rds-typography-caption-font-size);
+        padding: 0 var(--rc-space-3);
+        color: var(--rc-color-text-secondary);
+        font-size: var(--rc-typography-caption-font-size);
         cursor: pointer;
       }
       
       button:hover {
-        color: var(--rds-color-text-primary);
-        background: var(--rds-color-action-bg-hover);
+        color: var(--rc-color-text-primary);
+        background: var(--rc-color-action-bg-hover);
       }
       
       :host([disabled]) {
-        opacity: var(--rds-opacity-disabled);
+        opacity: var(--rc-opacity-disabled);
       }
     `,
   ];
@@ -128,8 +128,8 @@ export class RdsPasswordInput extends base {
   override render() {
     const { ariaLabel } = this as ARIAMixinStrict;
     return html`
-      <div class="root">
-        <input
+      <div class="root" part="container root">
+        <input part="control"
           type=${this.revealed ? 'text' : 'password'}
           .value=${this.value}
           placeholder=${this.placeholder || nothing}
@@ -141,7 +141,7 @@ export class RdsPasswordInput extends base {
           @input=${this.#onInput}
           @change=${this.#onChange}
         />
-        <button
+        <button part="control"
           type="button"
           tabindex="-1"
           aria-label=${this.revealed ? 'Hide password' : 'Show password'}
@@ -160,6 +160,6 @@ export class RdsPasswordInput extends base {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-password-input': RdsPasswordInput;
+    'rc-password-input': RcPasswordInput;
   }
 }

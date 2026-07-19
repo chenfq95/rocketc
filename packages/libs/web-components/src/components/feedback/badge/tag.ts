@@ -1,19 +1,19 @@
-import { LitElement, css, html, nothing } from 'lit';
+import { css, html, nothing } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { hostStyles } from '../../../internal/shared-styles';
-import type { RdsBadgeVariant } from './badge';
+import { RcStyledElement } from '../../../internal/styled-element';
+
+import type { RcBadgeVariant } from './badge';
 
 /**
  * Categorization chip with optional dismiss.
  *
- * @element rds-tag
+ * @element rc-tag
  * @fires dismiss - When the close control is activated
  * @slot - Tag label
  */
-export class RdsTag extends LitElement {
+export class RcTag extends RcStyledElement {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: inline-flex;
@@ -23,35 +23,35 @@ export class RdsTag extends LitElement {
       .root {
         display: inline-flex;
         align-items: center;
-        gap: var(--rds-space-1);
-        border: var(--rds-border-sm) solid transparent;
-        border-radius: var(--rds-radius-full);
-        padding: 2px var(--rds-space-2);
-        font-size: var(--rds-typography-caption-font-size);
-        font-weight: var(--rds-typography-weight-medium);
-        line-height: var(--rds-typography-caption-line-height);
+        gap: var(--rc-space-1);
+        border: var(--rc-border-sm) solid transparent;
+        border-radius: var(--rc-radius-full);
+        padding: 2px var(--rc-space-2);
+        font-size: var(--rc-typography-caption-font-size);
+        font-weight: var(--rc-typography-weight-medium);
+        line-height: var(--rc-typography-caption-line-height);
       }
       
       :host([variant='default']) .root,
       :host(:not([variant])) .root {
-        background: var(--rds-color-control-secondary-bg-hover);
-        color: var(--rds-color-control-secondary-fg);
+        background: var(--rc-color-control-secondary-bg-hover);
+        color: var(--rc-color-control-secondary-fg);
       }
       
       :host([variant='outline']) .root {
         background: transparent;
-        border-color: var(--rds-color-border-default);
-        color: var(--rds-color-text-primary);
+        border-color: var(--rc-color-border-default);
+        color: var(--rc-color-text-primary);
       }
       
       :host([variant='destructive']) .root {
-        background: var(--rds-color-danger-subtle, var(--rds-color-danger-solid));
-        color: var(--rds-color-danger-fg, var(--rds-color-danger-contrast));
+        background: var(--rc-color-danger-subtle, var(--rc-color-danger-solid));
+        color: var(--rc-color-danger-fg, var(--rc-color-danger-contrast));
       }
       
       :host([variant='success']) .root {
-        background: var(--rds-color-success-subtle, var(--rds-color-success-solid));
-        color: var(--rds-color-success-fg, var(--rds-color-success-contrast));
+        background: var(--rc-color-success-subtle, var(--rc-color-success-solid));
+        color: var(--rc-color-success-fg, var(--rc-color-success-contrast));
       }
       
       button {
@@ -68,19 +68,19 @@ export class RdsTag extends LitElement {
   ];
 
   @property({ type: String, reflect: true })
-  accessor variant: RdsBadgeVariant = 'default';
+  accessor variant: RcBadgeVariant = 'default';
 
   @property({ type: Boolean, reflect: true })
   accessor dismissible: boolean = false;
 
   override render() {
     return html`
-      <span class="root">
+      <span class="root" part="container root">
         <slot></slot>
         ${
           this.dismissible
             ? html`
-                <button
+                <button part="control"
                   type="button"
                   aria-label="Remove"
                   @click=${() =>
@@ -100,6 +100,6 @@ export class RdsTag extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-tag': RdsTag;
+    'rc-tag': RcTag;
   }
 }

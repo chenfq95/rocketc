@@ -1,31 +1,31 @@
-import { LitElement, css, html } from 'lit';
+import { css, html } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { hostStyles } from '../../../internal/shared-styles';
-import type { RdsTab } from './tab';
+import { RcStyledElement } from '../../../internal/styled-element';
+
+import type { RcTab } from './tab';
 
 /**
- * Tablist + panels. Place `rds-tab` children and panel elements with matching
+ * Tablist + panels. Place `rc-tab` children and panel elements with matching
  * `data-value` / `slot="panel"` + `data-value`.
  *
- * @element rds-tabs
+ * @element rc-tabs
  * @fires change - When the active tab changes (`detail.value`)
- * @slot - Tab triggers (`rds-tab`) and panels (`slot="panel"`)
+ * @slot - Tab triggers (`rc-tab`) and panels (`slot="panel"`)
  */
-export class RdsTabs extends LitElement {
+export class RcTabs extends RcStyledElement {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: grid;
-        gap: var(--rds-space-3);
+        gap: var(--rc-space-3);
       }
       
       .list {
         display: flex;
         flex-wrap: wrap;
-        gap: var(--rds-space-1);
-        border-bottom: var(--rds-border-sm) solid var(--rds-color-border-subtle);
+        gap: var(--rc-space-1);
+        border-bottom: var(--rc-border-sm) solid var(--rc-color-border-subtle);
       }
       
       .panels ::slotted([slot='panel']) {
@@ -43,12 +43,12 @@ export class RdsTabs extends LitElement {
 
   override connectedCallback(): void {
     super.connectedCallback();
-    this.addEventListener('rds-tab-select', this.#onTabSelect as EventListener);
+    this.addEventListener('rc-tab-select', this.#onTabSelect as EventListener);
     this.addEventListener('keydown', this.#onKeyDown);
   }
 
   override disconnectedCallback(): void {
-    this.removeEventListener('rds-tab-select', this.#onTabSelect as EventListener);
+    this.removeEventListener('rc-tab-select', this.#onTabSelect as EventListener);
     this.removeEventListener('keydown', this.#onKeyDown);
     super.disconnectedCallback();
   }
@@ -65,9 +65,9 @@ export class RdsTabs extends LitElement {
     this.#sync();
   }
 
-  #tabs(): RdsTab[] {
-    // Only direct children — nested `rds-tabs` demos must not be synced.
-    return [...this.querySelectorAll<RdsTab>(':scope > rds-tab')];
+  #tabs(): RcTab[] {
+    // Only direct children — nested `rc-tabs` demos must not be synced.
+    return [...this.querySelectorAll<RcTab>(':scope > rc-tab')];
   }
 
   #panels(): HTMLElement[] {
@@ -87,7 +87,7 @@ export class RdsTabs extends LitElement {
   }
 
   #onTabSelect = (event: Event) => {
-    // Ignore nested `rds-tabs` — only direct child triggers.
+    // Ignore nested `rc-tabs` — only direct child triggers.
     if (!(event.target instanceof HTMLElement) || event.target.parentElement !== this) return;
     event.stopPropagation();
     const custom = event as CustomEvent<{ value: string }>;
@@ -129,10 +129,10 @@ export class RdsTabs extends LitElement {
 
   override render() {
     return html`
-      <div class="list" role="tablist">
+      <div class="list" part="list" role="tablist">
         <slot></slot>
       </div>
-      <div class="panels">
+      <div class="panels" part="panels">
         <slot name="panel"></slot>
       </div>
     `;
@@ -141,6 +141,6 @@ export class RdsTabs extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-tabs': RdsTabs;
+    'rc-tabs': RcTabs;
   }
 }

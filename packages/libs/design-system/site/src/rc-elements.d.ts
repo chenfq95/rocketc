@@ -1,45 +1,67 @@
 import type { DetailedHTMLProps, HTMLAttributes, Ref } from 'react';
 
-type RdsProps<T = HTMLElement> = DetailedHTMLProps<HTMLAttributes<T>, T> & {
-  class?: string;
+type RcStyleAttributes = {
+  pd?: string;
+  px?: string;
+  py?: string;
+  mg?: string;
+  mx?: string;
+  my?: string;
+  display?: string;
+  gap?: string;
+  'align-items'?: string;
+  justify?: string;
+  position?: string;
+  overflow?: string;
+  width?: string;
+  height?: string;
+  'min-width'?: string;
+  'max-width'?: string;
+  'min-height'?: string;
+  'max-height'?: string;
+  border?: string;
+  'border-width'?: string;
+  'border-style'?: string;
+  'border-color'?: string;
+  'border-radius'?: string;
+  bg?: string;
+  color?: string;
+  'font-size'?: string;
+  'font-weight'?: string;
+  'line-height'?: string;
+  'text-align'?: string;
 };
+
+type RcProps<T = HTMLElement> = DetailedHTMLProps<HTMLAttributes<T>, T> &
+  RcStyleAttributes & {
+    class?: string;
+  };
 
 declare module 'react' {
   namespace JSX {
     interface IntrinsicElements {
-      'rds-accordion': RdsProps & {
+      'rc-accordion': RcProps & {
         multiple?: boolean;
         value?: string;
         onChange?: (event: Event) => void;
       };
-      'rds-accordion-item': RdsProps & {
+      'rc-accordion-item': RcProps & {
         value?: string;
         open?: boolean;
         disabled?: boolean;
       };
-      'rds-alert': RdsProps & { variant?: string };
-      'rds-avatar': RdsProps & { src?: string; alt?: string; size?: string };
-      'rds-badge': RdsProps & { variant?: string };
-      'rds-banner': RdsProps & {
+      'rc-alert': RcProps & { variant?: string };
+      'rc-avatar': RcProps & { src?: string; alt?: string; size?: string };
+      'rc-badge': RcProps & { variant?: string };
+      'rc-banner': RcProps & {
         variant?: string;
         open?: boolean;
         dismissible?: boolean;
       };
-      'rds-box': RdsProps & {
-        display?: string;
-        p?: string;
-        px?: string;
-        py?: string;
-        m?: string;
-        mx?: string;
-        my?: string;
-        bg?: string;
-        rounded?: string;
-        bordered?: boolean;
-      };
-      'rds-breadcrumb': RdsProps & { separator?: string };
-      'rds-center': RdsProps & { inline?: boolean; 'min-height'?: string };
-      'rds-button': RdsProps & {
+      'rc-box': RcProps;
+      'rc-breadcrumb': RcProps & { separator?: string };
+      'rc-center': RcProps & { inline?: boolean };
+      'rc-button': RcProps & {
         variant?: string;
         size?: string;
         type?: string;
@@ -47,19 +69,19 @@ declare module 'react' {
         loading?: boolean;
         onClick?: (event: Event) => void;
       };
-      'rds-card': RdsProps;
-      'rds-close-button': RdsProps & {
+      'rc-card': RcProps;
+      'rc-close-button': RcProps & {
         size?: string;
         disabled?: boolean;
         onClick?: (event: Event) => void;
       };
-      'rds-color-picker': RdsProps & {
+      'rc-color-picker': RcProps & {
         value?: string;
         name?: string;
         disabled?: boolean;
         onChange?: (event: Event) => void;
       };
-      'rds-combobox': RdsProps & {
+      'rc-combobox': RcProps & {
         value?: string;
         label?: string;
         placeholder?: string;
@@ -69,12 +91,12 @@ declare module 'react' {
         required?: boolean;
         onChange?: (event: Event) => void;
       };
-      'rds-combobox-option': RdsProps & {
+      'rc-combobox-option': RcProps & {
         value?: string;
         disabled?: boolean;
         selected?: boolean;
       };
-      'rds-checkbox': RdsProps & {
+      'rc-checkbox': RcProps & {
         checked?: boolean;
         indeterminate?: boolean;
         disabled?: boolean;
@@ -83,18 +105,18 @@ declare module 'react' {
         required?: boolean;
         onChange?: (event: Event) => void;
       };
-      'rds-details': RdsProps & { open?: boolean };
-      'rds-dialog': RdsProps & { open?: boolean; 'return-value'?: string };
-      'rds-divider': RdsProps & {
+      'rc-details': RcProps & { open?: boolean };
+      'rc-dialog': RcProps & { open?: boolean; 'return-value'?: string };
+      'rc-divider': RcProps & {
         orientation?: 'horizontal' | 'vertical';
         inset?: boolean;
         label?: string;
       };
-      'rds-drawer': RdsProps & { open?: boolean; side?: string };
-      'rds-dropdown': RdsProps & { open?: boolean };
-      'rds-empty': RdsProps;
-      'rds-field': RdsProps & { invalid?: boolean; required?: boolean };
-      'rds-file-upload': RdsProps & {
+      'rc-drawer': RcProps & { open?: boolean; side?: string };
+      'rc-dropdown': RcProps & { open?: boolean };
+      'rc-empty': RcProps;
+      'rc-field': RcProps & { invalid?: boolean; required?: boolean };
+      'rc-file-upload': RcProps & {
         accept?: string;
         multiple?: boolean;
         required?: boolean;
@@ -103,21 +125,19 @@ declare module 'react' {
         disabled?: boolean;
         onChange?: (event: Event) => void;
       };
-      'rds-fieldset': RdsProps & {
+      'rc-fieldset': RcProps & {
         disabled?: boolean;
         name?: string;
         form?: string;
       };
-      'rds-flex': RdsProps & {
+      'rc-flex': RcProps & {
         direction?: string;
-        gap?: string;
         align?: string;
-        justify?: string;
         wrap?: boolean;
         inline?: boolean;
       };
-      'rds-hover-card': RdsProps & { open?: boolean };
-      'rds-icon-button': RdsProps & {
+      'rc-hover-card': RcProps & { open?: boolean };
+      'rc-icon-button': RcProps & {
         variant?: string;
         size?: string;
         type?: string;
@@ -125,14 +145,12 @@ declare module 'react' {
         loading?: boolean;
         onClick?: (event: Event) => void;
       };
-      'rds-grid': RdsProps & {
+      'rc-grid': RcProps & {
         columns?: number;
-        gap?: string;
         'min-child-width'?: string;
         align?: string;
-        justify?: string;
       };
-      'rds-input': RdsProps & {
+      'rc-input': RcProps & {
         type?: string;
         name?: string;
         value?: string;
@@ -146,8 +164,8 @@ declare module 'react' {
         accept?: string;
         multiple?: boolean;
       };
-      'rds-label': RdsProps & { for?: string };
-      'rds-link': RdsProps & {
+      'rc-label': RcProps & { for?: string };
+      'rc-link': RcProps & {
         href?: string;
         target?: string;
         rel?: string;
@@ -155,18 +173,18 @@ declare module 'react' {
         variant?: string;
         disabled?: boolean;
       };
-      'rds-list': RdsProps & { bordered?: boolean };
-      'rds-list-item': RdsProps & {
+      'rc-list': RcProps & { bordered?: boolean };
+      'rc-list-item': RcProps & {
         interactive?: boolean;
         disabled?: boolean;
       };
-      'rds-menu': RdsProps;
-      'rds-menu-item': RdsProps & {
+      'rc-menu': RcProps;
+      'rc-menu-item': RcProps & {
         value?: string;
         disabled?: boolean;
         destructive?: boolean;
       };
-      'rds-number-input': RdsProps & {
+      'rc-number-input': RcProps & {
         value?: string;
         min?: number;
         max?: number;
@@ -178,7 +196,7 @@ declare module 'react' {
         required?: boolean;
         onChange?: (event: Event) => void;
       };
-      'rds-password-input': RdsProps & {
+      'rc-password-input': RcProps & {
         value?: string;
         placeholder?: string;
         name?: string;
@@ -188,7 +206,7 @@ declare module 'react' {
         revealed?: boolean;
         autocomplete?: string;
       };
-      'rds-pin-input': RdsProps & {
+      'rc-pin-input': RcProps & {
         value?: string;
         length?: number;
         mask?: boolean;
@@ -197,7 +215,7 @@ declare module 'react' {
         required?: boolean;
         onChange?: (event: Event) => void;
       };
-      'rds-meter': RdsProps & {
+      'rc-meter': RcProps & {
         value?: number;
         min?: number;
         max?: number;
@@ -205,26 +223,26 @@ declare module 'react' {
         high?: number;
         optimum?: number;
       };
-      'rds-pagination': RdsProps & {
+      'rc-pagination': RcProps & {
         page?: number;
         count?: number;
         'sibling-count'?: number;
         onChange?: (event: Event) => void;
       };
-      'rds-panel': RdsProps & { bordered?: boolean; padded?: boolean; className?: string };
-      'rds-popover': RdsProps & { open?: boolean; placement?: string };
-      'rds-progress-circle': RdsProps & {
+      'rc-panel': RcProps & { bordered?: boolean; padded?: boolean; className?: string };
+      'rc-popover': RcProps & { open?: boolean; placement?: string };
+      'rc-progress-circle': RcProps & {
         value?: number;
         max?: number;
         size?: string;
         indeterminate?: boolean;
       };
-      'rds-progress': RdsProps & {
+      'rc-progress': RcProps & {
         value?: number;
         max?: number;
         indeterminate?: boolean;
       };
-      'rds-radio': RdsProps & {
+      'rc-radio': RcProps & {
         checked?: boolean;
         disabled?: boolean;
         name?: string;
@@ -232,7 +250,7 @@ declare module 'react' {
         required?: boolean;
         onChange?: (event: Event) => void;
       };
-      'rds-rating': RdsProps & {
+      'rc-rating': RcProps & {
         value?: number;
         max?: number;
         readonly?: boolean;
@@ -241,7 +259,7 @@ declare module 'react' {
         disabled?: boolean;
         onChange?: (event: Event) => void;
       };
-      'rds-radio-group': RdsProps & {
+      'rc-radio-group': RcProps & {
         name?: string;
         value?: string;
         disabled?: boolean;
@@ -249,23 +267,23 @@ declare module 'react' {
         orientation?: 'horizontal' | 'vertical';
         onChange?: (event: Event) => void;
       };
-      'rds-segment': RdsProps & {
+      'rc-segment': RcProps & {
         value?: string;
         name?: string;
         disabled?: boolean;
         size?: string;
         'full-width'?: boolean;
-        ref?: Ref<HTMLElementTagNameMap['rds-segment']>;
+        ref?: Ref<HTMLElementTagNameMap['rc-segment']>;
         onChange?: (event: Event) => void;
       };
-      'rds-segment-item': RdsProps & {
+      'rc-segment-item': RcProps & {
         value?: string;
         disabled?: boolean;
         selected?: boolean;
         size?: string;
       };
-      'rds-scroll-area': RdsProps & { 'max-height'?: string };
-      'rds-select': RdsProps & {
+      'rc-scroll-area': RcProps & { 'max-height'?: string };
+      'rc-select': RcProps & {
         name?: string;
         value?: string;
         disabled?: boolean;
@@ -273,33 +291,33 @@ declare module 'react' {
         multiple?: boolean;
         onChange?: (event: Event) => void;
       };
-      'rds-separator': RdsProps & {
+      'rc-separator': RcProps & {
         orientation?: 'horizontal' | 'vertical';
         decorative?: boolean;
       };
-      'rds-sheet': RdsProps & {
+      'rc-sheet': RcProps & {
         open?: boolean;
         side?: string;
         modal?: boolean;
       };
-      'rds-sidebar': RdsProps & { collapsed?: boolean };
-      'rds-skeleton': RdsProps & {
+      'rc-sidebar': RcProps & { collapsed?: boolean };
+      'rc-skeleton': RcProps & {
         variant?: string;
         width?: string;
         height?: string;
         lines?: number;
       };
-      'rds-spinner': RdsProps & { size?: string; label?: string };
-      'rds-step': RdsProps & {
+      'rc-spinner': RcProps & { size?: string; label?: string };
+      'rc-step': RcProps & {
         value?: string;
         index?: number;
         state?: string;
       };
-      'rds-steps': RdsProps & {
+      'rc-steps': RcProps & {
         index?: number;
         onChange?: (event: Event) => void;
       };
-      'rds-slider': RdsProps & {
+      'rc-slider': RcProps & {
         name?: string;
         value?: string;
         min?: number;
@@ -308,27 +326,25 @@ declare module 'react' {
         disabled?: boolean;
         onChange?: (event: Event) => void;
       };
-      'rds-snackbar': RdsProps & { open?: boolean; duration?: number };
-      'rds-stack': RdsProps & {
+      'rc-snackbar': RcProps & { open?: boolean; duration?: number };
+      'rc-stack': RcProps & {
         direction?: string;
-        gap?: string;
         align?: string;
-        justify?: string;
         wrap?: boolean;
       };
-      'rds-stat': RdsProps & { trend?: string };
-      'rds-switch': RdsProps & {
+      'rc-stat': RcProps & { trend?: string };
+      'rc-switch': RcProps & {
         checked?: boolean;
         disabled?: boolean;
         name?: string;
         onChange?: (event: Event) => void;
       };
-      'rds-tag': RdsProps & {
+      'rc-tag': RcProps & {
         variant?: string;
         dismissible?: boolean;
         onDismiss?: (event: Event) => void;
       };
-      'rds-tags-input': RdsProps & {
+      'rc-tags-input': RcProps & {
         value?: string;
         placeholder?: string;
         name?: string;
@@ -336,20 +352,20 @@ declare module 'react' {
         required?: boolean;
         onChange?: (event: Event) => void;
       };
-      'rds-tab': RdsProps & {
+      'rc-tab': RcProps & {
         value?: string;
         disabled?: boolean;
         selected?: boolean;
       };
-      'rds-table': RdsProps & { striped?: boolean; compact?: boolean };
-      'rds-tabs': RdsProps & {
+      'rc-table': RcProps & { striped?: boolean; compact?: boolean };
+      'rc-tabs': RcProps & {
         value?: string;
         onChange?: (event: Event) => void;
       };
-      'rds-timeline': RdsProps;
-      'rds-timeline-item': RdsProps;
-      'rds-toggle-tip': RdsProps & { open?: boolean };
-      'rds-textarea': RdsProps & {
+      'rc-timeline': RcProps;
+      'rc-timeline-item': RcProps;
+      'rc-toggle-tip': RcProps & { open?: boolean };
+      'rc-textarea': RcProps & {
         name?: string;
         value?: string;
         placeholder?: string;
@@ -359,17 +375,17 @@ declare module 'react' {
         rows?: number;
         resize?: string;
       };
-      'rds-toast': RdsProps & {
+      'rc-toast': RcProps & {
         open?: boolean;
         variant?: string;
         duration?: number;
       };
-      'rds-tooltip': RdsProps & {
+      'rc-tooltip': RcProps & {
         content?: string;
         placement?: string;
         open?: boolean;
       };
-      'rds-typography': RdsProps & {
+      'rc-typography': RcProps & {
         variant?: string;
         as?: string;
         color?: string;

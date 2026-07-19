@@ -1,16 +1,15 @@
-import { LitElement, css, html } from 'lit';
+import { css, html } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { hostStyles } from '../../../internal/shared-styles';
+import { RcStyledElement } from '../../../internal/styled-element';
 
 /**
  * Visual divider (`<hr>` / separator).
  *
- * @element rds-separator
+ * @element rc-separator
  */
-export class RdsSeparator extends LitElement {
+export class RcSeparator extends RcStyledElement {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: block;
@@ -19,22 +18,22 @@ export class RdsSeparator extends LitElement {
       :host([orientation='vertical']) {
         display: inline-block;
         height: 100%;
-        min-height: var(--rds-space-4);
+        min-height: var(--rc-space-4);
       }
       
       hr {
         margin: 0;
         border: 0;
-        background: var(--rds-color-border-subtle);
+        background: var(--rc-color-border-subtle);
       }
       
       :host(:not([orientation='vertical'])) hr {
         width: 100%;
-        height: var(--rds-border-sm);
+        height: var(--rc-border-sm);
       }
       
       :host([orientation='vertical']) hr {
-        width: var(--rds-border-sm);
+        width: var(--rc-border-sm);
         height: 100%;
         min-height: inherit;
       }
@@ -50,6 +49,7 @@ export class RdsSeparator extends LitElement {
   override render() {
     return html`
       <hr
+        part="control separator"
         role=${this.decorative ? 'none' : 'separator'}
         aria-orientation=${this.orientation}
       />
@@ -59,6 +59,6 @@ export class RdsSeparator extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-separator': RdsSeparator;
+    'rc-separator': RcSeparator;
   }
 }

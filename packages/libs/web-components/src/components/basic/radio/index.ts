@@ -1,2 +1,2 @@
-export { RdsRadio } from './radio';
-export { RdsRadioGroup } from './radio-group';
+export { RcRadio } from './radio';
+export { RcRadioGroup } from './radio-group';

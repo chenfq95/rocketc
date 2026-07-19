@@ -1,22 +1,21 @@
-import { LitElement, css, html } from 'lit';
+import { css, html } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { hostStyles } from '../../../internal/shared-styles';
+import { RcStyledElement } from '../../../internal/styled-element';
 
-export type RdsBannerVariant = 'default' | 'destructive' | 'success' | 'warning' | 'info';
+export type RcBannerVariant = 'default' | 'destructive' | 'success' | 'warning' | 'info';
 
 /**
  * Persistent full-width status banner.
  *
- * @element rds-banner
+ * @element rc-banner
  * @fires close - When dismissed (if `dismissible`)
  * @slot - Banner body
  * @slot title - Optional title
  * @slot action - Optional action control
  */
-export class RdsBanner extends LitElement {
+export class RcBanner extends RcStyledElement {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: none;
@@ -29,75 +28,75 @@ export class RdsBanner extends LitElement {
       .root {
         display: flex;
         align-items: flex-start;
-        gap: var(--rds-space-3);
-        border-block: var(--rds-border-sm) solid var(--rds-color-border-default);
-        background: var(--rds-color-surface-panel);
-        padding: var(--rds-space-3) var(--rds-space-4);
-        color: var(--rds-color-text-primary);
+        gap: var(--rc-space-3);
+        border-block: var(--rc-border-sm) solid var(--rc-color-border-default);
+        background: var(--rc-color-surface-panel);
+        padding: var(--rc-space-3) var(--rc-space-4);
+        color: var(--rc-color-text-primary);
       }
       
       .copy {
         display: grid;
-        gap: var(--rds-space-1);
+        gap: var(--rc-space-1);
         flex: 1;
       }
       
       .title {
         margin: 0;
-        font-size: var(--rds-typography-label-font-size);
-        font-weight: var(--rds-typography-weight-semibold);
+        font-size: var(--rc-typography-label-font-size);
+        font-weight: var(--rc-typography-weight-semibold);
       }
       
       .body {
-        color: var(--rds-color-text-secondary);
-        font-size: var(--rds-typography-body-small-font-size);
+        color: var(--rc-color-text-secondary);
+        font-size: var(--rc-typography-body-small-font-size);
       }
       
       .aside {
         display: flex;
         align-items: center;
-        gap: var(--rds-space-2);
+        gap: var(--rc-space-2);
       }
       
       .close {
         display: inline-grid;
         place-items: center;
-        width: var(--rds-space-7);
-        height: var(--rds-space-7);
+        width: var(--rc-space-7);
+        height: var(--rc-space-7);
         margin: 0;
         border: 0;
-        border-radius: var(--rds-radius-md);
+        border-radius: var(--rc-radius-md);
         background: transparent;
         color: inherit;
         cursor: pointer;
       }
       
       .close:hover {
-        background: var(--rds-color-action-bg-hover);
+        background: var(--rc-color-action-bg-hover);
       }
       
       :host([variant='destructive']) .root {
-        border-color: var(--rds-color-danger-border);
-        background: var(--rds-color-danger-soft);
-        color: var(--rds-color-danger-fg);
+        border-color: var(--rc-color-danger-border);
+        background: var(--rc-color-danger-soft);
+        color: var(--rc-color-danger-fg);
       }
       
       :host([variant='success']) .root {
-        border-color: var(--rds-color-success-border);
-        background: var(--rds-color-success-soft);
-        color: var(--rds-color-success-fg);
+        border-color: var(--rc-color-success-border);
+        background: var(--rc-color-success-soft);
+        color: var(--rc-color-success-fg);
       }
       
       :host([variant='warning']) .root {
-        border-color: var(--rds-color-warning-border);
-        background: var(--rds-color-warning-soft);
-        color: var(--rds-color-warning-fg);
+        border-color: var(--rc-color-warning-border);
+        background: var(--rc-color-warning-soft);
+        color: var(--rc-color-warning-fg);
       }
       
       :host([variant='info']) .root {
-        border-color: var(--rds-color-info-border);
-        background: var(--rds-color-info-soft);
-        color: var(--rds-color-info-fg);
+        border-color: var(--rc-color-info-border);
+        background: var(--rc-color-info-soft);
+        color: var(--rc-color-info-fg);
       }
       
       :host([variant='destructive']) .body,
@@ -111,7 +110,7 @@ export class RdsBanner extends LitElement {
   ];
 
   @property({ type: String, reflect: true })
-  accessor variant: RdsBannerVariant = 'default';
+  accessor variant: RcBannerVariant = 'default';
 
   @property({ type: Boolean, reflect: true })
   accessor dismissible: boolean = false;
@@ -127,17 +126,17 @@ export class RdsBanner extends LitElement {
 
   override render() {
     return html`
-      <div class="root" role="status">
-        <div class="copy">
-          <p class="title"><slot name="title"></slot></p>
-          <div class="body"><slot></slot></div>
+      <div class="root" part="container root" role="status">
+        <div class="copy" part="copy">
+          <p class="title" part="title"><slot name="title"></slot></p>
+          <div class="body" part="body"><slot></slot></div>
         </div>
-        <div class="aside">
+        <div class="aside" part="aside">
           <slot name="action"></slot>
           ${
             this.dismissible
               ? html`
-                  <button class="close" type="button" aria-label="Dismiss" @click=${() => this.hide()}>
+                  <button class="close" part="control close" type="button" aria-label="Dismiss" @click=${() => this.hide()}>
                     ×
                   </button>
                 `
@@ -151,6 +150,6 @@ export class RdsBanner extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-banner': RdsBanner;
+    'rc-banner': RcBanner;
   }
 }

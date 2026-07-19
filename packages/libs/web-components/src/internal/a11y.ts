@@ -3,7 +3,7 @@ import { css } from 'lit';
 let idSeq = 0;
 
 /** Generate a unique id for associating labels / aria references. */
-export const nextId = (prefix = 'rds'): string => `${prefix}-${++idSeq}`;
+export const nextId = (prefix = 'rc'): string => `${prefix}-${++idSeq}`;
 
 /** Visually hide content while keeping it available to assistive tech. */
 export const srOnlyStyles = css`

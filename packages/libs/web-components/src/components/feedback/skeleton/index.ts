@@ -1,1 +1,1 @@
-export { RdsSkeleton, type RdsSkeletonVariant } from './skeleton';
+export { RcSkeleton, type RcSkeletonVariant } from './skeleton';

@@ -1,10 +1,13 @@
-<!-- navigation/tabs — disabled — usage snippet for @rocketc/web-components -->
-<div class="rds-demo">
-<rds-tabs value="overview">
-    <rds-tab value="overview">Overview</rds-tab>
-    <rds-tab value="api">API</rds-tab>
-    <rds-tab value="changelog" disabled>Changelog</rds-tab>
-    <div slot="panel" data-value="overview">Component overview copy.</div>
-    <div slot="panel" data-value="api">Property tables live below.</div>
-  </rds-tabs>
+<!--
+title: 禁用 / Disabled
+description: 展示标签页如何表达并处理禁用状态。 / Shows how tabs communicates and handles a disabled state.
+-->
+<div class="rc-demo">
+  <rc-tabs value="overview">
+    <rc-tab value="overview">概览 / Overview</rc-tab>
+    <rc-tab value="api">API</rc-tab>
+    <rc-tab value="changelog" disabled>更新日志 / Changelog</rc-tab>
+    <div slot="panel" data-value="overview">组件概览说明。 / Component overview copy.</div>
+    <div slot="panel" data-value="api">属性表位于下方。 / Property tables live below.</div>
+  </rc-tabs>
 </div>

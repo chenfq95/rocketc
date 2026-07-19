@@ -1,1 +1,1 @@
-export { RdsPanel } from './panel';
+export { RcPanel } from './panel';

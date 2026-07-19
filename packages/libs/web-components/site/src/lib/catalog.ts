@@ -1,3 +1,12 @@
+import { rcStyleProperties } from '../../../src/internal/style-properties';
+import {
+  bilingualDemoDescription,
+  bilingualDemoTitle,
+  bilingualEventDescription,
+  bilingualSlotDescription,
+  bilingualSummary,
+} from './bilingual';
+
 export type ApiProp = {
   name: string;
   type: string;
@@ -16,6 +25,17 @@ export type ApiEvent = {
   description: string;
 };
 
+export type ApiPart = {
+  name: string;
+  description: string;
+};
+
+export type CommonStyleProp = {
+  name: string;
+  attribute: string;
+  cssProperty: string;
+};
+
 export type ElementApi = {
   tag: string;
   file: string;
@@ -23,6 +43,14 @@ export type ElementApi = {
   slots: ApiSlot[];
   events: ApiEvent[];
   props: ApiProp[];
+  parts: ApiPart[];
+};
+
+export type ComponentDemo = {
+  id: string;
+  title: string;
+  description: string;
+  html: string;
 };
 
 export type ComponentPage = {
@@ -31,8 +59,7 @@ export type ComponentPage = {
   component: string;
   href: string;
   tags: string[];
-  previewHtml: string;
-  sourceCode: string;
+  demos: ComponentDemo[];
   elements: ElementApi[];
 };
 
@@ -53,6 +80,29 @@ const sourceModules = import.meta.glob('../../../src/components/**/*.ts', {
   eager: true,
 }) as Record<string, string>;
 
+export const commonStyleProps: CommonStyleProp[] = rcStyleProperties.map((definition) => ({
+  name: definition.property,
+  attribute: definition.attribute,
+  cssProperty: definition.cssProperty,
+}));
+
+const partDescriptions: Record<string, string> = {
+  container: '主要内部容器。 / Primary internal container.',
+  control: '原生交互控件。 / Native interactive control.',
+  item: '集合中的重复项。 / Repeated item in a collection.',
+  label: '可见标签。 / Visible label.',
+  title: '标题区域。 / Title region.',
+  body: '主体内容区域。 / Main content region.',
+  header: '头部区域。 / Header region.',
+  footer: '底部区域。 / Footer region.',
+  input: '文本输入控件。 / Text input control.',
+  close: '关闭控件。 / Close control.',
+};
+
+function describePart(name: string) {
+  return partDescriptions[name] ?? `内部 ${name} 节点。 / Internal ${name} node.`;
+}
+
 function normalizePath(filePath: string) {
   return filePath.replaceAll('\\', '/');
 }
@@ -67,6 +117,27 @@ function stripHtmlComments(html: string) {
   return html.replace(/<!--[\s\S]*?-->/g, '').trim();
 }
 
+function parseDemo(filePath: string, source: string): ComponentDemo {
+  const metadata = source.match(/<!--([\s\S]*?)-->/)?.[1] ?? '';
+  const title = metadata.match(/^\s*title:\s*(.+)$/m)?.[1]?.trim();
+  const description = metadata.match(/^\s*description:\s*(.+)$/m)?.[1]?.trim();
+
+  if (!title || !description) {
+    throw new Error(`Demo ${filePath} must declare title and description metadata`);
+  }
+
+  return {
+    id:
+      normalizePath(filePath)
+        .split('/')
+        .pop()
+        ?.replace(/\.html$/, '') ?? title,
+    title: bilingualDemoTitle(title),
+    description: bilingualDemoDescription(description),
+    html: stripHtmlComments(source),
+  };
+}
+
 function extractSummary(block: string) {
   return block
     .split('\n')
@@ -78,7 +149,7 @@ function extractSummary(block: string) {
 }
 
 function parseElementApi(filePath: string, source: string): ElementApi | null {
-  const tagMatch = source.match(/@element\s+(rds-[\w-]+)/);
+  const tagMatch = source.match(/@element\s+(rc-[\w-]+)/);
   if (!tagMatch) return null;
 
   const tag = tagMatch[1];
@@ -87,12 +158,15 @@ function parseElementApi(filePath: string, source: string): ElementApi | null {
 
   const slots = [...doc.matchAll(/@slot\s+([^\s-]+)?\s*-?\s*(.*)$/gm)].map((match) => ({
     name: (match[1] && match[1] !== '-' ? match[1] : 'default').trim(),
-    description: (match[2] || '').trim(),
+    description: bilingualSlotDescription(
+      (match[2] || '').trim(),
+      (match[1] && match[1] !== '-' ? match[1] : 'default').trim(),
+    ),
   }));
 
   const events = [...doc.matchAll(/@fires?\s+(\S+)\s*-?\s*(.*)$/gm)].map((match) => ({
     name: match[1].trim(),
-    description: (match[2] || '').trim(),
+    description: bilingualEventDescription((match[2] || '').trim(), match[1].trim()),
   }));
 
   const props: ApiProp[] = [];
@@ -115,20 +189,32 @@ function parseElementApi(filePath: string, source: string): ElementApi | null {
     });
   }
 
+  const parts = [
+    ...new Set(
+      [
+        ...source.matchAll(/\bpart=["']([^"']+)["']/g),
+        ...source.matchAll(/setAttribute\(["']part["'],\s*["']([^"']+)["']\)/g),
+      ].flatMap((match) => match[1].split(/\s+/).filter(Boolean)),
+    ),
+  ]
+    .sort((a, b) => a.localeCompare(b))
+    .map((name) => ({ name, description: describePart(name) }));
+
   return {
     tag,
     file: normalizePath(filePath).split('/').pop() ?? filePath,
-    summary: extractSummary(doc),
+    summary: bilingualSummary(extractSummary(doc), tag),
     slots,
     events,
     props,
+    parts,
   };
 }
 
 type FolderBucket = {
   category: string;
   component: string;
-  demos: string[];
+  demos: ComponentDemo[];
   elements: ElementApi[];
 };
 
@@ -147,9 +233,9 @@ function ensureFolder(category: string, component: string) {
 for (const [filePath, html] of Object.entries(demoModules)) {
   const folder = parseFolder(filePath);
   if (!folder) continue;
-  const body = stripHtmlComments(html);
-  if (!body) continue;
-  ensureFolder(folder.category, folder.component).demos.push(body);
+  const demo = parseDemo(filePath, html);
+  if (!demo.html) continue;
+  ensureFolder(folder.category, folder.component).demos.push(demo);
 }
 
 for (const [filePath, source] of Object.entries(sourceModules)) {
@@ -165,13 +251,18 @@ for (const [filePath, source] of Object.entries(sourceModules)) {
 export const components: ComponentPage[] = [...folders.values()]
   .map((bucket) => {
     const elements = bucket.elements.sort((a, b) => a.tag.localeCompare(b.tag));
-    const fallbackTag = elements[0]?.tag ?? 'rds-box';
+    const fallbackTag = elements[0]?.tag ?? 'rc-box';
     const demos =
       bucket.demos.length > 0
-        ? bucket.demos
-        : [`<div class="rds-demo"><${fallbackTag}></${fallbackTag}></div>`];
-    const previewHtml = `<div class="rds-demo-stack">${demos.join('\n')}</div>`;
-    const sourceCode = demos.join('\n\n');
+        ? bucket.demos.sort((a, b) => a.id.localeCompare(b.id))
+        : [
+            {
+              id: 'basic',
+              title: '基础 / Basic',
+              description: `展示默认的 ${fallbackTag} 元素。 / Shows the default ${fallbackTag} element.`,
+              html: `<div class="rc-demo"><${fallbackTag}></${fallbackTag}></div>`,
+            },
+          ];
 
     return {
       id: `${bucket.category}/${bucket.component}`,
@@ -179,8 +270,7 @@ export const components: ComponentPage[] = [...folders.values()]
       component: bucket.component,
       href: `/${bucket.category}/${bucket.component}/`,
       tags: elements.map((element) => element.tag),
-      previewHtml,
-      sourceCode,
+      demos,
       elements,
     };
   })

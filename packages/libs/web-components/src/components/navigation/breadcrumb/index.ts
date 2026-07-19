@@ -1,1 +1,1 @@
-export { RdsBreadcrumb } from './breadcrumb';
+export { RcBreadcrumb } from './breadcrumb';

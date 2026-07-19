@@ -1,27 +1,27 @@
-import { LitElement, css, html, nothing } from 'lit';
+import { css, html, nothing } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { mixinElementInternals } from '../../../internal/element-internals';
+import { RcStyledElement } from '../../../internal/styled-element';
+
+import { mixinElementInternals } from '../../../internal/mixin-element-internals';
 import {
   getFormValue,
   mixinFormAssociated,
   type FormRestoreReason,
   type FormRestoreState,
-} from '../../../internal/form-associated';
-import { hostStyles } from '../../../internal/shared-styles';
+} from '../../../internal/mixin-form-associated';
 
-const base = mixinFormAssociated(mixinElementInternals(LitElement));
+const base = mixinFormAssociated(mixinElementInternals(RcStyledElement));
 
 /**
  * File dropzone + picker.
  *
- * @element rds-file-upload
+ * @element rc-file-upload
  * @fires change - When files change (`detail.files`)
  * @slot - Optional helper / label content
  */
-export class RdsFileUpload extends base {
+export class RcFileUpload extends base {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: block;
@@ -29,37 +29,37 @@ export class RdsFileUpload extends base {
       
       .drop {
         display: grid;
-        gap: var(--rds-space-2);
+        gap: var(--rc-space-2);
         justify-items: start;
-        border: var(--rds-border-sm) dashed var(--rds-color-border-default);
-        border-radius: var(--rds-radius-lg);
-        background: var(--rds-color-surface-panel);
-        padding: var(--rds-space-4);
-        color: var(--rds-color-text-secondary);
-        font-size: var(--rds-typography-body-small-font-size);
+        border: var(--rc-border-sm) dashed var(--rc-color-border-default);
+        border-radius: var(--rc-radius-lg);
+        background: var(--rc-color-surface-panel);
+        padding: var(--rc-space-4);
+        color: var(--rc-color-text-secondary);
+        font-size: var(--rc-typography-body-small-font-size);
         cursor: pointer;
       }
       
       :host([data-drag]) .drop {
-        border-color: var(--rds-color-border-focus);
-        background: var(--rds-color-action-bg-hover);
+        border-color: var(--rc-color-border-focus);
+        background: var(--rc-color-action-bg-hover);
       }
       
       .drop:focus-within {
         outline: none;
-        border-color: var(--rds-color-border-focus);
-        box-shadow: 0 0 0 3px color-mix(in oklab, var(--rds-color-border-focus) 30%, transparent);
+        border-color: var(--rc-color-border-focus);
+        box-shadow: 0 0 0 3px color-mix(in oklab, var(--rc-color-border-focus) 30%, transparent);
       }
       
       .title {
-        color: var(--rds-color-text-primary);
-        font-size: var(--rds-typography-label-font-size);
-        font-weight: var(--rds-typography-weight-medium);
+        color: var(--rc-color-text-primary);
+        font-size: var(--rc-typography-label-font-size);
+        font-weight: var(--rc-typography-weight-medium);
       }
       
       .files {
         margin: 0;
-        padding-left: var(--rds-space-4);
+        padding-left: var(--rc-space-4);
       }
       
       input {
@@ -126,8 +126,7 @@ export class RdsFileUpload extends base {
 
   override render() {
     return html`
-      <label
-        class="drop"
+      <label class="drop" part="container drop"
         @dragenter=${(e: Event) => {
           e.preventDefault();
           this.setAttribute('data-drag', '');
@@ -136,16 +135,16 @@ export class RdsFileUpload extends base {
         @dragleave=${() => this.removeAttribute('data-drag')}
         @drop=${this.#onDrop}
       >
-        <span class="title">${this.label}</span>
+        <span class="title" part="title">${this.label}</span>
         <slot></slot>
         ${
           this.#files.length
-            ? html`<ul class="files">
-                ${this.#files.map((f) => html`<li>${f.name}</li>`)}
+            ? html`<ul class="files" part="files">
+                ${this.#files.map((f) => html`<li part="item">${f.name}</li>`)}
               </ul>`
             : nothing
         }
-        <input
+        <input part="control input"
           type="file"
           accept=${this.accept || nothing}
           ?multiple=${this.multiple}
@@ -160,6 +159,6 @@ export class RdsFileUpload extends base {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-file-upload': RdsFileUpload;
+    'rc-file-upload': RcFileUpload;
   }
 }

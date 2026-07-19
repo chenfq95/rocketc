@@ -1,23 +1,22 @@
-import { LitElement, css, html } from 'lit';
+import { css, html } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { hostStyles } from '../../../internal/shared-styles';
+import { RcStyledElement } from '../../../internal/styled-element';
 
-export type RdsToastVariant = 'default' | 'destructive' | 'success' | 'warning' | 'info';
+export type RcToastVariant = 'default' | 'destructive' | 'success' | 'warning' | 'info';
 
 /**
  * Transient notification. Set `open` or call `show()` / `hide()`.
  * Auto-dismisses when `duration` &gt; 0 (ms).
  *
- * @element rds-toast
+ * @element rc-toast
  * @fires close - When dismissed
  * @slot - Toast body
  * @slot title - Optional title
  * @slot action - Optional action control
  */
-export class RdsToast extends LitElement {
+export class RcToast extends RcStyledElement {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: none;
@@ -30,78 +29,78 @@ export class RdsToast extends LitElement {
       .root {
         display: grid;
         grid-template-columns: 1fr auto;
-        gap: var(--rds-space-2) var(--rds-space-3);
+        gap: var(--rc-space-2) var(--rc-space-3);
         align-items: start;
         min-width: min(20rem, 100%);
-        border: var(--rds-border-sm) solid var(--rds-color-border-default);
-        border-radius: var(--rds-radius-lg);
-        background: var(--rds-color-surface-elevated, var(--rds-color-surface-panel));
-        padding: var(--rds-space-3) var(--rds-space-4);
-        box-shadow: var(--rds-shadow-raised, var(--rds-shadow-surface));
-        color: var(--rds-color-text-primary);
+        border: var(--rc-border-sm) solid var(--rc-color-border-default);
+        border-radius: var(--rc-radius-lg);
+        background: var(--rc-color-surface-elevated, var(--rc-color-surface-panel));
+        padding: var(--rc-space-3) var(--rc-space-4);
+        box-shadow: var(--rc-shadow-raised, var(--rc-shadow-surface));
+        color: var(--rc-color-text-primary);
       }
       
       .copy {
         display: grid;
-        gap: var(--rds-space-1);
+        gap: var(--rc-space-1);
       }
       
       .title {
         margin: 0;
-        font-size: var(--rds-typography-label-font-size);
-        font-weight: var(--rds-typography-weight-semibold);
+        font-size: var(--rc-typography-label-font-size);
+        font-weight: var(--rc-typography-weight-semibold);
       }
       
       .body {
-        color: var(--rds-color-text-secondary);
-        font-size: var(--rds-typography-body-small-font-size);
+        color: var(--rc-color-text-secondary);
+        font-size: var(--rc-typography-body-small-font-size);
       }
       
       .actions {
         display: flex;
         align-items: center;
-        gap: var(--rds-space-2);
+        gap: var(--rc-space-2);
       }
       
       .close {
         display: inline-grid;
         place-items: center;
-        width: var(--rds-space-7);
-        height: var(--rds-space-7);
+        width: var(--rc-space-7);
+        height: var(--rc-space-7);
         margin: 0;
         border: 0;
-        border-radius: var(--rds-radius-md);
+        border-radius: var(--rc-radius-md);
         background: transparent;
-        color: var(--rds-color-text-secondary);
+        color: var(--rc-color-text-secondary);
         cursor: pointer;
       }
       
       .close:hover {
-        background: var(--rds-color-action-bg-hover);
+        background: var(--rc-color-action-bg-hover);
       }
       
       :host([variant='destructive']) .root {
-        border-color: var(--rds-color-danger-border);
-        background: var(--rds-color-danger-soft);
-        color: var(--rds-color-danger-fg);
+        border-color: var(--rc-color-danger-border);
+        background: var(--rc-color-danger-soft);
+        color: var(--rc-color-danger-fg);
       }
       
       :host([variant='success']) .root {
-        border-color: var(--rds-color-success-border);
-        background: var(--rds-color-success-soft);
-        color: var(--rds-color-success-fg);
+        border-color: var(--rc-color-success-border);
+        background: var(--rc-color-success-soft);
+        color: var(--rc-color-success-fg);
       }
       
       :host([variant='warning']) .root {
-        border-color: var(--rds-color-warning-border);
-        background: var(--rds-color-warning-soft);
-        color: var(--rds-color-warning-fg);
+        border-color: var(--rc-color-warning-border);
+        background: var(--rc-color-warning-soft);
+        color: var(--rc-color-warning-fg);
       }
       
       :host([variant='info']) .root {
-        border-color: var(--rds-color-info-border);
-        background: var(--rds-color-info-soft);
-        color: var(--rds-color-info-fg);
+        border-color: var(--rc-color-info-border);
+        background: var(--rc-color-info-soft);
+        color: var(--rc-color-info-fg);
       }
       
       :host([variant='destructive']) .body,
@@ -118,7 +117,7 @@ export class RdsToast extends LitElement {
   accessor open: boolean = false;
 
   @property({ type: String, reflect: true })
-  accessor variant: RdsToastVariant = 'default';
+  accessor variant: RcToastVariant = 'default';
 
   @property({ type: Number, reflect: true })
   accessor duration: number = 4000;
@@ -154,14 +153,14 @@ export class RdsToast extends LitElement {
 
   override render() {
     return html`
-      <div class="root" role="status" aria-live="polite">
-        <div class="copy">
-          <p class="title"><slot name="title"></slot></p>
-          <div class="body"><slot></slot></div>
+      <div class="root" part="container root" role="status" aria-live="polite">
+        <div class="copy" part="copy">
+          <p class="title" part="title"><slot name="title"></slot></p>
+          <div class="body" part="body"><slot></slot></div>
         </div>
-        <div class="actions">
+        <div class="actions" part="actions">
           <slot name="action"></slot>
-          <button class="close" type="button" aria-label="Close" @click=${() => this.hide()}>
+          <button class="close" part="control close" type="button" aria-label="Close" @click=${() => this.hide()}>
             ×
           </button>
         </div>
@@ -172,6 +171,6 @@ export class RdsToast extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-toast': RdsToast;
+    'rc-toast': RcToast;
   }
 }

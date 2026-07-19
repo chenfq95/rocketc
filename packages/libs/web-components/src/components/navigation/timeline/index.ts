@@ -1,2 +1,2 @@
-export { RdsTimeline } from './timeline';
-export { RdsTimelineItem } from './timeline-item';
+export { RcTimeline } from './timeline';
+export { RcTimelineItem } from './timeline-item';

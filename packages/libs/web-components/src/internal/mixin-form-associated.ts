@@ -1,6 +1,6 @@
 import { LitElement, type PropertyDeclaration } from 'lit';
 
-import { internals, type WithElementInternals } from './element-internals';
+import { internals, type WithElementInternals } from './mixin-element-internals';
 
 type Constructor<T> = abstract new (...args: any[]) => T;
 

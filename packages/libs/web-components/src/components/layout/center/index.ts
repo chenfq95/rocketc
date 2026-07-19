@@ -1,1 +1,1 @@
-export { RdsCenter } from './center';
+export { RcCenter } from './center';

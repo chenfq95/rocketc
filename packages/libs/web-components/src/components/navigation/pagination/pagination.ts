@@ -1,17 +1,16 @@
-import { LitElement, css, html, nothing } from 'lit';
+import { css, html, nothing } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { hostStyles } from '../../../internal/shared-styles';
+import { RcStyledElement } from '../../../internal/styled-element';
 
 /**
  * Page controls. Fires `change` with `detail.page` (1-based).
  *
- * @element rds-pagination
+ * @element rc-pagination
  * @fires change - When the page changes (`detail.page`)
  */
-export class RdsPagination extends LitElement {
+export class RcPagination extends RcStyledElement {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: inline-flex;
@@ -20,41 +19,41 @@ export class RdsPagination extends LitElement {
       .root {
         display: inline-flex;
         align-items: center;
-        gap: var(--rds-space-1);
+        gap: var(--rc-space-1);
       }
       
       button {
-        min-width: var(--rds-space-8);
-        height: var(--rds-space-8);
+        min-width: var(--rc-space-8);
+        height: var(--rc-space-8);
         margin: 0;
-        border: var(--rds-border-sm) solid transparent;
-        border-radius: var(--rds-radius-md);
+        border: var(--rc-border-sm) solid transparent;
+        border-radius: var(--rc-radius-md);
         background: transparent;
-        padding: 0 var(--rds-space-2);
-        color: var(--rds-color-text-primary);
+        padding: 0 var(--rc-space-2);
+        color: var(--rc-color-text-primary);
         font: inherit;
-        font-size: var(--rds-typography-label-font-size);
+        font-size: var(--rc-typography-label-font-size);
         cursor: pointer;
       }
       
       button:hover:not(:disabled) {
-        background: var(--rds-color-action-bg-hover);
+        background: var(--rc-color-action-bg-hover);
       }
       
       button[aria-current='page'] {
-        border-color: var(--rds-color-border-default);
-        background: var(--rds-color-action-bg-selected);
-        font-weight: var(--rds-typography-weight-semibold);
+        border-color: var(--rc-color-border-default);
+        background: var(--rc-color-action-bg-selected);
+        font-weight: var(--rc-typography-weight-semibold);
       }
       
       button:disabled {
         cursor: not-allowed;
-        opacity: var(--rds-opacity-disabled);
+        opacity: var(--rc-opacity-disabled);
       }
       
       .ellipsis {
-        padding: 0 var(--rds-space-1);
-        color: var(--rds-color-text-muted);
+        padding: 0 var(--rc-space-1);
+        color: var(--rc-color-text-muted);
       }
     `,
   ];
@@ -104,8 +103,8 @@ export class RdsPagination extends LitElement {
   override render() {
     const pages = this.#pages();
     return html`
-      <div class="root" role="navigation" aria-label="Pagination">
-        <button
+      <div class="root" part="container root" role="navigation" aria-label="Pagination">
+        <button part="control previous"
           type="button"
           ?disabled=${this.page <= 1}
           aria-label="Previous page"
@@ -116,10 +115,10 @@ export class RdsPagination extends LitElement {
         ${pages.map((item) =>
           item === 'ellipsis'
             ? html`
-                <span class="ellipsis">…</span>
+                <span class="ellipsis" part="ellipsis">…</span>
               `
             : html`
-                <button
+                <button part="control item page"
                   type="button"
                   aria-label=${`Page ${item}`}
                   aria-current=${item === this.page ? 'page' : nothing}
@@ -129,7 +128,7 @@ export class RdsPagination extends LitElement {
                 </button>
               `,
         )}
-        <button
+        <button part="control next"
           type="button"
           ?disabled=${this.page >= this.count}
           aria-label="Next page"
@@ -144,6 +143,6 @@ export class RdsPagination extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-pagination': RdsPagination;
+    'rc-pagination': RcPagination;
   }
 }

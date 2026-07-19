@@ -26,28 +26,45 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "default": "./dist/index.js"
+    },
+    "./min": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.min.js",
+      "default": "./dist/index.min.js"
     }
   },
   "scripts": {
-    "build": "tsc -b",
-    "build:watch": "tsc -b --watch",
-    "site:dev": "tsc -b && bun run --filter @rocketc/web-components-site dev",
-    "site:build": "tsc -b && bun run --filter @rocketc/web-components-site build",
+    "build": "vite build && bun run build:min",
+    "build:min": "vite build --mode min",
+    "build:watch": "vite build --watch",
+    "site:dev": "bun run build && bun run --filter @rocketc/web-components-site dev",
+    "site:build": "bun run build && bun run --filter @rocketc/web-components-site build",
     "site:preview": "bun run --filter @rocketc/web-components-site preview",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
     "format": "oxfmt",
-    "typecheck": "tsc -b --pretty false"
+    "test": "vitest run",
+    "typecheck": "tsc --project tsconfig.lib.json --pretty false"
   },
   "dependencies": {
+    "@babel/runtime": "^7.29.0",
     "lit": "^3.3.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.29.0",
+    "@babel/plugin-proposal-decorators": "^7.29.0",
+    "@babel/plugin-transform-runtime": "^7.29.0",
     "@rocketc/design-system": "workspace:*",
+    "@rolldown/plugin-babel": "^0.2.3",
+    "@types/babel__core": "^7.20.5",
     "@types/node": "^24.10.4",
+    "happy-dom": "^20.0.11",
     "oxfmt": "^0.23.0",
     "oxlint": "^1.36.0",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "unplugin-dts": "1.0.0-beta.6",
+    "vite": "^8.1.5",
+    "vitest": "^4.0.16"
   },
   "peerDependencies": {
     "@rocketc/design-system": ">=0.0.1"

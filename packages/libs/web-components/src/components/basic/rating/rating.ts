@@ -1,26 +1,26 @@
-import { LitElement, css, html } from 'lit';
+import { css, html } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { mixinElementInternals } from '../../../internal/element-internals';
+import { RcStyledElement } from '../../../internal/styled-element';
+
+import { mixinElementInternals } from '../../../internal/mixin-element-internals';
 import {
   getFormValue,
   mixinFormAssociated,
   type FormRestoreReason,
   type FormRestoreState,
-} from '../../../internal/form-associated';
-import { hostStyles } from '../../../internal/shared-styles';
+} from '../../../internal/mixin-form-associated';
 
-const base = mixinFormAssociated(mixinElementInternals(LitElement));
+const base = mixinFormAssociated(mixinElementInternals(RcStyledElement));
 
 /**
  * Star rating control.
  *
- * @element rds-rating
+ * @element rc-rating
  * @fires change - When value changes (`detail.value`)
  */
-export class RdsRating extends base {
+export class RcRating extends base {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: inline-flex;
@@ -29,7 +29,7 @@ export class RdsRating extends base {
       
       .root {
         display: inline-flex;
-        gap: var(--rds-space-1);
+        gap: var(--rc-space-1);
       }
       
       button {
@@ -40,13 +40,13 @@ export class RdsRating extends base {
         border: 0;
         background: transparent;
         padding: 0.1rem;
-        color: var(--rds-color-border-default);
+        color: var(--rc-color-border-default);
         line-height: 0;
         cursor: pointer;
         border-radius: 999px;
         transition:
-          color var(--rds-duration-fast) var(--rds-easing-standard),
-          transform var(--rds-duration-fast) var(--rds-easing-standard);
+          color var(--rc-duration-fast) var(--rc-easing-standard),
+          transform var(--rc-duration-fast) var(--rc-easing-standard);
       }
       
       button svg {
@@ -56,7 +56,7 @@ export class RdsRating extends base {
       }
       
       button.on {
-        color: var(--rds-color-warning-solid, #f5a524);
+        color: var(--rc-color-warning-solid, #f5a524);
       }
       
       button:hover:not(:disabled) {
@@ -66,8 +66,8 @@ export class RdsRating extends base {
       button:focus-visible {
         outline: none;
         box-shadow:
-          0 0 0 2px var(--rds-color-surface-panel),
-          0 0 0 4px var(--rds-color-border-focus);
+          0 0 0 2px var(--rc-color-surface-panel),
+          0 0 0 4px var(--rc-color-border-focus);
       }
       
       :host([readonly]) button,
@@ -81,7 +81,7 @@ export class RdsRating extends base {
       }
       
       :host([disabled]) {
-        opacity: var(--rds-opacity-disabled);
+        opacity: var(--rc-opacity-disabled);
       }
     `,
   ];
@@ -139,11 +139,11 @@ export class RdsRating extends base {
 
   override render() {
     return html`
-      <div class="root" role="radiogroup" aria-label=${this.label}>
+      <div class="root" part="container root" role="radiogroup" aria-label=${this.label}>
         ${Array.from({ length: this.max }, (_, i) => {
           const n = i + 1;
           return html`
-            <button
+            <button part="control item"
               type="button"
               class=${this.value >= n ? 'on' : ''}
               role="radio"
@@ -163,6 +163,6 @@ export class RdsRating extends base {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-rating': RdsRating;
+    'rc-rating': RcRating;
   }
 }

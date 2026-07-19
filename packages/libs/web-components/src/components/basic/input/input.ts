@@ -1,39 +1,39 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { mixinDelegatesAria, type ARIAMixinStrict } from '../../../internal/delegate-aria';
-import { mixinElementInternals } from '../../../internal/element-internals';
+import { RcStyledElement } from '../../../internal/styled-element';
+
+import { mixinDelegatesAria, type ARIAMixinStrict } from '../../../internal/mixin-delegates-aria';
+import { mixinElementInternals } from '../../../internal/mixin-element-internals';
 import {
   getFormValue,
   mixinFormAssociated,
   type FormRestoreReason,
   type FormRestoreState,
   type FormValue,
-} from '../../../internal/form-associated';
-import { hostStyles } from '../../../internal/shared-styles';
+} from '../../../internal/mixin-form-associated';
 
-const inputBase = mixinDelegatesAria(mixinFormAssociated(mixinElementInternals(LitElement)));
+const inputBase = mixinDelegatesAria(mixinFormAssociated(mixinElementInternals(RcStyledElement)));
 
 /**
  * Single-line field bound to design-system form chrome tokens.
  *
  * Supports native input types (`text`, `email`, `password`, `search`, `tel`,
  * `url`, `number`, `date`, `time`, `datetime-local`, `month`, `week`, `color`,
- * `file`, …). Prefer `rds-slider` for `range` and `rds-textarea` for multi-line.
+ * `file`, …). Prefer `rc-slider` for `range` and `rc-textarea` for multi-line.
  *
- * Pair with `rds-label` via matching light-DOM `id` / `for`.
+ * Pair with `rc-label` via matching light-DOM `id` / `for`.
  *
- * @element rds-input
+ * @element rc-input
  * @fires input - From the inner control (native `input` does not compose out of shadow)
  */
-export class RdsInput extends inputBase {
+export class RcInput extends inputBase {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     delegatesFocus: true,
   };
 
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: block;
@@ -42,42 +42,42 @@ export class RdsInput extends inputBase {
       input {
         display: block;
         width: 100%;
-        min-height: var(--rds-space-9);
+        min-height: var(--rc-space-9);
         margin: 0;
-        border: var(--rds-border-sm) solid var(--rds-color-border-default);
-        border-radius: var(--rds-radius-md);
-        background: var(--rds-color-surface-panel);
-        padding: 0 var(--rds-space-3);
-        color: var(--rds-color-text-primary);
+        border: var(--rc-border-sm) solid var(--rc-color-border-default);
+        border-radius: var(--rc-radius-md);
+        background: var(--rc-color-surface-panel);
+        padding: 0 var(--rc-space-3);
+        color: var(--rc-color-text-primary);
         font: inherit;
-        font-size: var(--rds-typography-body-font-size);
+        font-size: var(--rc-typography-body-font-size);
       }
       
       input[type='color'] {
-        padding: var(--rds-space-1);
+        padding: var(--rc-space-1);
         cursor: pointer;
       }
       
       input[type='file'] {
-        padding: var(--rds-space-2) var(--rds-space-3);
-        font-size: var(--rds-typography-caption-font-size, var(--rds-typography-body-font-size));
+        padding: var(--rc-space-2) var(--rc-space-3);
+        font-size: var(--rc-typography-caption-font-size, var(--rc-typography-body-font-size));
       }
       
       input::placeholder {
-        color: var(--rds-color-text-muted);
+        color: var(--rc-color-text-muted);
       }
       
       input:focus-visible {
         outline: none;
-        border-color: var(--rds-color-border-focus);
-        box-shadow: 0 0 0 3px color-mix(in oklab, var(--rds-color-border-focus) 30%, transparent);
+        border-color: var(--rc-color-border-focus);
+        box-shadow: 0 0 0 3px color-mix(in oklab, var(--rc-color-border-focus) 30%, transparent);
       }
       
       input:disabled {
         cursor: not-allowed;
-        background: var(--rds-color-action-bg-disabled);
-        color: var(--rds-color-action-fg-disabled);
-        opacity: var(--rds-opacity-disabled);
+        background: var(--rc-color-action-bg-disabled);
+        color: var(--rc-color-action-fg-disabled);
+        opacity: var(--rc-opacity-disabled);
       }
     `,
   ];
@@ -171,7 +171,7 @@ export class RdsInput extends inputBase {
     const value = this.type === 'file' ? (this.#input?.value ?? '') : this.value;
 
     return html`
-      <input
+      <input part="control"
         .value=${value}
         accept=${this.accept || nothing}
         aria-invalid=${ariaInvalid || nothing}
@@ -202,6 +202,6 @@ export class RdsInput extends inputBase {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-input': RdsInput;
+    'rc-input': RcInput;
   }
 }

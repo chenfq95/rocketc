@@ -1,1 +1,1 @@
-export { RdsPinInput } from './pin-input';
+export { RcPinInput } from './pin-input';

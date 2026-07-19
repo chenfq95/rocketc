@@ -1,22 +1,22 @@
-import { LitElement, css, html, type PropertyValues } from 'lit';
+import { css, html, type PropertyValues } from 'lit';
 import { property } from 'lit/decorators.js';
 
+import { RcStyledElement } from '../../../internal/styled-element';
+
 import { addAttrToken, nextId, removeAttrToken } from '../../../internal/a11y';
-import { hostStyles } from '../../../internal/shared-styles';
 
 /**
- * Form label. Use `for` to point at a light-DOM control id (e.g. `rds-input`).
+ * Form label. Use `for` to point at a light-DOM control id (e.g. `rc-input`).
  *
  * Native `<label for>` cannot see across this component's Shadow root, so
  * association is done via click-to-focus and `aria-labelledby` on the target
  * host. That IDREF stays on the host (not delegated into Shadow DOM).
  *
- * @element rds-label
+ * @element rc-label
  * @slot - Label text
  */
-export class RdsLabel extends LitElement {
+export class RcLabel extends RcStyledElement {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: inline-block;
@@ -24,11 +24,11 @@ export class RdsLabel extends LitElement {
       
       label {
         display: inline-block;
-        color: var(--rds-color-text-primary);
-        font-size: var(--rds-typography-label-font-size);
-        font-weight: var(--rds-typography-weight-medium);
-        letter-spacing: var(--rds-typography-label-letter-spacing);
-        line-height: var(--rds-typography-label-line-height);
+        color: var(--rc-color-text-primary);
+        font-size: var(--rc-typography-label-font-size);
+        font-weight: var(--rc-typography-weight-medium);
+        letter-spacing: var(--rc-typography-label-letter-spacing);
+        line-height: var(--rc-typography-label-line-height);
         cursor: default;
       }
     `,
@@ -41,7 +41,7 @@ export class RdsLabel extends LitElement {
 
   override connectedCallback(): void {
     super.connectedCallback();
-    if (!this.id) this.id = nextId('rds-label');
+    if (!this.id) this.id = nextId('rc-label');
     this.#syncAssociation();
     // Target may mount in the same frame after this label.
     requestAnimationFrame(() => this.#syncAssociation());
@@ -95,7 +95,7 @@ export class RdsLabel extends LitElement {
 
   override render() {
     return html`
-      <label @click=${this.#onClick}>
+      <label part="container label" @click=${this.#onClick}>
         <slot></slot>
       </label>
     `;
@@ -104,6 +104,6 @@ export class RdsLabel extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-label': RdsLabel;
+    'rc-label': RcLabel;
   }
 }

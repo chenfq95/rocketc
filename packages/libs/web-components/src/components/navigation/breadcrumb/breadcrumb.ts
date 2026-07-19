@@ -1,17 +1,16 @@
-import { LitElement, css, html } from 'lit';
+import { css, html } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { hostStyles } from '../../../internal/shared-styles';
+import { RcStyledElement } from '../../../internal/styled-element';
 
 /**
  * Breadcrumb trail. Place crumb nodes as light-DOM children.
  *
- * @element rds-breadcrumb
- * @slot - Crumb items (typically `rds-link` or spans)
+ * @element rc-breadcrumb
+ * @slot - Crumb items (typically `rc-link` or spans)
  */
-export class RdsBreadcrumb extends LitElement {
+export class RcBreadcrumb extends RcStyledElement {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: block;
@@ -25,21 +24,21 @@ export class RdsBreadcrumb extends LitElement {
         display: flex;
         flex-wrap: wrap;
         align-items: center;
-        gap: var(--rds-space-2);
+        gap: var(--rc-space-2);
         margin: 0;
         padding: 0;
         list-style: none;
-        color: var(--rds-color-text-secondary);
-        font-size: var(--rds-typography-caption-font-size);
+        color: var(--rc-color-text-secondary);
+        font-size: var(--rc-typography-caption-font-size);
       }
       
       li.crumb:last-of-type {
-        color: var(--rds-color-text-primary);
-        font-weight: var(--rds-typography-weight-medium);
+        color: var(--rc-color-text-primary);
+        font-weight: var(--rc-typography-weight-medium);
       }
       
       li.sep {
-        color: var(--rds-color-text-muted);
+        color: var(--rc-color-text-muted);
         user-select: none;
       }
     `,
@@ -67,11 +66,13 @@ export class RdsBreadcrumb extends LitElement {
     items.forEach((item, index) => {
       const crumb = document.createElement('li');
       crumb.className = 'crumb';
+      crumb.setAttribute('part', 'item crumb');
       crumb.append(item.cloneNode(true));
       this.#list!.append(crumb);
       if (index < items.length - 1) {
         const sep = document.createElement('li');
         sep.className = 'sep';
+        sep.setAttribute('part', 'separator');
         sep.setAttribute('aria-hidden', 'true');
         sep.textContent = this.separator;
         this.#list!.append(sep);
@@ -81,11 +82,11 @@ export class RdsBreadcrumb extends LitElement {
 
   override render() {
     return html`
-      <nav aria-label="Breadcrumb">
-        <div class="source">
+      <nav part="container nav" aria-label="Breadcrumb">
+        <div class="source" part="source">
           <slot @slotchange=${() => this.#sync()}></slot>
         </div>
-        <ol></ol>
+        <ol part="list"></ol>
       </nav>
     `;
   }
@@ -93,6 +94,6 @@ export class RdsBreadcrumb extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-breadcrumb': RdsBreadcrumb;
+    'rc-breadcrumb': RcBreadcrumb;
   }
 }

@@ -1,32 +1,34 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { mixinDelegatesAria, type ARIAMixinStrict } from '../../../internal/delegate-aria';
-import { mixinElementInternals } from '../../../internal/element-internals';
+import { RcStyledElement } from '../../../internal/styled-element';
+
+import { mixinDelegatesAria, type ARIAMixinStrict } from '../../../internal/mixin-delegates-aria';
+import { mixinElementInternals } from '../../../internal/mixin-element-internals';
 import {
   getFormValue,
   mixinFormAssociated,
   type FormRestoreReason,
   type FormRestoreState,
-} from '../../../internal/form-associated';
-import { hostStyles } from '../../../internal/shared-styles';
+} from '../../../internal/mixin-form-associated';
 
-const textareaBase = mixinDelegatesAria(mixinFormAssociated(mixinElementInternals(LitElement)));
+const textareaBase = mixinDelegatesAria(
+  mixinFormAssociated(mixinElementInternals(RcStyledElement)),
+);
 
 /**
  * Multi-line text field.
  *
- * @element rds-textarea
+ * @element rc-textarea
  * @fires input - From the inner control (native `input` does not compose out of shadow)
  */
-export class RdsTextarea extends textareaBase {
+export class RcTextarea extends textareaBase {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     delegatesFocus: true,
   };
 
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: block;
@@ -35,16 +37,16 @@ export class RdsTextarea extends textareaBase {
       textarea {
         display: block;
         width: 100%;
-        min-height: calc(var(--rds-space-9) * 2);
+        min-height: calc(var(--rc-space-9) * 2);
         margin: 0;
-        border: var(--rds-border-sm) solid var(--rds-color-border-default);
-        border-radius: var(--rds-radius-md);
-        background: var(--rds-color-surface-panel);
-        padding: var(--rds-space-2) var(--rds-space-3);
-        color: var(--rds-color-text-primary);
+        border: var(--rc-border-sm) solid var(--rc-color-border-default);
+        border-radius: var(--rc-radius-md);
+        background: var(--rc-color-surface-panel);
+        padding: var(--rc-space-2) var(--rc-space-3);
+        color: var(--rc-color-text-primary);
         font: inherit;
-        font-size: var(--rds-typography-body-font-size);
-        line-height: var(--rds-typography-body-line-height);
+        font-size: var(--rc-typography-body-font-size);
+        line-height: var(--rc-typography-body-line-height);
         resize: vertical;
       }
       
@@ -61,20 +63,20 @@ export class RdsTextarea extends textareaBase {
       }
       
       textarea::placeholder {
-        color: var(--rds-color-text-muted);
+        color: var(--rc-color-text-muted);
       }
       
       textarea:focus-visible {
         outline: none;
-        border-color: var(--rds-color-border-focus);
-        box-shadow: 0 0 0 3px color-mix(in oklab, var(--rds-color-border-focus) 30%, transparent);
+        border-color: var(--rc-color-border-focus);
+        box-shadow: 0 0 0 3px color-mix(in oklab, var(--rc-color-border-focus) 30%, transparent);
       }
       
       textarea:disabled {
         cursor: not-allowed;
-        background: var(--rds-color-action-bg-disabled);
-        color: var(--rds-color-action-fg-disabled);
-        opacity: var(--rds-opacity-disabled);
+        background: var(--rc-color-action-bg-disabled);
+        color: var(--rc-color-action-fg-disabled);
+        opacity: var(--rc-opacity-disabled);
       }
     `,
   ];
@@ -132,7 +134,7 @@ export class RdsTextarea extends textareaBase {
     const { ariaLabel, ariaInvalid, ariaRequired, ariaPlaceholder, role } = this as ARIAMixinStrict;
 
     return html`
-      <textarea
+      <textarea part="control"
         .value=${this.value}
         aria-invalid=${ariaInvalid || nothing}
         aria-label=${ariaLabel || nothing}
@@ -157,6 +159,6 @@ export class RdsTextarea extends textareaBase {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-textarea': RdsTextarea;
+    'rc-textarea': RcTextarea;
   }
 }

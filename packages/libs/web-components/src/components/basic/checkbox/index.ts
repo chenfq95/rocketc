@@ -1,1 +1,1 @@
-export { RdsCheckbox } from './checkbox';
+export { RcCheckbox } from './checkbox';

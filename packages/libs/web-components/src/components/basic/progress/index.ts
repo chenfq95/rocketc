@@ -1,3 +1,3 @@
-export { RdsProgress } from './progress';
-export { RdsProgressCircle, type RdsProgressCircleSize } from './progress-circle';
-export { RdsSpinner, type RdsSpinnerSize } from './spinner';
+export { RcProgress } from './progress';
+export { RcProgressCircle, type RcProgressCircleSize } from './progress-circle';
+export { RcSpinner, type RcSpinnerSize } from './spinner';

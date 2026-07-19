@@ -1,18 +1,17 @@
-import { LitElement, css, html } from 'lit';
+import { css, html } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { hostStyles } from '../../../internal/shared-styles';
+import { RcStyledElement } from '../../../internal/styled-element';
 
 /**
- * Option inside `rds-segment`.
+ * Option inside `rc-segment`.
  *
- * @element rds-segment-item
+ * @element rc-segment-item
  * @slot - Item label
- * @fires rds-segment-select - When activated (`detail.value`)
+ * @fires rc-segment-select - When activated (`detail.value`)
  */
-export class RdsSegmentItem extends LitElement {
+export class RcSegmentItem extends RcStyledElement {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: block;
@@ -25,56 +24,56 @@ export class RdsSegmentItem extends LitElement {
         align-items: center;
         justify-content: center;
         width: 100%;
-        min-height: var(--rds-space-8);
+        min-height: var(--rc-space-8);
         margin: 0;
         border: 0;
-        border-radius: calc(var(--rds-radius-md) - 2px);
+        border-radius: calc(var(--rc-radius-md) - 2px);
         background: transparent;
-        padding: 0 var(--rds-space-3);
-        color: var(--rds-color-text-secondary);
+        padding: 0 var(--rc-space-3);
+        color: var(--rc-color-text-secondary);
         font: inherit;
-        font-size: var(--rds-typography-label-font-size);
-        font-weight: var(--rds-typography-weight-medium);
-        letter-spacing: var(--rds-typography-label-letter-spacing);
+        font-size: var(--rc-typography-label-font-size);
+        font-weight: var(--rc-typography-weight-medium);
+        letter-spacing: var(--rc-typography-label-letter-spacing);
         cursor: pointer;
         white-space: nowrap;
         transition:
-          background-color var(--rds-duration-fast, 150ms) var(--rds-easing-standard, ease),
-          color var(--rds-duration-fast, 150ms) var(--rds-easing-standard, ease),
-          box-shadow var(--rds-duration-fast, 150ms) var(--rds-easing-standard, ease);
+          background-color var(--rc-duration-fast, 150ms) var(--rc-easing-standard, ease),
+          color var(--rc-duration-fast, 150ms) var(--rc-easing-standard, ease),
+          box-shadow var(--rc-duration-fast, 150ms) var(--rc-easing-standard, ease);
       }
       
       :host([size='sm']) button {
-        min-height: var(--rds-space-7);
-        padding: 0 var(--rds-space-2);
-        font-size: var(--rds-typography-caption-font-size);
+        min-height: var(--rc-space-7);
+        padding: 0 var(--rc-space-2);
+        font-size: var(--rc-typography-caption-font-size);
       }
       
       :host([size='lg']) button {
-        min-height: var(--rds-space-9);
-        font-size: var(--rds-typography-body-font-size);
+        min-height: var(--rc-space-9);
+        font-size: var(--rc-typography-body-font-size);
       }
       
       button:hover:not(:disabled) {
-        color: var(--rds-color-text-primary);
+        color: var(--rc-color-text-primary);
       }
       
       :host([selected]) button {
-        background: var(--rds-color-surface-panel);
-        color: var(--rds-color-text-primary);
-        box-shadow: var(--rds-shadow-xs, 0 1px 2px rgb(0 0 0 / 8%));
+        background: var(--rc-color-surface-panel);
+        color: var(--rc-color-text-primary);
+        box-shadow: var(--rc-shadow-xs, 0 1px 2px rgb(0 0 0 / 8%));
       }
       
       button:focus-visible {
         outline: none;
         box-shadow:
-          0 0 0 2px var(--rds-color-surface-panel),
-          0 0 0 4px var(--rds-color-border-focus);
+          0 0 0 2px var(--rc-color-surface-panel),
+          0 0 0 4px var(--rc-color-border-focus);
       }
       
       button:disabled {
         cursor: not-allowed;
-        opacity: var(--rds-opacity-disabled);
+        opacity: var(--rc-opacity-disabled);
       }
     `,
   ];
@@ -94,7 +93,7 @@ export class RdsSegmentItem extends LitElement {
   #activate() {
     if (this.disabled) return;
     this.dispatchEvent(
-      new CustomEvent('rds-segment-select', {
+      new CustomEvent('rc-segment-select', {
         detail: { value: this.value },
         bubbles: true,
         composed: true,
@@ -104,7 +103,7 @@ export class RdsSegmentItem extends LitElement {
 
   override render() {
     return html`
-      <button
+      <button part="control"
         role="radio"
         type="button"
         ?disabled=${this.disabled}
@@ -120,6 +119,6 @@ export class RdsSegmentItem extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-segment-item': RdsSegmentItem;
+    'rc-segment-item': RcSegmentItem;
   }
 }

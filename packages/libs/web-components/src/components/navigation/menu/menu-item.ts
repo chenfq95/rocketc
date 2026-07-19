@@ -1,18 +1,17 @@
-import { LitElement, css, html } from 'lit';
+import { css, html } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { hostStyles } from '../../../internal/shared-styles';
+import { RcStyledElement } from '../../../internal/styled-element';
 
 /**
- * Menu row used inside `rds-menu`.
+ * Menu row used inside `rc-menu`.
  *
- * @element rds-menu-item
+ * @element rc-menu-item
  * @slot - Item label
- * @fires rds-menu-select - When activated (`detail.value`)
+ * @fires rc-menu-select - When activated (`detail.value`)
  */
-export class RdsMenuItem extends LitElement {
+export class RcMenuItem extends RcStyledElement {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: block;
@@ -24,32 +23,32 @@ export class RdsMenuItem extends LitElement {
         width: 100%;
         margin: 0;
         border: 0;
-        border-radius: var(--rds-radius-sm);
+        border-radius: var(--rc-radius-sm);
         background: transparent;
-        padding: var(--rds-space-2) var(--rds-space-3);
-        color: var(--rds-color-text-primary);
+        padding: var(--rc-space-2) var(--rc-space-3);
+        color: var(--rc-color-text-primary);
         font: inherit;
-        font-size: var(--rds-typography-body-small-font-size);
+        font-size: var(--rc-typography-body-small-font-size);
         text-align: start;
         cursor: pointer;
       }
       
       button:hover:not(:disabled) {
-        background: var(--rds-color-action-bg-hover);
+        background: var(--rc-color-action-bg-hover);
       }
       
       button:focus-visible {
         outline: none;
-        box-shadow: 0 0 0 2px var(--rds-color-border-focus);
+        box-shadow: 0 0 0 2px var(--rc-color-border-focus);
       }
       
       :host([destructive]) button {
-        color: var(--rds-color-danger-fg);
+        color: var(--rc-color-danger-fg);
       }
       
       button:disabled {
         cursor: not-allowed;
-        opacity: var(--rds-opacity-disabled);
+        opacity: var(--rc-opacity-disabled);
       }
     `,
   ];
@@ -66,7 +65,7 @@ export class RdsMenuItem extends LitElement {
   #activate() {
     if (this.disabled) return;
     this.dispatchEvent(
-      new CustomEvent('rds-menu-select', {
+      new CustomEvent('rc-menu-select', {
         detail: { value: this.value },
         bubbles: true,
         composed: true,
@@ -76,7 +75,7 @@ export class RdsMenuItem extends LitElement {
 
   override render() {
     return html`
-      <button
+      <button part="control"
         role="menuitem"
         type="button"
         ?disabled=${this.disabled}
@@ -90,6 +89,6 @@ export class RdsMenuItem extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-menu-item': RdsMenuItem;
+    'rc-menu-item': RcMenuItem;
   }
 }

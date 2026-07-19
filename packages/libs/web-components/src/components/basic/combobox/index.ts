@@ -1,2 +1,2 @@
-export { RdsCombobox } from './combobox';
-export { RdsComboboxOption } from './combobox-option';
+export { RcCombobox } from './combobox';
+export { RcComboboxOption } from './combobox-option';

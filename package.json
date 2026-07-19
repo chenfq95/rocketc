@@ -41,7 +41,8 @@
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "react": "^19.2.7",
-    "react-dom": "^19.2.7"
+    "react-dom": "^19.2.7",
+    "vite": "^8.1.5"
   },
   "lint-staged": {
     "**/*.{js|ts|jsx|tsx|cjs|mjs|cts|mts|json,css,scss,md}": [

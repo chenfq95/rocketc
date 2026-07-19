@@ -1,1 +1,1 @@
-export { RdsFileUpload } from './file-upload';
+export { RcFileUpload } from './file-upload';

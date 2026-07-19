@@ -1,22 +1,21 @@
-import { LitElement, css, html, type PropertyValues } from 'lit';
+import { css, html, type PropertyValues } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { hostStyles } from '../../../internal/shared-styles';
+import { RcStyledElement } from '../../../internal/styled-element';
 
-export type RdsSheetSide = 'bottom' | 'top' | 'left' | 'right';
+export type RcSheetSide = 'bottom' | 'top' | 'left' | 'right';
 
 /**
  * Edge-anchored sheet surface (non-modal by default; pair with overlay as needed).
  *
- * @element rds-sheet
+ * @element rc-sheet
  * @fires close - When closed
  * @slot - Sheet body
  * @slot header - Optional header
  * @slot footer - Optional footer
  */
-export class RdsSheet extends LitElement {
+export class RcSheet extends RcStyledElement {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: contents;
@@ -29,19 +28,19 @@ export class RdsSheet extends LitElement {
         background: transparent;
         max-width: none;
         max-height: none;
-        color: var(--rds-color-text-primary);
+        color: var(--rc-color-text-primary);
       }
       
       dialog::backdrop {
-        background: color-mix(in oklab, var(--rds-color-common-black, #000) 45%, transparent);
+        background: color-mix(in oklab, var(--rc-color-common-black, #000) 45%, transparent);
       }
       
       .panel {
         display: grid;
-        gap: var(--rds-space-3);
-        background: var(--rds-color-surface-panel);
-        box-shadow: var(--rds-shadow-overlay, var(--rds-shadow-surface));
-        padding: var(--rds-space-4);
+        gap: var(--rc-space-3);
+        background: var(--rc-color-surface-panel);
+        box-shadow: var(--rc-shadow-overlay, var(--rc-shadow-surface));
+        padding: var(--rc-space-4);
       }
       
       :host([side='bottom']) .panel,
@@ -49,7 +48,7 @@ export class RdsSheet extends LitElement {
         position: fixed;
         inset-inline: 0;
         bottom: 0;
-        border-radius: var(--rds-radius-xl) var(--rds-radius-xl) 0 0;
+        border-radius: var(--rc-radius-xl) var(--rc-radius-xl) 0 0;
         max-height: min(85vh, 40rem);
       }
       
@@ -57,7 +56,7 @@ export class RdsSheet extends LitElement {
         position: fixed;
         inset-inline: 0;
         top: 0;
-        border-radius: 0 0 var(--rds-radius-xl) var(--rds-radius-xl);
+        border-radius: 0 0 var(--rc-radius-xl) var(--rc-radius-xl);
         max-height: min(85vh, 40rem);
       }
       
@@ -66,7 +65,7 @@ export class RdsSheet extends LitElement {
         inset-block: 0;
         left: 0;
         width: min(22rem, 100vw);
-        border-radius: 0 var(--rds-radius-xl) var(--rds-radius-xl) 0;
+        border-radius: 0 var(--rc-radius-xl) var(--rc-radius-xl) 0;
       }
       
       :host([side='right']) .panel {
@@ -74,32 +73,32 @@ export class RdsSheet extends LitElement {
         inset-block: 0;
         right: 0;
         width: min(22rem, 100vw);
-        border-radius: var(--rds-radius-xl) 0 0 var(--rds-radius-xl);
+        border-radius: var(--rc-radius-xl) 0 0 var(--rc-radius-xl);
       }
       
       .header {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: var(--rds-space-2);
-        font-weight: var(--rds-typography-weight-semibold);
+        gap: var(--rc-space-2);
+        font-weight: var(--rc-typography-weight-semibold);
       }
       
       .close {
         display: inline-grid;
         place-items: center;
-        width: var(--rds-space-7);
-        height: var(--rds-space-7);
+        width: var(--rc-space-7);
+        height: var(--rc-space-7);
         margin: 0;
         border: 0;
-        border-radius: var(--rds-radius-md);
+        border-radius: var(--rc-radius-md);
         background: transparent;
         cursor: pointer;
-        color: var(--rds-color-text-secondary);
+        color: var(--rc-color-text-secondary);
       }
       
       .close:hover {
-        background: var(--rds-color-action-bg-hover);
+        background: var(--rc-color-action-bg-hover);
       }
       
       .body {
@@ -112,7 +111,7 @@ export class RdsSheet extends LitElement {
   accessor open: boolean = false;
 
   @property({ type: String, reflect: true })
-  accessor side: RdsSheetSide = 'bottom';
+  accessor side: RcSheetSide = 'bottom';
 
   @property({ type: Boolean, reflect: true })
   accessor modal: boolean = true;
@@ -156,15 +155,15 @@ export class RdsSheet extends LitElement {
 
   override render() {
     return html`
-      <dialog @cancel=${() => this.close()} @close=${() => this.#setOpen(false)}>
-        <div class="panel">
-          <div class="header">
+      <dialog part="container dialog" @cancel=${() => this.close()} @close=${() => this.#setOpen(false)}>
+        <div class="panel" part="panel">
+          <div class="header" part="header">
             <slot name="header"></slot>
-            <button class="close" type="button" aria-label="Close" @click=${() => this.close()}>
+            <button class="close" part="control close" type="button" aria-label="Close" @click=${() => this.close()}>
               ×
             </button>
           </div>
-          <div class="body"><slot></slot></div>
+          <div class="body" part="body"><slot></slot></div>
           <slot name="footer"></slot>
         </div>
       </dialog>
@@ -174,6 +173,6 @@ export class RdsSheet extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-sheet': RdsSheet;
+    'rc-sheet': RcSheet;
   }
 }

@@ -1,2 +1,2 @@
-export { RdsBadge, type RdsBadgeVariant } from './badge';
-export { RdsTag } from './tag';
+export { RcBadge, type RcBadgeVariant } from './badge';
+export { RcTag } from './tag';

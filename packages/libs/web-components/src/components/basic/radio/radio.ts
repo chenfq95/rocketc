@@ -1,88 +1,88 @@
 import { LitElement, css, html, nothing, type PropertyValues } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { mixinDelegatesAria, type ARIAMixinStrict } from '../../../internal/delegate-aria';
-import { mixinElementInternals } from '../../../internal/element-internals';
+import { RcStyledElement } from '../../../internal/styled-element';
+
+import { mixinDelegatesAria, type ARIAMixinStrict } from '../../../internal/mixin-delegates-aria';
+import { mixinElementInternals } from '../../../internal/mixin-element-internals';
 import {
   getFormState,
   getFormValue,
   mixinFormAssociated,
   type FormRestoreReason,
   type FormRestoreState,
-} from '../../../internal/form-associated';
-import { hostStyles } from '../../../internal/shared-styles';
+} from '../../../internal/mixin-form-associated';
 
-const radioBase = mixinDelegatesAria(mixinFormAssociated(mixinElementInternals(LitElement)));
+const radioBase = mixinDelegatesAria(mixinFormAssociated(mixinElementInternals(RcStyledElement)));
 
 /**
- * Single radio option. Group by shared `name`, or wrap in `rds-radio-group`.
+ * Single radio option. Group by shared `name`, or wrap in `rc-radio-group`.
  *
  * `checked` does not reflect so the `checked` attribute remains the default
  * for form reset.
  *
- * @element rds-radio
+ * @element rc-radio
  * @fires change - Composed CustomEvent when selected (`detail.value`)
  * @slot - Optional label content beside the control
  */
-export class RdsRadio extends radioBase {
+export class RcRadio extends radioBase {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     delegatesFocus: true,
   };
 
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: inline-flex;
         align-items: center;
-        gap: var(--rds-space-2);
+        gap: var(--rc-space-2);
         vertical-align: middle;
       }
       
       button {
         position: relative;
-        width: var(--rds-space-4);
-        height: var(--rds-space-4);
+        width: var(--rc-space-4);
+        height: var(--rc-space-4);
         margin: 0;
-        border: var(--rds-border-sm) solid var(--rds-color-control-primary-border);
-        border-radius: var(--rds-radius-full);
-        background: var(--rds-color-surface-panel);
+        border: var(--rc-border-sm) solid var(--rc-color-control-primary-border);
+        border-radius: var(--rc-radius-full);
+        background: var(--rc-color-surface-panel);
         padding: 0;
         cursor: pointer;
         transition:
-          background-color var(--rds-duration-fast) var(--rds-easing-standard),
-          border-color var(--rds-duration-fast) var(--rds-easing-standard);
+          background-color var(--rc-duration-fast) var(--rc-easing-standard),
+          border-color var(--rc-duration-fast) var(--rc-easing-standard);
       }
       
       button:focus-visible {
         outline: none;
         box-shadow:
-          0 0 0 2px var(--rds-color-surface-panel),
-          0 0 0 4px var(--rds-color-border-focus);
+          0 0 0 2px var(--rc-color-surface-panel),
+          0 0 0 4px var(--rc-color-border-focus);
       }
       
       :host(.is-checked) button {
-        border-color: var(--rds-color-control-primary-border);
+        border-color: var(--rc-color-control-primary-border);
       }
       
       :host(.is-checked) button::after {
         content: '';
         position: absolute;
         inset: 3px;
-        border-radius: var(--rds-radius-full);
-        background: var(--rds-color-control-primary-bg);
+        border-radius: var(--rc-radius-full);
+        background: var(--rc-color-control-primary-bg);
       }
       
       button:disabled {
         cursor: not-allowed;
-        opacity: var(--rds-opacity-disabled);
+        opacity: var(--rc-opacity-disabled);
       }
       
       .label {
-        color: var(--rds-color-text-primary);
-        font-size: var(--rds-typography-label-font-size);
-        line-height: var(--rds-typography-label-line-height);
+        color: var(--rc-color-text-primary);
+        font-size: var(--rc-typography-label-font-size);
+        line-height: var(--rc-typography-label-line-height);
       }
     `,
   ];
@@ -129,7 +129,7 @@ export class RdsRadio extends radioBase {
       root instanceof HTMLFormElement || root instanceof Document || root instanceof ShadowRoot
         ? root
         : document;
-    for (const el of scope.querySelectorAll<RdsRadio>('rds-radio')) {
+    for (const el of scope.querySelectorAll<RcRadio>('rc-radio')) {
       if (el !== this && el.name === this.name) el.checked = false;
     }
   }
@@ -149,7 +149,7 @@ export class RdsRadio extends radioBase {
     const { ariaLabel, role } = this as ARIAMixinStrict;
 
     return html`
-      <button
+      <button part="control"
         aria-checked=${this.checked ? 'true' : 'false'}
         aria-label=${ariaLabel || nothing}
         aria-required=${this.required ? 'true' : nothing}
@@ -158,13 +158,13 @@ export class RdsRadio extends radioBase {
         type="button"
         @click=${this.#select}
       ></button>
-      <span class="label"><slot></slot></span>
+      <span class="label" part="label"><slot></slot></span>
     `;
   }
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-radio': RdsRadio;
+    'rc-radio': RcRadio;
   }
 }

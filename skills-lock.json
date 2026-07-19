@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "org-agents-handbook": {
+      "source": "chenfq95/skills",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/org-agents-handbook/SKILL.md",
+      "computedHash": "764e0398e310d9f49757703f4b4006e66d20e4131800ac0b9f00721ff7bcf20c"
+    }
+  }
+}

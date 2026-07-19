@@ -106,8 +106,8 @@ Keep adapter-specific metadata out of token values; transforms derive CSS hex, R
 ## Naming / 命名
 
 - Logical path ≈ token path / 逻辑路径 ≈ Token 路径：`color.brand.solid`, `typography.body`, `shadow.raised`
-- CSS variables use prefix **`rds`** / CSS 变量前缀为 **`rds`**：`--rds-color-brand-solid`, `--rds-shadow-raised`
-- Typography composites expand to parts / 字体角色展开为多个属性：`--rds-typography-body-font-size`, `…-letter-spacing`, etc.
+- CSS variables use prefix **`rc`** / CSS 变量前缀为 **`rc`**：`--rc-color-brand-solid`, `--rc-shadow-raised`
+- Typography composites expand to parts / 字体角色展开为多个属性：`--rc-typography-body-font-size`, `…-letter-spacing`, etc.
 
 ## Token groups (by folder) / Token 分组（按目录）
 

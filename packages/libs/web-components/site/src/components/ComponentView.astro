@@ -1,5 +1,6 @@
 ---
 import type { ComponentPage } from '../lib/catalog';
+import { bilingualCategory, bilingualComponent } from '../lib/bilingual';
 import { formatAndHighlightHtml } from '../lib/highlight';
 
 type Props = {
@@ -7,85 +8,112 @@ type Props = {
 };
 
 const { page } = Astro.props;
-const highlightedCode = await formatAndHighlightHtml(page.sourceCode);
+const demos = await Promise.all(
+  page.demos.map(async (demo) => ({
+    id: demo.id,
+    title: demo.title,
+    description: demo.description,
+    html: demo.html,
+    highlightedCode: await formatAndHighlightHtml(demo.html),
+  })),
+);
 ---
 
-<rds-stack gap="lg">
-  <rds-stack gap="xs">
-    <rds-stack direction="horizontal" gap="sm" align="center" wrap>
-      <rds-typography variant="title" as="h1">{page.component}</rds-typography>
-      <rds-badge variant="outline">{page.category}</rds-badge>
-    </rds-stack>
-    <rds-stack direction="horizontal" gap="xs" wrap>
+<rc-stack gap="lg">
+  <rc-stack gap="xs">
+    <rc-stack direction="horizontal" gap="sm" align="center" wrap>
+      <rc-typography variant="title" as="h1">{bilingualComponent(page.component)}</rc-typography>
+      <rc-badge variant="outline">{bilingualCategory(page.category)}</rc-badge>
+    </rc-stack>
+    <rc-stack direction="horizontal" gap="xs" wrap>
       {
         page.tags.map((tag) => (
-          <rds-typography variant="code">{tag}</rds-typography>
+          <rc-typography variant="code">{tag}</rc-typography>
         ))
       }
-    </rds-stack>
-  </rds-stack>
+    </rc-stack>
+  </rc-stack>
 
-  <rds-panel class="example-panel" bordered padded>
-    <rds-stack
-      slot="header"
-      class="example-panel-header"
-      direction="horizontal"
-      gap="md"
-      align="center"
-      justify="between"
-    >
-      <rds-typography variant="label" color="muted" as="p">Example</rds-typography>
-      <rds-segment class="example-view-toggle" value="preview" size="sm" aria-label="Example view">
-        <rds-segment-item value="preview">Preview</rds-segment-item>
-        <rds-segment-item value="code">Code</rds-segment-item>
-      </rds-segment>
-    </rds-stack>
+  <rc-stack gap="md">
+    {
+      demos.map((demo) => (
+        <rc-panel class="example-panel" data-demo-id={demo.id} bordered padded>
+          <rc-stack slot="header" class="example-panel-header" gap="sm">
+            <rc-stack direction="horizontal" gap="md" align="center" justify="between" wrap>
+              <rc-typography variant="subheading" as="h2">{demo.title}</rc-typography>
+              <rc-segment
+                class="example-view-toggle"
+                value="preview"
+                size="sm"
+                aria-label={`${demo.title} 示例视图 / Example view`}
+              >
+                <rc-segment-item value="preview">预览 / Preview</rc-segment-item>
+                <rc-segment-item value="code">代码 / Code</rc-segment-item>
+              </rc-segment>
+            </rc-stack>
+            <rc-typography variant="body-small" color="secondary" as="p">
+              {demo.description}
+            </rc-typography>
+          </rc-stack>
 
-    <div class="example-view is-active" data-example-view="preview">
-      <div class="rds-demo-host" set:html={page.previewHtml} />
-    </div>
-    <div class="example-view example-code" data-example-view="code" hidden set:html={highlightedCode} />
-  </rds-panel>
+          <div class="example-view is-active" data-example-view="preview">
+            <div class="rc-demo-host" set:html={demo.html} />
+          </div>
+          <div
+            class="example-view example-code"
+            data-example-view="code"
+            hidden
+            set:html={demo.highlightedCode}
+          />
+        </rc-panel>
+      ))
+    }
+  </rc-stack>
 
-  <rds-stack gap="md">
-    <rds-typography variant="heading" as="h2">API</rds-typography>
+  <rc-stack gap="md">
+    <rc-stack direction="horizontal" gap="md" align="center" justify="between" wrap>
+      <rc-typography variant="heading" as="h2">API 参考 / API Reference</rc-typography>
+      <a class="site-inline-link" href="/guides/host-styles/">
+        通用宿主样式 / Common Host Styles
+      </a>
+    </rc-stack>
 
     {
       page.elements.length === 0 ? (
-        <rds-typography variant="body" color="secondary" as="p">
-          No element metadata found for this folder.
-        </rds-typography>
+        <rc-typography variant="body" color="secondary" as="p">
+          此目录未找到元素元数据。 / No element metadata found for this folder.
+        </rc-typography>
       ) : (
         page.elements.map((element) => (
-          <rds-panel bordered padded>
-            <rds-stack slot="header" gap="xs">
-              <rds-stack direction="horizontal" gap="sm" align="center" wrap>
-                <rds-typography variant="subheading" as="h3">
+          <rc-panel bordered padded>
+            <rc-stack slot="header" gap="xs">
+              <rc-stack direction="horizontal" gap="sm" align="center" wrap>
+                <rc-typography variant="subheading" as="h3">
                   {element.tag}
-                </rds-typography>
-                <rds-badge variant="secondary">{element.file}</rds-badge>
-              </rds-stack>
+                </rc-typography>
+                <rc-badge variant="secondary">{element.file}</rc-badge>
+              </rc-stack>
               {element.summary ? (
-                <rds-typography variant="body-small" color="secondary" as="p">
+                <rc-typography variant="body-small" color="secondary" as="p">
                   {element.summary}
-                </rds-typography>
+                </rc-typography>
               ) : null}
-            </rds-stack>
+            </rc-stack>
 
-            <rds-stack gap="md">
+            <rc-stack gap="md">
               {element.props.length > 0 ? (
-                <rds-stack gap="sm">
-                  <rds-typography variant="label" color="muted" as="p">
-                    Properties
-                  </rds-typography>
+                <rc-stack gap="sm">
+                  <rc-typography variant="label" color="muted" as="p">
+                    属性 / Properties
+                  </rc-typography>
                   <div class="api-table-wrap">
                     <table class="api-table">
                       <thead>
                         <tr>
-                          <th>Name</th>
-                          <th>Type</th>
-                          <th>Attribute</th>
-                          <th>Default</th>
+                          <th>名称 / Name</th>
+                          <th>类型 / Type</th>
+                          <th>特性 / Attribute</th>
+                          <th>默认值 / Default</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -108,20 +136,20 @@ const highlightedCode = await formatAndHighlightHtml(page.sourceCode);
                       </tbody>
                     </table>
                   </div>
-                </rds-stack>
+                </rc-stack>
               ) : null}
 
               {element.slots.length > 0 ? (
-                <rds-stack gap="sm">
-                  <rds-typography variant="label" color="muted" as="p">
-                    Slots
-                  </rds-typography>
+                <rc-stack gap="sm">
+                  <rc-typography variant="label" color="muted" as="p">
+                    插槽 / Slots
+                  </rc-typography>
                   <div class="api-table-wrap">
                     <table class="api-table">
                       <thead>
                         <tr>
-                          <th>Name</th>
-                          <th>Description</th>
+                          <th>名称 / Name</th>
+                          <th>说明 / Description</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -136,20 +164,20 @@ const highlightedCode = await formatAndHighlightHtml(page.sourceCode);
                       </tbody>
                     </table>
                   </div>
-                </rds-stack>
+                </rc-stack>
               ) : null}
 
               {element.events.length > 0 ? (
-                <rds-stack gap="sm">
-                  <rds-typography variant="label" color="muted" as="p">
-                    Events
-                  </rds-typography>
+                <rc-stack gap="sm">
+                  <rc-typography variant="label" color="muted" as="p">
+                    事件 / Events
+                  </rc-typography>
                   <div class="api-table-wrap">
                     <table class="api-table">
                       <thead>
                         <tr>
-                          <th>Name</th>
-                          <th>Description</th>
+                          <th>名称 / Name</th>
+                          <th>说明 / Description</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -164,15 +192,41 @@ const highlightedCode = await formatAndHighlightHtml(page.sourceCode);
                       </tbody>
                     </table>
                   </div>
-                </rds-stack>
+                </rc-stack>
               ) : null}
-            </rds-stack>
-          </rds-panel>
+
+              {element.parts.length > 0 ? (
+                <rc-stack gap="sm">
+                  <rc-typography variant="label" color="muted" as="p">
+                    CSS 部件 / CSS Parts
+                  </rc-typography>
+                  <div class="api-table-wrap">
+                    <table class="api-table">
+                      <thead>
+                        <tr>
+                          <th>名称 / Name</th>
+                          <th>说明 / Description</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {element.parts.map((part) => (
+                          <tr>
+                            <td><code>{part.name}</code></td>
+                            <td>{part.description}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </rc-stack>
+              ) : null}
+            </rc-stack>
+          </rc-panel>
         ))
       )
     }
-  </rds-stack>
-</rds-stack>
+  </rc-stack>
+</rc-stack>
 
 <script>
   function bindExampleToggles() {
@@ -198,7 +252,7 @@ const highlightedCode = await formatAndHighlightHtml(page.sourceCode);
     });
   }
 
-  customElements.whenDefined('rds-segment').then(bindExampleToggles);
+  customElements.whenDefined('rc-segment').then(bindExampleToggles);
   document.addEventListener('astro:page-load', bindExampleToggles);
   bindExampleToggles();
 </script>

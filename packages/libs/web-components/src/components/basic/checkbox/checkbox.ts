@@ -1,18 +1,21 @@
 import { LitElement, css, html, nothing, type PropertyValues } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { mixinDelegatesAria, type ARIAMixinStrict } from '../../../internal/delegate-aria';
-import { mixinElementInternals } from '../../../internal/element-internals';
+import { RcStyledElement } from '../../../internal/styled-element';
+
+import { mixinDelegatesAria, type ARIAMixinStrict } from '../../../internal/mixin-delegates-aria';
+import { mixinElementInternals } from '../../../internal/mixin-element-internals';
 import {
   getFormState,
   getFormValue,
   mixinFormAssociated,
   type FormRestoreReason,
   type FormRestoreState,
-} from '../../../internal/form-associated';
-import { hostStyles } from '../../../internal/shared-styles';
+} from '../../../internal/mixin-form-associated';
 
-const checkboxBase = mixinDelegatesAria(mixinFormAssociated(mixinElementInternals(LitElement)));
+const checkboxBase = mixinDelegatesAria(
+  mixinFormAssociated(mixinElementInternals(RcStyledElement)),
+);
 
 /**
  * Binary checkbox control.
@@ -20,54 +23,53 @@ const checkboxBase = mixinDelegatesAria(mixinFormAssociated(mixinElementInternal
  * `checked` does not reflect so the `checked` attribute remains the default
  * for form reset.
  *
- * @element rds-checkbox
+ * @element rc-checkbox
  * @fires change - Composed CustomEvent when checked changes (`detail.checked`)
  * @slot - Optional label content beside the control
  */
-export class RdsCheckbox extends checkboxBase {
+export class RcCheckbox extends checkboxBase {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     delegatesFocus: true,
   };
 
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: inline-flex;
         align-items: center;
-        gap: var(--rds-space-2);
+        gap: var(--rc-space-2);
         vertical-align: middle;
       }
       
       button {
         display: inline-grid;
         place-items: center;
-        width: var(--rds-space-4);
-        height: var(--rds-space-4);
+        width: var(--rc-space-4);
+        height: var(--rc-space-4);
         margin: 0;
-        border: var(--rds-border-sm) solid var(--rds-color-control-primary-border);
-        border-radius: var(--rds-radius-sm);
-        background: var(--rds-color-surface-panel);
+        border: var(--rc-border-sm) solid var(--rc-color-control-primary-border);
+        border-radius: var(--rc-radius-sm);
+        background: var(--rc-color-surface-panel);
         padding: 0;
-        color: var(--rds-color-control-primary-fg-contrast);
+        color: var(--rc-color-control-primary-fg-contrast);
         cursor: pointer;
         transition:
-          background-color var(--rds-duration-fast) var(--rds-easing-standard),
-          border-color var(--rds-duration-fast) var(--rds-easing-standard);
+          background-color var(--rc-duration-fast) var(--rc-easing-standard),
+          border-color var(--rc-duration-fast) var(--rc-easing-standard);
       }
       
       button:focus-visible {
         outline: none;
         box-shadow:
-          0 0 0 2px var(--rds-color-surface-panel),
-          0 0 0 4px var(--rds-color-border-focus);
+          0 0 0 2px var(--rc-color-surface-panel),
+          0 0 0 4px var(--rc-color-border-focus);
       }
       
       :host(.is-checked) button,
       :host(.is-indeterminate) button {
-        background: var(--rds-color-control-primary-bg);
-        border-color: var(--rds-color-control-primary-border);
+        background: var(--rc-color-control-primary-bg);
+        border-color: var(--rc-color-control-primary-border);
       }
       
       .mark {
@@ -83,13 +85,13 @@ export class RdsCheckbox extends checkboxBase {
       
       button:disabled {
         cursor: not-allowed;
-        opacity: var(--rds-opacity-disabled);
+        opacity: var(--rc-opacity-disabled);
       }
       
       .label {
-        color: var(--rds-color-text-primary);
-        font-size: var(--rds-typography-label-font-size);
-        line-height: var(--rds-typography-label-line-height);
+        color: var(--rc-color-text-primary);
+        font-size: var(--rc-typography-label-font-size);
+        line-height: var(--rc-typography-label-line-height);
       }
     `,
   ];
@@ -157,7 +159,7 @@ export class RdsCheckbox extends checkboxBase {
     const ariaChecked = this.indeterminate ? 'mixed' : this.checked ? 'true' : 'false';
 
     return html`
-      <button
+      <button part="control"
         aria-checked=${ariaChecked}
         aria-label=${ariaLabel || nothing}
         aria-required=${this.required ? 'true' : nothing}
@@ -166,7 +168,7 @@ export class RdsCheckbox extends checkboxBase {
         type="button"
         @click=${this.#toggle}
       >
-        <svg class="mark mark-check" viewBox="0 0 16 16" aria-hidden="true">
+        <svg class="mark mark-check" part="mark mark-check" viewBox="0 0 16 16" aria-hidden="true">
           <path
             d="M3.5 8.5 6.5 11.5 12.5 4.5"
             fill="none"
@@ -176,7 +178,7 @@ export class RdsCheckbox extends checkboxBase {
             stroke-linejoin="round"
           />
         </svg>
-        <svg class="mark mark-indeterminate" viewBox="0 0 16 16" aria-hidden="true">
+        <svg class="mark mark-indeterminate" part="mark mark-indeterminate" viewBox="0 0 16 16" aria-hidden="true">
           <path
             d="M3.5 8h9"
             fill="none"
@@ -186,13 +188,13 @@ export class RdsCheckbox extends checkboxBase {
           />
         </svg>
       </button>
-      <span class="label"><slot></slot></span>
+      <span class="label" part="label"><slot></slot></span>
     `;
   }
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-checkbox': RdsCheckbox;
+    'rc-checkbox': RcCheckbox;
   }
 }

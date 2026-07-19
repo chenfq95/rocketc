@@ -2,23 +2,36 @@
 
 ---
 
-Pure JavaScript shortcut solution without any framework dependencies.
+不依赖任何框架的纯 JavaScript 快捷键解决方案。
 
-## Features
+A pure JavaScript shortcut solution without framework dependencies.
 
-- **Framework-agnostic**: Works with any JavaScript framework or vanilla JavaScript
-- **Strict/Loose mode**: Support both strict and loose matching modes
-- **Dynamic register/unregister**: Register and unregister shortcuts at runtime
-- **Dynamic enable/disable**: Enable or disable registered shortcuts dynamically
-- **Flexible key combinations**: Support complex modifier and normal key combinations
-- **Modern browser API**: Uses modern browser APIs (`KeyboardEvent.code`)
-- **Full TypeScript support**: Complete type definitions included
-- **Shortcut validation**: Built-in validation for accelerator strings
-- **Custom filters**: Filter keyboard events based on your needs
-- **Custom aliases**: Define custom key name aliases
-- **Event listeners**: Support `keydown` and `keyup` event listeners
+## 特性 / Features
 
-## Installation
+- **框架无关**：适用于任意 JavaScript 框架或原生 JavaScript。<br>
+  **Framework-agnostic**: Works with any JavaScript framework or vanilla JavaScript.
+- **严格/宽松模式**：支持严格和宽松两种匹配模式。<br>
+  **Strict/Loose Mode**: Supports both strict and loose matching modes.
+- **动态注册/注销**：在运行时注册和注销快捷键。<br>
+  **Dynamic Registration/Unregistration**: Registers and unregisters shortcuts at runtime.
+- **动态启用/禁用**：动态启用或禁用已注册的快捷键。<br>
+  **Dynamic Enable/Disable**: Dynamically enables or disables registered shortcuts.
+- **灵活的按键组合**：支持复杂的修饰键和普通键组合。<br>
+  **Flexible Key Combinations**: Supports complex combinations of modifier and normal keys.
+- **现代浏览器 API**：使用 `KeyboardEvent.code` 等现代浏览器 API。<br>
+  **Modern Browser APIs**: Uses modern browser APIs such as `KeyboardEvent.code`.
+- **完整 TypeScript 支持**：包含完整的类型定义。<br>
+  **Full TypeScript Support**: Includes complete type definitions.
+- **快捷键校验**：内置快捷键字符串校验。<br>
+  **Shortcut Validation**: Includes built-in validation for accelerator strings.
+- **自定义过滤器**：按需过滤键盘事件。<br>
+  **Custom Filters**: Filters keyboard events according to application needs.
+- **自定义别名**：定义自定义按键名称别名。<br>
+  **Custom Aliases**: Defines custom key name aliases.
+- **事件监听器**：支持 `keydown` 和 `keyup` 事件监听。<br>
+  **Event Listeners**: Supports `keydown` and `keyup` event listeners.
+
+## 安装 / Installation
 
 ```bash
 # npm
@@ -31,209 +44,134 @@ yarn add @rocketc/shortcuts
 pnpm add @rocketc/shortcuts
 ```
 
-## Supported Keys
+## 支持的按键 / Supported Keys
 
-### Modifiers
+### 修饰键 / Modifiers
 
-| Key            | Alias                                                                                              | Notes                                    |
-| -------------- | -------------------------------------------------------------------------------------------------- | ---------------------------------------- |
-| `ControlLeft`  | `Ctrl` `CtrlLeft` `Control` `ControlLeft`                                                          |                                          |
-| `ControlRight` | `Ctrl` `CtrlRight` `Control` `ControlRight`                                                        |                                          |
-| `MetaLeft`     | `Meta` `MetaLeft` `Super` `SuperLeft` `Command` `CommandLeft` `Cmd` `CmdLeft` `Win` `WinLeft`      | `Windows` on Windows, `Command` on MacOS |
-| `MetaRight`    | `Meta` `MetaRight` `Super` `SuperRight` `Command` `CommandRight` `Cmd` `CmdRight` `Win` `WinRight` | `Windows` on Windows, `Command` on MacOS |
-| `ShiftLeft`    | `Shift` `ShiftLeft`                                                                                |                                          |
-| `ShiftRight`   | `Shift` `ShiftRight`                                                                               |                                          |
-| `AltLeft`      | `Alt` `AltLeft` `Option` `OptionLeft`                                                              | `Option` is only available on MacOS.     |
-| `AltRight`     | `Alt` `AltRight` `Option` `OptionRight`                                                            | `Option` is only available on MacOS.     |
-| `OSLeft`       | `Meta` `MetaLeft` `Super` `SuperLeft`                                                              | Firefox only                             |
-| `OSRight`      | `Meta` `MetaRight` `Super` `SuperRight`                                                            | Firefox only                             |
+| 按键 / Key     | 别名 / Aliases                                                                                     | 说明 / Notes                                                                            |
+| -------------- | -------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| `ControlLeft`  | `Ctrl` `CtrlLeft` `Control` `ControlLeft`                                                          |                                                                                         |
+| `ControlRight` | `Ctrl` `CtrlRight` `Control` `ControlRight`                                                        |                                                                                         |
+| `MetaLeft`     | `Meta` `MetaLeft` `Super` `SuperLeft` `Command` `CommandLeft` `Cmd` `CmdLeft` `Win` `WinLeft`      | Windows 上为 `Windows`，macOS 上为 `Command` / `Windows` on Windows, `Command` on macOS |
+| `MetaRight`    | `Meta` `MetaRight` `Super` `SuperRight` `Command` `CommandRight` `Cmd` `CmdRight` `Win` `WinRight` | Windows 上为 `Windows`，macOS 上为 `Command` / `Windows` on Windows, `Command` on macOS |
+| `ShiftLeft`    | `Shift` `ShiftLeft`                                                                                |                                                                                         |
+| `ShiftRight`   | `Shift` `ShiftRight`                                                                               |                                                                                         |
+| `AltLeft`      | `Alt` `AltLeft` `Option` `OptionLeft`                                                              | `Option` 仅适用于 macOS / `Option` is available only on macOS                           |
+| `AltRight`     | `Alt` `AltRight` `Option` `OptionRight`                                                            | `Option` 仅适用于 macOS / `Option` is available only on macOS                           |
+| `OSLeft`       | `Meta` `MetaLeft` `Super` `SuperLeft`                                                              | 仅 Firefox / Firefox only                                                               |
+| `OSRight`      | `Meta` `MetaRight` `Super` `SuperRight`                                                            | 仅 Firefox / Firefox only                                                               |
 
-### Normal Keys
+### 普通键 / Normal Keys
 
-#### Function Keys
+#### 功能键 / Function Keys
 
-| Key   | Notes        |
-| ----- | ------------ |
-| `F1`  | Function key |
-| `F2`  | Function key |
-| `F3`  | Function key |
-| `F4`  | Function key |
-| `F5`  | Function key |
-| `F6`  | Function key |
-| `F7`  | Function key |
-| `F8`  | Function key |
-| `F9`  | Function key |
-| `F10` | Function key |
-| `F11` | Function key |
-| `F12` | Function key |
+`F1`、`F2`、`F3`、`F4`、`F5`、`F6`、`F7`、`F8`、`F9`、`F10`、`F11`、`F12`
 
-#### Number Keys
+`F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`, `F9`, `F10`, `F11`, `F12`
 
-| Key | Notes                                   |
-| --- | --------------------------------------- |
-| `0` | Zero (main keyboard)                    |
-| `1` | One (main keyboard)                     |
-| `2` | Two (main keyboard)                     |
-| `3` | Three (main keyboard)                   |
-| `4` | Four (main keyboard)                    |
-| `5` | Five (main keyboard)                    |
-| `6` | Six (main keyboard)                     |
-| `7` | Seven (main keyboard)                   |
-| `8` | Eight (main keyboard)                   |
-| `9` | Nine (main keyboard)                    |
-| `-` | Minus (main keyboard)                   |
-| `=` | Equal (main keyboard)                   |
-| `+` | Plus (main keyboard, not `Shift+=`)     |
-| `*` | Multiply (main keyboard, not `Shift+8`) |
+#### 数字键 / Number Keys
 
-#### Numpad Keys
+- 主键盘数字 / Main keyboard digits：`0`、`1`、`2`、`3`、`4`、`5`、`6`、`7`、`8`、`9`
+- 主键盘运算符 / Main keyboard operators：`-`、`=`、`+`、`*`
+- `+` 表示主键盘加号，而不是 `Shift+=`。 / `+` means the main keyboard plus key, not `Shift+=`.
+- `*` 表示主键盘乘号，而不是 `Shift+8`。 / `*` means the main keyboard multiply key, not `Shift+8`.
 
-| Key        | Notes                 |
-| ---------- | --------------------- |
-| `num0`     | Numpad zero           |
-| `num1`     | Numpad one            |
-| `num2`     | Numpad two            |
-| `num3`     | Numpad three          |
-| `num4`     | Numpad four           |
-| `num5`     | Numpad five           |
-| `num6`     | Numpad six            |
-| `num7`     | Numpad seven          |
-| `num8`     | Numpad eight          |
-| `num9`     | Numpad nine           |
-| `numadd`   | Numpad add (`+`)      |
-| `numsub`   | Numpad subtract (`-`) |
-| `nummult`  | Numpad multiply (`*`) |
-| `numdiv`   | Numpad divide (`/`)   |
-| `numenter` | Numpad enter          |
-| `numdec`   | Numpad decimal (`.`)  |
-| `numLock`  | NumLock               |
+#### 数字小键盘 / Numpad Keys
 
-#### Alphabet Keys
+| 按键 / Key | 说明 / Notes                        |
+| ---------- | ----------------------------------- |
+| `num0`     | 小键盘 0 / Numpad zero              |
+| `num1`     | 小键盘 1 / Numpad one               |
+| `num2`     | 小键盘 2 / Numpad two               |
+| `num3`     | 小键盘 3 / Numpad three             |
+| `num4`     | 小键盘 4 / Numpad four              |
+| `num5`     | 小键盘 5 / Numpad five              |
+| `num6`     | 小键盘 6 / Numpad six               |
+| `num7`     | 小键盘 7 / Numpad seven             |
+| `num8`     | 小键盘 8 / Numpad eight             |
+| `num9`     | 小键盘 9 / Numpad nine              |
+| `numadd`   | 小键盘加号（`+`）/ Numpad add       |
+| `numsub`   | 小键盘减号（`-`）/ Numpad subtract  |
+| `nummult`  | 小键盘乘号（`*`）/ Numpad multiply  |
+| `numdiv`   | 小键盘除号（`/`）/ Numpad divide    |
+| `numenter` | 小键盘回车 / Numpad enter           |
+| `numdec`   | 小键盘小数点（`.`）/ Numpad decimal |
+| `numLock`  | 数字锁定键 / Num Lock               |
 
-| Key | Notes       |
-| --- | ----------- |
-| `a` | Lowercase a |
-| `b` | Lowercase b |
-| `c` | Lowercase c |
-| `d` | Lowercase d |
-| `e` | Lowercase e |
-| `f` | Lowercase f |
-| `g` | Lowercase g |
-| `h` | Lowercase h |
-| `i` | Lowercase i |
-| `j` | Lowercase j |
-| `k` | Lowercase k |
-| `l` | Lowercase l |
-| `m` | Lowercase m |
-| `n` | Lowercase n |
-| `o` | Lowercase o |
-| `p` | Lowercase p |
-| `q` | Lowercase q |
-| `r` | Lowercase r |
-| `s` | Lowercase s |
-| `t` | Lowercase t |
-| `u` | Lowercase u |
-| `v` | Lowercase v |
-| `w` | Lowercase w |
-| `x` | Lowercase x |
-| `y` | Lowercase y |
-| `z` | Lowercase z |
-| `A` | Uppercase A |
-| `B` | Uppercase B |
-| `C` | Uppercase C |
-| `D` | Uppercase D |
-| `E` | Uppercase E |
-| `F` | Uppercase F |
-| `G` | Uppercase G |
-| `H` | Uppercase H |
-| `I` | Uppercase I |
-| `J` | Uppercase J |
-| `K` | Uppercase K |
-| `L` | Uppercase L |
-| `M` | Uppercase M |
-| `N` | Uppercase N |
-| `O` | Uppercase O |
-| `P` | Uppercase P |
-| `Q` | Uppercase Q |
-| `R` | Uppercase R |
-| `S` | Uppercase S |
-| `T` | Uppercase T |
-| `U` | Uppercase U |
-| `V` | Uppercase V |
-| `W` | Uppercase W |
-| `X` | Uppercase X |
-| `Y` | Uppercase Y |
-| `Z` | Uppercase Z |
+#### 字母键 / Alphabet Keys
 
-#### Punctuation Keys
+- 小写字母 / Lowercase letters：`a`、`b`、`c`、`d`、`e`、`f`、`g`、`h`、`i`、`j`、`k`、`l`、`m`、`n`、`o`、`p`、`q`、`r`、`s`、`t`、`u`、`v`、`w`、`x`、`y`、`z`
+- 大写字母 / Uppercase letters：`A`、`B`、`C`、`D`、`E`、`F`、`G`、`H`、`I`、`J`、`K`、`L`、`M`、`N`、`O`、`P`、`Q`、`R`、`S`、`T`、`U`、`V`、`W`、`X`、`Y`、`Z`
 
-| Key     | Notes        |
-| ------- | ------------ |
-| `,`     | Comma        |
-| `.`     | Period       |
-| `/`     | Slash        |
-| `;`     | Semicolon    |
-| `'`     | Quote        |
-| `[`     | BracketLeft  |
-| `]`     | BracketRight |
-| `\`     | Backslash    |
-| `` ` `` | Backquote    |
+#### 标点键 / Punctuation Keys
 
-#### Other Keys
+| 按键 / Key | 说明 / Notes             |
+| ---------- | ------------------------ |
+| `,`        | 逗号 / Comma             |
+| `.`        | 句点 / Period            |
+| `/`        | 斜杠 / Slash             |
+| `;`        | 分号 / Semicolon         |
+| `'`        | 引号 / Quote             |
+| `[`        | 左方括号 / Left bracket  |
+| `]`        | 右方括号 / Right bracket |
+| `\`        | 反斜杠 / Backslash       |
+| `` ` ``    | 反引号 / Backquote       |
 
-| Key          | Notes                          |
-| ------------ | ------------------------------ |
-| `Space`      | Space bar                      |
-| `Escape`     | Escape key (alias: `Esc`)      |
-| `Esc`        | Escape key (alias of `Escape`) |
-| `Backspace`  | Backspace                      |
-| `Delete`     | Delete key                     |
-| `Tab`        | Tab                            |
-| `CapsLock`   | Caps Lock                      |
-| `Enter`      | Enter key                      |
-| `ArrowUp`    | Up arrow                       |
-| `ArrowDown`  | Down arrow                     |
-| `ArrowLeft`  | Left arrow                     |
-| `ArrowRight` | Right arrow                    |
-| `Home`       | Home                           |
-| `End`        | End                            |
-| `PageUp`     | Page Up                        |
-| `PageDown`   | Page Down                      |
-| `Insert`     | Insert                         |
+#### 其他按键 / Other Keys
 
-## Quick Start
+| 按键 / Key   | 说明 / Notes                                    |
+| ------------ | ----------------------------------------------- |
+| `Space`      | 空格键 / Space bar                              |
+| `Escape`     | Esc 键，别名为 `Esc` / Escape key; alias: `Esc` |
+| `Esc`        | `Escape` 的别名 / Alias of `Escape`             |
+| `Backspace`  | 退格键 / Backspace                              |
+| `Delete`     | 删除键 / Delete                                 |
+| `Tab`        | Tab 键 / Tab                                    |
+| `CapsLock`   | 大写锁定键 / Caps Lock                          |
+| `Enter`      | 回车键 / Enter                                  |
+| `ArrowUp`    | 上箭头 / Up arrow                               |
+| `ArrowDown`  | 下箭头 / Down arrow                             |
+| `ArrowLeft`  | 左箭头 / Left arrow                             |
+| `ArrowRight` | 右箭头 / Right arrow                            |
+| `Home`       | Home 键 / Home                                  |
+| `End`        | End 键 / End                                    |
+| `PageUp`     | Page Up 键 / Page Up                            |
+| `PageDown`   | Page Down 键 / Page Down                        |
+| `Insert`     | Insert 键 / Insert                              |
 
-### Basic Usage
+## 快速开始 / Quick Start
+
+### 基本用法 / Basic Usage
 
 ```typescript
 import { ShortcutRegistry } from '@rocketc/shortcuts';
 
-// Create a registry instance
+// 创建注册表实例。 / Create a registry instance.
 const registry = new ShortcutRegistry();
 
-// Attach to window
+// 绑定到 window。 / Attach to window.
 const dispose = registry.attachElement(window);
 
-// Register a shortcut
+// 注册快捷键。 / Register a shortcut.
 registry.registerShortcut('Ctrl+a', (event) => {
   console.log('Ctrl+A pressed!');
   event.preventDefault();
 });
 
-// Clean up when done
+// 使用完毕后清理。 / Clean up when finished.
 dispose();
 ```
 
-### With Options
+### 使用选项 / With Options
 
 ```typescript
 import { ShortcutRegistry } from '@rocketc/shortcuts';
 
 const registry = new ShortcutRegistry({
-  strict: false, // Enable loose mode (default: false)
-  debug: true, // Enable debug logging
+  strict: false, // 启用宽松模式，默认 false。 / Enable loose mode; default: false.
+  debug: true, // 启用调试日志。 / Enable debug logging.
   filter: (event) => {
-    // Custom filter logic
+    // 自定义过滤逻辑。 / Custom filter logic.
     return !event.repeat;
   },
   alias: {
@@ -247,9 +185,9 @@ registry.registerShortcut('Save+s', () => {
 });
 ```
 
-## Examples
+## 示例 / Examples
 
-### 1. Register Single Key Shortcut
+### 1. 注册单键快捷键 / Register a Single-key Shortcut
 
 ```typescript
 import { ShortcutRegistry } from '@rocketc/shortcuts';
@@ -263,7 +201,7 @@ registry.registerShortcut('a', (event) => {
 });
 ```
 
-### 2. Register Shortcut with Modifiers
+### 2. 注册带修饰键的快捷键 / Register a Shortcut with Modifiers
 
 ```typescript
 import { ShortcutRegistry } from '@rocketc/shortcuts';
@@ -277,7 +215,7 @@ registry.registerShortcut('Ctrl+Shift+a', (event) => {
 });
 ```
 
-### 3. Dynamic Enable/Disable
+### 3. 动态启用或禁用 / Dynamic Enable or Disable
 
 ```typescript
 import { ShortcutRegistry } from '@rocketc/shortcuts';
@@ -285,19 +223,19 @@ import { ShortcutRegistry } from '@rocketc/shortcuts';
 const registry = new ShortcutRegistry();
 registry.attachElement(window);
 
-// Register shortcut
+// 注册快捷键。 / Register the shortcut.
 registry.registerShortcut('Ctrl+a', () => {
   console.log('Ctrl+A pressed');
 });
 
-// Disable it
+// 禁用快捷键。 / Disable it.
 registry.disableShortcut('Ctrl+a');
 
-// Enable it again
+// 再次启用快捷键。 / Enable it again.
 registry.enableShortcut('Ctrl+a');
 ```
 
-### 4. Multiple Callbacks for Same Shortcut
+### 4. 为同一快捷键注册多个回调 / Multiple Callbacks for the Same Shortcut
 
 ```typescript
 import { ShortcutRegistry } from '@rocketc/shortcuts';
@@ -308,18 +246,18 @@ registry.attachElement(window);
 const handler1 = () => console.log('Handler 1');
 const handler2 = () => console.log('Handler 2');
 
-// Register multiple handlers
+// 注册多个处理器。 / Register multiple handlers.
 registry.registerShortcut('Ctrl+a', handler1);
 registry.registerShortcut('Ctrl+a', handler2);
 
-// Disable only handler1
+// 仅禁用 handler1。 / Disable only handler1.
 registry.disableShortcut('Ctrl+a', handler1);
 
-// Unregister only handler1
+// 仅注销 handler1。 / Unregister only handler1.
 registry.unregisterShortcut('Ctrl+a', handler1);
 ```
 
-### 5. Scoped Shortcuts (Attach to Specific Element)
+### 5. 作用域快捷键 / Scoped Shortcuts
 
 ```typescript
 import { ShortcutRegistry } from '@rocketc/shortcuts';
@@ -327,19 +265,19 @@ import { ShortcutRegistry } from '@rocketc/shortcuts';
 const registry = new ShortcutRegistry();
 const element = document.getElementById('my-element');
 
-// Attach to specific element
+// 绑定到指定元素。 / Attach to a specific element.
 const dispose = registry.attachElement(element);
 
-// Register shortcut (only works when element is focused)
+// 仅当元素获得焦点时生效。 / This works only while the element is focused.
 registry.registerShortcut('Ctrl+a', () => {
   console.log('Ctrl+A pressed in element');
 });
 
-// Clean up
+// 清理。 / Clean up.
 dispose();
 ```
 
-### 6. Event Listeners
+### 6. 事件监听器 / Event Listeners
 
 ```typescript
 import { ShortcutRegistry } from '@rocketc/shortcuts';
@@ -347,25 +285,25 @@ import { ShortcutRegistry } from '@rocketc/shortcuts';
 const registry = new ShortcutRegistry();
 registry.attachElement(window);
 
-// Listen to key state changes (triggered on both keydown and keyup)
+// 监听 keydown 和 keyup 触发的按键状态变化。 / Listen for key state changes from keydown and keyup.
 const disposeListener = registry.onKeyPressedChanged((event) => {
-  // event.detail indicates the event type: 'keydown' or 'keyup'
-  console.log('Key state changed:', event.detail); // 'keydown' or 'keyup'
+  // event.detail 表示 'keydown' 或 'keyup'。 / event.detail is 'keydown' or 'keyup'.
+  console.log('Key state changed:', event.detail);
 
-  // Get current pressed keys when state changes
+  // 状态变化时获取当前按键。 / Get the currently pressed keys when state changes.
   const currentKeys = registry.getCurrentKeyPressed();
   console.log('Current keys:', currentKeys);
 });
 
-// Get current pressed keys
+// 获取当前按键。 / Get the currently pressed keys.
 const currentKeys = registry.getCurrentKeyPressed();
 console.log('Current keys:', currentKeys);
 
-// Clean up
+// 清理。 / Clean up.
 disposeListener();
 ```
 
-### 6.1. Clear State
+### 6.1. 清除状态 / Clear State
 
 ```typescript
 import { ShortcutRegistry } from '@rocketc/shortcuts';
@@ -373,24 +311,24 @@ import { ShortcutRegistry } from '@rocketc/shortcuts';
 const registry = new ShortcutRegistry();
 registry.attachElement(window);
 
-// Press some keys
+// 按下若干按键。 / Press some keys.
 dispatchEvent('keydown', 'ControlLeft');
 dispatchEvent('keydown', 'KeyA');
 console.log(registry.getCurrentKeyPressed()); // 'ControlLeft+A'
 
-// Clear the pressed keys state
+// 清除已按下按键的状态。 / Clear the pressed-key state.
 registry.clear();
 console.log(registry.getCurrentKeyPressed()); // ''
 ```
 
-### 7. Custom Filter
+### 7. 自定义过滤器 / Custom Filter
 
 ```typescript
 import { ShortcutRegistry } from '@rocketc/shortcuts';
 
 const registry = new ShortcutRegistry({
   filter: (event) => {
-    // Only handle events from non-input elements
+    // 仅处理非输入元素产生的事件。 / Handle only events from non-input elements.
     if (event.target instanceof HTMLElement) {
       return !['INPUT', 'TEXTAREA', 'SELECT'].includes(event.target.tagName);
     }
@@ -404,7 +342,7 @@ registry.registerShortcut('Ctrl+a', () => {
 });
 ```
 
-### 8. Custom Aliases
+### 8. 自定义别名 / Custom Aliases
 
 ```typescript
 import { ShortcutRegistry } from '@rocketc/shortcuts';
@@ -418,7 +356,7 @@ const registry = new ShortcutRegistry({
 
 registry.attachElement(window);
 
-// Use custom alias
+// 使用自定义别名。 / Use a custom alias.
 registry.registerShortcut('Save+s', () => {
   console.log('Save shortcut');
 });
@@ -428,142 +366,170 @@ registry.registerShortcut('Quit+q', () => {
 });
 ```
 
-### 9. Loose Mode
+### 9. 宽松模式 / Loose Mode
 
 ```typescript
 import { ShortcutRegistry } from '@rocketc/shortcuts';
 
 const registry = new ShortcutRegistry({
-  strict: false, // Enable loose mode
+  strict: false, // 启用宽松模式。 / Enable loose mode.
 });
 
 registry.attachElement(window);
 
-// In loose mode, getCurrentKeyPressed returns normalized keys
+// 宽松模式下，getCurrentKeyPressed 返回标准化后的按键。 / In loose mode, getCurrentKeyPressed returns normalized keys.
 registry.onKeyPressedChanged(() => {
-  // If ControlLeft+A is pressed, returns 'Ctrl+a' instead of 'ControlLeft+A'
+  // 按下 ControlLeft+A 时返回 Ctrl+a。 / ControlLeft+A returns Ctrl+a.
   console.log(registry.getCurrentKeyPressed()); // 'Ctrl+a'
 });
 ```
 
-### 10. Using Accelerator Parser
+### 10. 使用快捷键解析器 / Using the Accelerator Parser
 
 ```typescript
 import { acceleratorParser } from '@rocketc/shortcuts';
 
-// Validate accelerator string
+// 校验快捷键字符串。 / Validate an accelerator string.
 const isValid = acceleratorParser.validate('Ctrl+a');
 console.log(isValid); // true
 
-// Convert to loose mode
+// 转换为宽松模式。 / Convert to loose mode.
 const loose = acceleratorParser.convertAcceleratorToLooseMode('ControlLeft+a');
 console.log(loose); // 'Ctrl+a'
 
-// Parse accelerator
+// 解析快捷键字符串。 / Parse an accelerator string.
 const parsed = acceleratorParser.parse('Ctrl+Shift+a');
 console.log(parsed); // ['Ctrl', 'Shift', 'a']
 
-// Check if key code name is supported
+// 检查按键代码名称是否受支持。 / Check whether a key code name is supported.
 const isSupported = acceleratorParser.isKeyCodeNameSupported('Ctrl');
 console.log(isSupported); // true
 
-// Check if accelerators match
+// 检查两个快捷键字符串是否匹配。 / Check whether two accelerators match.
 const isMatched = acceleratorParser.isAcceleratorMatched('Ctrl+a', 'ControlLeft+KeyA');
 console.log(isMatched); // true
 
-// Get default separator
+// 获取默认分隔符。 / Get the default separator.
 const separator = acceleratorParser.defaultSeparator;
 console.log(separator); // '+'
 ```
 
-## API Reference
+## API 参考 / API Reference
 
 ### `ShortcutRegistry`
 
-Main class for managing keyboard shortcuts.
+用于管理键盘快捷键的主类。
 
-#### Constructor
+The main class for managing keyboard shortcuts.
+
+#### 构造函数 / Constructor
 
 ```typescript
 new ShortcutRegistry(options?: ShortcutRegisterOptions)
 ```
 
-**Options:**
+**选项 / Options：**
 
 ```typescript
 interface ShortcutRegisterOptions {
-  separator?: string; // Default: '+'
-  strict?: boolean; // Default: false (loose mode by default)
-  debug?: boolean | ((...args: any[]) => void); // Default: false
-  filter?: Filter; // Custom event filter
-  alias?: Record<string, string>; // Custom key aliases
+  separator?: string; // 默认：'+'。 / Default: '+'.
+  strict?: boolean; // 默认：false（宽松模式）。 / Default: false (loose mode).
+  debug?: boolean | ((...args: any[]) => void); // 默认：false。 / Default: false.
+  filter?: Filter; // 自定义事件过滤器。 / Custom event filter.
+  alias?: Record<string, string>; // 自定义按键别名。 / Custom key aliases.
 }
 ```
 
-#### Methods
+#### 方法 / Methods
 
 ##### `attachElement(ele: Window | HTMLElement): Dispose`
 
-Attach keyboard event listeners to the specified element. Returns a dispose function to detach listeners.
+将键盘事件监听器绑定到指定元素，并返回用于解绑监听器的清理函数。
 
-**Reference Counting:**
+Attaches keyboard event listeners to the specified element and returns a dispose function that detaches them.
 
-- If the same element is attached multiple times, the library uses reference counting to track the number of attachments.
-- Each call to `attachElement` on the same element returns a **different** dispose function to avoid interference between different parts of your code.
-- Each dispose function can only be called once (subsequent calls are no-ops).
-- The dispose functions must be called the same number of times as `attachElement` was called to fully detach the listeners.
-- This design allows multiple parts of your code to attach to the same element independently, and each part can safely dispose its own reference without affecting others.
+**引用计数 / Reference Counting：**
 
-**Note:**
+- 同一元素被多次绑定时，库会通过引用计数跟踪绑定次数。<br>
+  When the same element is attached multiple times, the library tracks the number of attachments through reference counting.
+- 对同一元素的每次 `attachElement` 调用都会返回**不同的**清理函数，避免不同代码区域相互干扰。<br>
+  Each `attachElement` call for the same element returns a **different** dispose function to avoid interference between different parts of the code.
+- 每个清理函数只能生效一次，后续调用不会执行任何操作。<br>
+  Each dispose function takes effect only once; subsequent calls are no-ops.
+- 清理函数的调用次数必须与 `attachElement` 的调用次数相同，才能彻底移除监听器。<br>
+  Dispose functions must be called as many times as `attachElement` was called to fully detach the listeners.
+- 因此，多个代码区域可以独立绑定同一元素，并安全地清理各自的引用，而不影响其他区域。<br>
+  This allows multiple parts of the code to attach the same element independently and safely dispose their own references without affecting others.
 
-- Automatically attaches a global `window` blur event listener to clear the internal state when the window loses focus. This listener is attached only once when the first element is attached, and removed when the last element is disposed.
-- All listeners (keydown, keyup, and window blur) are properly cleaned up when all dispose functions have been called (reference count reaches zero).
+**注意 / Note：**
+
+- 首次绑定元素时会自动添加全局 `window` blur 监听器，以便窗口失焦时清除内部状态；最后一个元素解绑后会移除此监听器。<br>
+  A global `window` blur listener is added when the first element is attached to clear internal state when the window loses focus; it is removed after the last element is disposed.
+- 当所有清理函数都已调用且引用计数归零时，所有 `keydown`、`keyup` 和 window blur 监听器都会被正确清理。<br>
+  All `keydown`, `keyup`, and window blur listeners are cleaned up when every dispose function has been called and the reference count reaches zero.
 
 ##### `registerShortcut(accelerator: Accelerator, callback: KeyboardEventListener): boolean`
 
-Register a shortcut handler. Returns `false` if the shortcut is invalid.
+注册快捷键处理器。快捷键无效时返回 `false`。
+
+Registers a shortcut handler. Returns `false` when the shortcut is invalid.
 
 ##### `unregisterShortcut(accelerator: Accelerator, cb?: KeyboardEventListener): boolean`
 
-Unregister a shortcut handler. If `cb` is provided, only unregister the specific callback. Returns `false` if the shortcut is not registered.
+注销快捷键处理器。提供 `cb` 时仅注销指定回调；快捷键未注册时返回 `false`。
+
+Unregisters a shortcut handler. When `cb` is provided, only that callback is unregistered. Returns `false` when the shortcut is not registered.
 
 ##### `enableShortcut(accelerator: Accelerator, cb?: KeyboardEventListener): boolean`
 
-Enable a shortcut. If `cb` is provided, only enable the specific callback. Returns `false` if the shortcut is not registered.
+启用快捷键。提供 `cb` 时仅启用指定回调；快捷键未注册时返回 `false`。
+
+Enables a shortcut. When `cb` is provided, only that callback is enabled. Returns `false` when the shortcut is not registered.
 
 ##### `disableShortcut(accelerator: Accelerator, cb?: KeyboardEventListener): boolean`
 
-Disable a shortcut. If `cb` is provided, only disable the specific callback. Returns `false` if the shortcut is not registered.
+禁用快捷键。提供 `cb` 时仅禁用指定回调；快捷键未注册时返回 `false`。
+
+Disables a shortcut. When `cb` is provided, only that callback is disabled. Returns `false` when the shortcut is not registered.
 
 ##### `isShortcutRegistered(accelerator: Accelerator): boolean`
 
-Check if a shortcut is registered.
+检查快捷键是否已注册。
+
+Checks whether a shortcut is registered.
 
 ##### `getCurrentKeyPressed(): Accelerator`
 
-Get the current pressed keys as an accelerator string.
+以快捷键字符串形式获取当前按下的按键。
 
-**Note:**
+Returns the currently pressed keys as an accelerator string.
 
-- Returns an empty string (`''`) when no keys are currently pressed (no modifiers and no normal key).
-- The internal state (`modifiersPressed` and `normalKeyPressed`) is automatically cleared when the window loses focus (via a global `window` blur event listener attached by `attachElement`). If you need to manually clear the state, you can call `clear()`.
+**注意 / Note：**
+
+- 当前未按下修饰键或普通键时返回空字符串（`''`）。<br>
+  Returns an empty string (`''`) when no modifier or normal key is currently pressed.
+- 窗口失焦时，内部状态（`modifiersPressed` 和 `normalKeyPressed`）会由 `attachElement` 添加的全局 blur 监听器自动清除；也可以调用 `clear()` 手动清除。<br>
+  Internal state (`modifiersPressed` and `normalKeyPressed`) is cleared automatically by the global blur listener added by `attachElement` when the window loses focus; call `clear()` to clear it manually.
 
 ##### `onKeyPressedChanged(cb: (event: CustomEvent<'keydown' | 'keyup'>) => void): Dispose`
 
-Register a listener for key state changes. This listener is triggered whenever the pressed keys state changes, which occurs on both `keydown` and `keyup` events (after filtering). Returns a dispose function.
+注册按键状态变化监听器。过滤后的 `keydown` 和 `keyup` 事件导致状态变化时会触发监听器。此方法返回一个清理函数。
 
-**Event Details:**
+Registers a key-state change listener. It runs when filtered `keydown` or `keyup` events change the state. The method returns a dispose function.
 
-- `event.detail`: Indicates the event type, either `'keydown'` or `'keyup'`
-- `event.type`: Always `'keyPressedChanged'`
+**事件详情 / Event Details：**
 
-**Note:**
+- `event.detail`：事件类型，为 `'keydown'` 或 `'keyup'`。 / The event type, either `'keydown'` or `'keyup'`.
+- `event.type`：始终为 `'keyPressedChanged'`。 / Always `'keyPressedChanged'`.
 
-- The listener is triggered when the internal state (`modifiersPressed` or `normalKeyPressed`) changes.
-- In `handleKeyup`, the internal state is updated before the filter check. This ensures that the state remains consistent even if the filter returns `false` for the event. However, the `keyPressedChanged` event only occurs if the filter returns `true`. This design ensures state consistency while respecting the filter configuration.
-- To get the current pressed keys when the state changes, call `getCurrentKeyPressed()` inside the listener callback.
+**注意 / Note：**
 
-**Example:**
+- 内部 `modifiersPressed` 或 `normalKeyPressed` 状态变化时会触发监听器。<br>
+  The listener runs when the internal `modifiersPressed` or `normalKeyPressed` state changes.
+- `handleKeyup` 会先更新内部状态，再检查过滤器。即使过滤器返回 `false`，状态也能保持一致；但仅在过滤器返回 `true` 时触发 `keyPressedChanged`。<br>
+  `handleKeyup` updates internal state before checking the filter. State therefore remains consistent even when the filter returns `false`, while `keyPressedChanged` is emitted only when the filter returns `true`.
+- 如需在状态变化时获取当前按键，请在监听器回调中调用 `getCurrentKeyPressed()`。<br>
+  To read the current keys after a state change, call `getCurrentKeyPressed()` inside the listener.
 
 ```typescript
 registry.onKeyPressedChanged((event) => {
@@ -579,105 +545,119 @@ registry.onKeyPressedChanged((event) => {
 
 ##### `getOptions(): ShortcutRegisterOptions`
 
-Get current options.
+获取当前选项。 / Returns the current options.
 
 ##### `setOptions(options: ShortcutRegisterOptions): void`
 
-Update options. **Note**: This replaces all options, not merges them.
+更新选项。**注意**：此方法会替换全部选项，而不是合并选项。
+
+Updates the options. **Note**: This method replaces all options instead of merging them.
 
 ##### `getShortcutRegisters(accelerator?: Accelerator): Array<ShortcutRegister>`
 
-Get all registered shortcuts, or shortcuts for a specific accelerator.
+获取全部已注册快捷键，或指定快捷键字符串对应的注册项。
+
+Returns all registered shortcuts or the registrations for a specific accelerator.
 
 ##### `clear(): void`
 
-Clear the current pressed keys state (modifiers and normal keys). This is useful for resetting the state when needed.
+清除当前按下按键的状态，包括修饰键和普通键。窗口失焦时库会自动执行同样的清理；也可以在其他时机手动调用 `clear()`。
 
-**Note:** The library automatically clears the state when the window loses focus (via a global `window` blur event listener attached by `attachElement`). You can also manually call `clear()` if you need to reset the state at other times.
-
-**Example:**
+Clears the current pressed-key state, including modifier and normal keys. The library does this automatically when the window loses focus; call `clear()` manually at other times when needed.
 
 ```typescript
 const registry = new ShortcutRegistry();
 registry.attachElement(window);
 
-// Press some keys
+// 按下若干按键。 / Press some keys.
 dispatchEvent('keydown', 'ControlLeft');
 dispatchEvent('keydown', 'KeyA');
 console.log(registry.getCurrentKeyPressed()); // 'ControlLeft+A'
 
-// Clear the state
+// 清除状态。 / Clear the state.
 registry.clear();
 console.log(registry.getCurrentKeyPressed()); // ''
 ```
 
 ### `acceleratorParser`
 
-Utility object for parsing and validating accelerator strings.
+用于解析和校验快捷键字符串的工具对象。
 
-#### Methods
+A utility object for parsing and validating accelerator strings.
+
+#### 方法 / Methods
 
 ##### `parse(accelerator: Accelerator, options?): Array<KeyCodeName>`
 
-Parse an accelerator string into an array of key code names.
+将快捷键字符串解析为按键代码名称数组。
 
-**Options:**
+Parses an accelerator string into an array of key code names.
+
+**选项 / Options：**
 
 ```typescript
 {
-  separator?: string; // Default: '+'
-  alias?: Record<string, string>; // Custom key aliases
+  separator?: string; // 默认：'+'。 / Default: '+'.
+  alias?: Record<string, string>; // 自定义按键别名。 / Custom key aliases.
 }
 ```
 
 ##### `validate(accelerator: Accelerator, options?): boolean`
 
-Validate if an accelerator string is valid. Returns `true` if valid, `false` otherwise.
+校验快捷键字符串是否合法；合法时返回 `true`，否则返回 `false`。
 
-**Options:**
+Validates an accelerator string. Returns `true` when valid and `false` otherwise.
+
+**选项 / Options：**
 
 ```typescript
 {
-  separator?: string; // Default: '+'
-  alias?: Record<string, string>; // Custom key aliases
+  separator?: string; // 默认：'+'。 / Default: '+'.
+  alias?: Record<string, string>; // 自定义按键别名。 / Custom key aliases.
 }
 ```
 
 ##### `convertAcceleratorToLooseMode(accelerator: Accelerator, options?): Accelerator`
 
-Convert an accelerator to loose mode format. In loose mode, modifier keys are normalized (e.g., `ControlLeft` and `ControlRight` both become `Ctrl`).
+将快捷键转换为宽松模式格式。宽松模式会标准化修饰键，例如 `ControlLeft` 和 `ControlRight` 都会转换为 `Ctrl`。
 
-**Options:**
+Converts an accelerator to loose-mode format. Loose mode normalizes modifier keys; for example, both `ControlLeft` and `ControlRight` become `Ctrl`.
+
+**选项 / Options：**
 
 ```typescript
 {
-  separator?: string; // Default: '+'
-  alias?: Record<string, string>; // Custom key aliases
+  separator?: string; // 默认：'+'。 / Default: '+'.
+  alias?: Record<string, string>; // 自定义按键别名。 / Custom key aliases.
 }
 ```
 
 ##### `isKeyCodeNameSupported(keyCodeName: string): boolean`
 
-Check if a key code name is valid.
+检查按键代码名称是否合法。 / Checks whether a key code name is valid.
 
 ##### `isAcceleratorMatched(source: Accelerator, target: Accelerator, options?): boolean`
 
-Check if two accelerators match each other.
+检查两个快捷键字符串是否相互匹配。
 
-**Options:**
+Checks whether two accelerators match each other.
+
+**选项 / Options：**
 
 ```typescript
 {
-  separator?: string; // Default: '+'
-  alias?: Record<string, string>; // Custom key aliases
+  separator?: string; // 默认：'+'。 / Default: '+'.
+  alias?: Record<string, string>; // 自定义按键别名。 / Custom key aliases.
 }
 ```
 
 ##### `defaultSeparator: string`
 
-The default separator used for accelerator strings (default: `'+'`).
+快捷键字符串使用的默认分隔符，默认值为 `'+'`。
 
-### Types
+The default separator used for accelerator strings. Its default value is `'+'`.
+
+### 类型 / Types
 
 ```typescript
 type Accelerator = string;
@@ -693,46 +673,53 @@ interface ShortcutRegister {
 }
 ```
 
-**Note:** `KeyCodeName` is exported from the package and can be imported directly:
+**注意**：`KeyCodeName` 已从包中导出，可以直接导入。
+
+**Note**: `KeyCodeName` is exported from the package and can be imported directly.
 
 ```typescript
 import type { KeyCodeName } from '@rocketc/shortcuts';
 ```
 
-## Behavior Notes
+## 行为说明 / Behavior Notes
 
-### State Management
+### 状态管理 / State Management
 
-- **Window Focus:** The internal state (`modifiersPressed` and `normalKeyPressed`) is automatically cleared when the window loses focus. This is handled by a global `window` blur event listener that is automatically attached when you call `attachElement()` for the first time, and removed when the last element is disposed. You don't need to manually handle this unless you're not using `attachElement()`.
+- **窗口焦点**：窗口失焦时，内部状态（`modifiersPressed` 和 `normalKeyPressed`）会自动清除。首次调用 `attachElement()` 时添加全局 `window` blur 监听器，最后一个元素解绑后移除。使用 `attachElement()` 时无需手动处理。<br>
+  **Window Focus**: Internal state (`modifiersPressed` and `normalKeyPressed`) is cleared automatically when the window loses focus. A global `window` blur listener is added on the first `attachElement()` call and removed after the last element is disposed. No manual handling is needed when using `attachElement()`.
+- **按键状态变化事件**：过滤后的 `keydown` 和 `keyup` 事件导致按键状态变化时，会触发 `onKeyPressedChanged` 监听器。`handleKeyup` 在检查过滤器前更新内部状态，因此即使过滤器返回 `false`，状态仍保持一致；只有过滤器返回 `true` 时才触发 `keyPressedChanged`。<br>
+  **Key State Change Events**: The `onKeyPressedChanged` listener runs when filtered `keydown` or `keyup` events change the key state. `handleKeyup` updates internal state before checking the filter, so state remains consistent even when the filter returns `false`; `keyPressedChanged` is emitted only when the filter returns `true`.
+- **空状态**：没有按键被按下时，`getCurrentKeyPressed()` 返回空字符串（`''`），表示当前没有跟踪任何按键。<br>
+  **Empty State**: When no key is pressed, `getCurrentKeyPressed()` returns an empty string (`''`), indicating that no key is currently tracked.
+- **快速按键**：快速按下多个普通键时，`normalKeyPressed` 会被最新按键覆盖，因为同一时间只跟踪一个普通键。如果较早按键的 `keyup` 在其状态被覆盖后到达，由于它不再匹配当前状态，不会清除当前状态。这符合实际键盘状态。<br>
+  **Rapid Key Presses**: When multiple normal keys are pressed rapidly, `normalKeyPressed` is overwritten by the latest key because only one normal key is tracked at a time. If an earlier key's `keyup` arrives after its state was overwritten, it does not clear the current state because it no longer matches. This reflects the actual keyboard state.
 
-- **Key State Change Events:** The `onKeyPressedChanged` listener is triggered whenever the pressed keys state changes, which occurs on both `keydown` and `keyup` events (after filtering). In `handleKeyup`, the internal state is updated before the filter check. This ensures that the state remains consistent even if the filter returns `false` for the event. However, the `keyPressedChanged` event only occurs if the filter returns `true`. This design ensures state consistency while respecting the filter configuration.
+## 快捷键匹配规则 / Shortcut Match Rules
 
-- **Empty State:** When no keys are pressed, `getCurrentKeyPressed()` returns an empty string (`''`). This is the expected behavior and indicates that no keys are currently being tracked.
+| 操作 / Actions                                                                                                                    | 快捷键 / Accelerator         | 匹配 / Matched |
+| --------------------------------------------------------------------------------------------------------------------------------- | ---------------------------- | -------------- |
+| 按下 `ControlLeft`，按下 `AltLeft`，释放 `AltLeft`，按下 `A` / press `ControlLeft`, press `AltLeft`, release `AltLeft`, press `A` | `Control+a`                  | 是 / Yes       |
+| 按下 `ControlLeft`，按下 `AltLeft`，按下 `A` / press `ControlLeft`, press `AltLeft`, press `A`                                    | `Control+a`                  | 否 / No        |
+| 按下 `ControlRight`，按下 `A` / press `ControlRight`, press `A`                                                                   | `Control+a`                  | 是 / Yes       |
+| 按下 `ControlRight`，按下 `B`，释放 `B`，按下 `A` / press `ControlRight`, press `B`, release `B`, press `A`                       | `Control+a`                  | 是 / Yes       |
+| 按下 `ControlLeft`，按下 `A` / press `ControlLeft`, press `A`                                                                     | `Control+a`                  | 是 / Yes       |
+| 按下 `MetaLeft`，按下 `A` / press `MetaLeft`, press `A`                                                                           | `Command+a` 或 / or `Meta+a` | 是 / Yes       |
 
-- **Rapid Key Presses:** When multiple normal keys are pressed rapidly, the `normalKeyPressed` state will be overwritten by the latest key. This is the normal behavior for keyboard events, as only one normal key can be pressed at a time. If a previous key's `keyup` event arrives after it has been overwritten, the state will not be cleared for that key (since it no longer matches the current state). This is expected behavior and reflects the actual keyboard state.
-
-## Shortcut Match Rules
-
-| **Actions**                                                    | **Accelerator**         | **Matched** |
-| :------------------------------------------------------------- | ----------------------- | ----------- |
-| press`ControlLeft` press `AltLeft` release `AltLeft` press `A` | `Control+a`             | ✅          |
-| press`ControlLeft` press `AltLeft` press `A`                   | `Control+a`             | ❌          |
-| press`ControlRight` press `A`                                  | `Control+a`             | ✅          |
-| press`ControlRight` press `B` release `B` press `A`            | `Control+a`             | ✅          |
-| press`ControlLeft` press `A`                                   | `Control+a`             | ✅          |
-| press`MetaLeft` press `A`                                      | `Command+a` or `Meta+a` | ✅          |
-
-## Browser Compatibility
+## 浏览器兼容性 / Browser Compatibility
 
 - Chrome ≥ 48
 - Firefox ≥ 38
 - Safari ≥ 10.1
 - Edge ≥ 79
 
-## React Integration
+## React 集成 / React Integration
 
-For React applications, use [`@rocketc/react-use-shortcuts`](../react-use-shortcuts/README.md) which provides React hooks and context providers built on top of this library.
+React 应用请使用 [`@rocketc/react-use-shortcuts`](../react-use-shortcuts/README.md)，它在此库之上提供 React Hook 和 Context Provider。
 
-## License
+For React applications, use [`@rocketc/react-use-shortcuts`](../react-use-shortcuts/README.md), which provides React hooks and context providers built on this library.
+
+## 许可证 / License
+
+基于 MIT 许可证分发，详情请参阅 `LICENSE`。
 
 Distributed under the MIT License. See `LICENSE` for more information.

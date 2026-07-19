@@ -1,18 +1,21 @@
-<!-- data/stat — trends — usage snippet for @rocketc/web-components -->
-<div class="rds-demo">
-<rds-stat trend="up">
-    <span slot="label">Coverage</span>
+<!--
+title: 趋势 / Trends
+description: 对比统计数据展示的正向、负向和中性趋势。 / Compares positive, negative, and neutral trends displayed by stat.
+-->
+<div class="rc-demo">
+  <rc-stat trend="up">
+    <span slot="label">覆盖率 / Coverage</span>
     <span slot="value">92%</span>
     <span slot="trend">+4%</span>
-  </rds-stat>
-  <rds-stat trend="down">
-    <span slot="label">Bundle</span>
+  </rc-stat>
+  <rc-stat trend="down">
+    <span slot="label">包体积 / Bundle</span>
     <span slot="value">184kb</span>
     <span slot="trend">-3%</span>
-  </rds-stat>
-  <rds-stat trend="neutral">
-    <span slot="label">Open issues</span>
+  </rc-stat>
+  <rc-stat trend="neutral">
+    <span slot="label">未解决问题 / Open issues</span>
     <span slot="value">12</span>
     <span slot="trend">0</span>
-  </rds-stat>
+  </rc-stat>
 </div>

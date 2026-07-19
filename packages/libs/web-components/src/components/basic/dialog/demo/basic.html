@@ -1,14 +1,23 @@
-<!-- basic/dialog — basic — usage snippet for @rocketc/web-components -->
-<div class="rds-demo">
-<rds-button size="sm" variant="outline" onclick="document.getElementById('demo-dialog').showModal()">
-    Open dialog
-  </rds-button>
-  <rds-dialog id="demo-dialog">
-    <span slot="title">Confirm deploy</span>
-    Publish the current token build to the selected target?
+<!--
+title: 基础 / Basic
+description: 展示使用默认配置的实用对话框示例。 / Shows a practical dialog example with its default configuration.
+-->
+<div class="rc-demo">
+  <rc-button
+    size="sm"
+    variant="outline"
+    onclick="document.getElementById('demo-dialog').showModal()"
+  >
+    打开对话框 / Open dialog
+  </rc-button>
+  <rc-dialog id="demo-dialog">
+    <span slot="title">确认部署 / Confirm deploy</span>
+    将当前令牌构建发布到所选目标吗？ / Publish the current token build to the selected target?
     <div slot="footer">
-      <rds-button size="sm" variant="outline" onclick="this.closest('rds-dialog').close()">Cancel</rds-button>
-      <rds-button size="sm" onclick="this.closest('rds-dialog').close()">Confirm</rds-button>
+      <rc-button size="sm" variant="outline" onclick="this.closest('rc-dialog').close()"
+        >取消 / Cancel</rc-button
+      >
+      <rc-button size="sm" onclick="this.closest('rc-dialog').close()">确认 / Confirm</rc-button>
     </div>
-  </rds-dialog>
+  </rc-dialog>
 </div>

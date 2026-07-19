@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ComponentView from '../../components/ComponentView.astro';
+import { bilingualComponent } from '../../lib/bilingual';
 import { components, getComponent } from '../../lib/catalog';
 
 export function getStaticPaths() {
@@ -21,8 +22,8 @@ if (!page) {
 ---
 
 <BaseLayout
-  title={page.component}
-  description={`Preview and API for ${page.category}/${page.component}.`}
+  title={bilingualComponent(page.component)}
+  description={`${page.category}/${page.component} 的预览和 API。 / Preview and API for ${page.category}/${page.component}.`}
   activeHref={page.href}
 >
   <ComponentView page={page} />

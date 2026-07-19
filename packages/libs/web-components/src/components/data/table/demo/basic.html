@@ -1,15 +1,27 @@
-<!-- data/table — basic — usage snippet for @rocketc/web-components -->
-<div class="rds-demo">
-<rds-table>
-    <span slot="caption">Recent builds</span>
+<!--
+title: 基础 / Basic
+description: 展示使用默认配置的实用表格示例。 / Shows a practical table example with its default configuration.
+-->
+<div class="rc-demo">
+  <rc-table>
+    <span slot="caption">最近构建 / Recent builds</span>
     <table>
       <thead>
-        <tr><th>Name</th><th>Status</th></tr>
+        <tr>
+          <th>名称 / Name</th>
+          <th>状态 / Status</th>
+        </tr>
       </thead>
       <tbody>
-        <tr><td>default.light</td><td>ok</td></tr>
-        <tr><td>sun.dark</td><td>ok</td></tr>
+        <tr>
+          <td>default.light</td>
+          <td>正常 / ok</td>
+        </tr>
+        <tr>
+          <td>sun.dark</td>
+          <td>正常 / ok</td>
+        </tr>
       </tbody>
     </table>
-  </rds-table>
+  </rc-table>
 </div>

@@ -1,17 +1,16 @@
-import { LitElement, css, html } from 'lit';
+import { css, html } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { hostStyles } from '../../../internal/shared-styles';
+import { RcStyledElement } from '../../../internal/styled-element';
 
 /**
- * Tab trigger used inside `rds-tabs`.
+ * Tab trigger used inside `rc-tabs`.
  *
- * @element rds-tab
+ * @element rc-tab
  * @slot - Tab label
  */
-export class RdsTab extends LitElement {
+export class RcTab extends RcStyledElement {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: inline-flex;
@@ -22,34 +21,34 @@ export class RdsTab extends LitElement {
         border: 0;
         border-bottom: 2px solid transparent;
         background: transparent;
-        padding: var(--rds-space-2) var(--rds-space-3);
-        color: var(--rds-color-text-secondary);
+        padding: var(--rc-space-2) var(--rc-space-3);
+        color: var(--rc-color-text-secondary);
         font: inherit;
-        font-size: var(--rds-typography-label-font-size);
-        font-weight: var(--rds-typography-weight-medium);
+        font-size: var(--rc-typography-label-font-size);
+        font-weight: var(--rc-typography-weight-medium);
         cursor: pointer;
       }
       
       button:hover:not(:disabled) {
-        color: var(--rds-color-text-primary);
-        background: var(--rds-color-action-bg-hover);
+        color: var(--rc-color-text-primary);
+        background: var(--rc-color-action-bg-hover);
       }
       
       :host([selected]) button {
-        color: var(--rds-color-control-primary-fg, var(--rds-color-brand-fg));
-        border-bottom-color: var(--rds-color-control-primary-border);
+        color: var(--rc-color-control-primary-fg, var(--rc-color-brand-fg));
+        border-bottom-color: var(--rc-color-control-primary-border);
       }
       
       button:focus-visible {
         outline: none;
         box-shadow:
-          0 0 0 2px var(--rds-color-surface-panel),
-          0 0 0 4px var(--rds-color-border-focus);
+          0 0 0 2px var(--rc-color-surface-panel),
+          0 0 0 4px var(--rc-color-border-focus);
       }
       
       button:disabled {
         cursor: not-allowed;
-        opacity: var(--rds-opacity-disabled);
+        opacity: var(--rc-opacity-disabled);
       }
     `,
   ];
@@ -66,7 +65,7 @@ export class RdsTab extends LitElement {
   #onClick() {
     if (this.disabled) return;
     this.dispatchEvent(
-      new CustomEvent('rds-tab-select', {
+      new CustomEvent('rc-tab-select', {
         detail: { value: this.value },
         bubbles: true,
         composed: true,
@@ -76,7 +75,7 @@ export class RdsTab extends LitElement {
 
   override render() {
     return html`
-      <button
+      <button part="control"
         role="tab"
         type="button"
         ?disabled=${this.disabled}
@@ -92,6 +91,6 @@ export class RdsTab extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-tab': RdsTab;
+    'rc-tab': RcTab;
   }
 }

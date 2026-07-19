@@ -1,25 +1,25 @@
 import { LitElement, css, html } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { mixinDelegatesAria, type ARIAMixinStrict } from '../../../internal/delegate-aria';
-import { hostStyles } from '../../../internal/shared-styles';
-import type { RdsButtonSize } from './button';
+import { RcStyledElement } from '../../../internal/styled-element';
 
-const base = mixinDelegatesAria(LitElement);
+import { mixinDelegatesAria, type ARIAMixinStrict } from '../../../internal/mixin-delegates-aria';
+import type { RcButtonSize } from './button';
+
+const base = mixinDelegatesAria(RcStyledElement);
 
 /**
  * Dismiss / close control (×). Defaults `aria-label` to "Close".
  *
- * @element rds-close-button
+ * @element rc-close-button
  */
-export class RdsCloseButton extends base {
+export class RcCloseButton extends base {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     delegatesFocus: true,
   };
 
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: inline-flex;
@@ -32,54 +32,54 @@ export class RdsCloseButton extends base {
         justify-content: center;
         margin: 0;
         border: 0;
-        border-radius: var(--rds-radius-md);
+        border-radius: var(--rc-radius-md);
         background: transparent;
-        color: var(--rds-color-text-secondary);
+        color: var(--rc-color-text-secondary);
         font: inherit;
         line-height: 1;
         cursor: pointer;
       }
       
       :host([size='sm']) button {
-        width: var(--rds-space-7);
-        height: var(--rds-space-7);
+        width: var(--rc-space-7);
+        height: var(--rc-space-7);
         font-size: 1rem;
       }
       
       :host([size='md']) button,
       :host(:not([size])) button {
-        width: var(--rds-space-8);
-        height: var(--rds-space-8);
+        width: var(--rc-space-8);
+        height: var(--rc-space-8);
         font-size: 1.125rem;
       }
       
       :host([size='lg']) button {
-        width: var(--rds-space-9);
-        height: var(--rds-space-9);
+        width: var(--rc-space-9);
+        height: var(--rc-space-9);
         font-size: 1.25rem;
       }
       
       button:hover:not(:disabled) {
-        background: var(--rds-color-action-bg-hover);
-        color: var(--rds-color-text-primary);
+        background: var(--rc-color-action-bg-hover);
+        color: var(--rc-color-text-primary);
       }
       
       button:focus-visible {
         outline: none;
         box-shadow:
-          0 0 0 2px var(--rds-color-surface-panel),
-          0 0 0 4px var(--rds-color-border-focus);
+          0 0 0 2px var(--rc-color-surface-panel),
+          0 0 0 4px var(--rc-color-border-focus);
       }
       
       button:disabled {
         cursor: not-allowed;
-        opacity: var(--rds-opacity-disabled);
+        opacity: var(--rc-opacity-disabled);
       }
     `,
   ];
 
   @property({ type: String, reflect: true })
-  accessor size: RdsButtonSize = 'md';
+  accessor size: RcButtonSize = 'md';
 
   @property({ type: Boolean, reflect: true })
   accessor disabled: boolean = false;
@@ -87,8 +87,8 @@ export class RdsCloseButton extends base {
   override render() {
     const { ariaLabel } = this as ARIAMixinStrict;
     return html`
-      <button type="button" aria-label=${ariaLabel || 'Close'} ?disabled=${this.disabled}>
-        <span aria-hidden="true">×</span>
+      <button part="control" type="button" aria-label=${ariaLabel || 'Close'} ?disabled=${this.disabled}>
+        <span part="icon" aria-hidden="true">×</span>
       </button>
     `;
   }
@@ -96,6 +96,6 @@ export class RdsCloseButton extends base {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-close-button': RdsCloseButton;
+    'rc-close-button': RcCloseButton;
   }
 }

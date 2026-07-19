@@ -1,1 +1,1 @@
-export { RdsTooltip, type RdsTooltipPlacement } from './tooltip';
+export { RcTooltip, type RcTooltipPlacement } from './tooltip';

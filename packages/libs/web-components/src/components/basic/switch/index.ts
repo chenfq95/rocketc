@@ -1,1 +1,1 @@
-export { RdsSwitch } from './switch';
+export { RcSwitch } from './switch';

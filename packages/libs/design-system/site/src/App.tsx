@@ -31,7 +31,7 @@ const muiThemes: Record<DesignThemeName, ThemeOptions> = {
 };
 
 function useSegmentChange<T extends string>(
-  ref: RefObject<HTMLElementTagNameMap['rds-segment'] | null>,
+  ref: RefObject<HTMLElementTagNameMap['rc-segment'] | null>,
   onValue: (value: T) => void,
 ) {
   useEffect(() => {
@@ -52,9 +52,9 @@ export function App() {
   const [mode, setMode] = useState<ThemeMode>('light');
   const [family, setFamily] = useState<ThemeFamily>('default');
   const [activeTab, setActiveTab] = useState<PreviewTab>('design-system');
-  const darkSwitchRef = useRef<HTMLElementTagNameMap['rds-switch']>(null);
-  const familySegmentRef = useRef<HTMLElementTagNameMap['rds-segment']>(null);
-  const tabSegmentRef = useRef<HTMLElementTagNameMap['rds-segment']>(null);
+  const darkSwitchRef = useRef<HTMLElementTagNameMap['rc-switch']>(null);
+  const familySegmentRef = useRef<HTMLElementTagNameMap['rc-segment']>(null);
+  const tabSegmentRef = useRef<HTMLElementTagNameMap['rc-segment']>(null);
   const themeName: DesignThemeName = `${family}.${mode}`;
 
   useEffect(() => {
@@ -89,25 +89,25 @@ export function App() {
       <main className="shell">
         <header className="hero">
           <div>
-            <rds-typography class="eyebrow" variant="caption" as="p">
+            <rc-typography class="eyebrow" variant="caption" as="p">
               Rocketc Design System
-            </rds-typography>
-            <rds-typography class="hero-title" variant="display" as="h1">
+            </rc-typography>
+            <rc-typography class="hero-title" variant="display" as="h1">
               Personal Tool UI
-            </rds-typography>
-            <rds-typography class="lede" variant="body" color="secondary" as="p">
+            </rc-typography>
+            <rc-typography class="lede" variant="body" color="secondary" as="p">
               Neutral default chrome, optional orange brand focus, and dense hierarchy for tools,
               dashboards, and content surfaces—portable across frameworks.
-            </rds-typography>
+            </rc-typography>
           </div>
           <div className="hero-actions" aria-label="Theme controls">
-            <rds-segment ref={familySegmentRef} value={family} size="sm" aria-label="Theme family">
-              <rds-segment-item value="default">Default</rds-segment-item>
-              <rds-segment-item value="sun">Sun</rds-segment-item>
-            </rds-segment>
+            <rc-segment ref={familySegmentRef} value={family} size="sm" aria-label="Theme family">
+              <rc-segment-item value="default">Default</rc-segment-item>
+              <rc-segment-item value="sun">Sun</rc-segment-item>
+            </rc-segment>
             <div className="theme-switch">
-              <rds-label {...{ for: 'dark-mode' }}>Dark</rds-label>
-              <rds-switch
+              <rc-label {...{ for: 'dark-mode' }}>Dark</rc-label>
+              <rc-switch
                 id="dark-mode"
                 ref={darkSwitchRef}
                 checked={mode === 'dark' || undefined}
@@ -118,13 +118,13 @@ export function App() {
         </header>
 
         <nav className="tabs" aria-label="Preview sections">
-          <rds-segment ref={tabSegmentRef} value={activeTab} size="sm">
+          <rc-segment ref={tabSegmentRef} value={activeTab} size="sm">
             {tabs.map((tab) => (
-              <rds-segment-item key={tab.value} value={tab.value}>
+              <rc-segment-item key={tab.value} value={tab.value}>
                 {tab.label}
-              </rds-segment-item>
+              </rc-segment-item>
             ))}
-          </rds-segment>
+          </rc-segment>
         </nav>
 
         <section className={`tab-panel${activeTab === 'design-system' ? ' is-active' : ''}`}>

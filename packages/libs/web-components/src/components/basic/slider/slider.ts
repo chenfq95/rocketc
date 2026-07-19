@@ -1,33 +1,33 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { mixinDelegatesAria, type ARIAMixinStrict } from '../../../internal/delegate-aria';
-import { mixinElementInternals } from '../../../internal/element-internals';
+import { RcStyledElement } from '../../../internal/styled-element';
+
+import { mixinDelegatesAria, type ARIAMixinStrict } from '../../../internal/mixin-delegates-aria';
+import { mixinElementInternals } from '../../../internal/mixin-element-internals';
 import {
   getFormValue,
   mixinFormAssociated,
   type FormRestoreReason,
   type FormRestoreState,
-} from '../../../internal/form-associated';
-import { hostStyles } from '../../../internal/shared-styles';
+} from '../../../internal/mixin-form-associated';
 
-const sliderBase = mixinDelegatesAria(mixinFormAssociated(mixinElementInternals(LitElement)));
+const sliderBase = mixinDelegatesAria(mixinFormAssociated(mixinElementInternals(RcStyledElement)));
 
 /**
  * Range slider (`<input type="range">`).
  *
- * @element rds-slider
+ * @element rc-slider
  * @fires input - Native input event (composed; retargeted to the host)
  * @fires change - Composed CustomEvent when the value settles (`detail.value`)
  */
-export class RdsSlider extends sliderBase {
+export class RcSlider extends sliderBase {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     delegatesFocus: true,
   };
 
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: block;
@@ -37,21 +37,21 @@ export class RdsSlider extends sliderBase {
         display: block;
         width: 100%;
         margin: 0;
-        accent-color: var(--rds-color-control-primary-bg);
+        accent-color: var(--rc-color-control-primary-bg);
         cursor: pointer;
       }
       
       input:focus-visible {
         outline: none;
         box-shadow:
-          0 0 0 2px var(--rds-color-surface-panel),
-          0 0 0 4px var(--rds-color-border-focus);
-        border-radius: var(--rds-radius-full);
+          0 0 0 2px var(--rc-color-surface-panel),
+          0 0 0 4px var(--rc-color-border-focus);
+        border-radius: var(--rc-radius-full);
       }
       
       input:disabled {
         cursor: not-allowed;
-        opacity: var(--rds-opacity-disabled);
+        opacity: var(--rc-opacity-disabled);
       }
     `,
   ];
@@ -103,7 +103,7 @@ export class RdsSlider extends sliderBase {
       this as ARIAMixinStrict;
 
     return html`
-      <input
+      <input part="control"
         .value=${this.value}
         aria-label=${ariaLabel || nothing}
         aria-valuemax=${ariaValueMax || String(this.max)}
@@ -126,6 +126,6 @@ export class RdsSlider extends sliderBase {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-slider': RdsSlider;
+    'rc-slider': RcSlider;
   }
 }

@@ -265,7 +265,7 @@ export function ShadcnPanel({ themeName }: { themeName: DesignThemeName }) {
                 <Info className="h-4 w-4" />
                 <AlertTitle>Theme bridge loaded</AlertTitle>
                 <AlertDescription>
-                  Short names alias into <code>--rds-*</code> for the active data-theme.
+                  Short names alias into <code>--rc-*</code> for the active data-theme.
                 </AlertDescription>
               </Alert>
               <Alert variant="destructive">

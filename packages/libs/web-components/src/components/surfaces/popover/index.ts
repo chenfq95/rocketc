@@ -1,1 +1,1 @@
-export { RdsPopover, type RdsPopoverPlacement } from './popover';
+export { RcPopover, type RcPopoverPlacement } from './popover';

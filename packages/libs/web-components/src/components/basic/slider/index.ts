@@ -1,1 +1,1 @@
-export { RdsSlider } from './slider';
+export { RcSlider } from './slider';

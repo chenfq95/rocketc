@@ -1,29 +1,27 @@
-import { LitElement, css, html } from 'lit';
+import { css, html } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { hostStyles } from '../../../internal/shared-styles';
+import { RcStyledElement } from '../../../internal/styled-element';
 
-export type RdsStackDirection = 'vertical' | 'horizontal';
-export type RdsStackGap = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-export type RdsStackAlign = 'start' | 'center' | 'end' | 'stretch';
-export type RdsStackJustify = 'start' | 'center' | 'end' | 'between' | 'around';
+export type RcStackDirection = 'vertical' | 'horizontal';
+export type RcStackAlign = 'start' | 'center' | 'end' | 'stretch';
 
 /**
  * Flex stack layout primitive.
  *
- * @element rds-stack
+ * @element rc-stack
  * @slot - Stacked children
  */
-export class RdsStack extends LitElement {
+export class RcStack extends RcStyledElement {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: flex;
         flex-direction: column;
-        gap: var(--rds-space-3);
         align-items: stretch;
         justify-content: flex-start;
+        min-width: 0;
+        color: inherit;
       }
       
       :host([direction='horizontal']) {
@@ -32,31 +30,6 @@ export class RdsStack extends LitElement {
       
       :host([wrap]) {
         flex-wrap: wrap;
-      }
-      
-      :host([gap='none']) {
-        gap: 0;
-      }
-      
-      :host([gap='xs']) {
-        gap: var(--rds-space-1);
-      }
-      
-      :host([gap='sm']) {
-        gap: var(--rds-space-2);
-      }
-      
-      :host([gap='md']),
-      :host(:not([gap])) {
-        gap: var(--rds-space-3);
-      }
-      
-      :host([gap='lg']) {
-        gap: var(--rds-space-4);
-      }
-      
-      :host([gap='xl']) {
-        gap: var(--rds-space-6);
       }
       
       :host([align='start']) {
@@ -74,40 +47,14 @@ export class RdsStack extends LitElement {
       :host([align='stretch']) {
         align-items: stretch;
       }
-      
-      :host([justify='start']) {
-        justify-content: flex-start;
-      }
-      
-      :host([justify='center']) {
-        justify-content: center;
-      }
-      
-      :host([justify='end']) {
-        justify-content: flex-end;
-      }
-      
-      :host([justify='between']) {
-        justify-content: space-between;
-      }
-      
-      :host([justify='around']) {
-        justify-content: space-around;
-      }
     `,
   ];
 
   @property({ type: String, reflect: true })
-  accessor direction: RdsStackDirection = 'vertical';
+  accessor direction: RcStackDirection = 'vertical';
 
   @property({ type: String, reflect: true })
-  accessor gap: RdsStackGap = 'md';
-
-  @property({ type: String, reflect: true })
-  accessor align: RdsStackAlign = 'stretch';
-
-  @property({ type: String, reflect: true })
-  accessor justify: RdsStackJustify = 'start';
+  accessor align: RcStackAlign = 'stretch';
 
   @property({ type: Boolean, reflect: true })
   accessor wrap: boolean = false;
@@ -121,6 +68,6 @@ export class RdsStack extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-stack': RdsStack;
+    'rc-stack': RcStack;
   }
 }

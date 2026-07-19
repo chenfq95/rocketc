@@ -1,18 +1,17 @@
-import { LitElement, css, html, nothing } from 'lit';
+import { css, html, nothing } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { hostStyles } from '../../../internal/shared-styles';
+import { RcStyledElement } from '../../../internal/styled-element';
 
-export type RdsProgressCircleSize = 'sm' | 'md' | 'lg';
+export type RcProgressCircleSize = 'sm' | 'md' | 'lg';
 
 /**
  * Circular progress. Omit `value` / set `indeterminate` for spinning state.
  *
- * @element rds-progress-circle
+ * @element rc-progress-circle
  */
-export class RdsProgressCircle extends LitElement {
+export class RcProgressCircle extends RcStyledElement {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: inline-flex;
@@ -26,19 +25,19 @@ export class RdsProgressCircle extends LitElement {
       }
       
       :host([size='sm']) .root {
-        width: var(--rds-space-8);
-        height: var(--rds-space-8);
+        width: var(--rc-space-8);
+        height: var(--rc-space-8);
       }
       
       :host([size='md']) .root,
       :host(:not([size])) .root {
-        width: var(--rds-space-10);
-        height: var(--rds-space-10);
+        width: var(--rc-space-10);
+        height: var(--rc-space-10);
       }
       
       :host([size='lg']) .root {
-        width: var(--rds-space-12);
-        height: var(--rds-space-12);
+        width: var(--rc-space-12);
+        height: var(--rc-space-12);
       }
       
       svg {
@@ -53,24 +52,24 @@ export class RdsProgressCircle extends LitElement {
       }
       
       .track {
-        stroke: var(--rds-color-border-subtle);
+        stroke: var(--rc-color-border-subtle);
       }
       
       .bar {
-        stroke: var(--rds-color-control-primary-bg);
+        stroke: var(--rc-color-control-primary-bg);
         stroke-linecap: round;
-        transition: stroke-dashoffset var(--rds-duration-fast) var(--rds-easing-standard);
+        transition: stroke-dashoffset var(--rc-duration-fast) var(--rc-easing-standard);
       }
       
       :host([indeterminate]) .bar {
-        animation: spin var(--rds-duration-slow, 0.8s) linear infinite;
+        animation: spin var(--rc-duration-slow, 0.8s) linear infinite;
         stroke-dasharray: 40 80;
       }
       
       .label {
         position: absolute;
-        font-size: var(--rds-typography-caption-font-size);
-        font-weight: var(--rds-typography-weight-medium);
+        font-size: var(--rc-typography-caption-font-size);
+        font-weight: var(--rc-typography-weight-medium);
       }
       
       @keyframes spin {
@@ -88,7 +87,7 @@ export class RdsProgressCircle extends LitElement {
   accessor max: number = 100;
 
   @property({ type: String, reflect: true })
-  accessor size: RdsProgressCircleSize = 'md';
+  accessor size: RcProgressCircleSize = 'md';
 
   @property({ type: Boolean, reflect: true })
   accessor indeterminate: boolean = false;
@@ -100,17 +99,15 @@ export class RdsProgressCircle extends LitElement {
     const offset = c * (1 - pct);
 
     return html`
-      <div
-        class="root"
+      <div class="root" part="container root"
         role="progressbar"
         aria-valuemin="0"
         aria-valuemax=${this.max}
         aria-valuenow=${this.indeterminate ? nothing : this.value}
       >
         <svg viewBox="0 0 36 36" aria-hidden="true">
-          <circle class="track" cx="18" cy="18" r=${r}></circle>
-          <circle
-            class="bar"
+          <circle class="track" part="track" cx="18" cy="18" r=${r}></circle>
+          <circle class="bar" part="bar"
             cx="18"
             cy="18"
             r=${r}
@@ -118,7 +115,7 @@ export class RdsProgressCircle extends LitElement {
             stroke-dashoffset=${this.indeterminate ? nothing : offset}
           ></circle>
         </svg>
-        ${this.indeterminate ? nothing : html`<span class="label">${Math.round(pct * 100)}%</span>`}
+        ${this.indeterminate ? nothing : html`<span class="label" part="label">${Math.round(pct * 100)}%</span>`}
       </div>
     `;
   }
@@ -126,6 +123,6 @@ export class RdsProgressCircle extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-progress-circle': RdsProgressCircle;
+    'rc-progress-circle': RcProgressCircle;
   }
 }

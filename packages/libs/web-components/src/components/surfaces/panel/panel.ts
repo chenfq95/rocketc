@@ -1,7 +1,7 @@
-import { LitElement, css, html } from 'lit';
+import { css, html } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { hostStyles } from '../../../internal/shared-styles';
+import { RcStyledElement } from '../../../internal/styled-element';
 
 /**
  * Quiet surface panel (no elevation by default).
@@ -9,38 +9,37 @@ import { hostStyles } from '../../../internal/shared-styles';
  * Chrome lives on an inner `.root` so page/preflight resets cannot strip
  * border and padding from the host.
  *
- * @element rds-panel
+ * @element rc-panel
  * @slot - Panel body
  * @slot header - Optional header
  * @slot footer - Optional footer
  */
-export class RdsPanel extends LitElement {
+export class RcPanel extends RcStyledElement {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: block;
-        color: var(--rds-color-text-primary);
+        color: var(--rc-color-text-primary);
       }
       
       .root {
         display: grid;
-        gap: var(--rds-space-3);
-        border-radius: var(--rds-radius-lg);
-        background: var(--rds-color-surface-panel);
+        gap: var(--rc-space-3);
+        border-radius: var(--rc-radius-lg);
+        background: var(--rc-color-surface-panel);
       }
       
       :host([bordered]) .root {
-        border: var(--rds-border-sm) solid var(--rds-color-border-subtle);
+        border: var(--rc-border-sm) solid var(--rc-color-border-subtle);
       }
       
       :host([padded]) .root {
-        padding: var(--rds-space-4);
+        padding: var(--rc-space-4);
       }
       
       ::slotted([slot='footer']) {
-        padding-top: var(--rds-space-2);
-        border-top: var(--rds-border-sm) solid var(--rds-color-border-subtle);
+        padding-top: var(--rc-space-2);
+        border-top: var(--rc-border-sm) solid var(--rc-color-border-subtle);
       }
     `,
   ];
@@ -53,7 +52,7 @@ export class RdsPanel extends LitElement {
 
   override render() {
     return html`
-      <div class="root">
+      <div class="root" part="container root">
         <slot name="header"></slot>
         <slot></slot>
         <slot name="footer"></slot>
@@ -64,6 +63,6 @@ export class RdsPanel extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-panel': RdsPanel;
+    'rc-panel': RcPanel;
   }
 }

@@ -1,1 +1,1 @@
-export { RdsDropdown } from './dropdown';
+export { RcDropdown } from './dropdown';

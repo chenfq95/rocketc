@@ -11,6 +11,7 @@ export default defineConfig({
     }),
   ],
   build: {
+    target: ['chrome48', 'firefox38', 'safari10.1', 'edge79'],
     sourcemap: true,
     minify: false,
     lib: {

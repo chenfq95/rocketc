@@ -1,47 +1,46 @@
-import { LitElement, css, html } from 'lit';
+import { css, html } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { hostStyles } from '../../../internal/shared-styles';
+import { RcStyledElement } from '../../../internal/styled-element';
 
 /**
  * App sidebar / navigation rail shell.
  *
- * @element rds-sidebar
+ * @element rc-sidebar
  * @slot - Navigation content
  * @slot header - Brand / title region
  * @slot footer - Footer actions
  */
-export class RdsSidebar extends LitElement {
+export class RcSidebar extends RcStyledElement {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: flex;
         flex-direction: column;
-        gap: var(--rds-space-3);
-        width: var(--rds-sidebar-width, 16rem);
+        gap: var(--rc-space-3);
+        width: var(--rc-sidebar-width, 16rem);
         min-height: 100%;
-        border-right: var(--rds-border-sm) solid var(--rds-color-border-subtle);
-        background: var(--rds-color-surface-panel);
-        padding: var(--rds-space-4);
-        color: var(--rds-color-text-primary);
-        transition: width var(--rds-duration-fast, 150ms) var(--rds-easing-standard, ease);
+        border-right: var(--rc-border-sm) solid var(--rc-color-border-subtle);
+        background: var(--rc-color-surface-panel);
+        padding: var(--rc-space-4);
+        color: var(--rc-color-text-primary);
+        transition: width var(--rc-duration-fast, 150ms) var(--rc-easing-standard, ease);
       }
       
       :host([collapsed]) {
-        width: var(--rds-sidebar-collapsed-width, 4.5rem);
-        padding-inline: var(--rds-space-2);
+        width: var(--rc-sidebar-collapsed-width, 4.5rem);
+        padding-inline: var(--rc-space-2);
       }
       
       .header,
       .footer {
         display: grid;
-        gap: var(--rds-space-2);
+        gap: var(--rc-space-2);
       }
       
       .body {
         display: grid;
-        gap: var(--rds-space-1);
+        gap: var(--rc-space-1);
         flex: 1;
         align-content: start;
       }
@@ -53,10 +52,10 @@ export class RdsSidebar extends LitElement {
 
   override render() {
     return html`
-      <aside class="root" aria-expanded=${String(!this.collapsed)}>
-        <div class="header"><slot name="header"></slot></div>
-        <div class="body"><slot></slot></div>
-        <div class="footer"><slot name="footer"></slot></div>
+      <aside class="root" part="container aside control root" aria-expanded=${String(!this.collapsed)}>
+        <div class="header" part="header"><slot name="header"></slot></div>
+        <div class="body" part="body"><slot></slot></div>
+        <div class="footer" part="footer"><slot name="footer"></slot></div>
       </aside>
     `;
   }
@@ -64,6 +63,6 @@ export class RdsSidebar extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-sidebar': RdsSidebar;
+    'rc-sidebar': RcSidebar;
   }
 }

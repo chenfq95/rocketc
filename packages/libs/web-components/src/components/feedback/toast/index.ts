@@ -1,1 +1,1 @@
-export { RdsToast, type RdsToastVariant } from './toast';
+export { RcToast, type RcToastVariant } from './toast';

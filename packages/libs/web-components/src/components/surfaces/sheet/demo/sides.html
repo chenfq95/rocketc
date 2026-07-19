@@ -1,15 +1,26 @@
-<!-- surfaces/sheet — sides — usage snippet for @rocketc/web-components -->
-<div class="rds-demo">
-<rds-button size="sm" variant="outline" onclick="document.getElementById('sheet-bottom').show()">Bottom</rds-button>
-  <rds-button size="sm" variant="outline" onclick="document.getElementById('sheet-left').show()">Left</rds-button>
-  <rds-sheet id="sheet-bottom" side="bottom">
-    <span slot="header">Bottom sheet</span>
-    Useful for mobile actions.
-    <rds-button slot="footer" size="sm" onclick="this.closest('rds-sheet').close()">Close</rds-button>
-  </rds-sheet>
-  <rds-sheet id="sheet-left" side="left">
-    <span slot="header">Left sheet</span>
-    Alternative side placement.
-    <rds-button slot="footer" size="sm" onclick="this.closest('rds-sheet').close()">Close</rds-button>
-  </rds-sheet>
+<!--
+title: 侧边位置 / Sides
+description: 对比侧边面板从不同侧边进入视口的效果。 / Compares the sides from which sheet can enter the viewport.
+-->
+<div class="rc-demo">
+  <rc-button size="sm" variant="outline" onclick="document.getElementById('sheet-bottom').show()"
+    >底部 / Bottom</rc-button
+  >
+  <rc-button size="sm" variant="outline" onclick="document.getElementById('sheet-left').show()"
+    >左侧 / Left</rc-button
+  >
+  <rc-sheet id="sheet-bottom" side="bottom">
+    <span slot="header">底部面板 / Bottom sheet</span>
+    适用于移动端操作。 / Useful for mobile actions.
+    <rc-button slot="footer" size="sm" onclick="this.closest('rc-sheet').close()"
+      >关闭 / Close</rc-button
+    >
+  </rc-sheet>
+  <rc-sheet id="sheet-left" side="left">
+    <span slot="header">左侧面板 / Left sheet</span>
+    另一侧的位置。 / Alternative side placement.
+    <rc-button slot="footer" size="sm" onclick="this.closest('rc-sheet').close()"
+      >关闭 / Close</rc-button
+    >
+  </rc-sheet>
 </div>

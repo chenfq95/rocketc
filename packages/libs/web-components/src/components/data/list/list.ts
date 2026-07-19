@@ -1,17 +1,16 @@
-import { LitElement, css, html } from 'lit';
+import { css, html } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { hostStyles } from '../../../internal/shared-styles';
+import { RcStyledElement } from '../../../internal/styled-element';
 
 /**
- * Styled list container. Compose with `rds-list-item`.
+ * Styled list container. Compose with `rc-list-item`.
  *
- * @element rds-list
+ * @element rc-list
  * @slot - List items
  */
-export class RdsList extends LitElement {
+export class RcList extends RcStyledElement {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: block;
@@ -25,8 +24,8 @@ export class RdsList extends LitElement {
       }
       
       :host([bordered]) .root {
-        border: var(--rds-border-sm) solid var(--rds-color-border-subtle);
-        border-radius: var(--rds-radius-lg);
+        border: var(--rc-border-sm) solid var(--rc-color-border-subtle);
+        border-radius: var(--rc-radius-lg);
         overflow: hidden;
       }
     `,
@@ -37,7 +36,7 @@ export class RdsList extends LitElement {
 
   override render() {
     return html`
-      <div class="root" role="list">
+      <div class="root" part="container root" role="list">
         <slot></slot>
       </div>
     `;
@@ -46,6 +45,6 @@ export class RdsList extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-list': RdsList;
+    'rc-list': RcList;
   }
 }

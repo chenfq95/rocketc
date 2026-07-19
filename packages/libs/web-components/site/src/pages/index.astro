@@ -1,49 +1,79 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { bilingualCategory, bilingualComponent } from '../lib/bilingual';
 import { getNav } from '../lib/catalog';
+import { guidePages } from '../lib/guides';
 
 const nav = getNav();
 const total = nav.reduce((sum, category) => sum + category.components.length, 0);
 ---
 
-<BaseLayout title="Components" description="Usage site for Rocketc web components.">
-  <rds-stack gap="lg">
-    <rds-stack gap="sm">
-      <rds-typography variant="title" as="h1">Components</rds-typography>
-      <rds-typography variant="body" color="secondary" as="p">
-        {total} families · each page has one preview and API reference.
-      </rds-typography>
-    </rds-stack>
+<BaseLayout
+  title="组件 / Components"
+  description="Rocketc Web Components 使用站点。 / Usage site for Rocketc web components."
+>
+  <rc-stack gap="lg">
+    <rc-stack gap="sm">
+      <rc-typography variant="title" as="h1">组件 / Components</rc-typography>
+      <rc-typography variant="body" color="secondary" as="p">
+        共 {total} 个组件系列，每个页面均包含预览和 API 参考。 / {total} families · each page has
+        one preview and API reference.
+      </rc-typography>
+    </rc-stack>
+
+    <rc-stack gap="sm">
+      <rc-stack direction="horizontal" gap="sm" align="center">
+        <rc-typography variant="heading" as="h2">指南 / Guides</rc-typography>
+        <rc-badge variant="secondary">{guidePages.length}</rc-badge>
+      </rc-stack>
+
+      <rc-grid columns={3} gap="sm">
+        {
+          guidePages.map((page) => (
+            <rc-card>
+              <rc-stack gap="xs" slot="header">
+                <a class="site-card-link" href={page.href}>
+                  <rc-typography variant="subheading" as="span">{page.title}</rc-typography>
+                </a>
+                <rc-typography variant="caption" color="muted" as="p">
+                  {page.description}
+                </rc-typography>
+              </rc-stack>
+            </rc-card>
+          ))
+        }
+      </rc-grid>
+    </rc-stack>
 
     {
       nav.map((category) => (
-        <rds-stack gap="sm">
-          <rds-stack direction="horizontal" gap="sm" align="center">
-            <rds-typography variant="heading" as="h2">
-              {category.category}
-            </rds-typography>
-            <rds-badge variant="secondary">{category.components.length}</rds-badge>
-          </rds-stack>
+        <rc-stack gap="sm">
+          <rc-stack direction="horizontal" gap="sm" align="center">
+            <rc-typography variant="heading" as="h2">
+              {bilingualCategory(category.category)}
+            </rc-typography>
+            <rc-badge variant="secondary">{category.components.length}</rc-badge>
+          </rc-stack>
 
-          <rds-grid columns={3} gap="sm">
+          <rc-grid columns={3} gap="sm">
             {category.components.map((component) => (
-              <rds-card>
-                <rds-stack gap="xs" slot="header">
-                  {/* Native <a> so Astro ClientRouter can intercept (rds-link keeps <a> in shadow DOM). */}
+              <rc-card>
+                <rc-stack gap="xs" slot="header">
+                  {/* 使用原生 <a> 以便 Astro ClientRouter 拦截；rc-link 会将 <a> 保留在 Shadow DOM 中。 / Use native <a> so Astro ClientRouter can intercept; rc-link keeps <a> in Shadow DOM. */}
                   <a class="site-card-link" href={component.href}>
-                    <rds-typography variant="subheading" as="span">
-                      {component.component}
-                    </rds-typography>
+                    <rc-typography variant="subheading" as="span">
+                      {bilingualComponent(component.component)}
+                    </rc-typography>
                   </a>
-                  <rds-typography variant="caption" color="muted" as="p">
-                    {component.tags.join(' · ') || 'preview + API'}
-                  </rds-typography>
-                </rds-stack>
-              </rds-card>
+                  <rc-typography variant="caption" color="muted" as="p">
+                    {component.tags.join(' · ') || '预览 + API / Preview + API'}
+                  </rc-typography>
+                </rc-stack>
+              </rc-card>
             ))}
-          </rds-grid>
-        </rds-stack>
+          </rc-grid>
+        </rc-stack>
       ))
     }
-  </rds-stack>
+  </rc-stack>
 </BaseLayout>

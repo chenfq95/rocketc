@@ -1,18 +1,16 @@
-import { LitElement, css, html } from 'lit';
-
-import { hostStyles } from '../../../internal/shared-styles';
+import { css, html } from 'lit';
+import { RcStyledElement } from '../../../internal/styled-element';
 
 /**
- * Vertical menu list. Compose with `rds-menu-item`.
+ * Vertical menu list. Compose with `rc-menu-item`.
  *
- * @element rds-menu
+ * @element rc-menu
  * @fires change - When an item is selected (`detail.value`)
  * @slot - Menu items
  * @slot label - Optional menu label
  */
-export class RdsMenu extends LitElement {
+export class RcMenu extends RcStyledElement {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: block;
@@ -21,30 +19,30 @@ export class RdsMenu extends LitElement {
       
       .root {
         display: grid;
-        gap: var(--rds-space-1);
-        border: var(--rds-border-sm) solid var(--rds-color-border-subtle);
-        border-radius: var(--rds-radius-lg);
-        background: var(--rds-color-surface-elevated, var(--rds-color-surface-panel));
-        padding: var(--rds-space-1);
-        box-shadow: var(--rds-shadow-raised, var(--rds-shadow-surface));
+        gap: var(--rc-space-1);
+        border: var(--rc-border-sm) solid var(--rc-color-border-subtle);
+        border-radius: var(--rc-radius-lg);
+        background: var(--rc-color-surface-elevated, var(--rc-color-surface-panel));
+        padding: var(--rc-space-1);
+        box-shadow: var(--rc-shadow-raised, var(--rc-shadow-surface));
       }
       
       .label {
-        padding: var(--rds-space-2) var(--rds-space-3) var(--rds-space-1);
-        color: var(--rds-color-text-muted);
-        font-size: var(--rds-typography-caption-font-size);
-        font-weight: var(--rds-typography-weight-medium);
+        padding: var(--rc-space-2) var(--rc-space-3) var(--rc-space-1);
+        color: var(--rc-color-text-muted);
+        font-size: var(--rc-typography-caption-font-size);
+        font-weight: var(--rc-typography-weight-medium);
       }
     `,
   ];
 
   override connectedCallback(): void {
     super.connectedCallback();
-    this.addEventListener('rds-menu-select', this.#onSelect as EventListener);
+    this.addEventListener('rc-menu-select', this.#onSelect as EventListener);
   }
 
   override disconnectedCallback(): void {
-    this.removeEventListener('rds-menu-select', this.#onSelect as EventListener);
+    this.removeEventListener('rc-menu-select', this.#onSelect as EventListener);
     super.disconnectedCallback();
   }
 
@@ -62,8 +60,8 @@ export class RdsMenu extends LitElement {
 
   override render() {
     return html`
-      <div class="root" role="menu">
-        <div class="label"><slot name="label"></slot></div>
+      <div class="root" part="container root" role="menu">
+        <div class="label" part="label"><slot name="label"></slot></div>
         <slot></slot>
       </div>
     `;
@@ -72,6 +70,6 @@ export class RdsMenu extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-menu': RdsMenu;
+    'rc-menu': RcMenu;
   }
 }

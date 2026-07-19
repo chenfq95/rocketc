@@ -1,26 +1,26 @@
-import { LitElement, css, html } from 'lit';
+import { css, html } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { hostStyles } from '../../../internal/shared-styles';
-import type { RdsAccordionItem } from './accordion-item';
+import { RcStyledElement } from '../../../internal/styled-element';
+
+import type { RcAccordionItem } from './accordion-item';
 
 /**
  * Accordion group. Set `multiple` to allow several items open.
  *
- * @element rds-accordion
+ * @element rc-accordion
  * @fires change - When open items change (`detail.value` string | string[])
- * @slot - `rds-accordion-item` children
+ * @slot - `rc-accordion-item` children
  */
-export class RdsAccordion extends LitElement {
+export class RcAccordion extends RcStyledElement {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: block;
-        border: var(--rds-border-sm) solid var(--rds-color-border-subtle);
-        border-radius: var(--rds-radius-lg);
-        background: var(--rds-color-surface-panel);
-        padding: 0 var(--rds-space-4);
+        border: var(--rc-border-sm) solid var(--rc-color-border-subtle);
+        border-radius: var(--rc-radius-lg);
+        background: var(--rc-color-surface-panel);
+        padding: 0 var(--rc-space-4);
       }
     `,
   ];
@@ -34,11 +34,11 @@ export class RdsAccordion extends LitElement {
 
   override connectedCallback(): void {
     super.connectedCallback();
-    this.addEventListener('rds-accordion-toggle', this.#onToggle as EventListener);
+    this.addEventListener('rc-accordion-toggle', this.#onToggle as EventListener);
   }
 
   override disconnectedCallback(): void {
-    this.removeEventListener('rds-accordion-toggle', this.#onToggle as EventListener);
+    this.removeEventListener('rc-accordion-toggle', this.#onToggle as EventListener);
     super.disconnectedCallback();
   }
 
@@ -50,8 +50,8 @@ export class RdsAccordion extends LitElement {
     this.#sync();
   }
 
-  #items(): RdsAccordionItem[] {
-    return [...this.querySelectorAll<RdsAccordionItem>(':scope > rds-accordion-item')];
+  #items(): RcAccordionItem[] {
+    return [...this.querySelectorAll<RcAccordionItem>(':scope > rc-accordion-item')];
   }
 
   #openValues(): string[] {
@@ -97,6 +97,6 @@ export class RdsAccordion extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-accordion': RdsAccordion;
+    'rc-accordion': RcAccordion;
   }
 }

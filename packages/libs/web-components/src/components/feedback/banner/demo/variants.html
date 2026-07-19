@@ -1,15 +1,18 @@
-<!-- feedback/banner — variants — usage snippet for @rocketc/web-components -->
-<div class="rds-demo">
-<rds-banner open variant="success" dismissible>
-    <span slot="title">Synced</span>
-    Token outputs are up to date.
-  </rds-banner>
-  <rds-banner open variant="warning" dismissible>
-    <span slot="title">Review</span>
-    Two components still need API notes.
-  </rds-banner>
-  <rds-banner open variant="destructive">
-    <span slot="title">Failed</span>
-    Publish was rejected by the gate.
-  </rds-banner>
+<!--
+title: 变体 / Variants
+description: 对比横幅可用的视觉变体和强调级别。 / Compares the visual variants and emphasis levels available to banner.
+-->
+<div class="rc-demo">
+  <rc-banner open variant="success" dismissible>
+    <span slot="title">已同步 / Synced</span>
+    令牌输出已是最新。 / Token outputs are up to date.
+  </rc-banner>
+  <rc-banner open variant="warning" dismissible>
+    <span slot="title">审核 / Review</span>
+    仍有两个组件需要补充 API 说明。 / Two components still need API notes.
+  </rc-banner>
+  <rc-banner open variant="destructive">
+    <span slot="title">失败 / Failed</span>
+    发布被质量门禁拒绝。 / Publish was rejected by the gate.
+  </rc-banner>
 </div>

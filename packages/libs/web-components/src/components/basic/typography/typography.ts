@@ -1,10 +1,11 @@
-import { LitElement, css } from 'lit';
+import { css } from 'lit';
 import { property } from 'lit/decorators.js';
+
+import { RcStyledElement } from '../../../internal/styled-element';
+import type { RcOpenString } from '../../../internal/style-properties';
 import { html, unsafeStatic } from 'lit/static-html.js';
 
-import { hostStyles } from '../../../internal/shared-styles';
-
-export type RdsTypographyVariant =
+export type RcTypographyVariant =
   | 'display'
   | 'title'
   | 'heading'
@@ -15,7 +16,7 @@ export type RdsTypographyVariant =
   | 'caption'
   | 'code';
 
-export type RdsTypographyColor = 'primary' | 'secondary' | 'muted' | 'inherit';
+export type RcTypographyColor = RcOpenString<'primary' | 'secondary' | 'muted' | 'inherit'>;
 
 const ALLOWED_TAGS = new Set([
   'p',
@@ -39,7 +40,7 @@ const ALLOWED_TAGS = new Set([
   'dd',
 ]);
 
-const DEFAULT_TAG: Record<RdsTypographyVariant, string> = {
+const DEFAULT_TAG: Record<RcTypographyVariant, string> = {
   display: 'h1',
   title: 'h2',
   heading: 'h3',
@@ -57,12 +58,11 @@ const DEFAULT_TAG: Record<RdsTypographyVariant, string> = {
  *
  * Use `as` to choose the rendered element (`p`, `h1`–`h6`, `span`, `code`, …).
  *
- * @element rds-typography
+ * @element rc-typography
  * @slot - Text content
  */
-export class RdsTypography extends LitElement {
+export class RcTypography extends RcStyledElement {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: contents;
@@ -86,89 +86,89 @@ export class RdsTypography extends LitElement {
       }
       
       :host([variant='display']) {
-        --_font-family: var(--rds-typography-display-font-family);
-        --_font-size: var(--rds-typography-display-font-size);
-        --_font-weight: var(--rds-typography-display-font-weight);
-        --_line-height: var(--rds-typography-display-line-height);
-        --_letter-spacing: var(--rds-typography-display-letter-spacing);
+        --_font-family: var(--rc-typography-display-font-family);
+        --_font-size: var(--rc-typography-display-font-size);
+        --_font-weight: var(--rc-typography-display-font-weight);
+        --_line-height: var(--rc-typography-display-line-height);
+        --_letter-spacing: var(--rc-typography-display-letter-spacing);
       }
       
       :host([variant='title']) {
-        --_font-family: var(--rds-typography-title-font-family);
-        --_font-size: var(--rds-typography-title-font-size);
-        --_font-weight: var(--rds-typography-title-font-weight);
-        --_line-height: var(--rds-typography-title-line-height);
-        --_letter-spacing: var(--rds-typography-title-letter-spacing);
+        --_font-family: var(--rc-typography-title-font-family);
+        --_font-size: var(--rc-typography-title-font-size);
+        --_font-weight: var(--rc-typography-title-font-weight);
+        --_line-height: var(--rc-typography-title-line-height);
+        --_letter-spacing: var(--rc-typography-title-letter-spacing);
       }
       
       :host([variant='heading']) {
-        --_font-family: var(--rds-typography-heading-font-family);
-        --_font-size: var(--rds-typography-heading-font-size);
-        --_font-weight: var(--rds-typography-heading-font-weight);
-        --_line-height: var(--rds-typography-heading-line-height);
-        --_letter-spacing: var(--rds-typography-heading-letter-spacing);
+        --_font-family: var(--rc-typography-heading-font-family);
+        --_font-size: var(--rc-typography-heading-font-size);
+        --_font-weight: var(--rc-typography-heading-font-weight);
+        --_line-height: var(--rc-typography-heading-line-height);
+        --_letter-spacing: var(--rc-typography-heading-letter-spacing);
       }
       
       :host([variant='subheading']) {
-        --_font-family: var(--rds-typography-subheading-font-family);
-        --_font-size: var(--rds-typography-subheading-font-size);
-        --_font-weight: var(--rds-typography-subheading-font-weight);
-        --_line-height: var(--rds-typography-subheading-line-height);
-        --_letter-spacing: var(--rds-typography-subheading-letter-spacing);
+        --_font-family: var(--rc-typography-subheading-font-family);
+        --_font-size: var(--rc-typography-subheading-font-size);
+        --_font-weight: var(--rc-typography-subheading-font-weight);
+        --_line-height: var(--rc-typography-subheading-line-height);
+        --_letter-spacing: var(--rc-typography-subheading-letter-spacing);
       }
       
       :host([variant='body']),
       :host(:not([variant])) {
-        --_font-family: var(--rds-typography-body-font-family);
-        --_font-size: var(--rds-typography-body-font-size);
-        --_font-weight: var(--rds-typography-body-font-weight);
-        --_line-height: var(--rds-typography-body-line-height);
-        --_letter-spacing: var(--rds-typography-body-letter-spacing);
+        --_font-family: var(--rc-typography-body-font-family);
+        --_font-size: var(--rc-typography-body-font-size);
+        --_font-weight: var(--rc-typography-body-font-weight);
+        --_line-height: var(--rc-typography-body-line-height);
+        --_letter-spacing: var(--rc-typography-body-letter-spacing);
       }
       
       :host([variant='body-small']) {
-        --_font-family: var(--rds-typography-body-small-font-family);
-        --_font-size: var(--rds-typography-body-small-font-size);
-        --_font-weight: var(--rds-typography-body-small-font-weight);
-        --_line-height: var(--rds-typography-body-small-line-height);
-        --_letter-spacing: var(--rds-typography-body-small-letter-spacing);
+        --_font-family: var(--rc-typography-body-small-font-family);
+        --_font-size: var(--rc-typography-body-small-font-size);
+        --_font-weight: var(--rc-typography-body-small-font-weight);
+        --_line-height: var(--rc-typography-body-small-line-height);
+        --_letter-spacing: var(--rc-typography-body-small-letter-spacing);
       }
       
       :host([variant='label']) {
-        --_font-family: var(--rds-typography-label-font-family);
-        --_font-size: var(--rds-typography-label-font-size);
-        --_font-weight: var(--rds-typography-label-font-weight);
-        --_line-height: var(--rds-typography-label-line-height);
-        --_letter-spacing: var(--rds-typography-label-letter-spacing);
+        --_font-family: var(--rc-typography-label-font-family);
+        --_font-size: var(--rc-typography-label-font-size);
+        --_font-weight: var(--rc-typography-label-font-weight);
+        --_line-height: var(--rc-typography-label-line-height);
+        --_letter-spacing: var(--rc-typography-label-letter-spacing);
       }
       
       :host([variant='caption']) {
-        --_font-family: var(--rds-typography-caption-font-family);
-        --_font-size: var(--rds-typography-caption-font-size);
-        --_font-weight: var(--rds-typography-caption-font-weight);
-        --_line-height: var(--rds-typography-caption-line-height);
-        --_letter-spacing: var(--rds-typography-caption-letter-spacing);
+        --_font-family: var(--rc-typography-caption-font-family);
+        --_font-size: var(--rc-typography-caption-font-size);
+        --_font-weight: var(--rc-typography-caption-font-weight);
+        --_line-height: var(--rc-typography-caption-line-height);
+        --_letter-spacing: var(--rc-typography-caption-letter-spacing);
       }
       
       :host([variant='code']) {
-        --_font-family: var(--rds-typography-code-font-family);
-        --_font-size: var(--rds-typography-code-font-size);
-        --_font-weight: var(--rds-typography-code-font-weight);
-        --_line-height: var(--rds-typography-code-line-height);
-        --_letter-spacing: var(--rds-typography-code-letter-spacing);
+        --_font-family: var(--rc-typography-code-font-family);
+        --_font-size: var(--rc-typography-code-font-size);
+        --_font-weight: var(--rc-typography-code-font-weight);
+        --_line-height: var(--rc-typography-code-line-height);
+        --_letter-spacing: var(--rc-typography-code-letter-spacing);
       }
       
       :host([color='primary']),
       :host(:not([color])) {
-        --_color: var(--rds-color-text-primary);
+        --_color: var(--rc-color-text-primary);
       }
       
       :host([color='secondary']) {
-        --_color: var(--rds-color-text-secondary);
+        --_color: var(--rc-color-text-secondary);
       }
       
       :host([color='muted']) {
-        --_color: var(--rds-color-text-muted);
+        --_color: var(--rc-color-text-muted);
       }
       
       :host([color='inherit']) {
@@ -194,13 +194,13 @@ export class RdsTypography extends LitElement {
   ];
 
   @property({ type: String, reflect: true })
-  accessor variant: RdsTypographyVariant = 'body';
+  accessor variant: RcTypographyVariant = 'body';
 
   @property({ type: String, reflect: true })
   accessor as: string = '';
 
   @property({ type: String, reflect: true })
-  accessor color: RdsTypographyColor = 'primary';
+  accessor color: RcTypographyColor = 'primary';
 
   @property({ type: String, reflect: true })
   accessor align: '' | 'left' | 'center' | 'right' | 'justify' = '';
@@ -216,15 +216,16 @@ export class RdsTypography extends LitElement {
   override render() {
     const tag = unsafeStatic(this.#resolveTag());
 
-    // `display: contents` host — styles hang on the inner semantic element.
+    // `display: contents` 宿主的排版样式由内部语义元素承载。
+    // The inner semantic element carries typography for the `display: contents` host.
     return html`
-      <${tag} class="root"><slot></slot></${tag}>
+      <${tag} class="root" part="container root"><slot></slot></${tag}>
     `;
   }
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-typography': RdsTypography;
+    'rc-typography': RcTypography;
   }
 }

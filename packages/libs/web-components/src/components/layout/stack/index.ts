@@ -1,7 +1,1 @@
-export {
-  RdsStack,
-  type RdsStackDirection,
-  type RdsStackGap,
-  type RdsStackAlign,
-  type RdsStackJustify,
-} from './stack';
+export { RcStack, type RcStackDirection, type RcStackAlign } from './stack';

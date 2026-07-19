@@ -1,22 +1,35 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 import svg from 'vite-plugin-svgr';
-import tsconfigPaths from 'vite-tsconfig-paths';
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), svg(), tsconfigPaths()],
+  plugins: [react(), svg()],
   build: {
-    rollupOptions: {
+    target: ['chrome107', 'edge107', 'firefox104', 'safari16'],
+    rolldownOptions: {
       output: {
-        manualChunks: {
-          chakra: ['@chakra-ui/react', '@emotion/react'],
-          charts: ['recharts'],
+        codeSplitting: {
+          groups: [
+            {
+              name: 'chakra',
+              test: /node_modules[\\/](@chakra-ui[\\/]react|@emotion[\\/]react)/,
+              includeDependenciesRecursively: true,
+              priority: 20,
+            },
+            {
+              name: 'charts',
+              test: /node_modules[\\/]recharts/,
+              includeDependenciesRecursively: true,
+              priority: 10,
+            },
+          ],
         },
       },
     },
   },
   resolve: {
     dedupe: ['react', 'react-dom'],
+    tsconfigPaths: true,
   },
 });

@@ -1,19 +1,18 @@
-import { LitElement, css, html, nothing } from 'lit';
+import { css, html, nothing } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { hostStyles } from '../../../internal/shared-styles';
+import { RcStyledElement } from '../../../internal/styled-element';
 
-export type RdsAvatarSize = 'sm' | 'md' | 'lg';
+export type RcAvatarSize = 'sm' | 'md' | 'lg';
 
 /**
  * User / entity avatar with image or initials fallback.
  *
- * @element rds-avatar
+ * @element rc-avatar
  * @slot - Fallback content (e.g. initials) when `src` is empty / fails
  */
-export class RdsAvatar extends LitElement {
+export class RcAvatar extends RcStyledElement {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: inline-flex;
@@ -24,30 +23,30 @@ export class RdsAvatar extends LitElement {
         display: inline-grid;
         place-items: center;
         overflow: hidden;
-        border-radius: var(--rds-radius-full);
-        background: var(--rds-color-control-secondary-bg-hover);
-        color: var(--rds-color-control-secondary-fg);
-        font-size: var(--rds-typography-label-font-size);
-        font-weight: var(--rds-typography-weight-semibold);
+        border-radius: var(--rc-radius-full);
+        background: var(--rc-color-control-secondary-bg-hover);
+        color: var(--rc-color-control-secondary-fg);
+        font-size: var(--rc-typography-label-font-size);
+        font-weight: var(--rc-typography-weight-semibold);
         text-transform: uppercase;
       }
       
       :host([size='sm']) .root {
-        width: var(--rds-space-7);
-        height: var(--rds-space-7);
-        font-size: var(--rds-typography-caption-font-size);
+        width: var(--rc-space-7);
+        height: var(--rc-space-7);
+        font-size: var(--rc-typography-caption-font-size);
       }
       
       :host([size='md']) .root,
       :host(:not([size])) .root {
-        width: var(--rds-space-9);
-        height: var(--rds-space-9);
+        width: var(--rc-space-9);
+        height: var(--rc-space-9);
       }
       
       :host([size='lg']) .root {
-        width: var(--rds-space-11, 2.75rem);
-        height: var(--rds-space-11, 2.75rem);
-        font-size: var(--rds-typography-body-font-size);
+        width: var(--rc-space-11, 2.75rem);
+        height: var(--rc-space-11, 2.75rem);
+        font-size: var(--rc-typography-body-font-size);
       }
       
       img {
@@ -65,7 +64,7 @@ export class RdsAvatar extends LitElement {
   accessor alt: string = '';
 
   @property({ type: String, reflect: true })
-  accessor size: RdsAvatarSize = 'md';
+  accessor size: RcAvatarSize = 'md';
 
   #failed = false;
 
@@ -76,7 +75,7 @@ export class RdsAvatar extends LitElement {
   override render() {
     const showImage = Boolean(this.src) && !this.#failed;
     return html`
-      <span class="root" role=${showImage ? nothing : 'img'} aria-label=${this.alt || nothing}>
+      <span class="root" part="container root" role=${showImage ? nothing : 'img'} aria-label=${this.alt || nothing}>
         ${
           showImage
             ? html`
@@ -100,6 +99,6 @@ export class RdsAvatar extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-avatar': RdsAvatar;
+    'rc-avatar': RcAvatar;
   }
 }

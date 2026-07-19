@@ -1,33 +1,33 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { mixinDelegatesAria, type ARIAMixinStrict } from '../../../internal/delegate-aria';
-import { mixinElementInternals } from '../../../internal/element-internals';
+import { RcStyledElement } from '../../../internal/styled-element';
+
+import { mixinDelegatesAria, type ARIAMixinStrict } from '../../../internal/mixin-delegates-aria';
+import { mixinElementInternals } from '../../../internal/mixin-element-internals';
 import {
   getFormValue,
   mixinFormAssociated,
   type FormRestoreReason,
   type FormRestoreState,
-} from '../../../internal/form-associated';
-import { hostStyles } from '../../../internal/shared-styles';
+} from '../../../internal/mixin-form-associated';
 
-const base = mixinDelegatesAria(mixinFormAssociated(mixinElementInternals(LitElement)));
+const base = mixinDelegatesAria(mixinFormAssociated(mixinElementInternals(RcStyledElement)));
 
 /**
  * Numeric stepper field.
  *
- * @element rds-number-input
+ * @element rc-number-input
  * @fires change - When value commits (`detail.value`)
  * @fires input - While typing / stepping (`detail.value`)
  */
-export class RdsNumberInput extends base {
+export class RcNumberInput extends base {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     delegatesFocus: true,
   };
 
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: block;
@@ -37,15 +37,15 @@ export class RdsNumberInput extends base {
         display: grid;
         grid-template-columns: auto 1fr auto;
         align-items: stretch;
-        border: var(--rds-border-sm) solid var(--rds-color-border-default);
-        border-radius: var(--rds-radius-md);
-        background: var(--rds-color-surface-panel);
+        border: var(--rc-border-sm) solid var(--rc-color-border-default);
+        border-radius: var(--rc-radius-md);
+        background: var(--rc-color-surface-panel);
         overflow: hidden;
       }
       
       :host(:focus-within) .root {
-        border-color: var(--rds-color-border-focus);
-        box-shadow: 0 0 0 3px color-mix(in oklab, var(--rds-color-border-focus) 30%, transparent);
+        border-color: var(--rc-color-border-focus);
+        box-shadow: 0 0 0 3px color-mix(in oklab, var(--rc-color-border-focus) 30%, transparent);
       }
       
       input {
@@ -53,11 +53,11 @@ export class RdsNumberInput extends base {
         margin: 0;
         border: 0;
         background: transparent;
-        padding: 0 var(--rds-space-2);
-        min-height: var(--rds-space-9);
+        padding: 0 var(--rc-space-2);
+        min-height: var(--rc-space-9);
         color: inherit;
         font: inherit;
-        font-size: var(--rds-typography-body-font-size);
+        font-size: var(--rc-typography-body-font-size);
         text-align: center;
       }
       
@@ -68,25 +68,25 @@ export class RdsNumberInput extends base {
       button {
         margin: 0;
         border: 0;
-        background: var(--rds-color-action-bg-hover);
-        color: var(--rds-color-text-secondary);
-        min-width: var(--rds-space-8);
+        background: var(--rc-color-action-bg-hover);
+        color: var(--rc-color-text-secondary);
+        min-width: var(--rc-space-8);
         cursor: pointer;
         font: inherit;
       }
       
       button:hover:not(:disabled) {
-        color: var(--rds-color-text-primary);
-        background: var(--rds-color-action-bg-active, var(--rds-color-control-secondary-bg-hover));
+        color: var(--rc-color-text-primary);
+        background: var(--rc-color-action-bg-active, var(--rc-color-control-secondary-bg-hover));
       }
       
       button:disabled {
         cursor: not-allowed;
-        opacity: var(--rds-opacity-disabled);
+        opacity: var(--rc-opacity-disabled);
       }
       
       :host([disabled]) .root {
-        opacity: var(--rds-opacity-disabled);
+        opacity: var(--rc-opacity-disabled);
       }
     `,
   ];
@@ -174,8 +174,8 @@ export class RdsNumberInput extends base {
     const atMax = Number.isFinite(this.max) && this.#num() >= this.max;
 
     return html`
-      <div class="root">
-        <button
+      <div class="root" part="container root">
+        <button part="control"
           type="button"
           tabindex="-1"
           aria-label="Decrement"
@@ -184,7 +184,7 @@ export class RdsNumberInput extends base {
         >
           −
         </button>
-        <input
+        <input part="control"
           type="number"
           .value=${this.value}
           min=${Number.isFinite(this.min) ? this.min : nothing}
@@ -198,7 +198,7 @@ export class RdsNumberInput extends base {
           @input=${this.#onInput}
           @change=${this.#onChange}
         />
-        <button
+        <button part="control"
           type="button"
           tabindex="-1"
           aria-label="Increment"
@@ -214,6 +214,6 @@ export class RdsNumberInput extends base {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-number-input': RdsNumberInput;
+    'rc-number-input': RcNumberInput;
   }
 }

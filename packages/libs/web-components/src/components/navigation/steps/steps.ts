@@ -1,19 +1,19 @@
-import { LitElement, css, html, type PropertyValues } from 'lit';
+import { css, html, type PropertyValues } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { hostStyles } from '../../../internal/shared-styles';
-import type { RdsStep } from './step';
+import { RcStyledElement } from '../../../internal/styled-element';
+
+import type { RcStep } from './step';
 
 /**
  * Multi-step progress indicator.
  *
- * @element rds-steps
+ * @element rc-steps
  * @fires change - When index changes (`detail.index`)
- * @slot - `rds-step` children
+ * @slot - `rc-step` children
  */
-export class RdsSteps extends LitElement {
+export class RcSteps extends RcStyledElement {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: block;
@@ -22,7 +22,7 @@ export class RdsSteps extends LitElement {
       .list {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
-        gap: var(--rds-space-3);
+        gap: var(--rc-space-3);
       }
     `,
   ];
@@ -38,8 +38,8 @@ export class RdsSteps extends LitElement {
     this.#sync();
   }
 
-  #steps(): RdsStep[] {
-    return [...this.querySelectorAll<RdsStep>('rds-step')];
+  #steps(): RcStep[] {
+    return [...this.querySelectorAll<RcStep>('rc-step')];
   }
 
   #sync() {
@@ -64,13 +64,13 @@ export class RdsSteps extends LitElement {
 
   override render() {
     return html`
-      <div class="list" role="list"><slot></slot></div>
+      <div class="list" part="list" role="list"><slot></slot></div>
     `;
   }
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-steps': RdsSteps;
+    'rc-steps': RcSteps;
   }
 }

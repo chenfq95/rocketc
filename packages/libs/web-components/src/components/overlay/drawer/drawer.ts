@@ -1,22 +1,21 @@
-import { LitElement, css, html, type PropertyValues } from 'lit';
+import { css, html, type PropertyValues } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { hostStyles } from '../../../internal/shared-styles';
+import { RcStyledElement } from '../../../internal/styled-element';
 
-export type RdsDrawerSide = 'left' | 'right';
+export type RcDrawerSide = 'left' | 'right';
 
 /**
  * Modal side drawer backed by `<dialog>`.
  *
- * @element rds-drawer
+ * @element rc-drawer
  * @fires close - When closed
  * @slot - Drawer body
  * @slot header - Optional header
  * @slot footer - Optional footer
  */
-export class RdsDrawer extends LitElement {
+export class RcDrawer extends RcStyledElement {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: contents;
@@ -29,11 +28,11 @@ export class RdsDrawer extends LitElement {
         max-width: none;
         max-height: none;
         background: transparent;
-        color: var(--rds-color-text-primary);
+        color: var(--rc-color-text-primary);
       }
       
       dialog::backdrop {
-        background: color-mix(in oklab, var(--rds-color-common-black, #000) 45%, transparent);
+        background: color-mix(in oklab, var(--rc-color-common-black, #000) 45%, transparent);
       }
       
       .panel {
@@ -41,30 +40,30 @@ export class RdsDrawer extends LitElement {
         inset-block: 0;
         display: grid;
         grid-template-rows: auto 1fr auto;
-        gap: var(--rds-space-3);
+        gap: var(--rc-space-3);
         width: min(22rem, 100vw);
-        background: var(--rds-color-surface-panel);
-        padding: var(--rds-space-4);
-        box-shadow: var(--rds-shadow-overlay, var(--rds-shadow-surface));
+        background: var(--rc-color-surface-panel);
+        padding: var(--rc-space-4);
+        box-shadow: var(--rc-shadow-overlay, var(--rc-shadow-surface));
       }
       
       :host([side='left']) .panel,
       :host(:not([side])) .panel {
         left: 0;
-        border-radius: 0 var(--rds-radius-xl) var(--rds-radius-xl) 0;
+        border-radius: 0 var(--rc-radius-xl) var(--rc-radius-xl) 0;
       }
       
       :host([side='right']) .panel {
         right: 0;
-        border-radius: var(--rds-radius-xl) 0 0 var(--rds-radius-xl);
+        border-radius: var(--rc-radius-xl) 0 0 var(--rc-radius-xl);
       }
       
       .header {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: var(--rds-space-2);
-        font-weight: var(--rds-typography-weight-semibold);
+        gap: var(--rc-space-2);
+        font-weight: var(--rc-typography-weight-semibold);
       }
       
       .body {
@@ -74,18 +73,18 @@ export class RdsDrawer extends LitElement {
       .close {
         display: inline-grid;
         place-items: center;
-        width: var(--rds-space-7);
-        height: var(--rds-space-7);
+        width: var(--rc-space-7);
+        height: var(--rc-space-7);
         margin: 0;
         border: 0;
-        border-radius: var(--rds-radius-md);
+        border-radius: var(--rc-radius-md);
         background: transparent;
-        color: var(--rds-color-text-secondary);
+        color: var(--rc-color-text-secondary);
         cursor: pointer;
       }
       
       .close:hover {
-        background: var(--rds-color-action-bg-hover);
+        background: var(--rc-color-action-bg-hover);
       }
     `,
   ];
@@ -94,7 +93,7 @@ export class RdsDrawer extends LitElement {
   accessor open: boolean = false;
 
   @property({ type: String, reflect: true })
-  accessor side: RdsDrawerSide = 'left';
+  accessor side: RcDrawerSide = 'left';
 
   #dialog: HTMLDialogElement | null = null;
   #ignoreOpenSync = false;
@@ -133,15 +132,15 @@ export class RdsDrawer extends LitElement {
 
   override render() {
     return html`
-      <dialog @cancel=${() => this.close()} @close=${() => this.#setOpen(false)}>
-        <div class="panel">
-          <div class="header">
+      <dialog part="container dialog" @cancel=${() => this.close()} @close=${() => this.#setOpen(false)}>
+        <div class="panel" part="panel">
+          <div class="header" part="header">
             <slot name="header"></slot>
-            <button class="close" type="button" aria-label="Close" @click=${() => this.close()}>
+            <button class="close" part="control close" type="button" aria-label="Close" @click=${() => this.close()}>
               ×
             </button>
           </div>
-          <div class="body"><slot></slot></div>
+          <div class="body" part="body"><slot></slot></div>
           <slot name="footer"></slot>
         </div>
       </dialog>
@@ -151,6 +150,6 @@ export class RdsDrawer extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-drawer': RdsDrawer;
+    'rc-drawer': RcDrawer;
   }
 }

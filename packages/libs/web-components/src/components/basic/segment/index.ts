@@ -1,2 +1,2 @@
-export { RdsSegment, type RdsSegmentSize } from './segment';
-export { RdsSegmentItem } from './segment-item';
+export { RcSegment, type RcSegmentSize } from './segment';
+export { RcSegmentItem } from './segment-item';

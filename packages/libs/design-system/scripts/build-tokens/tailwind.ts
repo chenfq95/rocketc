@@ -87,7 +87,7 @@ const TYPOGRAPHY_ROLES = [
   'code',
 ] as const;
 
-const rdsVar = (tokenPath: string): string => `var(${cssVarName(tokenPath.split('.'))})`;
+const rcVar = (tokenPath: string): string => `var(${cssVarName(tokenPath.split('.'))})`;
 
 const themeKey = (parts: string[]): string => parts.map(toKebab).join('-');
 
@@ -104,17 +104,17 @@ const push = (lines: string[], declaration: string): void => {
 
 /**
  * Single Tailwind / shadcn theme file:
- * - `:root` shadcn short names (`--background`, `--primary`, …) → `--rds-*`
+ * - `:root` shadcn short names (`--background`, `--primary`, …) → `--rc-*`
  * - `@theme inline` utilities for shadcn + full DS semantic roles
  *
- * Short-name values resolve against whatever `--rds-*` the active `data-theme` sets.
+ * Short-name values resolve against whatever `--rc-*` the active `data-theme` sets.
  */
 export const buildTailwindTheme = (tokens: FlatTokenTheme): string => {
   const rootLines = [
     ...Object.entries(SHADCN_COLOR_ALIASES).map(
-      ([name, tokenPath]) => `  --${name}: ${rdsVar(tokenPath)};`,
+      ([name, tokenPath]) => `  --${name}: ${rcVar(tokenPath)};`,
     ),
-    `  --radius: ${rdsVar(SHADCN_RADIUS_ALIAS)};`,
+    `  --radius: ${rcVar(SHADCN_RADIUS_ALIAS)};`,
   ];
 
   const lines: string[] = [];
@@ -128,22 +128,22 @@ export const buildTailwindTheme = (tokens: FlatTokenTheme): string => {
   for (const name of Object.keys(tokens).sort()) {
     if (!isSemanticColor(name)) continue;
     const parts = name.split('.').slice(1); // drop `color`
-    push(lines, `--color-${themeKey(parts)}: ${rdsVar(name)};`);
+    push(lines, `--color-${themeKey(parts)}: ${rcVar(name)};`);
   }
 
   // --- Font families ---
   if (hasToken(tokens, 'typography.family.sans')) {
-    push(lines, `--font-sans: ${rdsVar('typography.family.sans')};`);
+    push(lines, `--font-sans: ${rcVar('typography.family.sans')};`);
   }
   if (hasToken(tokens, 'typography.family.mono')) {
-    push(lines, `--font-mono: ${rdsVar('typography.family.mono')};`);
+    push(lines, `--font-mono: ${rcVar('typography.family.mono')};`);
   }
 
   // --- Type scale + role font sizes ---
   for (const name of Object.keys(tokens).sort()) {
     if (!name.startsWith('typography.size.')) continue;
     const step = themeKey(name.split('.').slice(2));
-    push(lines, `--text-${step}: ${rdsVar(name)};`);
+    push(lines, `--text-${step}: ${rcVar(name)};`);
   }
   for (const role of TYPOGRAPHY_ROLES) {
     const sizeVar = cssVarName(['typography', role, 'fontSize']);
@@ -156,41 +156,41 @@ export const buildTailwindTheme = (tokens: FlatTokenTheme): string => {
   // --- Font weights / leading / tracking ---
   for (const name of Object.keys(tokens).sort()) {
     if (name.startsWith('typography.weight.')) {
-      push(lines, `--font-weight-${themeKey(name.split('.').slice(2))}: ${rdsVar(name)};`);
+      push(lines, `--font-weight-${themeKey(name.split('.').slice(2))}: ${rcVar(name)};`);
     }
     if (name.startsWith('typography.lineHeight.')) {
-      push(lines, `--leading-${themeKey(name.split('.').slice(2))}: ${rdsVar(name)};`);
+      push(lines, `--leading-${themeKey(name.split('.').slice(2))}: ${rcVar(name)};`);
     }
     if (name.startsWith('typography.letterSpacing.')) {
-      push(lines, `--tracking-${themeKey(name.split('.').slice(2))}: ${rdsVar(name)};`);
+      push(lines, `--tracking-${themeKey(name.split('.').slice(2))}: ${rcVar(name)};`);
     }
   }
 
   // --- Spacing (space scale + layout dims that behave as spacing) ---
   for (const name of Object.keys(tokens).sort()) {
     if (!name.startsWith('space.')) continue;
-    push(lines, `--spacing-${themeKey(name.split('.').slice(1))}: ${rdsVar(name)};`);
+    push(lines, `--spacing-${themeKey(name.split('.').slice(1))}: ${rcVar(name)};`);
   }
   for (const name of Object.keys(tokens).sort()) {
     if (!name.startsWith('layout.')) continue;
     const leaf = name.split('.').at(-1);
     if (leaf === 'maxWidth') {
-      push(lines, `--max-width-${themeKey(name.split('.').slice(1, -1))}: ${rdsVar(name)};`);
+      push(lines, `--max-width-${themeKey(name.split('.').slice(1, -1))}: ${rcVar(name)};`);
       continue;
     }
-    push(lines, `--spacing-${themeKey(name.split('.'))}: ${rdsVar(name)};`);
+    push(lines, `--spacing-${themeKey(name.split('.'))}: ${rcVar(name)};`);
   }
 
   // --- Size scale ---
   for (const name of Object.keys(tokens).sort()) {
     if (!name.startsWith('size.')) continue;
-    push(lines, `--size-${themeKey(name.split('.').slice(1))}: ${rdsVar(name)};`);
+    push(lines, `--size-${themeKey(name.split('.').slice(1))}: ${rcVar(name)};`);
   }
 
   // --- Radius (full scale + shadcn DEFAULT) ---
   for (const name of Object.keys(tokens).sort()) {
     if (!name.startsWith('radius.')) continue;
-    push(lines, `--radius-${themeKey(name.split('.').slice(1))}: ${rdsVar(name)};`);
+    push(lines, `--radius-${themeKey(name.split('.').slice(1))}: ${rcVar(name)};`);
   }
   push(lines, `--radius-DEFAULT: var(--radius);`);
 
@@ -199,42 +199,42 @@ export const buildTailwindTheme = (tokens: FlatTokenTheme): string => {
     if (!name.startsWith('border.') || name.startsWith('color.border.')) continue;
     // dimension border.* only (border.sm, …)
     if (tokens[name]?.$type !== 'dimension') continue;
-    push(lines, `--border-width-${themeKey(name.split('.').slice(1))}: ${rdsVar(name)};`);
+    push(lines, `--border-width-${themeKey(name.split('.').slice(1))}: ${rcVar(name)};`);
   }
 
   // --- Shadows ---
   for (const name of Object.keys(tokens).sort()) {
     if (!name.startsWith('shadow.') || tokens[name]?.$type !== 'shadow') continue;
-    push(lines, `--shadow-${themeKey(name.split('.').slice(1))}: ${rdsVar(name)};`);
+    push(lines, `--shadow-${themeKey(name.split('.').slice(1))}: ${rcVar(name)};`);
   }
 
   // --- Blur ---
   for (const name of Object.keys(tokens).sort()) {
     if (!name.startsWith('blur.')) continue;
-    push(lines, `--blur-${themeKey(name.split('.').slice(1))}: ${rdsVar(name)};`);
+    push(lines, `--blur-${themeKey(name.split('.').slice(1))}: ${rcVar(name)};`);
   }
 
   // --- Opacity (semantic + scale) ---
-  // Tailwind v4 color-mix modifiers need percentages (`90%`), while RDS stores
+  // Tailwind v4 color-mix modifiers need percentages (`90%`), while design tokens store
   // unitless 0–1 numbers. Convert at the theme boundary.
   for (const name of Object.keys(tokens).sort()) {
     if (!name.startsWith('opacity.')) continue;
-    push(lines, `--opacity-${themeKey(name.split('.').slice(1))}: calc(${rdsVar(name)} * 100%);`);
+    push(lines, `--opacity-${themeKey(name.split('.').slice(1))}: calc(${rcVar(name)} * 100%);`);
   }
 
   // --- Z-index (roles + scale) ---
   for (const name of Object.keys(tokens).sort()) {
     if (!name.startsWith('zIndex.')) continue;
-    push(lines, `--z-index-${themeKey(name.split('.').slice(1))}: ${rdsVar(name)};`);
+    push(lines, `--z-index-${themeKey(name.split('.').slice(1))}: ${rcVar(name)};`);
   }
 
   // --- Motion ---
   for (const name of Object.keys(tokens).sort()) {
     if (name.startsWith('duration.')) {
-      push(lines, `--duration-${themeKey(name.split('.').slice(1))}: ${rdsVar(name)};`);
+      push(lines, `--duration-${themeKey(name.split('.').slice(1))}: ${rcVar(name)};`);
     }
     if (name.startsWith('easing.')) {
-      push(lines, `--ease-${themeKey(name.split('.').slice(1))}: ${rdsVar(name)};`);
+      push(lines, `--ease-${themeKey(name.split('.').slice(1))}: ${rcVar(name)};`);
     }
   }
 

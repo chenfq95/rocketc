@@ -1,13 +1,16 @@
-<!-- overlay/drawer — basic — usage snippet for @rocketc/web-components -->
-<div class="rds-demo">
-<rds-button size="sm" variant="outline" onclick="document.getElementById('demo-drawer').show()">
-    Open drawer
-  </rds-button>
-  <rds-drawer id="demo-drawer" side="left">
-    <span slot="header">Drawer</span>
-    Navigation or filters live here.
+<!--
+title: 基础 / Basic
+description: 展示使用默认配置的实用抽屉示例。 / Shows a practical drawer example with its default configuration.
+-->
+<div class="rc-demo">
+  <rc-button size="sm" variant="outline" onclick="document.getElementById('demo-drawer').show()">
+    打开抽屉 / Open drawer
+  </rc-button>
+  <rc-drawer id="demo-drawer" side="left">
+    <span slot="header">抽屉 / Drawer</span>
+    此处放置导航或筛选器。 / Navigation or filters live here.
     <div slot="footer">
-      <rds-button size="sm" onclick="this.closest('rds-drawer').close()">Close</rds-button>
+      <rc-button size="sm" onclick="this.closest('rc-drawer').close()">关闭 / Close</rc-button>
     </div>
-  </rds-drawer>
+  </rc-drawer>
 </div>

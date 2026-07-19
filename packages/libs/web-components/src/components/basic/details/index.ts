@@ -1,1 +1,1 @@
-export { RdsDetails } from './details';
+export { RcDetails } from './details';

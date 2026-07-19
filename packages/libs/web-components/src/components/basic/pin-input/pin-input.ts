@@ -1,27 +1,27 @@
-import { LitElement, css, html } from 'lit';
+import { css, html } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { mixinElementInternals } from '../../../internal/element-internals';
+import { RcStyledElement } from '../../../internal/styled-element';
+
+import { mixinElementInternals } from '../../../internal/mixin-element-internals';
 import {
   getFormValue,
   mixinFormAssociated,
   type FormRestoreReason,
   type FormRestoreState,
-} from '../../../internal/form-associated';
-import { hostStyles } from '../../../internal/shared-styles';
+} from '../../../internal/mixin-form-associated';
 
-const base = mixinFormAssociated(mixinElementInternals(LitElement));
+const base = mixinFormAssociated(mixinElementInternals(RcStyledElement));
 
 /**
  * OTP / PIN digit group. `value` is the concatenated string.
  *
- * @element rds-pin-input
+ * @element rc-pin-input
  * @fires change - When all digits filled or value changes (`detail.value`)
  * @fires input - On each digit change (`detail.value`)
  */
-export class RdsPinInput extends base {
+export class RcPinInput extends base {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: block;
@@ -30,31 +30,31 @@ export class RdsPinInput extends base {
       .root {
         display: flex;
         flex-wrap: wrap;
-        gap: var(--rds-space-2);
+        gap: var(--rc-space-2);
       }
       
       input {
-        width: var(--rds-space-9);
-        height: var(--rds-space-9);
+        width: var(--rc-space-9);
+        height: var(--rc-space-9);
         margin: 0;
-        border: var(--rds-border-sm) solid var(--rds-color-border-default);
-        border-radius: var(--rds-radius-md);
-        background: var(--rds-color-surface-panel);
+        border: var(--rc-border-sm) solid var(--rc-color-border-default);
+        border-radius: var(--rc-radius-md);
+        background: var(--rc-color-surface-panel);
         color: inherit;
         font: inherit;
-        font-size: var(--rds-typography-body-font-size);
-        font-weight: var(--rds-typography-weight-semibold);
+        font-size: var(--rc-typography-body-font-size);
+        font-weight: var(--rc-typography-weight-semibold);
         text-align: center;
       }
       
       input:focus-visible {
         outline: none;
-        border-color: var(--rds-color-border-focus);
-        box-shadow: 0 0 0 3px color-mix(in oklab, var(--rds-color-border-focus) 30%, transparent);
+        border-color: var(--rc-color-border-focus);
+        box-shadow: 0 0 0 3px color-mix(in oklab, var(--rc-color-border-focus) 30%, transparent);
       }
       
       :host([disabled]) input {
-        opacity: var(--rds-opacity-disabled);
+        opacity: var(--rc-opacity-disabled);
       }
     `,
   ];
@@ -131,10 +131,10 @@ export class RdsPinInput extends base {
 
   override render() {
     return html`
-      <div class="root" role="group" aria-label="PIN">
+      <div class="root" part="container root" role="group" aria-label="PIN">
         ${this.#digits().map(
           (digit, index) => html`
-            <input
+            <input part="control item input"
               type=${this.mask ? 'password' : 'text'}
               inputmode="numeric"
               maxlength="1"
@@ -155,6 +155,6 @@ export class RdsPinInput extends base {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-pin-input': RdsPinInput;
+    'rc-pin-input': RcPinInput;
   }
 }

@@ -1,11 +1,14 @@
-<!-- overlay/dropdown — menu — usage snippet for @rocketc/web-components -->
-<div class="rds-demo">
-<rds-dropdown>
-    <rds-button slot="trigger" size="sm" variant="outline">Actions</rds-button>
-    <rds-menu>
-      <rds-menu-item value="rename">Rename</rds-menu-item>
-      <rds-menu-item value="share">Share</rds-menu-item>
-      <rds-menu-item value="delete" destructive>Delete</rds-menu-item>
-    </rds-menu>
-  </rds-dropdown>
+<!--
+title: 菜单 / Menu
+description: 展示带菜单触发器和可选操作的下拉菜单。 / Uses dropdown with a menu trigger and selectable actions.
+-->
+<div class="rc-demo">
+  <rc-dropdown>
+    <rc-button slot="trigger" size="sm" variant="outline">操作 / Actions</rc-button>
+    <rc-menu>
+      <rc-menu-item value="rename">重命名 / Rename</rc-menu-item>
+      <rc-menu-item value="share">分享 / Share</rc-menu-item>
+      <rc-menu-item value="delete" destructive>删除 / Delete</rc-menu-item>
+    </rc-menu>
+  </rc-dropdown>
 </div>

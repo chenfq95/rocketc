@@ -36,7 +36,7 @@ const build = async (): Promise<void> => {
   results.forEach(writeTheme);
   writeJsIndex();
   writeMuiIndex();
-  // Bridge + @theme reference `--rds-*`; any theme's key set works for theme.css.
+  // Bridge + @theme reference `--rc-*`; any theme's key set works for theme.css.
   writeTailwind(results[0]!.jsTokens);
 
   console.log(`Built ${results.length} token themes into ${path.relative(ROOT_DIR, OUT_DIR)}`);

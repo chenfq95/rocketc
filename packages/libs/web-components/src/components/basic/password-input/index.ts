@@ -1,1 +1,1 @@
-export { RdsPasswordInput } from './password-input';
+export { RcPasswordInput } from './password-input';

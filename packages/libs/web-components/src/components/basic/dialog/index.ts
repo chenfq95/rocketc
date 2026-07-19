@@ -1,1 +1,1 @@
-export { RdsDialog } from './dialog';
+export { RcDialog } from './dialog';

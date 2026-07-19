@@ -1,21 +1,24 @@
-<!-- data/list — interactive — usage snippet for @rocketc/web-components -->
-<div class="rds-demo">
-<rds-list bordered>
-    <rds-list-item interactive>
+<!--
+title: 交互 / Interactive
+description: 演示可交互列表项及其操作提示。 / Demonstrates interactive list items and their affordances.
+-->
+<div class="rc-demo">
+  <rc-list bordered>
+    <rc-list-item interactive>
       <span slot="prefix">01</span>
-      Tokens
-      <span slot="description">Primitive + semantic</span>
-      <rds-badge slot="suffix" variant="success">ok</rds-badge>
-    </rds-list-item>
-    <rds-list-item interactive>
+      令牌 / Tokens
+      <span slot="description">基础 + 语义 / Primitive + semantic</span>
+      <rc-badge slot="suffix" variant="success">正常 / ok</rc-badge>
+    </rc-list-item>
+    <rc-list-item interactive>
       <span slot="prefix">02</span>
-      Components
-      <span slot="description">Lit custom elements</span>
-      <rds-badge slot="suffix">live</rds-badge>
-    </rds-list-item>
-    <rds-list-item disabled>
-      Adapters
-      <span slot="description">Coming soon</span>
-    </rds-list-item>
-  </rds-list>
+      组件 / Components
+      <span slot="description">Lit 自定义元素 / Lit custom elements</span>
+      <rc-badge slot="suffix">已上线 / live</rc-badge>
+    </rc-list-item>
+    <rc-list-item disabled>
+      适配器 / Adapters
+      <span slot="description">即将推出 / Coming soon</span>
+    </rc-list-item>
+  </rc-list>
 </div>

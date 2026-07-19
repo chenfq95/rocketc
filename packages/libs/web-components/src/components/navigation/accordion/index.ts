@@ -1,2 +1,2 @@
-export { RdsAccordion } from './accordion';
-export { RdsAccordionItem } from './accordion-item';
+export { RcAccordion } from './accordion';
+export { RcAccordionItem } from './accordion-item';

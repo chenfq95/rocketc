@@ -1,1 +1,1 @@
-export { RdsColorPicker } from './color-picker';
+export { RcColorPicker } from './color-picker';

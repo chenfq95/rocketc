@@ -1,41 +1,40 @@
-import { LitElement, css, html, type PropertyValues } from 'lit';
+import { css, html, type PropertyValues } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { hostStyles } from '../../../internal/shared-styles';
+import { RcStyledElement } from '../../../internal/styled-element';
 
 /**
  * Disclosure widget backed by native `<details>` / `<summary>`.
  *
- * @element rds-details
+ * @element rc-details
  * @fires toggle - Fired when open state changes (`detail.open`)
  * @slot - Disclosure content
  * @slot summary - Summary / trigger label
  */
-export class RdsDetails extends LitElement {
+export class RcDetails extends RcStyledElement {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: block;
       }
       
       details {
-        border: var(--rds-border-sm) solid var(--rds-color-border-subtle);
-        border-radius: var(--rds-radius-lg);
-        background: var(--rds-color-surface-panel);
-        padding: 0 var(--rds-space-4);
+        border: var(--rc-border-sm) solid var(--rc-color-border-subtle);
+        border-radius: var(--rc-radius-lg);
+        background: var(--rc-color-surface-panel);
+        padding: 0 var(--rc-space-4);
       }
       
       summary {
         display: flex;
         align-items: center;
-        gap: var(--rds-space-2);
-        min-height: var(--rds-space-9);
+        gap: var(--rc-space-2);
+        min-height: var(--rc-space-9);
         list-style: none;
         cursor: pointer;
-        color: var(--rds-color-text-primary);
-        font-size: var(--rds-typography-label-font-size);
-        font-weight: var(--rds-typography-weight-medium);
+        color: var(--rc-color-text-primary);
+        font-size: var(--rc-typography-label-font-size);
+        font-weight: var(--rc-typography-weight-medium);
       }
       
       summary::-webkit-details-marker {
@@ -46,10 +45,10 @@ export class RdsDetails extends LitElement {
         content: '';
         width: 0.4rem;
         height: 0.4rem;
-        border-right: var(--rds-border-sm) solid currentColor;
-        border-bottom: var(--rds-border-sm) solid currentColor;
+        border-right: var(--rc-border-sm) solid currentColor;
+        border-bottom: var(--rc-border-sm) solid currentColor;
         rotate: -45deg;
-        transition: rotate var(--rds-duration-fast) var(--rds-easing-standard);
+        transition: rotate var(--rc-duration-fast) var(--rc-easing-standard);
       }
       
       details[open] summary::before {
@@ -59,15 +58,15 @@ export class RdsDetails extends LitElement {
       summary:focus-visible {
         outline: none;
         box-shadow:
-          0 0 0 2px var(--rds-color-surface-panel),
-          0 0 0 4px var(--rds-color-border-focus);
-        border-radius: var(--rds-radius-sm);
+          0 0 0 2px var(--rc-color-surface-panel),
+          0 0 0 4px var(--rc-color-border-focus);
+        border-radius: var(--rc-radius-sm);
       }
       
       .content {
-        padding: 0 0 var(--rds-space-4);
-        color: var(--rds-color-text-secondary);
-        font-size: var(--rds-typography-body-font-size);
+        padding: 0 0 var(--rc-space-4);
+        color: var(--rc-color-text-secondary);
+        font-size: var(--rc-typography-body-font-size);
       }
     `,
   ];
@@ -100,9 +99,9 @@ export class RdsDetails extends LitElement {
 
   override render() {
     return html`
-      <details ?open=${this.open} @toggle=${this.#onToggle}>
-        <summary><slot name="summary">Details</slot></summary>
-        <div class="content"><slot></slot></div>
+      <details part="container details" ?open=${this.open} @toggle=${this.#onToggle}>
+        <summary part="control"><slot name="summary">Details</slot></summary>
+        <div class="content" part="content"><slot></slot></div>
       </details>
     `;
   }
@@ -110,6 +109,6 @@ export class RdsDetails extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-details': RdsDetails;
+    'rc-details': RcDetails;
   }
 }

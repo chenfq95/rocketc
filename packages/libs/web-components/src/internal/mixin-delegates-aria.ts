@@ -83,7 +83,7 @@ const ignoreAttributeChangesFor = Symbol('ignoreAttributeChangesFor');
  * must bind values in `render()`, e.g. `aria-label=${this.ariaLabel || nothing}`.
  *
  * Does not support IDREF attributes (`aria-labelledby`, `aria-controls`, …).
- * Those should remain on the host (see `rds-label`).
+ * Those should remain on the host (see `rc-label`).
  *
  * Uses `observedAttributes` + `attributeChangedCallback` (via Lit
  * `createProperty`) instead of a MutationObserver.

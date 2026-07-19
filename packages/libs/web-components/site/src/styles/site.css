@@ -1,6 +1,6 @@
-/* Thin shell only — chrome comes from rds-* components + design tokens. */
+/* 仅保留轻量站点外壳，界面样式来自 rc-* 组件和设计令牌。 / Keep only a thin site shell; chrome comes from rc-* components and design tokens. */
 
-/* Avoid FOUC while custom elements upgrade on first paint / hard refresh. */
+/* 在自定义元素首次绘制或强制刷新升级期间避免无样式内容闪烁。 / Avoid FOUC while custom elements upgrade on first paint or hard refresh. */
 :not(:defined) {
   visibility: hidden;
 }
@@ -9,8 +9,8 @@ html,
 body {
   margin: 0;
   min-height: 100%;
-  background: var(--rds-color-surface-canvas, #f6f7f9);
-  color: var(--rds-color-text-primary, #111);
+  background: var(--rc-color-surface-canvas, #f6f7f9);
+  color: var(--rc-color-text-primary, #111);
 }
 
 body {
@@ -27,8 +27,8 @@ body {
   position: sticky;
   top: 0;
   z-index: 20;
-  border-bottom: 1px solid var(--rds-color-border-subtle, #e5e7eb);
-  background: color-mix(in srgb, var(--rds-color-surface-panel, #fff) 88%, transparent);
+  border-bottom: 1px solid var(--rc-color-border-subtle, #e5e7eb);
+  background: color-mix(in srgb, var(--rc-color-surface-panel, #fff) 88%, transparent);
   backdrop-filter: blur(10px);
 }
 
@@ -49,12 +49,12 @@ body {
   min-height: 0;
 }
 
-.site-shell > rds-sidebar.site-sidebar {
+.site-shell > rc-sidebar.site-sidebar {
   position: sticky;
   top: 3.75rem;
   height: calc(100vh - 3.75rem);
   flex: 0 0 auto;
-  /* Drop the component's hard divider — canvas/panel contrast is enough. */
+  /* 移除组件的硬分隔线，画布与面板的对比已足够。 / Drop the component's hard divider; canvas and panel contrast is enough. */
   border-right: 0;
   background: transparent;
 }
@@ -69,12 +69,12 @@ body {
   margin-inline: auto;
 }
 
-/* Keep scroll-area behavior, strip its chrome so the sidebar stays quiet. */
+/* 保留滚动区域行为并移除外观装饰，使侧边栏保持简洁。 / Keep scroll-area behavior and strip its chrome so the sidebar stays quiet. */
 .site-nav-scroll::part(viewport) {
   border: 0;
   border-radius: 0;
   background: transparent;
-  padding: var(--rds-space-3, 0.75rem) 0;
+  padding: var(--rc-space-3, 0.75rem) 0;
 }
 
 .site-nav {
@@ -89,33 +89,45 @@ body {
 
 .site-nav-link {
   display: block;
-  border-radius: var(--rds-radius-md, 0.5rem);
+  border-radius: var(--rc-radius-md, 0.5rem);
   padding: 0.4rem 0.55rem;
-  color: var(--rds-color-text-secondary, #6b7280);
-  font-size: var(--rds-typography-body-small-font-size, 0.875rem);
+  color: var(--rc-color-text-secondary, #6b7280);
+  font-size: var(--rc-typography-body-small-font-size, 0.875rem);
   line-height: 1.35;
   text-decoration: none;
+  overflow-wrap: anywhere;
 }
 
 .site-nav-link:hover {
-  color: var(--rds-color-text-primary, #111);
-  background: color-mix(in srgb, var(--rds-color-text-primary, #111) 5%, transparent);
+  color: var(--rc-color-text-primary, #111);
+  background: color-mix(in srgb, var(--rc-color-text-primary, #111) 5%, transparent);
 }
 
 .site-nav-link.is-active {
-  color: var(--rds-color-text-primary, #111);
-  background: color-mix(in srgb, var(--rds-color-text-primary, #111) 8%, transparent);
+  color: var(--rc-color-text-primary, #111);
+  background: color-mix(in srgb, var(--rc-color-text-primary, #111) 8%, transparent);
   font-weight: 600;
 }
 
 .site-card-link {
   color: inherit;
   text-decoration: none;
+  overflow-wrap: anywhere;
 }
 
 .site-card-link:hover {
   text-decoration: underline;
   text-underline-offset: 0.15em;
+}
+
+.site-inline-link {
+  color: var(--rc-color-text-secondary, #6b7280);
+  font-size: var(--rc-typography-body-small-font-size, 0.875rem);
+  text-underline-offset: 0.15em;
+}
+
+.site-inline-link:hover {
+  color: var(--rc-color-text-primary, #111);
 }
 
 .example-panel-header {
@@ -128,16 +140,16 @@ body {
 
 .example-code {
   overflow: auto;
-  border-radius: var(--rds-radius-md, 0.5rem);
+  border-radius: var(--rc-radius-md, 0.5rem);
 }
 
 .example-code .shiki {
   margin: 0;
   overflow: auto;
-  border-radius: var(--rds-radius-md, 0.5rem);
+  border-radius: var(--rc-radius-md, 0.5rem);
   padding: 1rem 1.1rem;
-  font-family: var(--rds-typography-code-font-family, ui-monospace, monospace);
-  font-size: var(--rds-typography-code-font-size, 0.8125rem);
+  font-family: var(--rc-typography-code-font-family, ui-monospace, monospace);
+  font-size: var(--rc-typography-code-font-size, 0.8125rem);
   line-height: 1.55;
   tab-size: 2;
   background: var(--shiki-light-bg, #fff) !important;
@@ -162,15 +174,15 @@ html[data-theme$='.dark'] .example-code .shiki span {
   color: var(--shiki-dark) !important;
 }
 
-.rds-demo-stack {
+.rc-demo-stack {
   display: grid;
-  gap: var(--rds-space-5, 1.5rem);
+  gap: var(--rc-space-5, 1.5rem);
 }
 
-.rds-demo-host .rds-demo {
+.rc-demo-host .rc-demo {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--rds-space-3, 0.75rem);
+  gap: var(--rc-space-3, 0.75rem);
   align-items: center;
 }
 
@@ -181,47 +193,47 @@ html[data-theme$='.dark'] .example-code .shiki span {
 .api-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: var(--rds-typography-body-small-font-size, 0.875rem);
+  font-size: var(--rc-typography-body-small-font-size, 0.875rem);
 }
 
 .api-table th,
 .api-table td {
   padding: 0.55rem 0.65rem;
-  border-bottom: 1px solid var(--rds-color-border-subtle, #e5e7eb);
+  border-bottom: 1px solid var(--rc-color-border-subtle, #e5e7eb);
   text-align: left;
   vertical-align: top;
 }
 
 .api-table th {
-  color: var(--rds-color-text-secondary, #6b7280);
+  color: var(--rc-color-text-secondary, #6b7280);
   font-weight: 600;
   white-space: nowrap;
 }
 
 .api-table code {
-  font-family: var(--rds-typography-code-font-family, ui-monospace, monospace);
+  font-family: var(--rc-typography-code-font-family, ui-monospace, monospace);
   font-size: 0.8em;
 }
 
-.rds-demo-host .rds-demo:has(rds-stack),
-.rds-demo-host .rds-demo:has(rds-field),
-.rds-demo-host .rds-demo:has(rds-fieldset),
-.rds-demo-host .rds-demo:has(rds-tabs),
-.rds-demo-host .rds-demo:has(rds-accordion),
-.rds-demo-host .rds-demo:has(rds-list),
-.rds-demo-host .rds-demo:has(rds-table),
-.rds-demo-host .rds-demo:has(rds-grid),
-.rds-demo-host .rds-demo:has(rds-flex),
-.rds-demo-host .rds-demo:has(rds-box),
-.rds-demo-host .rds-demo:has(rds-alert),
-.rds-demo-host .rds-demo:has(rds-sidebar),
-.rds-demo-host .rds-demo:has(rds-steps),
-.rds-demo-host .rds-demo:has(rds-timeline),
-.rds-demo-host .rds-demo:has(rds-menu),
-.rds-demo-host .rds-demo:has(rds-radio-group),
-.rds-demo-host .rds-demo:has(rds-progress),
-.rds-demo-host .rds-demo:has(rds-scroll-area),
-.rds-demo-host .rds-demo:has(rds-typography) {
+.rc-demo-host .rc-demo:has(rc-stack),
+.rc-demo-host .rc-demo:has(rc-field),
+.rc-demo-host .rc-demo:has(rc-fieldset),
+.rc-demo-host .rc-demo:has(rc-tabs),
+.rc-demo-host .rc-demo:has(rc-accordion),
+.rc-demo-host .rc-demo:has(rc-list),
+.rc-demo-host .rc-demo:has(rc-table),
+.rc-demo-host .rc-demo:has(rc-grid),
+.rc-demo-host .rc-demo:has(rc-flex),
+.rc-demo-host .rc-demo:has(rc-box),
+.rc-demo-host .rc-demo:has(rc-alert),
+.rc-demo-host .rc-demo:has(rc-sidebar),
+.rc-demo-host .rc-demo:has(rc-steps),
+.rc-demo-host .rc-demo:has(rc-timeline),
+.rc-demo-host .rc-demo:has(rc-menu),
+.rc-demo-host .rc-demo:has(rc-radio-group),
+.rc-demo-host .rc-demo:has(rc-progress),
+.rc-demo-host .rc-demo:has(rc-scroll-area),
+.rc-demo-host .rc-demo:has(rc-typography) {
   display: grid;
   justify-items: start;
   align-items: stretch;
@@ -232,7 +244,7 @@ html[data-theme$='.dark'] .example-code .shiki span {
     flex-direction: column;
   }
 
-  .site-shell > rds-sidebar.site-sidebar {
+  .site-shell > rc-sidebar.site-sidebar {
     position: relative;
     top: 0;
     height: auto;
@@ -240,7 +252,7 @@ html[data-theme$='.dark'] .example-code .shiki span {
   }
 
   .site-nav-scroll {
-    --rds-scroll-max-height: none;
+    --rc-scroll-max-height: none;
   }
 
   .site-header > .site-header-inner {

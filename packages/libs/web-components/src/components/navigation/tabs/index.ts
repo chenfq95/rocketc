@@ -1,2 +1,2 @@
-export { RdsTabs } from './tabs';
-export { RdsTab } from './tab';
+export { RcTabs } from './tabs';
+export { RcTab } from './tab';

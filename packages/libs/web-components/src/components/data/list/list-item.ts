@@ -1,20 +1,19 @@
-import { LitElement, css, html } from 'lit';
+import { css, html } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { hostStyles } from '../../../internal/shared-styles';
+import { RcStyledElement } from '../../../internal/styled-element';
 
 /**
- * Row inside `rds-list`.
+ * Row inside `rc-list`.
  *
- * @element rds-list-item
+ * @element rc-list-item
  * @slot - Primary content
  * @slot prefix - Leading media / icon
  * @slot suffix - Trailing meta / action
  * @slot description - Secondary text
  */
-export class RdsListItem extends LitElement {
+export class RcListItem extends RcStyledElement {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: block;
@@ -23,11 +22,11 @@ export class RdsListItem extends LitElement {
       .root {
         display: grid;
         grid-template-columns: auto 1fr auto;
-        gap: var(--rds-space-3);
+        gap: var(--rc-space-3);
         align-items: center;
-        padding: var(--rds-space-3) var(--rds-space-4);
-        border-bottom: var(--rds-border-sm) solid var(--rds-color-border-subtle);
-        color: var(--rds-color-text-primary);
+        padding: var(--rc-space-3) var(--rc-space-4);
+        border-bottom: var(--rc-border-sm) solid var(--rc-color-border-subtle);
+        color: var(--rc-color-text-primary);
         background: transparent;
         width: 100%;
         margin: 0;
@@ -44,12 +43,12 @@ export class RdsListItem extends LitElement {
       
       .copy {
         display: grid;
-        gap: var(--rds-space-1);
+        gap: var(--rc-space-1);
       }
       
       .description {
-        color: var(--rds-color-text-secondary);
-        font-size: var(--rds-typography-body-small-font-size);
+        color: var(--rc-color-text-secondary);
+        font-size: var(--rc-typography-body-small-font-size);
       }
       
       :host([interactive]) .root {
@@ -57,12 +56,12 @@ export class RdsListItem extends LitElement {
       }
       
       :host([interactive]) .root:hover {
-        background: var(--rds-color-action-bg-hover);
+        background: var(--rc-color-action-bg-hover);
       }
       
       :host([disabled]) .root {
         cursor: not-allowed;
-        opacity: var(--rds-opacity-disabled);
+        opacity: var(--rc-opacity-disabled);
       }
     `,
   ];
@@ -83,17 +82,16 @@ export class RdsListItem extends LitElement {
   override render() {
     if (this.interactive) {
       return html`
-        <button
-          class="root"
+        <button class="root" part="control root"
           role="listitem"
           type="button"
           ?disabled=${this.disabled}
           @click=${this.#onClick}
         >
           <slot name="prefix"></slot>
-          <div class="copy">
+          <div class="copy" part="copy">
             <slot></slot>
-            <div class="description"><slot name="description"></slot></div>
+            <div class="description" part="description"><slot name="description"></slot></div>
           </div>
           <slot name="suffix"></slot>
         </button>
@@ -101,11 +99,11 @@ export class RdsListItem extends LitElement {
     }
 
     return html`
-      <div class="root" role="listitem">
+      <div class="root" part="container root" role="listitem">
         <slot name="prefix"></slot>
-        <div class="copy">
+        <div class="copy" part="copy">
           <slot></slot>
-          <div class="description"><slot name="description"></slot></div>
+          <div class="description" part="description"><slot name="description"></slot></div>
         </div>
         <slot name="suffix"></slot>
       </div>
@@ -115,6 +113,6 @@ export class RdsListItem extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-list-item': RdsListItem;
+    'rc-list-item': RcListItem;
   }
 }

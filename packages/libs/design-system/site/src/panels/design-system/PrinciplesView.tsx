@@ -19,75 +19,75 @@ function TextList({
   color?: 'secondary' | 'muted';
 }) {
   return (
-    <rds-stack class="principles-text-list" gap="sm">
+    <rc-stack class="principles-text-list" gap="sm">
       {items.map((item) => (
         <div className="principles-text-list__item" key={item}>
-          <rds-typography variant="body-small" color={color} as="p">
+          <rc-typography variant="body-small" color={color} as="p">
             {item}
-          </rds-typography>
+          </rc-typography>
         </div>
       ))}
-    </rds-stack>
+    </rc-stack>
   );
 }
 
 export function PrinciplesView() {
   return (
-    <rds-stack class="principles-layout" gap="xl" role="tabpanel">
+    <rc-stack class="principles-layout" gap="xl" role="tabpanel">
       <PreviewPanel meta={principlesIntro.meta} title={principlesIntro.title} badge="Philosophy">
-        <rds-typography class="primitive-glossary-lede" variant="body" color="secondary" as="p">
+        <rc-typography class="primitive-glossary-lede" variant="body" color="secondary" as="p">
           {principlesIntro.lede}
-        </rds-typography>
+        </rc-typography>
       </PreviewPanel>
 
       <PreviewPanel meta="Scope" title={packageScope.title}>
-        <rds-grid columns={2} gap="lg">
-          <rds-stack gap="sm">
-            <rds-typography variant="caption" color="muted" as="p">
+        <rc-grid columns={2} gap="lg">
+          <rc-stack gap="sm">
+            <rc-typography variant="caption" color="muted" as="p">
               It is
-            </rds-typography>
+            </rc-typography>
             <TextList items={packageScope.is} />
-          </rds-stack>
-          <rds-stack gap="sm">
-            <rds-typography variant="caption" color="muted" as="p">
+          </rc-stack>
+          <rc-stack gap="sm">
+            <rc-typography variant="caption" color="muted" as="p">
               It is not
-            </rds-typography>
+            </rc-typography>
             <TextList items={packageScope.isNot} color="muted" />
-          </rds-stack>
-        </rds-grid>
+          </rc-stack>
+        </rc-grid>
       </PreviewPanel>
 
       <PreviewPanel meta="Direction" title={productDirection.title}>
-        <rds-stack gap="md">
-          <rds-typography class="primitive-glossary-lede" variant="body" color="secondary" as="p">
+        <rc-stack gap="md">
+          <rc-typography class="primitive-glossary-lede" variant="body" color="secondary" as="p">
             {productDirection.blurb}
-          </rds-typography>
+          </rc-typography>
           <TextList items={productDirection.bullets} />
-        </rds-stack>
+        </rc-stack>
       </PreviewPanel>
 
       <PreviewPanel meta="Goals" title="What success looks like">
-        <rds-grid class="principles-card-grid" columns={2} gap="lg">
+        <rc-grid class="principles-card-grid" columns={2} gap="lg">
           {designGoals.map((goal) => (
-            <rds-card key={goal.title}>
-              <rds-typography slot="header" variant="subheading" as="h3">
+            <rc-card key={goal.title}>
+              <rc-typography slot="header" variant="subheading" as="h3">
                 {goal.title}
-              </rds-typography>
-              <rds-typography variant="body-small" color="secondary" as="p">
+              </rc-typography>
+              <rc-typography variant="body-small" color="secondary" as="p">
                 {goal.body}
-              </rds-typography>
-            </rds-card>
+              </rc-typography>
+            </rc-card>
           ))}
-        </rds-grid>
+        </rc-grid>
       </PreviewPanel>
 
       <PreviewPanel meta="Brand" title="Two families, four themes">
-        <rds-stack gap="md">
-          <rds-typography class="primitive-glossary-lede" variant="body" color="secondary" as="p">
+        <rc-stack gap="md">
+          <rc-typography class="primitive-glossary-lede" variant="body" color="secondary" as="p">
             Each family has light and dark modes → <code>default.light</code>,{' '}
             <code>default.dark</code>, <code>sun.light</code>, <code>sun.dark</code>.
-          </rds-typography>
-          <rds-table compact>
+          </rc-typography>
+          <rc-table compact>
             <table>
               <thead>
                 <tr>
@@ -110,17 +110,17 @@ export function PrinciplesView() {
                 ))}
               </tbody>
             </table>
-          </rds-table>
-        </rds-stack>
+          </rc-table>
+        </rc-stack>
       </PreviewPanel>
 
       <PreviewPanel meta="Tokens" title="Primitive → semantic → theme">
-        <rds-stack gap="md">
-          <rds-typography class="primitive-glossary-lede" variant="body" color="secondary" as="p">
+        <rc-stack gap="md">
+          <rc-typography class="primitive-glossary-lede" variant="body" color="secondary" as="p">
             Prefer semantic roles in product UI. Primitives build those roles; themes remap values
             without renaming them.
-          </rds-typography>
-          <rds-table compact>
+          </rc-typography>
+          <rc-table compact>
             <table>
               <thead>
                 <tr>
@@ -143,94 +143,94 @@ export function PrinciplesView() {
                 ))}
               </tbody>
             </table>
-          </rds-table>
-        </rds-stack>
+          </rc-table>
+        </rc-stack>
       </PreviewPanel>
 
       <PreviewPanel meta="Principles" title="Do and don’t">
-        <rds-grid columns={2} gap="lg">
+        <rc-grid columns={2} gap="lg">
           {principleCards.map((card) => (
-            <rds-card key={card.title}>
-              <rds-stack slot="header" gap="xs">
-                <rds-typography variant="subheading" as="h3">
+            <rc-card key={card.title}>
+              <rc-stack slot="header" gap="xs">
+                <rc-typography variant="subheading" as="h3">
                   {card.title}
-                </rds-typography>
-                <rds-typography variant="body-small" color="secondary" as="p">
+                </rc-typography>
+                <rc-typography variant="body-small" color="secondary" as="p">
                   {card.intent}
-                </rds-typography>
-              </rds-stack>
-              <rds-stack gap="md">
-                <rds-stack gap="sm">
-                  <rds-badge variant="success">Do</rds-badge>
+                </rc-typography>
+              </rc-stack>
+              <rc-stack gap="md">
+                <rc-stack gap="sm">
+                  <rc-badge variant="success">Do</rc-badge>
                   <TextList items={card.do} />
-                </rds-stack>
-                <rds-stack gap="sm">
-                  <rds-badge variant="outline">Don’t</rds-badge>
+                </rc-stack>
+                <rc-stack gap="sm">
+                  <rc-badge variant="outline">Don’t</rc-badge>
                   <TextList items={card.dont} color="muted" />
-                </rds-stack>
-              </rds-stack>
-            </rds-card>
+                </rc-stack>
+              </rc-stack>
+            </rc-card>
           ))}
-        </rds-grid>
+        </rc-grid>
       </PreviewPanel>
 
       <PreviewPanel meta="Depth" title="Three elevation steps">
-        <rds-stack gap="md">
-          <rds-typography class="primitive-glossary-lede" variant="body" color="secondary" as="p">
+        <rc-stack gap="md">
+          <rc-typography class="primitive-glossary-lede" variant="body" color="secondary" as="p">
             Light mode leans on border + shadow; dark mode leans on surface color steps. Elevated
             surfaces must pair with <code>shadow.raised</code> (or overlay for top chrome).
-          </rds-typography>
-          <rds-grid columns={3} gap="lg">
+          </rc-typography>
+          <rc-grid columns={3} gap="lg">
             {depthSteps.map((step) => (
-              <rds-card key={step.name}>
-                <rds-typography slot="header" variant="label" as="strong">
+              <rc-card key={step.name}>
+                <rc-typography slot="header" variant="label" as="strong">
                   {step.name}
-                </rds-typography>
-                <rds-stack gap="sm">
+                </rc-typography>
+                <rc-stack gap="sm">
                   <code>{step.recipe}</code>
-                  <rds-typography variant="body-small" color="secondary" as="p">
+                  <rc-typography variant="body-small" color="secondary" as="p">
                     {step.detail}
-                  </rds-typography>
-                </rds-stack>
-              </rds-card>
+                  </rc-typography>
+                </rc-stack>
+              </rc-card>
             ))}
-          </rds-grid>
-        </rds-stack>
+          </rc-grid>
+        </rc-stack>
       </PreviewPanel>
 
       <PreviewPanel meta="Semantic roles" title="What product tokens mean" badge="Contract">
-        <rds-stack gap="md">
-          <rds-typography class="primitive-glossary-lede" variant="body" color="secondary" as="p">
+        <rc-stack gap="md">
+          <rc-typography class="primitive-glossary-lede" variant="body" color="secondary" as="p">
             Apps consume semantic roles; raw scales only build those roles. Prefer{' '}
             <code>control.*</code> / <code>surface.*</code> / <code>typography.*</code> over
             primitives. Themes remap values without renaming roles.
-          </rds-typography>
-          <rds-stack class="principles-glossary" gap="lg">
+          </rc-typography>
+          <rc-stack class="principles-glossary" gap="lg">
             {semanticGlossarySections.map((section) => (
-              <rds-card key={section.title}>
-                <rds-stack slot="header" gap="xs">
-                  <rds-typography variant="subheading" as="h3">
+              <rc-card key={section.title}>
+                <rc-stack slot="header" gap="xs">
+                  <rc-typography variant="subheading" as="h3">
                     {section.title}
-                  </rds-typography>
-                  <rds-typography variant="body-small" color="secondary" as="p">
+                  </rc-typography>
+                  <rc-typography variant="body-small" color="secondary" as="p">
                     {section.blurb}
-                  </rds-typography>
-                </rds-stack>
+                  </rc-typography>
+                </rc-stack>
                 <div className="principles-glossary-rows" role="list">
                   {section.entries.map((entry) => (
                     <div className="principles-glossary-row" role="listitem" key={entry.token}>
                       <code>{entry.token}</code>
-                      <rds-typography variant="body-small" color="secondary" as="p">
+                      <rc-typography variant="body-small" color="secondary" as="p">
                         {entry.meaning}
-                      </rds-typography>
+                      </rc-typography>
                     </div>
                   ))}
                 </div>
-              </rds-card>
+              </rc-card>
             ))}
-          </rds-stack>
-        </rds-stack>
+          </rc-stack>
+        </rc-stack>
       </PreviewPanel>
-    </rds-stack>
+    </rc-stack>
   );
 }

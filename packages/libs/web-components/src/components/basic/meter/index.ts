@@ -1,1 +1,1 @@
-export { RdsMeter } from './meter';
+export { RcMeter } from './meter';

@@ -1,1 +1,1 @@
-export { RdsInput } from './input';
+export { RcInput } from './input';

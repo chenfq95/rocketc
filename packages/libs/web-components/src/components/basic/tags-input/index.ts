@@ -1,1 +1,1 @@
-export { RdsTagsInput } from './tags-input';
+export { RcTagsInput } from './tags-input';

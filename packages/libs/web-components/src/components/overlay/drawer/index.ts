@@ -1,1 +1,1 @@
-export { RdsDrawer, type RdsDrawerSide } from './drawer';
+export { RcDrawer, type RcDrawerSide } from './drawer';

@@ -1,38 +1,38 @@
-import { LitElement, css, html, nothing } from 'lit';
+import { css, html, nothing } from 'lit';
 import { property } from 'lit/decorators.js';
 
+import { RcStyledElement } from '../../../internal/styled-element';
+
 import { nextId } from '../../../internal/a11y';
-import { hostStyles } from '../../../internal/shared-styles';
-import type { RdsRadio } from './radio';
+import type { RcRadio } from './radio';
 
 /**
- * Groups `rds-radio` options with `role="radiogroup"` and arrow-key navigation.
+ * Groups `rc-radio` options with `role="radiogroup"` and arrow-key navigation.
  *
- * @element rds-radio-group
- * @fires change - Bubbles from selected `rds-radio` (`detail.value`)
+ * @element rc-radio-group
+ * @fires change - Bubbles from selected `rc-radio` (`detail.value`)
  * @slot - Radio options
  * @slot label - Optional group label
  */
-export class RdsRadioGroup extends LitElement {
+export class RcRadioGroup extends RcStyledElement {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: grid;
-        gap: var(--rds-space-2);
+        gap: var(--rc-space-2);
       }
       
       .label {
-        color: var(--rds-color-text-primary);
-        font-size: var(--rds-typography-label-font-size);
-        font-weight: var(--rds-typography-weight-medium);
-        letter-spacing: var(--rds-typography-label-letter-spacing);
+        color: var(--rc-color-text-primary);
+        font-size: var(--rc-typography-label-font-size);
+        font-weight: var(--rc-typography-weight-medium);
+        letter-spacing: var(--rc-typography-label-letter-spacing);
       }
       
       .options {
         display: flex;
         flex-wrap: wrap;
-        gap: var(--rds-space-3);
+        gap: var(--rc-space-3);
       }
       
       :host([orientation='vertical']) .options {
@@ -61,7 +61,7 @@ export class RdsRadioGroup extends LitElement {
 
   override connectedCallback(): void {
     super.connectedCallback();
-    if (!this.#labelId) this.#labelId = nextId('rds-radio-group-label');
+    if (!this.#labelId) this.#labelId = nextId('rc-radio-group-label');
     this.addEventListener('change', this.#onRadioChange);
     this.addEventListener('keydown', this.#onKeyDown);
   }
@@ -76,8 +76,8 @@ export class RdsRadioGroup extends LitElement {
     this.#syncRadios();
   }
 
-  #radios(): RdsRadio[] {
-    return [...this.querySelectorAll<RdsRadio>('rds-radio')];
+  #radios(): RcRadio[] {
+    return [...this.querySelectorAll<RcRadio>('rc-radio')];
   }
 
   #syncRadios() {
@@ -93,8 +93,8 @@ export class RdsRadioGroup extends LitElement {
 
   #onRadioChange = (event: Event) => {
     const target = event.target;
-    if (!(target instanceof HTMLElement) || target.localName !== 'rds-radio') return;
-    const radio = target as RdsRadio;
+    if (!(target instanceof HTMLElement) || target.localName !== 'rc-radio') return;
+    const radio = target as RcRadio;
     this.value = radio.value;
   };
 
@@ -132,16 +132,15 @@ export class RdsRadioGroup extends LitElement {
 
   override render() {
     return html`
-      <div
-        class="root"
+      <div class="root" part="container root"
         role="radiogroup"
         aria-labelledby=${this.#labelId}
         aria-orientation=${this.orientation}
         aria-required=${this.required ? 'true' : nothing}
         aria-disabled=${this.disabled ? 'true' : nothing}
       >
-        <div class="label" id=${this.#labelId}><slot name="label"></slot></div>
-        <div class="options"><slot></slot></div>
+        <div class="label" part="label" id=${this.#labelId}><slot name="label"></slot></div>
+        <div class="options" part="options"><slot></slot></div>
       </div>
     `;
   }
@@ -149,6 +148,6 @@ export class RdsRadioGroup extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-radio-group': RdsRadioGroup;
+    'rc-radio-group': RcRadioGroup;
   }
 }

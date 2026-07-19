@@ -1,34 +1,34 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { mixinDelegatesAria, type ARIAMixinStrict } from '../../../internal/delegate-aria';
-import { hostStyles } from '../../../internal/shared-styles';
+import { RcStyledElement } from '../../../internal/styled-element';
 
-export type RdsLinkVariant = 'default' | 'muted' | 'underline';
+import { mixinDelegatesAria, type ARIAMixinStrict } from '../../../internal/mixin-delegates-aria';
 
-const linkBase = mixinDelegatesAria(LitElement);
+export type RcLinkVariant = 'default' | 'muted' | 'underline';
+
+const linkBase = mixinDelegatesAria(RcStyledElement);
 
 /**
  * Text link backed by native `<a>`.
  *
- * @element rds-link
+ * @element rc-link
  * @slot - Link label / content
  */
-export class RdsLink extends linkBase {
+export class RcLink extends linkBase {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     delegatesFocus: true,
   };
 
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: inline;
       }
       
       a {
-        color: var(--rds-color-control-primary-fg, var(--rds-color-brand-fg));
+        color: var(--rc-color-control-primary-fg, var(--rc-color-brand-fg));
         font: inherit;
         text-decoration: none;
         text-underline-offset: 0.15em;
@@ -41,14 +41,14 @@ export class RdsLink extends linkBase {
       
       a:focus-visible {
         outline: none;
-        border-radius: var(--rds-radius-sm);
+        border-radius: var(--rc-radius-sm);
         box-shadow:
-          0 0 0 2px var(--rds-color-surface-panel),
-          0 0 0 4px var(--rds-color-border-focus);
+          0 0 0 2px var(--rc-color-surface-panel),
+          0 0 0 4px var(--rc-color-border-focus);
       }
       
       :host([variant='muted']) a {
-        color: var(--rds-color-text-secondary);
+        color: var(--rc-color-text-secondary);
       }
       
       :host([variant='underline']) a {
@@ -56,11 +56,11 @@ export class RdsLink extends linkBase {
       }
       
       :host([disabled]) a {
-        color: var(--rds-color-action-fg-disabled);
+        color: var(--rc-color-action-fg-disabled);
         cursor: not-allowed;
         pointer-events: none;
         text-decoration: none;
-        opacity: var(--rds-opacity-disabled);
+        opacity: var(--rc-opacity-disabled);
       }
     `,
   ];
@@ -90,7 +90,7 @@ export class RdsLink extends linkBase {
   accessor referrerpolicy: string = '';
 
   @property({ type: String, reflect: true })
-  accessor variant: RdsLinkVariant = 'default';
+  accessor variant: RcLinkVariant = 'default';
 
   @property({ type: Boolean, reflect: true })
   accessor disabled: boolean = false;
@@ -100,7 +100,7 @@ export class RdsLink extends linkBase {
     const rel = this.rel || (this.target === '_blank' ? 'noopener noreferrer' : '');
 
     return html`
-      <a
+      <a part="control"
         aria-current=${ariaCurrent || nothing}
         aria-disabled=${this.disabled ? 'true' : ariaDisabled || nothing}
         aria-label=${ariaLabel || nothing}
@@ -123,6 +123,6 @@ export class RdsLink extends linkBase {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-link': RdsLink;
+    'rc-link': RcLink;
   }
 }

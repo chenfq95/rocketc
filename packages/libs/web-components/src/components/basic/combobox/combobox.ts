@@ -1,28 +1,28 @@
-import { LitElement, css, html, nothing } from 'lit';
+import { css, html, nothing } from 'lit';
 import { property } from 'lit/decorators.js';
 
-import { mixinElementInternals } from '../../../internal/element-internals';
+import { RcStyledElement } from '../../../internal/styled-element';
+
+import { mixinElementInternals } from '../../../internal/mixin-element-internals';
 import {
   getFormValue,
   mixinFormAssociated,
   type FormRestoreReason,
   type FormRestoreState,
-} from '../../../internal/form-associated';
-import { hostStyles } from '../../../internal/shared-styles';
-import type { RdsComboboxOption } from './combobox-option';
+} from '../../../internal/mixin-form-associated';
+import type { RcComboboxOption } from './combobox-option';
 
-const base = mixinFormAssociated(mixinElementInternals(LitElement));
+const base = mixinFormAssociated(mixinElementInternals(RcStyledElement));
 
 /**
- * Filterable select. Options are `rds-combobox-option` children.
+ * Filterable select. Options are `rc-combobox-option` children.
  *
- * @element rds-combobox
+ * @element rc-combobox
  * @fires change - When selection changes (`detail.value` / `detail.label`)
- * @slot - `rds-combobox-option` children
+ * @slot - `rc-combobox-option` children
  */
-export class RdsCombobox extends base {
+export class RcCombobox extends base {
   static override styles = [
-    hostStyles,
     css`
       :host {
         display: block;
@@ -32,36 +32,36 @@ export class RdsCombobox extends base {
       input {
         display: block;
         width: 100%;
-        min-height: var(--rds-space-9);
+        min-height: var(--rc-space-9);
         margin: 0;
-        border: var(--rds-border-sm) solid var(--rds-color-border-default);
-        border-radius: var(--rds-radius-md);
-        background: var(--rds-color-surface-panel);
-        padding: 0 var(--rds-space-3);
+        border: var(--rc-border-sm) solid var(--rc-color-border-default);
+        border-radius: var(--rc-radius-md);
+        background: var(--rc-color-surface-panel);
+        padding: 0 var(--rc-space-3);
         color: inherit;
         font: inherit;
-        font-size: var(--rds-typography-body-font-size);
+        font-size: var(--rc-typography-body-font-size);
       }
       
       input:focus-visible {
         outline: none;
-        border-color: var(--rds-color-border-focus);
-        box-shadow: 0 0 0 3px color-mix(in oklab, var(--rds-color-border-focus) 30%, transparent);
+        border-color: var(--rc-color-border-focus);
+        box-shadow: 0 0 0 3px color-mix(in oklab, var(--rc-color-border-focus) 30%, transparent);
       }
       
       .list {
         position: absolute;
         z-index: 40;
-        top: calc(100% + var(--rds-space-1));
+        top: calc(100% + var(--rc-space-1));
         left: 0;
         right: 0;
         display: none;
         max-height: 14rem;
         overflow: auto;
-        border: var(--rds-border-sm) solid var(--rds-color-border-subtle);
-        border-radius: var(--rds-radius-md);
-        background: var(--rds-color-surface-elevated, var(--rds-color-surface-panel));
-        box-shadow: var(--rds-shadow-raised, var(--rds-shadow-surface));
+        border: var(--rc-border-sm) solid var(--rc-color-border-subtle);
+        border-radius: var(--rc-radius-md);
+        background: var(--rc-color-surface-elevated, var(--rc-color-surface-panel));
+        box-shadow: var(--rc-shadow-raised, var(--rc-shadow-surface));
       }
       
       :host([open]) .list {
@@ -88,12 +88,12 @@ export class RdsCombobox extends base {
 
   override connectedCallback(): void {
     super.connectedCallback();
-    this.addEventListener('rds-combobox-select', this.#onSelect as EventListener);
+    this.addEventListener('rc-combobox-select', this.#onSelect as EventListener);
     document.addEventListener('click', this.#onDocClick, true);
   }
 
   override disconnectedCallback(): void {
-    this.removeEventListener('rds-combobox-select', this.#onSelect as EventListener);
+    this.removeEventListener('rc-combobox-select', this.#onSelect as EventListener);
     document.removeEventListener('click', this.#onDocClick, true);
     super.disconnectedCallback();
   }
@@ -111,8 +111,8 @@ export class RdsCombobox extends base {
     if (typeof state === 'string') this.value = state;
   }
 
-  #options(): RdsComboboxOption[] {
-    return [...this.querySelectorAll<RdsComboboxOption>(':scope > rds-combobox-option')];
+  #options(): RcComboboxOption[] {
+    return [...this.querySelectorAll<RcComboboxOption>(':scope > rc-combobox-option')];
   }
 
   #filter() {
@@ -154,7 +154,7 @@ export class RdsCombobox extends base {
   override render() {
     const display = this.open ? this.#query : this.label || this.#query || '';
     return html`
-      <input
+      <input part="control"
         role="combobox"
         aria-expanded=${this.open ? 'true' : 'false'}
         aria-autocomplete="list"
@@ -178,7 +178,7 @@ export class RdsCombobox extends base {
           if (e.key === 'ArrowDown') this.open = true;
         }}
       />
-      <div class="list" role="listbox">
+      <div class="list" part="list" role="listbox">
         <slot></slot>
       </div>
     `;
@@ -187,6 +187,6 @@ export class RdsCombobox extends base {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rds-combobox': RdsCombobox;
+    'rc-combobox': RcCombobox;
   }
 }

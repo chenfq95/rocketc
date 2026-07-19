@@ -1,1 +1,1 @@
-export { RdsEmpty } from './empty';
+export { RcEmpty } from './empty';

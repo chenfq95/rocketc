@@ -1,1 +1,1 @@
-export { RdsAlert, type RdsAlertVariant } from './alert';
+export { RcAlert, type RcAlertVariant } from './alert';

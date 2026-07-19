@@ -1,1 +1,1 @@
-export { RdsLink, type RdsLinkVariant } from './link';
+export { RcLink, type RcLinkVariant } from './link';

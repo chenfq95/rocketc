@@ -1,1 +1,1 @@
-export { RdsSidebar } from './sidebar';
+export { RcSidebar } from './sidebar';
