@@ -1,9 +1,5 @@
 /* 仅保留轻量站点外壳，界面样式来自 rc-* 组件和设计令牌。 / Keep only a thin site shell; chrome comes from rc-* components and design tokens. */
-
-/* 在自定义元素首次绘制或强制刷新升级期间避免无样式内容闪烁。 / Avoid FOUC while custom elements upgrade on first paint or hard refresh. */
-:not(:defined) {
-  visibility: hidden;
-}
+/* FOUC guard (:not(:defined)) ships in @rocketc/design-system theme CSS. */
 
 html,
 body {

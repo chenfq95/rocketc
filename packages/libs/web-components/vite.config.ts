@@ -23,7 +23,16 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [
       babel({
-        runtimeVersion: '^7.29.0',
+        // Prefer ESM helpers so SSR consumers (Astro/Vite) don't hit CJS `require`.
+        plugins: [
+          [
+            '@babel/plugin-transform-runtime',
+            {
+              version: '^7.29.0',
+              useESModules: true,
+            },
+          ],
+        ],
         presets: [decoratorPreset({ version: '2023-11' })],
       }),
       ...(!isMinified

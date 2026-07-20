@@ -169,7 +169,10 @@ export {
 export { resolveRcStyleValue } from './internal/style-value';
 export { RcStyledElement } from './internal/styled-element';
 
-/** Register every shipped custom element (idempotent). */
+/**
+ * Register every shipped custom element (idempotent).
+ * Safe to call during SSR — no-ops on the server, defines in the browser.
+ */
 export function registerRocketcCustomElements(): void {
   // basic
   defineElement('rc-button', RcButton);

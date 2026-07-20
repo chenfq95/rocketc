@@ -23,6 +23,11 @@ const tokenCssVars = (tokens: TokenTree, token: DictionaryToken): string[] => {
 };
 
 const GLOBAL_CSS = [
+  '/* Avoid FOUC while custom elements upgrade on first paint or hard refresh. */',
+  ':not(:defined) {',
+  '  visibility: hidden;',
+  '}',
+  '',
   'body {',
   '  background: var(--rc-color-surface-canvas);',
   '  color: var(--rc-color-text-primary);',

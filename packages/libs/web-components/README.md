@@ -18,6 +18,7 @@ bun add @rocketc/web-components @rocketc/design-system
 import '@rocketc/design-system/css/default.light.css';
 import { registerRocketcCustomElements } from '@rocketc/web-components';
 
+// SSR-safe: no-ops on the server, defines custom elements in the browser.
 registerRocketcCustomElements();
 ```
 
