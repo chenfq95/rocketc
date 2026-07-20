@@ -38,6 +38,10 @@ export class RcIconButton extends iconButtonBase {
         display: inline-flex;
         vertical-align: middle;
       }
+      
+      :host(:focus-within) {
+        z-index: 1;
+      }
     `,
   ];
 

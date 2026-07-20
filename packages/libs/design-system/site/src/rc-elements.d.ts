@@ -70,6 +70,11 @@ declare module 'react' {
         icon?: boolean;
         onClick?: (event: Event) => void;
       };
+      'rc-button-group': RcProps & {
+        orientation?: 'horizontal' | 'vertical';
+        separated?: boolean;
+        'full-width'?: boolean;
+      };
       'rc-card': RcProps;
       'rc-close-button': RcProps & {
         size?: string;

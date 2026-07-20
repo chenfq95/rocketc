@@ -17,6 +17,8 @@ const componentNames: Record<string, string> = {
   box: '盒容器',
   breadcrumb: '面包屑',
   button: '按钮',
+  'button-group': '按钮组',
+  'button group': '按钮组',
   card: '卡片',
   center: '居中布局',
   checkbox: '复选框',
@@ -114,12 +116,14 @@ const demoTitles: Record<string, string> = {
   Menu: '菜单',
   Multiple: '多选',
   Open: '展开',
+  Orientation: '方向',
   Orientations: '方向',
   Pairing: '关联',
   Placement: '位置',
   Range: '范围',
   Resize: '调整尺寸',
   Rich: '丰富内容',
+  Separated: '分隔',
   Separator: '分隔符',
   Siblings: '相邻页',
   Sides: '侧边位置',
@@ -136,12 +140,21 @@ const demoTitles: Record<string, string> = {
   Values: '取值',
   Variants: '变体',
   Vertical: '垂直排列',
+  'With icon buttons': '图标按钮',
 };
 
 const specialDemoDescriptions: Record<string, string> = {
   'Adds helper text to explain the expected field value.': '添加帮助文本，说明字段的预期值。',
+  'Places decorative icons before or after the label; loading overlays a spinner without shifting layout.':
+    '在标签前后放置装饰性图标；加载时 spinner 叠在内容上方，尺寸保持不变。',
   'Places decorative icons before or after the label; loading replaces the leading icon with a spinner.':
     '在标签前后放置装饰性图标；加载时前置图标会被 spinner 替换。',
+  'Attaches related actions into one segmented control; provide an aria-label.':
+    '将相关操作贴合为一组分段控件；请提供 aria-label。',
+  'Arranges grouped buttons horizontally or vertically.': '水平或垂直排列分组按钮。',
+  'With separated, buttons keep spacing instead of attaching.':
+    '使用 separated 时按钮以间距分开排列，不再贴合。',
+  'Combines with rc-icon-button for compact toolbars.': '可与 rc-icon-button 组合用于紧凑工具栏。',
   'Compares button emphasis from solid and subtle through outline, ghost, and destructive actions.':
     '对比实心、柔和、描边、幽灵和危险操作等按钮强调级别。',
   'Compares fixed-height scroll area containers with overflowing content.':
@@ -229,6 +242,7 @@ const summaryNames: Record<string, string> = {
   'rc-box': '通用布局与表面盒容器。',
   'rc-breadcrumb': '用于展示页面层级路径的面包屑。',
   'rc-button': '使用语义令牌呈现的主要操作按钮，支持前置/后置图标与 icon 方形模式。',
+  'rc-button-group': '将相关操作按钮分组；默认贴合为分段条，可用 separated 分开排列。',
   'rc-card': '用于组织相关内容的表面容器。',
   'rc-center': '在两个轴向上居中子元素的布局容器。',
   'rc-checkbox': '二元或不确定状态的复选框控件。',

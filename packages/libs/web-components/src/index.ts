@@ -1,4 +1,5 @@
 import { RcButton, RcIconButton, RcCloseButton } from './components/basic/button';
+import { RcButtonGroup } from './components/basic/button-group';
 import { RcCheckbox } from './components/basic/checkbox';
 import { RcColorPicker } from './components/basic/color-picker';
 import { RcCombobox, RcComboboxOption } from './components/basic/combobox';
@@ -63,6 +64,7 @@ import { RcSheet } from './components/surfaces/sheet';
 import { defineElement } from './internal/define';
 
 export * from './components/basic/button';
+export * from './components/basic/button-group';
 export * from './components/basic/checkbox';
 export * from './components/basic/color-picker';
 export * from './components/basic/combobox';
@@ -171,6 +173,7 @@ export { RcStyledElement } from './internal/styled-element';
 export function registerRocketcCustomElements(): void {
   // basic
   defineElement('rc-button', RcButton);
+  defineElement('rc-button-group', RcButtonGroup);
   defineElement('rc-close-button', RcCloseButton);
   defineElement('rc-color-picker', RcColorPicker);
   defineElement('rc-combobox', RcCombobox);

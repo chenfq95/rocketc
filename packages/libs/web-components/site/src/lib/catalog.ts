@@ -98,6 +98,7 @@ const partDescriptions: Record<string, string> = {
   input: '文本输入控件。 / Text input control.',
   close: '关闭控件。 / Close control.',
   icon: '图标区域。 / Icon region.',
+  root: '根布局容器。 / Root layout container.',
 };
 
 function describePart(name: string) {

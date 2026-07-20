@@ -39,6 +39,10 @@ export class RcCloseButton extends closeBase {
         display: inline-flex;
         vertical-align: middle;
       }
+      
+      :host(:focus-within) {
+        z-index: 1;
+      }
     `,
   ];
 

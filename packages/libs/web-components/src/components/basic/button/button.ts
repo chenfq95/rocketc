@@ -25,7 +25,7 @@ const buttonBase = mixinDelegatesAria(RcStyledElement);
  *
  * Prefer decorative icons in `prefix` / `suffix` (mark them `aria-hidden`).
  * Use `icon` for square icon-only actions (prefer an explicit `aria-label`).
- * While `loading`, the leading icon / icon content is replaced by the spinner.
+ * While `loading`, a spinner overlays the content; label / prefix / suffix stay in place.
  *
  * @element rc-button
  * @slot - Button label / icon content
@@ -50,15 +50,27 @@ export class RcButton extends buttonBase {
         vertical-align: middle;
       }
       
+      :host(:focus-within) {
+        z-index: 1;
+      }
+      
       button {
+        position: relative;
         display: inline-flex;
         align-items: center;
         justify-content: center;
         gap: var(--rc-space-2);
         width: 100%;
         margin: 0;
-        border: var(--rc-border-sm) solid transparent;
-        border-radius: var(--rc-radius-md);
+        border-style: solid;
+        border-color: transparent;
+        border-width: var(--rc-border-sm);
+        border-inline-end-width: var(--rc-button-border-inline-end, var(--rc-border-sm));
+        border-block-end-width: var(--rc-button-border-block-end, var(--rc-border-sm));
+        border-start-start-radius: var(--rc-button-radius-ss, var(--rc-radius-md));
+        border-start-end-radius: var(--rc-button-radius-se, var(--rc-radius-md));
+        border-end-end-radius: var(--rc-button-radius-ee, var(--rc-radius-md));
+        border-end-start-radius: var(--rc-button-radius-es, var(--rc-radius-md));
         font: inherit;
         font-weight: var(--rc-typography-weight-medium);
         letter-spacing: var(--rc-typography-label-letter-spacing);
@@ -77,13 +89,44 @@ export class RcButton extends buttonBase {
           0 0 0 4px var(--rc-color-border-focus);
       }
       
-      .affix,
-      .spinner {
+      .affix {
         display: inline-flex;
         flex-shrink: 0;
         align-items: center;
         justify-content: center;
         line-height: 1;
+      }
+      
+      .spinner {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: none;
+      }
+      
+      .spinner-circle {
+        box-sizing: border-box;
+        width: 1em;
+        height: 1em;
+        border: var(--rc-border-md, 2px) solid currentColor;
+        border-right-color: transparent;
+        border-radius: 50%;
+        animation: rc-button-spin var(--rc-duration-slow, 0.7s) linear infinite;
+      }
+      
+      @keyframes rc-button-spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      
+      :host([loading]) .prefix,
+      :host([loading]) .label,
+      :host([loading]) .suffix {
+        opacity: var(--rc-opacity-disabled);
       }
       
       .label {
@@ -92,7 +135,7 @@ export class RcButton extends buttonBase {
         min-width: 0;
       }
       
-      :host(:not(:has([slot='prefix'])):not([loading])) .prefix,
+      :host(:not(:has([slot='prefix']))) .prefix,
       :host(:not(:has([slot='suffix']))) .suffix,
       :host([icon]) .prefix,
       :host([icon]) .suffix {
@@ -283,37 +326,34 @@ export class RcButton extends buttonBase {
 
   protected renderSpinner() {
     return html`
-      <span class="spinner" part="spinner" aria-hidden="true">…</span>
+      <span class="spinner" part="spinner" aria-hidden="true">
+        <span class="spinner-circle"></span>
+      </span>
     `;
   }
 
   protected renderContent(): TemplateResult {
-    if (this.icon) {
-      return this.loading
-        ? this.renderSpinner()
-        : html`
-            <span class="label" part="label">
-              <slot></slot>
-            </span>
-          `;
-    }
-
     return html`
+      ${this.loading ? this.renderSpinner() : nothing}
       ${
-        this.loading
-          ? this.renderSpinner()
+        this.icon
+          ? html`
+              <span class="label" part="label">
+                <slot></slot>
+              </span>
+            `
           : html`
               <span class="affix prefix" part="prefix">
                 <slot name="prefix"></slot>
               </span>
+              <span class="label" part="label">
+                <slot></slot>
+              </span>
+              <span class="affix suffix" part="suffix">
+                <slot name="suffix"></slot>
+              </span>
             `
       }
-      <span class="label" part="label">
-        <slot></slot>
-      </span>
-      <span class="affix suffix" part="suffix">
-        <slot name="suffix"></slot>
-      </span>
     `;
   }
 

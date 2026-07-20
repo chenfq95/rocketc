@@ -123,6 +123,14 @@ export function ComponentView() {
               </div>
             </Demo>
 
+            <Demo title="Button group">
+              <rc-button-group aria-label="Text alignment">
+                <rc-button variant="outline">Left</rc-button>
+                <rc-button variant="outline">Center</rc-button>
+                <rc-button variant="outline">Right</rc-button>
+              </rc-button-group>
+            </Demo>
+
             <Demo title="Link">
               <rc-link href="https://github.com/chenfq95/rocketc">Docs</rc-link>
             </Demo>
