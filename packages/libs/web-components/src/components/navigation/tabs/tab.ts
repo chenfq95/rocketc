@@ -1,7 +1,9 @@
+import { ContextConsumer } from '@lit/context';
 import { css, html } from 'lit';
 import { property } from 'lit/decorators.js';
 
 import { RcStyledElement } from '../../../internal/styled-element';
+import { rcTabsContext } from './tabs-context';
 
 /**
  * Tab trigger used inside `rc-tabs`.
@@ -34,7 +36,7 @@ export class RcTab extends RcStyledElement {
         background: var(--rc-color-action-bg-hover);
       }
       
-      :host([selected]) button {
+      button[aria-selected='true'] {
         color: var(--rc-color-control-primary-fg, var(--rc-color-brand-fg));
         border-bottom-color: var(--rc-color-control-primary-border);
       }
@@ -62,25 +64,27 @@ export class RcTab extends RcStyledElement {
   @property({ type: Boolean, reflect: true })
   accessor selected: boolean = false;
 
+  #tabsContext = new ContextConsumer(this, {
+    context: rcTabsContext,
+    subscribe: true,
+  });
+
   #onClick() {
     if (this.disabled) return;
-    this.dispatchEvent(
-      new CustomEvent('rc-tab-select', {
-        detail: { value: this.value },
-        bubbles: true,
-        composed: true,
-      }),
-    );
+    this.#tabsContext.value?.select(this.value);
   }
 
   override render() {
+    const context = this.#tabsContext.value;
+    const selected = context ? context.value === this.value : this.selected;
+
     return html`
       <button part="control"
         role="tab"
         type="button"
         ?disabled=${this.disabled}
-        aria-selected=${this.selected ? 'true' : 'false'}
-        tabindex=${this.selected ? 0 : -1}
+        aria-selected=${selected ? 'true' : 'false'}
+        tabindex=${selected ? 0 : -1}
         @click=${this.#onClick}
       >
         <slot></slot>

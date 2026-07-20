@@ -1,10 +1,12 @@
-import { css, html, nothing } from 'lit';
+import { ContextProvider } from '@lit/context';
+import { css, html, nothing, type PropertyValues } from 'lit';
 import { property } from 'lit/decorators.js';
 
 import { RcStyledElement } from '../../../internal/styled-element';
 
 import { nextId } from '../../../internal/a11y';
 import type { RcRadio } from './radio';
+import { rcRadioGroupContext, type RcRadioGroupContextValue } from './radio-group-context';
 
 /**
  * Groups `rc-radio` options with `role="radiogroup"` and arrow-key navigation.
@@ -59,53 +61,54 @@ export class RcRadioGroup extends RcStyledElement {
 
   #labelId = '';
 
+  #select = (value: string) => {
+    if (this.disabled || !value || value === this.value) return;
+    this.value = value;
+  };
+
+  #contextProvider = new ContextProvider(this, {
+    context: rcRadioGroupContext,
+    initialValue: this.#contextValue(),
+  });
+
   override connectedCallback(): void {
     super.connectedCallback();
     if (!this.#labelId) this.#labelId = nextId('rc-radio-group-label');
-    this.addEventListener('change', this.#onRadioChange);
     this.addEventListener('keydown', this.#onKeyDown);
   }
 
   override disconnectedCallback(): void {
-    this.removeEventListener('change', this.#onRadioChange);
     this.removeEventListener('keydown', this.#onKeyDown);
     super.disconnectedCallback();
   }
 
-  override updated(): void {
-    this.#syncRadios();
+  override updated(changed: PropertyValues<this>): void {
+    if (!changed.has('name') && !changed.has('value') && !changed.has('disabled')) return;
+    this.#contextProvider.setValue(this.#contextValue());
   }
 
   #radios(): RcRadio[] {
-    return [...this.querySelectorAll<RcRadio>('rc-radio')];
+    return [...this.querySelectorAll<RcRadio>(':scope > rc-radio')];
   }
 
-  #syncRadios() {
-    for (const radio of this.#radios()) {
-      if (this.name && radio.name !== this.name) radio.name = this.name;
-      if (this.disabled) radio.disabled = true;
-      if (this.value) {
-        const shouldCheck = radio.value === this.value;
-        if (radio.checked !== shouldCheck) radio.checked = shouldCheck;
-      }
-    }
+  #contextValue(): RcRadioGroupContextValue {
+    return {
+      name: this.name,
+      value: this.value,
+      disabled: this.disabled,
+      select: this.#select,
+    };
   }
-
-  #onRadioChange = (event: Event) => {
-    const target = event.target;
-    if (!(target instanceof HTMLElement) || target.localName !== 'rc-radio') return;
-    const radio = target as RcRadio;
-    this.value = radio.value;
-  };
 
   #onKeyDown = (event: KeyboardEvent) => {
     const keys = ['ArrowLeft', 'ArrowUp', 'ArrowRight', 'ArrowDown', 'Home', 'End'];
     if (!keys.includes(event.key)) return;
+    if (this.disabled) return;
 
     const radios = this.#radios().filter((r) => !r.disabled);
     if (!radios.length) return;
 
-    const current = radios.findIndex((r) => r.checked);
+    const current = radios.findIndex((r) => (this.value ? r.value === this.value : r.checked));
     let next = current;
 
     if (event.key === 'Home') next = 0;
@@ -119,8 +122,7 @@ export class RcRadioGroup extends RcStyledElement {
     event.preventDefault();
     const radio = radios[next];
     if (!radio) return;
-    radio.checked = true;
-    this.value = radio.value;
+    this.#select(radio.value);
     radio.focus();
     radio.dispatchEvent(
       new CustomEvent('change', {

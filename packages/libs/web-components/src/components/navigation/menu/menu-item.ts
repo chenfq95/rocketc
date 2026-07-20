@@ -1,14 +1,16 @@
+import { ContextConsumer } from '@lit/context';
 import { css, html } from 'lit';
 import { property } from 'lit/decorators.js';
 
 import { RcStyledElement } from '../../../internal/styled-element';
+
+import { rcMenuContext } from './menu-context';
 
 /**
  * Menu row used inside `rc-menu`.
  *
  * @element rc-menu-item
  * @slot - Item label
- * @fires rc-menu-select - When activated (`detail.value`)
  */
 export class RcMenuItem extends RcStyledElement {
   static override styles = [
@@ -62,15 +64,13 @@ export class RcMenuItem extends RcStyledElement {
   @property({ type: Boolean, reflect: true })
   accessor destructive: boolean = false;
 
+  #menuContext = new ContextConsumer(this, {
+    context: rcMenuContext,
+  });
+
   #activate() {
     if (this.disabled) return;
-    this.dispatchEvent(
-      new CustomEvent('rc-menu-select', {
-        detail: { value: this.value },
-        bubbles: true,
-        composed: true,
-      }),
-    );
+    this.#menuContext.value?.select(this.value);
   }
 
   override render() {

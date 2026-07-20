@@ -1,7 +1,9 @@
+import { ContextConsumer } from '@lit/context';
 import { css, html } from 'lit';
 import { property } from 'lit/decorators.js';
 
 import { RcStyledElement } from '../../../internal/styled-element';
+import { rcAccordionContext } from './accordion-context';
 
 /**
  * Item used inside `rc-accordion`.
@@ -50,7 +52,7 @@ export class RcAccordionItem extends RcStyledElement {
         transition: rotate var(--rc-duration-fast) var(--rc-easing-standard);
       }
       
-      :host([open]) button::after {
+      button[aria-expanded='true']::after {
         rotate: 45deg;
       }
       
@@ -74,7 +76,7 @@ export class RcAccordionItem extends RcStyledElement {
         font-size: var(--rc-typography-body-font-size);
       }
       
-      :host([open]) .panel {
+      .panel:not([hidden]) {
         display: block;
       }
     `,
@@ -89,28 +91,32 @@ export class RcAccordionItem extends RcStyledElement {
   @property({ type: Boolean, reflect: true })
   accessor disabled: boolean = false;
 
+  #accordionContext = new ContextConsumer(this, {
+    context: rcAccordionContext,
+    subscribe: true,
+  });
+
   #toggle() {
     if (this.disabled) return;
-    this.dispatchEvent(
-      new CustomEvent('rc-accordion-toggle', {
-        detail: { value: this.value, open: !this.open },
-        bubbles: true,
-        composed: true,
-      }),
-    );
+    const context = this.#accordionContext.value;
+    if (context) context.toggle(this.value, !context.openValues.includes(this.value));
+    else this.open = !this.open;
   }
 
   override render() {
+    const context = this.#accordionContext.value;
+    const open = context ? context.openValues.includes(this.value) : this.open;
+
     return html`
       <button part="control"
         type="button"
-        aria-expanded=${this.open ? 'true' : 'false'}
+        aria-expanded=${open ? 'true' : 'false'}
         ?disabled=${this.disabled}
         @click=${this.#toggle}
       >
         <slot name="trigger">Item</slot>
       </button>
-      <div class="panel" part="panel" role="region" ?hidden=${!this.open}>
+      <div class="panel" part="panel" role="region" ?hidden=${!open}>
         <slot></slot>
       </div>
     `;

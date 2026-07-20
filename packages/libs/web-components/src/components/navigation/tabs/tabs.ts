@@ -1,9 +1,11 @@
-import { css, html } from 'lit';
+import { ContextProvider } from '@lit/context';
+import { css, html, type PropertyValues } from 'lit';
 import { property } from 'lit/decorators.js';
 
 import { RcStyledElement } from '../../../internal/styled-element';
 
 import type { RcTab } from './tab';
+import { rcTabsContext, type RcTabsContextValue } from './tabs-context';
 
 /**
  * Tablist + panels. Place `rc-tab` children and panel elements with matching
@@ -41,14 +43,28 @@ export class RcTabs extends RcStyledElement {
   @property({ type: String, reflect: true })
   accessor value: string = '';
 
+  #select = (value: string) => {
+    if (!value || value === this.value) return;
+    this.value = value;
+    this.dispatchEvent(
+      new CustomEvent('change', {
+        detail: { value: this.value },
+        bubbles: true,
+      }),
+    );
+  };
+
+  #contextProvider = new ContextProvider(this, {
+    context: rcTabsContext,
+    initialValue: this.#contextValue(),
+  });
+
   override connectedCallback(): void {
     super.connectedCallback();
-    this.addEventListener('rc-tab-select', this.#onTabSelect as EventListener);
     this.addEventListener('keydown', this.#onKeyDown);
   }
 
   override disconnectedCallback(): void {
-    this.removeEventListener('rc-tab-select', this.#onTabSelect as EventListener);
     this.removeEventListener('keydown', this.#onKeyDown);
     super.disconnectedCallback();
   }
@@ -58,11 +74,13 @@ export class RcTabs extends RcStyledElement {
       const first = this.#tabs().find((t) => !t.disabled);
       if (first) this.value = first.value;
     }
-    this.#sync();
+    this.#syncPanels();
   }
 
-  override updated(): void {
-    this.#sync();
+  override updated(changed: PropertyValues<this>): void {
+    if (!changed.has('value')) return;
+    this.#contextProvider.setValue(this.#contextValue());
+    this.#syncPanels();
   }
 
   #tabs(): RcTab[] {
@@ -74,10 +92,7 @@ export class RcTabs extends RcStyledElement {
     return [...this.querySelectorAll<HTMLElement>(':scope > [slot="panel"]')];
   }
 
-  #sync() {
-    for (const tab of this.#tabs()) {
-      tab.selected = tab.value === this.value;
-    }
+  #syncPanels() {
     for (const panel of this.#panels()) {
       const active = panel.dataset.value === this.value;
       panel.toggleAttribute('data-active', active);
@@ -86,20 +101,9 @@ export class RcTabs extends RcStyledElement {
     this.dataset.active = this.value;
   }
 
-  #onTabSelect = (event: Event) => {
-    // Ignore nested `rc-tabs` — only direct child triggers.
-    if (!(event.target instanceof HTMLElement) || event.target.parentElement !== this) return;
-    event.stopPropagation();
-    const custom = event as CustomEvent<{ value: string }>;
-    if (!custom.detail?.value || custom.detail.value === this.value) return;
-    this.value = custom.detail.value;
-    this.dispatchEvent(
-      new CustomEvent('change', {
-        detail: { value: this.value },
-        bubbles: true,
-      }),
-    );
-  };
+  #contextValue(): RcTabsContextValue {
+    return { value: this.value, select: this.#select };
+  }
 
   #onKeyDown = (event: KeyboardEvent) => {
     if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
@@ -117,14 +121,8 @@ export class RcTabs extends RcStyledElement {
     event.stopPropagation();
     const tab = tabs[next];
     if (!tab) return;
-    this.value = tab.value;
+    this.#select(tab.value);
     tab.focus();
-    this.dispatchEvent(
-      new CustomEvent('change', {
-        detail: { value: this.value },
-        bubbles: true,
-      }),
-    );
   };
 
   override render() {

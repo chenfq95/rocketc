@@ -1,9 +1,10 @@
-import { css, html } from 'lit';
+import { ContextProvider } from '@lit/context';
+import { css, html, type PropertyValues } from 'lit';
 import { property } from 'lit/decorators.js';
 
 import { RcStyledElement } from '../../../internal/styled-element';
 
-import type { RcAccordionItem } from './accordion-item';
+import { rcAccordionContext, type RcAccordionContextValue } from './accordion-context';
 
 /**
  * Accordion group. Set `multiple` to allow several items open.
@@ -32,26 +33,30 @@ export class RcAccordion extends RcStyledElement {
   accessor value: string = '';
   /** Comma-separated open item values when `multiple`. */
 
-  override connectedCallback(): void {
-    super.connectedCallback();
-    this.addEventListener('rc-accordion-toggle', this.#onToggle as EventListener);
-  }
+  #toggle = (value: string, open: boolean) => {
+    let next = this.#openValues();
+    if (this.multiple) {
+      next = open ? [...new Set([...next, value])] : next.filter((entry) => entry !== value);
+    } else {
+      next = open ? [value] : [];
+    }
+    this.value = next.join(',');
+    this.dispatchEvent(
+      new CustomEvent('change', {
+        detail: { value: this.multiple ? next : (next[0] ?? '') },
+        bubbles: true,
+      }),
+    );
+  };
 
-  override disconnectedCallback(): void {
-    this.removeEventListener('rc-accordion-toggle', this.#onToggle as EventListener);
-    super.disconnectedCallback();
-  }
+  #contextProvider = new ContextProvider(this, {
+    context: rcAccordionContext,
+    initialValue: this.#contextValue(),
+  });
 
-  override firstUpdated() {
-    this.#sync();
-  }
-
-  override updated() {
-    this.#sync();
-  }
-
-  #items(): RcAccordionItem[] {
-    return [...this.querySelectorAll<RcAccordionItem>(':scope > rc-accordion-item')];
+  override updated(changed: PropertyValues<this>): void {
+    if (!changed.has('value')) return;
+    this.#contextProvider.setValue(this.#contextValue());
   }
 
   #openValues(): string[] {
@@ -61,32 +66,9 @@ export class RcAccordion extends RcStyledElement {
       .filter(Boolean);
   }
 
-  #sync() {
-    const open = new Set(this.#openValues());
-    for (const item of this.#items()) {
-      item.open = open.has(item.value);
-    }
+  #contextValue(): RcAccordionContextValue {
+    return { openValues: this.#openValues(), toggle: this.#toggle };
   }
-
-  #onToggle = (event: Event) => {
-    if (!(event.target instanceof HTMLElement) || event.target.parentElement !== this) return;
-    event.stopPropagation();
-    const { value, open } = (event as CustomEvent<{ value: string; open: boolean }>).detail;
-    let next = this.#openValues();
-    if (this.multiple) {
-      next = open ? [...new Set([...next, value])] : next.filter((v) => v !== value);
-    } else {
-      next = open ? [value] : [];
-    }
-    this.value = next.join(',');
-    this.#sync();
-    this.dispatchEvent(
-      new CustomEvent('change', {
-        detail: { value: this.multiple ? next : (next[0] ?? '') },
-        bubbles: true,
-      }),
-    );
-  };
 
   override render() {
     return html`

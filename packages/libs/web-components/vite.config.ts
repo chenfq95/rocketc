@@ -56,6 +56,7 @@ export default defineConfig(({ mode }) => {
         : {
             external: [
               /^@babel\/runtime(?:\/|$)/,
+              /^@lit\/context(?:\/|$)/,
               /^lit(?:\/|$)/,
               /^@rocketc\/design-system(?:\/|$)/,
             ],

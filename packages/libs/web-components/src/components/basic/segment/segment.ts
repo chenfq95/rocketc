@@ -1,11 +1,17 @@
-import { css, html } from 'lit';
+import { ContextProvider } from '@lit/context';
+import { css, html, type PropertyValues } from 'lit';
 import { property } from 'lit/decorators.js';
 
 import { RcStyledElement } from '../../../internal/styled-element';
 
 import type { RcSegmentItem } from './segment-item';
+import {
+  rcSegmentContext,
+  type RcSegmentContextValue,
+  type RcSegmentSize,
+} from './segment-context';
 
-export type RcSegmentSize = 'sm' | 'md' | 'lg';
+export type { RcSegmentSize } from './segment-context';
 
 /**
  * Segmented control for mutually exclusive options.
@@ -62,14 +68,28 @@ export class RcSegment extends RcStyledElement {
   @property({ type: Boolean, attribute: 'full-width', reflect: true })
   accessor fullWidth: boolean = false;
 
+  #select = (value: string) => {
+    if (!value || value === this.value || this.disabled) return;
+    this.value = value;
+    this.dispatchEvent(
+      new CustomEvent('change', {
+        detail: { value: this.value },
+        bubbles: true,
+      }),
+    );
+  };
+
+  #contextProvider = new ContextProvider(this, {
+    context: rcSegmentContext,
+    initialValue: this.#contextValue(),
+  });
+
   override connectedCallback(): void {
     super.connectedCallback();
-    this.addEventListener('rc-segment-select', this.#onSelect as EventListener);
     this.addEventListener('keydown', this.#onKeyDown);
   }
 
   override disconnectedCallback(): void {
-    this.removeEventListener('rc-segment-select', this.#onSelect as EventListener);
     this.removeEventListener('keydown', this.#onKeyDown);
     super.disconnectedCallback();
   }
@@ -79,42 +99,25 @@ export class RcSegment extends RcStyledElement {
       const first = this.#items().find((item) => !item.disabled);
       if (first) this.value = first.value;
     }
-    this.#sync();
   }
 
-  override updated(): void {
-    this.#sync();
+  override updated(changed: PropertyValues<this>): void {
+    if (!changed.has('value') && !changed.has('size') && !changed.has('disabled')) return;
+    this.#contextProvider.setValue(this.#contextValue());
   }
 
   #items(): RcSegmentItem[] {
     return [...this.querySelectorAll<RcSegmentItem>(':scope > rc-segment-item')];
   }
 
-  #sync() {
-    for (const item of this.#items()) {
-      item.selected = item.value === this.value;
-      item.size = this.size;
-      if (this.disabled) item.disabled = true;
-    }
+  #contextValue(): RcSegmentContextValue {
+    return {
+      value: this.value,
+      size: this.size,
+      disabled: this.disabled,
+      select: this.#select,
+    };
   }
-
-  #select(value: string) {
-    if (!value || value === this.value || this.disabled) return;
-    this.value = value;
-    this.dispatchEvent(
-      new CustomEvent('change', {
-        detail: { value: this.value },
-        bubbles: true,
-      }),
-    );
-  }
-
-  #onSelect = (event: Event) => {
-    if (!(event.target instanceof HTMLElement) || event.target.parentElement !== this) return;
-    event.stopPropagation();
-    const custom = event as CustomEvent<{ value: string }>;
-    this.#select(custom.detail?.value ?? '');
-  };
 
   #onKeyDown = (event: KeyboardEvent) => {
     if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'].includes(event.key)) {

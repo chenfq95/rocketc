@@ -1,14 +1,15 @@
+import { ContextConsumer } from '@lit/context';
 import { css, html } from 'lit';
 import { property } from 'lit/decorators.js';
 
 import { RcStyledElement } from '../../../internal/styled-element';
+import { rcSegmentContext, type RcSegmentSize } from './segment-context';
 
 /**
  * Option inside `rc-segment`.
  *
  * @element rc-segment-item
  * @slot - Item label
- * @fires rc-segment-select - When activated (`detail.value`)
  */
 export class RcSegmentItem extends RcStyledElement {
   static override styles = [
@@ -43,13 +44,13 @@ export class RcSegmentItem extends RcStyledElement {
           box-shadow var(--rc-duration-fast, 150ms) var(--rc-easing-standard, ease);
       }
       
-      :host([size='sm']) button {
+      button[data-size='sm'] {
         min-height: var(--rc-space-7);
         padding: 0 var(--rc-space-2);
         font-size: var(--rc-typography-caption-font-size);
       }
       
-      :host([size='lg']) button {
+      button[data-size='lg'] {
         min-height: var(--rc-space-9);
         font-size: var(--rc-typography-body-font-size);
       }
@@ -58,7 +59,7 @@ export class RcSegmentItem extends RcStyledElement {
         color: var(--rc-color-text-primary);
       }
       
-      :host([selected]) button {
+      button[aria-checked='true'] {
         background: var(--rc-color-surface-panel);
         color: var(--rc-color-text-primary);
         box-shadow: var(--rc-shadow-xs, 0 1px 2px rgb(0 0 0 / 8%));
@@ -88,27 +89,33 @@ export class RcSegmentItem extends RcStyledElement {
   accessor selected: boolean = false;
 
   @property({ type: String, reflect: true })
-  accessor size: 'sm' | 'md' | 'lg' = 'md';
+  accessor size: RcSegmentSize = 'md';
+
+  #segmentContext = new ContextConsumer(this, {
+    context: rcSegmentContext,
+    subscribe: true,
+  });
 
   #activate() {
-    if (this.disabled) return;
-    this.dispatchEvent(
-      new CustomEvent('rc-segment-select', {
-        detail: { value: this.value },
-        bubbles: true,
-        composed: true,
-      }),
-    );
+    const context = this.#segmentContext.value;
+    if (this.disabled || context?.disabled) return;
+    context?.select(this.value);
   }
 
   override render() {
+    const context = this.#segmentContext.value;
+    const selected = context ? context.value === this.value : this.selected;
+    const disabled = this.disabled || Boolean(context?.disabled);
+    const size = context?.size ?? this.size;
+
     return html`
       <button part="control"
         role="radio"
         type="button"
-        ?disabled=${this.disabled}
-        aria-checked=${this.selected ? 'true' : 'false'}
-        tabindex=${this.selected ? 0 : -1}
+        data-size=${size}
+        ?disabled=${disabled}
+        aria-checked=${selected ? 'true' : 'false'}
+        tabindex=${selected ? 0 : -1}
         @click=${this.#activate}
       >
         <slot></slot>

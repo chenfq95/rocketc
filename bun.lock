@@ -142,6 +142,7 @@
       "version": "0.0.1",
       "dependencies": {
         "@babel/runtime": "^7.29.0",
+        "@lit/context": "^1.1.6",
         "lit": "^3.3.1",
       },
       "devDependencies": {
@@ -601,6 +602,8 @@
     "@jsonjoy.com/util": ["@jsonjoy.com/util@1.9.0", "", { "dependencies": { "@jsonjoy.com/buffers": "^1.0.0", "@jsonjoy.com/codegen": "^1.0.0" }, "peerDependencies": { "tslib": "2" } }, "sha512-pLuQo+VPRnN8hfPqUTLTHk126wuYdXVxE6aDmjSeV4NCAgyxWbiOIeNJVtID3h1Vzpoi9m4jXezf73I6LgabgQ=="],
 
     "@lit-labs/ssr-dom-shim": ["@lit-labs/ssr-dom-shim@1.6.0", "", {}, "sha512-VHb0ALPMTlgKjM6yIxxoQNnpKyUKLD04VzeQdsiXkMqkvYlAHxq9glGLmgbb889/1GsohSOAjvQYoiBppXFqrQ=="],
+
+    "@lit/context": ["@lit/context@1.1.6", "", { "dependencies": { "@lit/reactive-element": "^1.6.2 || ^2.1.0" } }, "sha512-M26qDE6UkQbZA2mQ3RjJ3Gzd8TxP+/0obMgE5HfkfLhEEyYE3Bui4A5XHiGPjy0MUGAyxB3QgVuw2ciS0kHn6A=="],
 
     "@lit/reactive-element": ["@lit/reactive-element@2.1.2", "", { "dependencies": { "@lit-labs/ssr-dom-shim": "^1.5.0" } }, "sha512-pbCDiVMnne1lYUIaYNN5wrwQXDtHaYtg7YEFPeW+hws6U47WeFvISGUWekPGKWOP1ygrs0ef0o1VJMk1exos5A=="],
 

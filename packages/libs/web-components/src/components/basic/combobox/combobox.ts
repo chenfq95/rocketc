@@ -1,4 +1,5 @@
-import { css, html, nothing } from 'lit';
+import { ContextProvider } from '@lit/context';
+import { css, html, nothing, type PropertyValues } from 'lit';
 import { property } from 'lit/decorators.js';
 
 import { RcStyledElement } from '../../../internal/styled-element';
@@ -10,7 +11,7 @@ import {
   type FormRestoreReason,
   type FormRestoreState,
 } from '../../../internal/mixin-form-associated';
-import type { RcComboboxOption } from './combobox-option';
+import { rcComboboxContext, type RcComboboxContextValue } from './combobox-context';
 
 const base = mixinFormAssociated(mixinElementInternals(RcStyledElement));
 
@@ -84,16 +85,33 @@ export class RcCombobox extends base {
 
   @property({ type: Boolean, reflect: true })
   accessor required: boolean = false;
+
   #query = '';
+
+  #select = (value: string, label: string) => {
+    this.value = value;
+    this.label = label;
+    this.#setQuery(label);
+    this.open = false;
+    this.dispatchEvent(
+      new CustomEvent('change', {
+        detail: { value, label },
+        bubbles: true,
+      }),
+    );
+  };
+
+  #contextProvider = new ContextProvider(this, {
+    context: rcComboboxContext,
+    initialValue: this.#contextValue(),
+  });
 
   override connectedCallback(): void {
     super.connectedCallback();
-    this.addEventListener('rc-combobox-select', this.#onSelect as EventListener);
     document.addEventListener('click', this.#onDocClick, true);
   }
 
   override disconnectedCallback(): void {
-    this.removeEventListener('rc-combobox-select', this.#onSelect as EventListener);
     document.removeEventListener('click', this.#onDocClick, true);
     super.disconnectedCallback();
   }
@@ -105,50 +123,29 @@ export class RcCombobox extends base {
   override formResetCallback() {
     this.value = this.getAttribute('value') ?? '';
     this.label = '';
+    this.#setQuery('');
   }
 
   override formStateRestoreCallback(state: FormRestoreState | null, _reason: FormRestoreReason) {
     if (typeof state === 'string') this.value = state;
   }
 
-  #options(): RcComboboxOption[] {
-    return [...this.querySelectorAll<RcComboboxOption>(':scope > rc-combobox-option')];
+  #contextValue(): RcComboboxContextValue {
+    return { value: this.value, query: this.#query, select: this.#select };
   }
 
-  #filter() {
-    const q = this.#query.trim().toLowerCase();
-    for (const opt of this.#options()) {
-      const text = (opt.textContent ?? '').toLowerCase();
-      const match = !q || text.includes(q) || opt.value.toLowerCase().includes(q);
-      opt.hidden = !match;
-      opt.selected = opt.value === this.value;
-    }
-  }
-
-  #onSelect = (event: Event) => {
-    if (!(event.target instanceof HTMLElement) || event.target.parentElement !== this) return;
-    event.stopPropagation();
-    const { value, label } = (event as CustomEvent<{ value: string; label: string }>).detail;
-    this.value = value;
-    this.label = label;
-    this.#query = label;
-    this.open = false;
-    this.#filter();
-    this.dispatchEvent(
-      new CustomEvent('change', {
-        detail: { value, label },
-        bubbles: true,
-      }),
-    );
+  #setQuery(query: string) {
+    this.#query = query;
+    this.#contextProvider.setValue(this.#contextValue());
     this.requestUpdate();
-  };
+  }
 
   #onDocClick = (event: Event) => {
     if (!this.contains(event.target as Node)) this.open = false;
   };
 
-  override updated() {
-    this.#filter();
+  override updated(changed: PropertyValues<this>) {
+    if (changed.has('value')) this.#contextProvider.setValue(this.#contextValue());
   }
 
   override render() {
@@ -164,14 +161,11 @@ export class RcCombobox extends base {
         ?required=${this.required}
         @focus=${() => {
           this.open = true;
-          this.#query = this.label;
-          this.requestUpdate();
+          this.#setQuery(this.label);
         }}
         @input=${(e: Event) => {
-          this.#query = (e.target as HTMLInputElement).value;
+          this.#setQuery((e.target as HTMLInputElement).value);
           this.open = true;
-          this.#filter();
-          this.requestUpdate();
         }}
         @keydown=${(e: KeyboardEvent) => {
           if (e.key === 'Escape') this.open = false;

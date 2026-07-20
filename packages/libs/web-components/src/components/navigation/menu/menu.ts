@@ -1,5 +1,8 @@
+import { ContextProvider } from '@lit/context';
 import { css, html } from 'lit';
 import { RcStyledElement } from '../../../internal/styled-element';
+
+import { rcMenuContext } from './menu-context';
 
 /**
  * Vertical menu list. Compose with `rc-menu-item`.
@@ -36,27 +39,24 @@ export class RcMenu extends RcStyledElement {
     `,
   ];
 
-  override connectedCallback(): void {
-    super.connectedCallback();
-    this.addEventListener('rc-menu-select', this.#onSelect as EventListener);
-  }
-
-  override disconnectedCallback(): void {
-    this.removeEventListener('rc-menu-select', this.#onSelect as EventListener);
-    super.disconnectedCallback();
-  }
-
-  #onSelect = (event: Event) => {
-    if (!(event.target instanceof HTMLElement) || event.target.parentElement !== this) return;
-    event.stopPropagation();
-    const custom = event as CustomEvent<{ value: string }>;
+  #select = (value: string) => {
     this.dispatchEvent(
       new CustomEvent('change', {
-        detail: { value: custom.detail?.value ?? '' },
+        detail: { value },
         bubbles: true,
       }),
     );
   };
+
+  #contextProvider = new ContextProvider(this, {
+    context: rcMenuContext,
+    initialValue: { select: this.#select },
+  });
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+    this.#contextProvider.setValue({ select: this.#select });
+  }
 
   override render() {
     return html`

@@ -1,9 +1,11 @@
+import { ContextProvider } from '@lit/context';
 import { css, html, type PropertyValues } from 'lit';
 import { property } from 'lit/decorators.js';
 
 import { RcStyledElement } from '../../../internal/styled-element';
 
 import type { RcStep } from './step';
+import { rcStepsContext, type RcStepsContextValue } from './steps-context';
 
 /**
  * Multi-step progress indicator.
@@ -30,23 +32,27 @@ export class RcSteps extends RcStyledElement {
   @property({ type: Number, reflect: true })
   accessor index: number = 0;
 
-  override updated(changed: PropertyValues<this>) {
-    if (changed.has('index')) this.#sync();
-  }
+  #indexOf = (step: Element) => this.#steps().indexOf(step as RcStep);
 
-  override firstUpdated() {
-    this.#sync();
+  #contextProvider = new ContextProvider(this, {
+    context: rcStepsContext,
+    initialValue: this.#contextValue(),
+  });
+
+  override updated(changed: PropertyValues<this>) {
+    if (changed.has('index')) this.#contextProvider.setValue(this.#contextValue());
   }
 
   #steps(): RcStep[] {
-    return [...this.querySelectorAll<RcStep>('rc-step')];
+    return [...this.querySelectorAll<RcStep>(':scope > rc-step')];
   }
 
-  #sync() {
-    this.#steps().forEach((step, i) => {
-      step.index = i;
-      step.state = i < this.index ? 'complete' : i === this.index ? 'active' : 'incomplete';
-    });
+  #contextValue(): RcStepsContextValue {
+    return { activeIndex: this.index, indexOf: this.#indexOf };
+  }
+
+  #onSlotChange() {
+    this.#contextProvider.setValue(this.#contextValue(), true);
   }
 
   next() {
@@ -64,7 +70,7 @@ export class RcSteps extends RcStyledElement {
 
   override render() {
     return html`
-      <div class="list" part="list" role="list"><slot></slot></div>
+      <div class="list" part="list" role="list"><slot @slotchange=${this.#onSlotChange}></slot></div>
     `;
   }
 }

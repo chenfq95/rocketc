@@ -1,3 +1,4 @@
+import { ContextConsumer } from '@lit/context';
 import { LitElement, css, html, nothing, type PropertyValues } from 'lit';
 import { property } from 'lit/decorators.js';
 
@@ -12,6 +13,7 @@ import {
   type FormRestoreReason,
   type FormRestoreState,
 } from '../../../internal/mixin-form-associated';
+import { rcRadioGroupContext } from './radio-group-context';
 
 const radioBase = mixinDelegatesAria(mixinFormAssociated(mixinElementInternals(RcStyledElement)));
 
@@ -96,19 +98,30 @@ export class RcRadio extends radioBase {
   @property({ type: Boolean, reflect: true })
   accessor required: boolean = false;
 
+  #radioGroupContext = new ContextConsumer(this, {
+    context: rcRadioGroupContext,
+    subscribe: true,
+  });
+
   protected override updated(changed: PropertyValues<this>): void {
-    if (changed.has('checked')) {
-      this.classList.toggle('is-checked', this.checked);
-      if (this.checked) this.#uncheckSiblings();
+    const checked = this.#effectiveChecked();
+    this.classList.toggle('is-checked', checked);
+    if (changed.has('checked') && checked && !this.#radioGroupContext.value) {
+      this.#uncheckSiblings();
     }
   }
 
   override [getFormValue]() {
-    return this.checked ? this.value : null;
+    if (!this.#effectiveChecked()) return null;
+    const groupName = this.#radioGroupContext.value?.name;
+    if (!groupName) return this.value;
+    const value = new FormData();
+    value.append(groupName, this.value);
+    return value;
   }
 
   override [getFormState]() {
-    return String(this.checked);
+    return String(this.#effectiveChecked());
   }
 
   override formResetCallback(): void {
@@ -134,9 +147,16 @@ export class RcRadio extends radioBase {
     }
   }
 
+  #effectiveChecked(): boolean {
+    const context = this.#radioGroupContext.value;
+    return context?.value ? context.value === this.value : this.checked;
+  }
+
   #select() {
-    if (this.disabled || this.checked) return;
-    this.checked = true;
+    const context = this.#radioGroupContext.value;
+    if (this.disabled || context?.disabled || this.#effectiveChecked()) return;
+    if (context) context.select(this.value);
+    else this.checked = true;
     this.dispatchEvent(
       new CustomEvent('change', {
         detail: { value: this.value, checked: true },
@@ -147,13 +167,16 @@ export class RcRadio extends radioBase {
 
   override render() {
     const { ariaLabel, role } = this as ARIAMixinStrict;
+    const context = this.#radioGroupContext.value;
+    const checked = this.#effectiveChecked();
+    const disabled = this.disabled || Boolean(context?.disabled);
 
     return html`
       <button part="control"
-        aria-checked=${this.checked ? 'true' : 'false'}
+        aria-checked=${checked ? 'true' : 'false'}
         aria-label=${ariaLabel || nothing}
         aria-required=${this.required ? 'true' : nothing}
-        ?disabled=${this.disabled}
+        ?disabled=${disabled}
         role=${role || 'radio'}
         type="button"
         @click=${this.#select}
