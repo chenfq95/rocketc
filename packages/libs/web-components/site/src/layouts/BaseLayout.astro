@@ -56,11 +56,13 @@ const pageTitle = `${title} · Rocketc Web Components`;
     </div>
     <script>
       import { registerRocketcCustomElements } from '@rocketc/web-components';
+      import { initLucideIcons } from '../scripts/lucide-icons';
       import { initTheme } from '../scripts/theme';
 
       function boot() {
         registerRocketcCustomElements();
         initTheme();
+        initLucideIcons();
       }
 
       boot();

@@ -103,6 +103,7 @@ const demoTitles: Record<string, string> = {
   Heights: '高度',
   Helper: '帮助文本',
   'Icon and close buttons': '图标与关闭按钮',
+  'With icons': '带图标',
   Indeterminate: '不确定进度',
   Info: '信息',
   Interactive: '交互',
@@ -139,13 +140,17 @@ const demoTitles: Record<string, string> = {
 
 const specialDemoDescriptions: Record<string, string> = {
   'Adds helper text to explain the expected field value.': '添加帮助文本，说明字段的预期值。',
+  'Places decorative icons before or after the label; loading replaces the leading icon with a spinner.':
+    '在标签前后放置装饰性图标；加载时前置图标会被 spinner 替换。',
   'Compares button emphasis from solid and subtle through outline, ghost, and destructive actions.':
     '对比实心、柔和、描边、幽灵和危险操作等按钮强调级别。',
   'Compares fixed-height scroll area containers with overflowing content.':
     '对比内容溢出时不同固定高度的滚动区域。',
   'Compares how flex distributes items along its main axis.': '对比弹性布局沿主轴分布项目的方式。',
-  'Compares icon-only actions with a dedicated close action and their accessible labels.':
-    '对比纯图标操作、专用关闭操作及其无障碍标签。',
+  'Compares icon-only and close actions; icons are provided by the consumer via slot.':
+    '对比纯图标操作、专用关闭操作及其无障碍标签；图标由使用方通过 slot 传入。',
+  'Compares icon-only and close actions built on rc-button icon mode, with accessible labels.':
+    '对比纯图标操作、专用关闭操作及其无障碍标签；二者均基于 rc-button 的 icon 模式。',
   'Compares positive, negative, and neutral trends displayed by stat.':
     '对比统计数据展示的正向、负向和中性趋势。',
   'Compares semantic surface backgrounds and borders on box.': '对比盒容器的语义化表面背景与边框。',
@@ -223,11 +228,12 @@ const summaryNames: Record<string, string> = {
   'rc-banner': '用于持续展示状态的全宽横幅。',
   'rc-box': '通用布局与表面盒容器。',
   'rc-breadcrumb': '用于展示页面层级路径的面包屑。',
-  'rc-button': '使用语义令牌呈现的主要操作按钮。',
+  'rc-button': '使用语义令牌呈现的主要操作按钮，支持前置/后置图标与 icon 方形模式。',
   'rc-card': '用于组织相关内容的表面容器。',
   'rc-center': '在两个轴向上居中子元素的布局容器。',
   'rc-checkbox': '二元或不确定状态的复选框控件。',
-  'rc-close-button': '用于关闭或移除内容的专用按钮。',
+  'rc-close-button':
+    '组合 rc-icon-button 的关闭按钮，默认 × 与 aria-label Close；可用 slot 替换图标。',
   'rc-color-picker': '结合色块与十六进制输入框的颜色选择器。',
   'rc-combobox': '支持筛选选项的组合框。',
   'rc-combobox-option': '组合框中的单个选项。',
@@ -243,7 +249,8 @@ const summaryNames: Record<string, string> = {
   'rc-flex': '默认横向排列的弹性布局基础组件。',
   'rc-grid': '响应式 CSS 网格布局基础组件。',
   'rc-hover-card': '在触发器悬浮或聚焦时显示内容的卡片。',
-  'rc-icon-button': '仅包含图标并需要明确无障碍标签的操作按钮。',
+  'rc-icon-button':
+    '组合 rc-button icon 模式的纯图标按钮，默认 ghost；图标由 slot 传入，需明确无障碍标签。',
   'rc-input': '使用设计系统表单令牌的单行输入框。',
   'rc-label': '通过 for 属性关联浅层 DOM 控件的表单标签。',
   'rc-link': '基于原生链接元素的文本链接。',

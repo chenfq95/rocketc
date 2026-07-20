@@ -127,8 +127,10 @@ export * from './components/surfaces/sheet';
 
 export {
   ariaPropertyToAttribute,
+  delegateAria,
   isAriaAttribute,
   mixinDelegatesAria,
+  type AriaDelegateOverrides,
   type ARIAMixinStrict,
   type ARIAProperty,
 } from './internal/mixin-delegates-aria';

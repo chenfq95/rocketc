@@ -3,17 +3,31 @@ import { property } from 'lit/decorators.js';
 
 import { RcStyledElement } from '../../../internal/styled-element';
 
-import { mixinDelegatesAria, type ARIAMixinStrict } from '../../../internal/mixin-delegates-aria';
-import type { RcButtonSize } from './button';
+import {
+  delegateAria,
+  mixinDelegatesAria,
+  type ARIAMixinStrict,
+} from '../../../internal/mixin-delegates-aria';
+import type { RcButtonSize, RcButtonVariant } from './button';
+import './icon-button.js';
 
-const base = mixinDelegatesAria(RcStyledElement);
+const closeBase = mixinDelegatesAria(RcStyledElement);
 
 /**
  * Dismiss / close control (×). Defaults `aria-label` to "Close".
  *
+ * Composes `rc-icon-button` (which composes `rc-button`) and forwards ARIA onto it.
+ * Slotted content replaces the default glyph.
+ * Button CSS parts are forwarded; `icon` styles the default × glyph.
+ *
  * @element rc-close-button
+ * @slot - Optional custom icon content
+ * @csspart control - Inner native button (from `rc-button`)
+ * @csspart label - Icon slot wrapper (from `rc-button`)
+ * @csspart spinner - Loading indicator (from `rc-button`)
+ * @csspart icon - Default close glyph
  */
-export class RcCloseButton extends base {
+export class RcCloseButton extends closeBase {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     delegatesFocus: true,
@@ -25,71 +39,40 @@ export class RcCloseButton extends base {
         display: inline-flex;
         vertical-align: middle;
       }
-      
-      button {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0;
-        border: 0;
-        border-radius: var(--rc-radius-md);
-        background: transparent;
-        color: var(--rc-color-text-secondary);
-        font: inherit;
-        line-height: 1;
-        cursor: pointer;
-      }
-      
-      :host([size='sm']) button {
-        width: var(--rc-space-7);
-        height: var(--rc-space-7);
-        font-size: 1rem;
-      }
-      
-      :host([size='md']) button,
-      :host(:not([size])) button {
-        width: var(--rc-space-8);
-        height: var(--rc-space-8);
-        font-size: 1.125rem;
-      }
-      
-      :host([size='lg']) button {
-        width: var(--rc-space-9);
-        height: var(--rc-space-9);
-        font-size: 1.25rem;
-      }
-      
-      button:hover:not(:disabled) {
-        background: var(--rc-color-action-bg-hover);
-        color: var(--rc-color-text-primary);
-      }
-      
-      button:focus-visible {
-        outline: none;
-        box-shadow:
-          0 0 0 2px var(--rc-color-surface-panel),
-          0 0 0 4px var(--rc-color-border-focus);
-      }
-      
-      button:disabled {
-        cursor: not-allowed;
-        opacity: var(--rc-opacity-disabled);
-      }
     `,
   ];
 
   @property({ type: String, reflect: true })
   accessor size: RcButtonSize = 'md';
 
+  @property({ type: String, reflect: true })
+  accessor variant: RcButtonVariant = 'ghost';
+
   @property({ type: Boolean, reflect: true })
   accessor disabled: boolean = false;
 
+  @property({ type: Boolean, reflect: true })
+  accessor loading: boolean = false;
+
   override render() {
-    const { ariaLabel } = this as ARIAMixinStrict;
+    const host = this as ARIAMixinStrict;
+
     return html`
-      <button part="control" type="button" aria-label=${ariaLabel || 'Close'} ?disabled=${this.disabled}>
-        <span part="icon" aria-hidden="true">×</span>
-      </button>
+      <rc-icon-button
+        exportparts="control, label, spinner"
+        ${delegateAria(host, {
+          ariaLabel: host.ariaLabel || 'Close',
+        })}
+        size=${this.size}
+        type="button"
+        variant=${this.variant}
+        ?disabled=${this.disabled}
+        ?loading=${this.loading}
+      >
+        <slot>
+          <span part="icon" aria-hidden="true">×</span>
+        </slot>
+      </rc-icon-button>
     `;
   }
 }

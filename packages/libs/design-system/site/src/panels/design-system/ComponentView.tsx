@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 
+import { LucideIcon } from '../../lib/lucide-icon';
 import { PreviewPanel } from './PreviewPanel';
 
 const buttonVariants = [
@@ -96,16 +97,27 @@ export function ComponentView() {
                 ))}
                 <rc-button size="sm">Small</rc-button>
                 <rc-button size="lg">Large</rc-button>
+                <rc-button variant="solid">
+                  <LucideIcon name="plus" slot="prefix" />
+                  New
+                </rc-button>
+                <rc-button variant="outline">
+                  Next
+                  <LucideIcon name="arrow-right" slot="suffix" />
+                </rc-button>
               </div>
             </Demo>
 
             <Demo title="Icon / Close">
               <div className="button-row">
+                <rc-button icon variant="outline" aria-label="Search">
+                  <LucideIcon name="search" />
+                </rc-button>
                 <rc-icon-button aria-label="Settings" variant="outline">
-                  ⚙
+                  <LucideIcon name="setting" />
                 </rc-icon-button>
-                <rc-icon-button aria-label="More" variant="ghost">
-                  ⋯
+                <rc-icon-button aria-label="More">
+                  <LucideIcon name="ellipsis" />
                 </rc-icon-button>
                 <rc-close-button aria-label="Dismiss" />
               </div>

@@ -1,9 +1,16 @@
 <!--
 title: 图标与关闭按钮 / Icon and close buttons
-description: 对比纯图标操作、专用关闭操作及其无障碍标签。 / Compares icon-only actions with a dedicated close action and their accessible labels.
+description: 对比纯图标操作、专用关闭操作及其无障碍标签；图标由使用方通过 slot 传入。 / Compares icon-only and close actions; icons are provided by the consumer via slot.
 -->
 <div class="rc-demo">
-  <rc-icon-button aria-label="设置 / Settings" variant="outline">⚙</rc-icon-button>
-  <rc-icon-button aria-label="更多 / More" variant="ghost">⋯</rc-icon-button>
+  <rc-button icon variant="outline" aria-label="搜索 / Search">
+    <i data-lucide="search"></i>
+  </rc-button>
+  <rc-icon-button aria-label="设置 / Settings" variant="outline">
+    <i data-lucide="settings"></i>
+  </rc-icon-button>
+  <rc-icon-button aria-label="更多 / More">
+    <i data-lucide="ellipsis"></i>
+  </rc-icon-button>
   <rc-close-button aria-label="关闭 / Dismiss"></rc-close-button>
 </div>

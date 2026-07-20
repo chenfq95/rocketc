@@ -1,0 +1,26 @@
+<!--
+title: 带图标 / With icons
+description: 在标签前后放置装饰性图标；加载时前置图标会被 spinner 替换。 / Places decorative icons before or after the label; loading replaces the leading icon with a spinner.
+-->
+<div class="rc-demo">
+  <rc-button variant="solid">
+    <i data-lucide="plus" slot="prefix"></i>
+    新建 / New
+  </rc-button>
+  <rc-button variant="outline">
+    <i data-lucide="download" slot="prefix"></i>
+    下载 / Download
+  </rc-button>
+  <rc-button variant="subtle">
+    下一步 / Next
+    <i data-lucide="arrow-right" slot="suffix"></i>
+  </rc-button>
+  <rc-button variant="ghost" size="sm">
+    <i data-lucide="settings" slot="prefix"></i>
+    设置 / Settings
+  </rc-button>
+  <rc-button variant="solid" loading>
+    <i data-lucide="plus" slot="prefix"></i>
+    保存中 / Saving
+  </rc-button>
+</div>

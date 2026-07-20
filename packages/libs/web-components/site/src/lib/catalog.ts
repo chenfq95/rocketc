@@ -97,6 +97,7 @@ const partDescriptions: Record<string, string> = {
   footer: '底部区域。 / Footer region.',
   input: '文本输入控件。 / Text input control.',
   close: '关闭控件。 / Close control.',
+  icon: '图标区域。 / Icon region.',
 };
 
 function describePart(name: string) {

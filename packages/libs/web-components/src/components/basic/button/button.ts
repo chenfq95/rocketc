@@ -1,9 +1,13 @@
-import { LitElement, css, html, nothing } from 'lit';
+import { LitElement, css, html, nothing, type TemplateResult } from 'lit';
 import { property } from 'lit/decorators.js';
 
 import { RcStyledElement } from '../../../internal/styled-element';
 
-import { mixinDelegatesAria, type ARIAMixinStrict } from '../../../internal/mixin-delegates-aria';
+import {
+  delegateAria,
+  mixinDelegatesAria,
+  type ARIAMixinStrict,
+} from '../../../internal/mixin-delegates-aria';
 
 export type RcButtonVariant = 'solid' | 'subtle' | 'outline' | 'ghost' | 'destructive';
 export type RcButtonSize = 'sm' | 'md' | 'lg';
@@ -14,13 +18,24 @@ const buttonBase = mixinDelegatesAria(RcStyledElement);
  * Primary action control. Visuals resolve through `color.control.*` /
  * `color.danger.*` semantic tokens.
  *
- * Host API props (`variant` / `size` / `loading`) stay on the host.
+ * Host API props (`variant` / `size` / `loading` / `icon`) stay on the host.
  * ARIA on the host is delegated to the inner `<button>` via
  * `mixinDelegatesAria` (host stores `data-aria-*`, template binds inward).
  * Interactive events are composed and surface on the host (retargeted).
  *
+ * Prefer decorative icons in `prefix` / `suffix` (mark them `aria-hidden`).
+ * Use `icon` for square icon-only actions (prefer an explicit `aria-label`).
+ * While `loading`, the leading icon / icon content is replaced by the spinner.
+ *
  * @element rc-button
- * @slot - Button label / content
+ * @slot - Button label / icon content
+ * @slot prefix - Leading icon or media before the label (ignored when `icon`)
+ * @slot suffix - Trailing icon or media after the label (ignored when `icon`)
+ * @csspart control - Inner native button
+ * @csspart prefix - Leading affix wrapper
+ * @csspart label - Default slot wrapper
+ * @csspart suffix - Trailing affix wrapper
+ * @csspart spinner - Loading indicator
  */
 export class RcButton extends buttonBase {
   static override shadowRootOptions: ShadowRootInit = {
@@ -62,6 +77,28 @@ export class RcButton extends buttonBase {
           0 0 0 4px var(--rc-color-border-focus);
       }
       
+      .affix,
+      .spinner {
+        display: inline-flex;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: center;
+        line-height: 1;
+      }
+      
+      .label {
+        display: inline-flex;
+        align-items: center;
+        min-width: 0;
+      }
+      
+      :host(:not(:has([slot='prefix'])):not([loading])) .prefix,
+      :host(:not(:has([slot='suffix']))) .suffix,
+      :host([icon]) .prefix,
+      :host([icon]) .suffix {
+        display: none;
+      }
+      
       :host([size='sm']) button {
         min-height: var(--rc-space-7);
         padding: 0 var(--rc-space-2);
@@ -79,6 +116,66 @@ export class RcButton extends buttonBase {
         min-height: var(--rc-space-9);
         padding: 0 var(--rc-space-4);
         font-size: var(--rc-typography-body-font-size);
+      }
+      
+      :host([icon]) button {
+        width: var(--rc-space-8);
+        height: var(--rc-space-8);
+        min-height: 0;
+        padding: 0;
+        gap: 0;
+        font-weight: inherit;
+        letter-spacing: normal;
+        line-height: 1;
+      }
+      
+      :host([icon]) .label {
+        justify-content: center;
+        line-height: 1;
+      }
+      
+      :host([icon][size='sm']) button {
+        width: var(--rc-space-7);
+        height: var(--rc-space-7);
+      }
+      
+      :host([icon][size='md']) button,
+      :host([icon]:not([size])) button {
+        width: var(--rc-space-8);
+        height: var(--rc-space-8);
+      }
+      
+      :host([icon][size='lg']) button {
+        width: var(--rc-space-9);
+        height: var(--rc-space-9);
+      }
+      
+      :host([size='sm']) .affix,
+      :host([size='sm']) .spinner {
+        font-size: var(--rc-typography-caption-font-size);
+      }
+      
+      :host([size='md']) .affix,
+      :host(:not([size])) .affix,
+      :host([size='md']) .spinner,
+      :host(:not([size])) .spinner {
+        font-size: var(--rc-typography-label-font-size);
+      }
+      
+      :host([size='lg']) .affix,
+      :host([size='lg']) .spinner {
+        font-size: var(--rc-typography-body-font-size);
+      }
+      
+      ::slotted(svg[slot='prefix']),
+      ::slotted(svg[slot='suffix']),
+      ::slotted(img[slot='prefix']),
+      ::slotted(img[slot='suffix']),
+      :host([icon]) ::slotted(svg),
+      :host([icon]) ::slotted(img) {
+        display: block;
+        width: 1em;
+        height: 1em;
       }
       
       :host([variant='solid']) button,
@@ -172,34 +269,72 @@ export class RcButton extends buttonBase {
   @property({ type: Boolean, reflect: true })
   accessor loading: boolean = false;
 
+  /** Square icon-only control. Prefer an explicit `aria-label`. */
+  @property({ type: Boolean, reflect: true })
+  accessor icon: boolean = false;
+
   @property({ type: Boolean, reflect: true })
   accessor autofocus: boolean = false;
 
-  override render() {
-    const { ariaLabel, ariaHasPopup, ariaExpanded, ariaBusy, role } = this as ARIAMixinStrict;
+  /** Default `aria-label` when the host does not provide one. */
+  protected get defaultAriaLabel(): string | undefined {
+    return undefined;
+  }
+
+  protected renderSpinner() {
+    return html`
+      <span class="spinner" part="spinner" aria-hidden="true">…</span>
+    `;
+  }
+
+  protected renderContent(): TemplateResult {
+    if (this.icon) {
+      return this.loading
+        ? this.renderSpinner()
+        : html`
+            <span class="label" part="label">
+              <slot></slot>
+            </span>
+          `;
+    }
 
     return html`
-      <button part="control"
-        aria-busy=${this.loading ? 'true' : ariaBusy || nothing}
-        aria-expanded=${ariaExpanded || nothing}
-        aria-haspopup=${ariaHasPopup || nothing}
-        aria-label=${ariaLabel || nothing}
+      ${
+        this.loading
+          ? this.renderSpinner()
+          : html`
+              <span class="affix prefix" part="prefix">
+                <slot name="prefix"></slot>
+              </span>
+            `
+      }
+      <span class="label" part="label">
+        <slot></slot>
+      </span>
+      <span class="affix suffix" part="suffix">
+        <slot name="suffix"></slot>
+      </span>
+    `;
+  }
+
+  override render() {
+    const host = this as ARIAMixinStrict;
+
+    return html`
+      <button
+        part="control"
+        ${delegateAria(host, {
+          ariaBusy: this.loading ? 'true' : host.ariaBusy,
+          ariaLabel: host.ariaLabel || this.defaultAriaLabel || null,
+        })}
         ?autofocus=${this.autofocus}
         ?disabled=${this.disabled || this.loading}
         form=${this.form || nothing}
         name=${this.name || nothing}
-        role=${role || nothing}
         type=${this.type}
         value=${this.value || nothing}
       >
-        ${
-          this.loading
-            ? html`
-                <span part="spinner" aria-hidden="true">…</span>
-              `
-            : nothing
-        }
-        <slot></slot>
+        ${this.renderContent()}
       </button>
     `;
   }

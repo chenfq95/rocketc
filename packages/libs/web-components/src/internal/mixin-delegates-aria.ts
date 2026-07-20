@@ -1,4 +1,5 @@
-import { LitElement, isServer } from 'lit';
+import { LitElement, isServer, noChange } from 'lit';
+import { Directive, directive, type ElementPart } from 'lit/directive.js';
 
 type Constructor<T> = abstract new (...args: any[]) => T;
 
@@ -73,14 +74,55 @@ export function isAriaAttribute(attribute: string): boolean {
  */
 export type ARIAMixinStrict = ARIAMixin;
 
+/** Optional per-property overrides applied while forwarding delegated ARIA. */
+export type AriaDelegateOverrides = Partial<Record<ARIAProperty, string | null>>;
+
 const ignoreAttributeChangesFor = Symbol('ignoreAttributeChangesFor');
+
+class DelegateAriaDirective extends Directive {
+  #previous = new Map<string, string | null>();
+
+  render(_host: ARIAMixinStrict, _overrides?: AriaDelegateOverrides) {
+    return noChange;
+  }
+
+  update(part: ElementPart, [host, overrides]: [ARIAMixinStrict, AriaDelegateOverrides?]) {
+    const el = part.element;
+    if (!(el instanceof Element)) return noChange;
+
+    for (const property of ARIA_PROPERTIES) {
+      const attribute = ariaPropertyToAttribute(property);
+      const raw =
+        overrides && Object.hasOwn(overrides, property) ? overrides[property] : host[property];
+      const next = raw == null || raw === '' ? null : String(raw);
+      if (this.#previous.get(attribute) === next) continue;
+      this.#previous.set(attribute, next);
+      if (next === null) el.removeAttribute(attribute);
+      else el.setAttribute(attribute, next);
+    }
+
+    return noChange;
+  }
+}
+
+/**
+ * Forward every delegated ARIA property from a `mixinDelegatesAria` host onto
+ * an inner element (`<button>`, `<rc-icon-button>`, …).
+ *
+ * @example
+ * ```ts
+ * html`<button ${delegateAria(this as ARIAMixinStrict)}></button>`
+ * html`<rc-icon-button ${delegateAria(this as ARIAMixinStrict, { ariaLabel: 'Close' })}></rc-icon-button>`
+ * ```
+ */
+export const delegateAria = directive(DelegateAriaDirective);
 
 /**
  * Delegate ARIA from the host onto an inner Shadow DOM control.
  *
  * Host `aria-*` / `role` are shifted to `data-aria-*` / `data-role` so the host
  * stays out of the accessibility tree with duplicate semantics. Components
- * must bind values in `render()`, e.g. `aria-label=${this.ariaLabel || nothing}`.
+ * should forward values with `${delegateAria(this as ARIAMixinStrict)}`.
  *
  * Does not support IDREF attributes (`aria-labelledby`, `aria-controls`, …).
  * Those should remain on the host (see `rc-label`).

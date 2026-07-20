@@ -1,20 +1,32 @@
-import { LitElement, css, html, nothing } from 'lit';
+import { LitElement, css, html } from 'lit';
 import { property } from 'lit/decorators.js';
 
 import { RcStyledElement } from '../../../internal/styled-element';
 
-import { mixinDelegatesAria, type ARIAMixinStrict } from '../../../internal/mixin-delegates-aria';
+import {
+  delegateAria,
+  mixinDelegatesAria,
+  type ARIAMixinStrict,
+} from '../../../internal/mixin-delegates-aria';
 import type { RcButtonSize, RcButtonVariant } from './button';
+import './button.js';
 
-const base = mixinDelegatesAria(RcStyledElement);
+const iconButtonBase = mixinDelegatesAria(RcStyledElement);
 
 /**
  * Icon-only action button. Prefer an explicit `aria-label`.
  *
+ * Composes `rc-button` with `icon` enabled and `variant="ghost"` by default.
+ * Pass icon content through the default slot (SVG, img, or other markup).
+ * CSS parts are forwarded from the inner `rc-button`.
+ *
  * @element rc-icon-button
  * @slot - Icon content
+ * @csspart control - Inner native button (from `rc-button`)
+ * @csspart label - Icon slot wrapper (from `rc-button`)
+ * @csspart spinner - Loading indicator (from `rc-button`)
  */
-export class RcIconButton extends base {
+export class RcIconButton extends iconButtonBase {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     delegatesFocus: true,
@@ -25,85 +37,6 @@ export class RcIconButton extends base {
       :host {
         display: inline-flex;
         vertical-align: middle;
-      }
-      
-      button {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0;
-        border: var(--rc-border-sm) solid transparent;
-        border-radius: var(--rc-radius-md);
-        font: inherit;
-        cursor: pointer;
-        transition:
-          background-color var(--rc-duration-fast) var(--rc-easing-standard),
-          border-color var(--rc-duration-fast) var(--rc-easing-standard),
-          color var(--rc-duration-fast) var(--rc-easing-standard);
-      }
-      
-      :host([size='sm']) button {
-        width: var(--rc-space-7);
-        height: var(--rc-space-7);
-        font-size: var(--rc-typography-caption-font-size);
-      }
-      
-      :host([size='md']) button,
-      :host(:not([size])) button {
-        width: var(--rc-space-8);
-        height: var(--rc-space-8);
-        font-size: var(--rc-typography-label-font-size);
-      }
-      
-      :host([size='lg']) button {
-        width: var(--rc-space-9);
-        height: var(--rc-space-9);
-        font-size: var(--rc-typography-body-font-size);
-      }
-      
-      :host([variant='solid']) button,
-      :host(:not([variant])) button {
-        background: var(--rc-color-control-primary-bg);
-        border-color: var(--rc-color-control-primary-border);
-        color: var(--rc-color-control-primary-fg-contrast);
-      }
-      
-      :host([variant='subtle']) button {
-        background: var(--rc-color-control-secondary-bg-hover);
-        color: var(--rc-color-control-secondary-fg);
-      }
-      
-      :host([variant='outline']) button {
-        background: transparent;
-        border-color: var(--rc-color-control-secondary-border);
-        color: var(--rc-color-control-secondary-fg);
-      }
-      
-      :host([variant='ghost']) button {
-        background: transparent;
-        color: var(--rc-color-text-primary);
-      }
-      
-      :host([variant='ghost']) button:hover:not(:disabled) {
-        background: var(--rc-color-action-bg-hover);
-      }
-      
-      :host([variant='destructive']) button {
-        background: var(--rc-color-danger-solid);
-        border-color: var(--rc-color-danger-solid);
-        color: var(--rc-color-danger-contrast);
-      }
-      
-      button:focus-visible {
-        outline: none;
-        box-shadow:
-          0 0 0 2px var(--rc-color-surface-panel),
-          0 0 0 4px var(--rc-color-border-focus);
-      }
-      
-      button:disabled {
-        cursor: not-allowed;
-        opacity: var(--rc-opacity-disabled);
       }
     `,
   ];
@@ -123,25 +56,26 @@ export class RcIconButton extends base {
   @property({ type: Boolean, reflect: true })
   accessor loading: boolean = false;
 
+  @property({ type: Boolean, reflect: true })
+  accessor autofocus: boolean = false;
+
   override render() {
-    const { ariaLabel } = this as ARIAMixinStrict;
+    const host = this as ARIAMixinStrict;
+
     return html`
-      <button part="control"
+      <rc-button
+        exportparts="control, label, spinner"
+        ${delegateAria(host)}
+        icon
+        size=${this.size}
         type=${this.type}
-        aria-label=${ariaLabel || nothing}
-        aria-busy=${this.loading ? 'true' : nothing}
-        ?disabled=${this.disabled || this.loading}
+        variant=${this.variant}
+        ?autofocus=${this.autofocus}
+        ?disabled=${this.disabled}
+        ?loading=${this.loading}
       >
-        ${
-          this.loading
-            ? html`
-                <span part="spinner" aria-hidden="true">…</span>
-              `
-            : html`
-                <slot></slot>
-              `
-        }
-      </button>
+        <slot></slot>
+      </rc-button>
     `;
   }
 }

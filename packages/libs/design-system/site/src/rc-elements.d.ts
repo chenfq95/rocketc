@@ -67,6 +67,7 @@ declare module 'react' {
         type?: string;
         disabled?: boolean;
         loading?: boolean;
+        icon?: boolean;
         onClick?: (event: Event) => void;
       };
       'rc-card': RcProps;
