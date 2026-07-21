@@ -65,9 +65,22 @@ describe('RcStyledElement', () => {
     const elements = Object.entries(componentSources).filter(([, source]) =>
       source.includes('@element rc-'),
     );
+    const sourcesByClass = new Map<string, string>();
+    for (const [, source] of elements) {
+      const className = source.match(/export class (Rc\w+)/)?.[1];
+      if (className) sourcesByClass.set(className, source);
+    }
+    const extendsStyledElement = (source: string, visited = new Set<string>()): boolean => {
+      if (source.includes('RcStyledElement')) return true;
+      const parent = source.match(/export class Rc\w+ extends (Rc\w+)/)?.[1];
+      if (!parent || visited.has(parent)) return false;
+      visited.add(parent);
+      const parentSource = sourcesByClass.get(parent);
+      return parentSource ? extendsStyledElement(parentSource, visited) : false;
+    };
 
     expect(elements).toHaveLength(77);
-    expect(elements.filter(([, source]) => !source.includes('RcStyledElement'))).toEqual([]);
+    expect(elements.filter(([, source]) => !extendsStyledElement(source))).toEqual([]);
   });
 
   it('将 Token 别名和原始 CSS 值应用到宿主 / applies token aliases and raw CSS values to the host', async () => {

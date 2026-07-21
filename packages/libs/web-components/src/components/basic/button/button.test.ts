@@ -106,6 +106,7 @@ describe('rc-button', () => {
     expect(button).toBeInstanceOf(HTMLButtonElement);
     expect(button?.getAttributeNames().sort()).toEqual([
       'autofocus',
+      'class',
       'disabled',
       'formaction',
       'formenctype',
@@ -128,7 +129,7 @@ describe('rc-button', () => {
     expect(button?.getAttribute('formtarget')).toBe('_blank');
   });
 
-  it('转发现代按钮命令与弹出框属性 / forwards modern command and popover attributes', async () => {
+  it('在 host 上反射命令与弹出框属性 / reflects command and popover attributes on the host', async () => {
     const element = document.createElement('rc-button') as RcButton;
     element.command = 'show-modal';
     element.commandFor = 'settings-dialog';
@@ -139,10 +140,14 @@ describe('rc-button', () => {
     await element.updateComplete;
 
     const button = element.shadowRoot?.querySelector('button');
-    expect(button?.getAttribute('command')).toBe('show-modal');
-    expect(button?.getAttribute('commandfor')).toBe('settings-dialog');
-    expect(button?.getAttribute('popovertarget')).toBe('actions');
-    expect(button?.getAttribute('popovertargetaction')).toBe('show');
+    expect(element.getAttribute('command')).toBe('show-modal');
+    expect(element.getAttribute('commandfor')).toBe('settings-dialog');
+    expect(element.getAttribute('popovertarget')).toBe('actions');
+    expect(element.getAttribute('popovertargetaction')).toBe('show');
+    expect(button?.hasAttribute('command')).toBe(false);
+    expect(button?.hasAttribute('commandfor')).toBe(false);
+    expect(button?.hasAttribute('popovertarget')).toBe(false);
+    expect(button?.hasAttribute('popovertargetaction')).toBe(false);
   });
 
   it('未设置可选属性时不渲染空属性 / omits unset optional attributes', async () => {

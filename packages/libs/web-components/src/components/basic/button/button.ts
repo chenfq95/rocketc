@@ -1,6 +1,8 @@
-import { LitElement, css, html, nothing, type TemplateResult } from 'lit';
+import { isServer, LitElement, css, html, nothing, type TemplateResult } from 'lit';
 import { property } from 'lit/decorators.js';
 
+import { dispatchActivationClick, isActivationClick } from '../../../internal/activation-click';
+import { afterDispatch } from '../../../internal/dispatch-hooks';
 import { RcStyledElement } from '../../../internal/styled-element';
 import { mixinElementInternals } from '../../../internal/mixin-element-internals';
 import {
@@ -8,7 +10,7 @@ import {
   formValidationCandidate,
   mixinFormAssociated,
 } from '../../../internal/mixin-form-associated';
-import { mixinFormSubmitter } from '../../../internal/mixin-form-submitter';
+import { formSubmitterCandidate, mixinFormSubmitter } from '../../../internal/mixin-form-submitter';
 
 import {
   delegateAria,
@@ -18,6 +20,37 @@ import {
 
 export type RcButtonVariant = 'solid' | 'subtle' | 'outline' | 'ghost' | 'destructive';
 export type RcButtonSize = 'sm' | 'md' | 'lg';
+
+type ButtonActionTarget = Element & {
+  open?: boolean;
+  showModal?: () => void;
+  close?: () => void;
+  requestClose?: () => void;
+  showPopover?: () => void;
+  hidePopover?: () => void;
+  togglePopover?: () => void;
+  show?: () => void;
+  hide?: () => void;
+  toggle?: () => void;
+};
+
+interface CommandEventConstructor {
+  new (type: string, init: EventInit & { command: string; source: Element }): Event;
+}
+
+const commandEventConstructor: CommandEventConstructor | undefined = Reflect.get(
+  globalThis,
+  'CommandEvent',
+);
+
+const builtInCommands = new Set([
+  'show-modal',
+  'close',
+  'request-close',
+  'show-popover',
+  'hide-popover',
+  'toggle-popover',
+]);
 
 const buttonBase = mixinDelegatesAria(
   mixinFormSubmitter(mixinFormAssociated(mixinElementInternals(RcStyledElement))),
@@ -63,7 +96,7 @@ export class RcButton extends buttonBase {
         z-index: 1;
       }
       
-      button {
+      .control {
         position: relative;
         display: inline-flex;
         align-items: center;
@@ -83,6 +116,7 @@ export class RcButton extends buttonBase {
         font: inherit;
         font-weight: var(--rc-typography-weight-medium);
         letter-spacing: var(--rc-typography-label-letter-spacing);
+        text-decoration: none;
         cursor: pointer;
         transition:
           background-color var(--rc-duration-fast) var(--rc-easing-standard),
@@ -91,7 +125,7 @@ export class RcButton extends buttonBase {
           opacity var(--rc-duration-fast) var(--rc-easing-standard);
       }
       
-      button:focus-visible {
+      .control:focus-visible {
         outline: none;
         box-shadow:
           0 0 0 2px var(--rc-color-surface-panel),
@@ -151,26 +185,26 @@ export class RcButton extends buttonBase {
         display: none;
       }
       
-      :host([size='sm']) button {
+      :host([size='sm']) .control {
         min-height: var(--rc-space-7);
         padding: 0 var(--rc-space-2);
         font-size: var(--rc-typography-caption-font-size);
       }
       
-      :host([size='md']) button,
-      :host(:not([size])) button {
+      :host([size='md']) .control,
+      :host(:not([size])) .control {
         min-height: var(--rc-space-8);
         padding: 0 var(--rc-space-3);
         font-size: var(--rc-typography-label-font-size);
       }
       
-      :host([size='lg']) button {
+      :host([size='lg']) .control {
         min-height: var(--rc-space-9);
         padding: 0 var(--rc-space-4);
         font-size: var(--rc-typography-body-font-size);
       }
       
-      :host([icon]) button {
+      :host([icon]) .control {
         width: var(--rc-space-8);
         height: var(--rc-space-8);
         min-height: 0;
@@ -186,18 +220,18 @@ export class RcButton extends buttonBase {
         line-height: 1;
       }
       
-      :host([icon][size='sm']) button {
+      :host([icon][size='sm']) .control {
         width: var(--rc-space-7);
         height: var(--rc-space-7);
       }
       
-      :host([icon][size='md']) button,
-      :host([icon]:not([size])) button {
+      :host([icon][size='md']) .control,
+      :host([icon]:not([size])) .control {
         width: var(--rc-space-8);
         height: var(--rc-space-8);
       }
       
-      :host([icon][size='lg']) button {
+      :host([icon][size='lg']) .control {
         width: var(--rc-space-9);
         height: var(--rc-space-9);
       }
@@ -230,67 +264,68 @@ export class RcButton extends buttonBase {
         height: 1em;
       }
       
-      :host([variant='solid']) button,
-      :host(:not([variant])) button {
+      :host([variant='solid']) .control,
+      :host(:not([variant])) .control {
         background: var(--rc-color-control-primary-bg);
         border-color: var(--rc-color-control-primary-border);
         color: var(--rc-color-control-primary-fg-contrast);
       }
       
-      :host([variant='solid']) button:hover:not(:disabled),
-      :host(:not([variant])) button:hover:not(:disabled) {
+      :host([variant='solid']) .control:hover:not(:disabled):not([aria-disabled='true']),
+      :host(:not([variant])) .control:hover:not(:disabled):not([aria-disabled='true']) {
         background: var(--rc-color-control-primary-bg-hover);
         border-color: var(--rc-color-control-primary-border-hover);
       }
       
-      :host([variant='solid']) button:active:not(:disabled),
-      :host(:not([variant])) button:active:not(:disabled) {
+      :host([variant='solid']) .control:active:not(:disabled):not([aria-disabled='true']),
+      :host(:not([variant])) .control:active:not(:disabled):not([aria-disabled='true']) {
         background: var(--rc-color-control-primary-bg-active);
       }
       
-      :host([variant='subtle']) button {
+      :host([variant='subtle']) .control {
         background: var(--rc-color-control-secondary-bg-hover);
         border-color: transparent;
         color: var(--rc-color-control-secondary-fg);
       }
       
-      :host([variant='subtle']) button:hover:not(:disabled) {
+      :host([variant='subtle']) .control:hover:not(:disabled):not([aria-disabled='true']) {
         background: var(--rc-color-control-secondary-bg-active);
       }
       
-      :host([variant='outline']) button {
+      :host([variant='outline']) .control {
         background: transparent;
         border-color: var(--rc-color-control-secondary-border);
         color: var(--rc-color-control-secondary-fg);
       }
       
-      :host([variant='outline']) button:hover:not(:disabled) {
+      :host([variant='outline']) .control:hover:not(:disabled):not([aria-disabled='true']) {
         background: var(--rc-color-action-bg-hover);
         border-color: var(--rc-color-control-secondary-border-hover);
       }
       
-      :host([variant='ghost']) button {
+      :host([variant='ghost']) .control {
         background: transparent;
         border-color: transparent;
         color: var(--rc-color-text-primary);
       }
       
-      :host([variant='ghost']) button:hover:not(:disabled) {
+      :host([variant='ghost']) .control:hover:not(:disabled):not([aria-disabled='true']) {
         background: var(--rc-color-action-bg-hover);
       }
       
-      :host([variant='destructive']) button {
+      :host([variant='destructive']) .control {
         background: var(--rc-color-danger-solid);
         border-color: var(--rc-color-danger-solid);
         color: var(--rc-color-danger-contrast);
       }
       
-      :host([variant='destructive']) button:hover:not(:disabled) {
+      :host([variant='destructive']) .control:hover:not(:disabled):not([aria-disabled='true']) {
         background: var(--rc-color-danger-solid-hover);
         border-color: var(--rc-color-danger-solid-hover);
       }
       
-      button:disabled {
+      .control:disabled,
+      .control[aria-disabled='true'] {
         cursor: not-allowed;
         opacity: var(--rc-opacity-disabled);
       }
@@ -303,20 +338,14 @@ export class RcButton extends buttonBase {
   @property({ type: String, reflect: true })
   accessor size: RcButtonSize = 'md';
 
-  @property({ type: String, attribute: 'formaction', reflect: true })
-  accessor formAction: string = '';
+  @property({ type: String, reflect: true })
+  accessor href: string = '';
 
-  @property({ type: String, attribute: 'formenctype', reflect: true })
-  accessor formEnctype: string = '';
+  @property({ type: String, reflect: true })
+  accessor target: string = '';
 
-  @property({ type: String, attribute: 'formmethod', reflect: true })
-  accessor formMethod: string = '';
-
-  @property({ type: Boolean, attribute: 'formnovalidate', reflect: true })
-  accessor formNoValidate: boolean = false;
-
-  @property({ type: String, attribute: 'formtarget', reflect: true })
-  accessor formTarget: string = '';
+  @property({ type: String, reflect: true })
+  accessor download: string = '';
 
   @property({ type: String, reflect: true })
   accessor command: string = '';
@@ -340,6 +369,26 @@ export class RcButton extends buttonBase {
   @property({ type: Boolean, reflect: true })
   accessor autofocus: boolean = false;
 
+  constructor() {
+    super();
+    if (isServer) return;
+    this.addEventListener('click', this.#handleClick);
+  }
+
+  override click(): void {
+    if (this[formDisabled] || this.loading) return;
+    super.click();
+  }
+
+  override focus(options?: FocusOptions): void {
+    if (this[formDisabled] || this.loading) return;
+    this.#control?.focus(options);
+  }
+
+  override blur(): void {
+    this.#control?.blur();
+  }
+
   /** Default `aria-label` when the host does not provide one. */
   protected get defaultAriaLabel(): string | undefined {
     return undefined;
@@ -354,7 +403,127 @@ export class RcButton extends buttonBase {
   }
 
   [formValidationCandidate](): boolean {
-    return this.type === 'submit';
+    return !this.href && this.type === 'submit';
+  }
+
+  [formSubmitterCandidate](): boolean {
+    return !this.href;
+  }
+
+  get #control(): HTMLElement | null {
+    return this.renderRoot.querySelector<HTMLElement>('[part="control"]');
+  }
+
+  #handleClick = (event: MouseEvent): void => {
+    const activateControl = isActivationClick(event);
+
+    afterDispatch(event, () => {
+      if (event.defaultPrevented || this[formDisabled] || this.loading) return;
+      if (activateControl) {
+        this.focus();
+        if (this.#control) dispatchActivationClick(this.#control);
+      }
+      if (!this.href) this.#performTargetAction();
+    });
+  };
+
+  #performTargetAction(): void {
+    if (this.type !== 'button') return;
+    if (this.command && this.commandFor) {
+      this.#performCommand();
+      return;
+    }
+    if (this.popoverTarget) this.#performPopoverAction();
+  }
+
+  #performCommand(): void {
+    const command = this.command;
+    if (!builtInCommands.has(command) && !command.startsWith('--')) return;
+
+    const target = this.#resolveTarget(this.commandFor);
+    if (!target) return;
+
+    const event = this.#createCommandEvent(command);
+    if (!target.dispatchEvent(event) || command.startsWith('--')) return;
+
+    const actionTarget = target as ButtonActionTarget;
+    switch (command) {
+      case 'show-modal':
+        if (!actionTarget.open) actionTarget.showModal?.();
+        break;
+      case 'close':
+        actionTarget.close?.();
+        break;
+      case 'request-close':
+        if (actionTarget.requestClose) actionTarget.requestClose();
+        else actionTarget.close?.();
+        break;
+      case 'show-popover':
+        this.#showPopover(actionTarget);
+        break;
+      case 'hide-popover':
+        this.#hidePopover(actionTarget);
+        break;
+      case 'toggle-popover':
+        this.#togglePopover(actionTarget);
+        break;
+    }
+  }
+
+  #performPopoverAction(): void {
+    const target = this.#resolveTarget(this.popoverTarget) as ButtonActionTarget | null;
+    if (!target) return;
+
+    switch (this.popoverTargetAction) {
+      case 'show':
+        this.#showPopover(target);
+        break;
+      case 'hide':
+        this.#hidePopover(target);
+        break;
+      default:
+        this.#togglePopover(target);
+    }
+  }
+
+  #showPopover(target: ButtonActionTarget): void {
+    if (target.showPopover) target.showPopover();
+    else target.show?.();
+  }
+
+  #hidePopover(target: ButtonActionTarget): void {
+    if (target.hidePopover) target.hidePopover();
+    else target.hide?.();
+  }
+
+  #togglePopover(target: ButtonActionTarget): void {
+    if (target.togglePopover) target.togglePopover();
+    else target.toggle?.();
+  }
+
+  #resolveTarget(id: string): Element | null {
+    const root = this.getRootNode();
+    if ('getElementById' in root && typeof root.getElementById === 'function') {
+      return root.getElementById(id);
+    }
+    return null;
+  }
+
+  #createCommandEvent(command: string): Event {
+    if (commandEventConstructor) {
+      return new commandEventConstructor('command', {
+        cancelable: true,
+        command,
+        source: this,
+      });
+    }
+
+    const event = new Event('command', { cancelable: true });
+    Object.defineProperties(event, {
+      command: { configurable: true, enumerable: true, value: command },
+      source: { configurable: true, enumerable: true, value: this },
+    });
+    return event;
   }
 
   protected renderContent(): TemplateResult {
@@ -384,17 +553,37 @@ export class RcButton extends buttonBase {
 
   override render() {
     const host = this as ARIAMixinStrict;
+    const disabled = this[formDisabled] || this.loading;
+
+    if (this.href) {
+      return html`
+        <a
+          class="control"
+          part="control"
+          ${delegateAria(host, {
+            ariaBusy: this.loading ? 'true' : host.ariaBusy,
+            ariaDisabled: disabled ? 'true' : host.ariaDisabled,
+            ariaLabel: host.ariaLabel || this.defaultAriaLabel || null,
+          })}
+          download=${this.download || nothing}
+          href=${disabled ? nothing : this.href}
+          target=${this.target || nothing}
+          tabindex=${disabled ? -1 : nothing}
+        >
+          ${this.renderContent()}
+        </a>
+      `;
+    }
 
     return html`
       <button
+        class="control"
         part="control"
         ${delegateAria(host, {
           ariaBusy: this.loading ? 'true' : host.ariaBusy,
           ariaLabel: host.ariaLabel || this.defaultAriaLabel || null,
         })}
         ?autofocus=${this.autofocus}
-        command=${this.command || nothing}
-        commandfor=${this.commandFor || nothing}
         ?disabled=${this[formDisabled] || this.loading}
         formaction=${this.formAction || nothing}
         formenctype=${this.formEnctype || nothing}
@@ -402,8 +591,6 @@ export class RcButton extends buttonBase {
         ?formnovalidate=${this.formNoValidate}
         formtarget=${this.formTarget || nothing}
         name=${this.name || nothing}
-        popovertarget=${this.popoverTarget || nothing}
-        popovertargetaction=${this.popoverTargetAction || nothing}
         type=${this.type}
         value=${this.value || nothing}
       >

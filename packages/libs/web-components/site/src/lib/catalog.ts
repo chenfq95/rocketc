@@ -30,6 +30,12 @@ export type ApiPart = {
   description: string;
 };
 
+export type ApiMethod = {
+  name: string;
+  signature: string;
+  description: string;
+};
+
 export type CommonStyleProp = {
   name: string;
   attribute: string;
@@ -43,6 +49,7 @@ export type ElementApi = {
   slots: ApiSlot[];
   events: ApiEvent[];
   props: ApiProp[];
+  methods: ApiMethod[];
   parts: ApiPart[];
 };
 
@@ -100,6 +107,147 @@ const partDescriptions: Record<string, string> = {
   icon: '图标区域。 / Icon region.',
   root: '根布局容器。 / Root layout container.',
 };
+
+const formSubmitterProps: ApiProp[] = [
+  {
+    name: 'type',
+    type: "'button' | 'submit' | 'reset'",
+    attribute: 'type',
+    reflect: true,
+    defaultValue: "'button'",
+  },
+  { name: 'name', type: 'string', attribute: 'name', reflect: true, defaultValue: "''" },
+  { name: 'value', type: 'string', attribute: 'value', reflect: true, defaultValue: "''" },
+  {
+    name: 'disabled',
+    type: 'boolean',
+    attribute: 'disabled',
+    reflect: true,
+    defaultValue: 'false',
+  },
+  {
+    name: 'formAction',
+    type: 'string',
+    attribute: 'formaction',
+    reflect: true,
+    defaultValue: "''",
+  },
+  {
+    name: 'formEnctype',
+    type: 'string',
+    attribute: 'formenctype',
+    reflect: true,
+    defaultValue: "''",
+  },
+  {
+    name: 'formMethod',
+    type: 'string',
+    attribute: 'formmethod',
+    reflect: true,
+    defaultValue: "''",
+  },
+  {
+    name: 'formNoValidate',
+    type: 'boolean',
+    attribute: 'formnovalidate',
+    reflect: true,
+    defaultValue: 'false',
+  },
+  {
+    name: 'formTarget',
+    type: 'string',
+    attribute: 'formtarget',
+    reflect: true,
+    defaultValue: "''",
+  },
+  { name: 'form', type: 'readonly HTMLFormElement | null', reflect: false, defaultValue: 'null' },
+  { name: 'labels', type: 'readonly NodeList', reflect: false, defaultValue: '—' },
+  { name: 'validity', type: 'readonly ValidityState', reflect: false, defaultValue: '—' },
+  { name: 'validationMessage', type: 'readonly string', reflect: false, defaultValue: "''" },
+  { name: 'willValidate', type: 'readonly boolean', reflect: false, defaultValue: '—' },
+];
+
+const iconButtonInheritedProps: ApiProp[] = [
+  { name: 'size', type: 'RcButtonSize', attribute: 'size', reflect: true, defaultValue: "'md'" },
+  { name: 'href', type: 'string', attribute: 'href', reflect: true, defaultValue: "''" },
+  { name: 'target', type: 'string', attribute: 'target', reflect: true, defaultValue: "''" },
+  { name: 'download', type: 'string', attribute: 'download', reflect: true, defaultValue: "''" },
+  { name: 'command', type: 'string', attribute: 'command', reflect: true, defaultValue: "''" },
+  {
+    name: 'commandFor',
+    type: 'string',
+    attribute: 'commandfor',
+    reflect: true,
+    defaultValue: "''",
+  },
+  {
+    name: 'popoverTarget',
+    type: 'string',
+    attribute: 'popovertarget',
+    reflect: true,
+    defaultValue: "''",
+  },
+  {
+    name: 'popoverTargetAction',
+    type: 'string',
+    attribute: 'popovertargetaction',
+    reflect: true,
+    defaultValue: "''",
+  },
+  { name: 'loading', type: 'boolean', attribute: 'loading', reflect: true, defaultValue: 'false' },
+  { name: 'icon', type: 'boolean', attribute: 'icon', reflect: true, defaultValue: 'true' },
+  {
+    name: 'autofocus',
+    type: 'boolean',
+    attribute: 'autofocus',
+    reflect: true,
+    defaultValue: 'false',
+  },
+];
+
+const buttonMethods: ApiMethod[] = [
+  {
+    name: 'click',
+    signature: 'click(): void',
+    description: '激活内部原生控件。 / Activates the inner native control.',
+  },
+  {
+    name: 'focus',
+    signature: 'focus(options?: FocusOptions): void',
+    description: '将焦点移入内部控件。 / Moves focus to the inner control.',
+  },
+  {
+    name: 'blur',
+    signature: 'blur(): void',
+    description: '移除内部控件的焦点。 / Removes focus from the inner control.',
+  },
+  {
+    name: 'checkValidity',
+    signature: 'checkValidity(): boolean',
+    description: '检查约束校验并可能派发 invalid。 / Checks constraints and may dispatch invalid.',
+  },
+  {
+    name: 'reportValidity',
+    signature: 'reportValidity(): boolean',
+    description:
+      '检查并向用户报告约束校验结果。 / Checks and reports constraint-validation results.',
+  },
+  {
+    name: 'setCustomValidity',
+    signature: 'setCustomValidity(error: string): void',
+    description: '设置或清除自定义校验错误。 / Sets or clears a custom validation error.',
+  },
+];
+
+function supplementalProps(tag: string): ApiProp[] {
+  if (tag === 'rc-button') return formSubmitterProps;
+  if (tag === 'rc-icon-button') return [...formSubmitterProps, ...iconButtonInheritedProps];
+  return [];
+}
+
+function supplementalMethods(tag: string): ApiMethod[] {
+  return tag === 'rc-button' || tag === 'rc-icon-button' ? buttonMethods : [];
+}
 
 function describePart(name: string) {
   return partDescriptions[name] ?? `内部 ${name} 节点。 / Internal ${name} node.`;
@@ -191,6 +339,10 @@ function parseElementApi(filePath: string, source: string): ElementApi | null {
     });
   }
 
+  for (const prop of supplementalProps(tag)) {
+    if (!props.some((candidate) => candidate.name === prop.name)) props.push(prop);
+  }
+
   const parts = [
     ...new Set(
       [
@@ -209,6 +361,7 @@ function parseElementApi(filePath: string, source: string): ElementApi | null {
     slots,
     events,
     props,
+    methods: supplementalMethods(tag),
     parts,
   };
 }

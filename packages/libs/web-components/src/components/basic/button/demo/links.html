@@ -1,0 +1,14 @@
+<!--
+title: 链接按钮 / Link buttons
+description: 设置 href 后渲染真实链接，并支持 target 和 download。 / Setting href renders a real link with target and download support.
+-->
+<div class="rc-demo">
+  <rc-button href="#button-link-target">跳到目标 / Jump to target</rc-button>
+  <rc-button href="/favicon.svg" download="rocketc.svg" variant="outline">
+    下载图标 / Download icon
+  </rc-button>
+  <rc-icon-button href="#button-link-target" aria-label="图标链接 / Icon link" variant="outline">
+    <span aria-hidden="true">→</span>
+  </rc-icon-button>
+  <span id="button-link-target">目标 / Target</span>
+</div>

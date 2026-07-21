@@ -1,0 +1,28 @@
+<!--
+title: 目标动作 / Target actions
+description: 使用 command 控制 dialog，并使用 popovertarget 控制原生 popover。 / Uses command for a dialog and popovertarget for a native popover.
+-->
+<div class="rc-demo">
+  <rc-button type="button" command="show-modal" commandfor="button-demo-dialog">
+    打开对话框 / Open dialog
+  </rc-button>
+  <rc-button
+    type="button"
+    popovertarget="button-demo-popover"
+    popovertargetaction="toggle"
+    variant="outline"
+  >
+    切换弹出框 / Toggle popover
+  </rc-button>
+
+  <dialog id="button-demo-dialog">
+    <p>已通过 command 打开。 / Opened through command.</p>
+    <rc-button type="button" command="close" commandfor="button-demo-dialog">
+      关闭 / Close
+    </rc-button>
+  </dialog>
+
+  <div id="button-demo-popover" popover="auto">
+    来自 popovertarget 的内容。 / Content from popovertarget.
+  </div>
+</div>

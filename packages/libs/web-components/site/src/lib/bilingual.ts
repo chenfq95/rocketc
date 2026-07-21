@@ -241,7 +241,7 @@ const summaryNames: Record<string, string> = {
   'rc-banner': '用于持续展示状态的全宽横幅。',
   'rc-box': '通用布局与表面盒容器。',
   'rc-breadcrumb': '用于展示页面层级路径的面包屑。',
-  'rc-button': '使用语义令牌呈现的主要操作按钮，支持前置/后置图标与 icon 方形模式。',
+  'rc-button': '具备原生表单、链接和目标动作语义的主要操作按钮。',
   'rc-button-group': '将相关操作按钮分组；默认贴合为分段条，可用 separated 分开排列。',
   'rc-card': '用于组织相关内容的表面容器。',
   'rc-center': '在两个轴向上居中子元素的布局容器。',
@@ -263,8 +263,7 @@ const summaryNames: Record<string, string> = {
   'rc-flex': '默认横向排列的弹性布局基础组件。',
   'rc-grid': '响应式 CSS 网格布局基础组件。',
   'rc-hover-card': '在触发器悬浮或聚焦时显示内容的卡片。',
-  'rc-icon-button':
-    '组合 rc-button icon 模式的纯图标按钮，默认 ghost；图标由 slot 传入，需明确无障碍标签。',
+  'rc-icon-button': '直接继承 rc-button 原生与表单 API 的纯图标按钮，默认 ghost。',
   'rc-input': '使用设计系统表单令牌的单行输入框。',
   'rc-label': '通过 for 属性关联浅层 DOM 控件的表单标签。',
   'rc-link': '基于原生链接元素的文本链接。',

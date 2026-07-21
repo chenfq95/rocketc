@@ -152,6 +152,7 @@ export {
   type FormValue,
 } from './internal/mixin-form-associated';
 export {
+  formSubmitterCandidate,
   mixinFormSubmitter,
   type FormSubmitter,
   type FormSubmitterType,

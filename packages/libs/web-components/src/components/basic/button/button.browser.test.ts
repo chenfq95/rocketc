@@ -32,6 +32,33 @@ describe('rc-button browser behavior', () => {
     expect(onClick).toHaveBeenCalledTimes(3);
   });
 
+  it('将 host click 转换为一次内部激活 / converts a host click into one inner activation', async () => {
+    const element = await renderButton();
+    const innerButton = element.shadowRoot?.querySelector('button');
+    const onHostClick = vi.fn();
+    const onInnerClick = vi.fn();
+    element.addEventListener('click', onHostClick);
+    innerButton?.addEventListener('click', onInnerClick);
+
+    element.click();
+
+    expect(onHostClick).toHaveBeenCalledOnce();
+    expect(onInnerClick).toHaveBeenCalledOnce();
+    expect(element.shadowRoot?.activeElement).toBe(innerButton);
+  });
+
+  it('代理 focus 和 blur 到内部控件 / delegates focus and blur to the inner control', async () => {
+    const element = await renderButton();
+    const innerButton = element.shadowRoot?.querySelector('button');
+
+    element.focus();
+    expect(document.activeElement).toBe(element);
+    expect(element.shadowRoot?.activeElement).toBe(innerButton);
+
+    element.blur();
+    expect(element.shadowRoot?.activeElement).toBeNull();
+  });
+
   it('禁用和 loading 状态不会激活按钮 / does not activate disabled or loading buttons', async () => {
     const element = await renderButton();
     const onClick = vi.fn();
@@ -41,11 +68,13 @@ describe('rc-button browser behavior', () => {
     element.disabled = true;
     await element.updateComplete;
     innerButton?.click();
+    element.click();
 
     element.disabled = false;
     element.loading = true;
     await element.updateComplete;
     innerButton?.click();
+    element.click();
 
     expect(onClick).not.toHaveBeenCalled();
     expect(innerButton?.disabled).toBe(true);
@@ -85,6 +114,59 @@ describe('rc-button browser behavior', () => {
 
     expect(onSubmit).toHaveBeenCalledOnce();
     expect(onSubmit.mock.calls[0]?.[0].submitter).toBe(element);
+  });
+
+  it('在提交期间应用 form override 并在之后恢复 / applies form overrides during submission and restores them afterward', async () => {
+    const form = document.createElement('form');
+    const input = document.createElement('input');
+    const element = document.createElement('rc-button') as RcButton;
+    const submissions: Array<Record<string, string | boolean | null>> = [];
+    form.setAttribute('action', '/original');
+    form.setAttribute('method', 'get');
+    form.setAttribute('enctype', 'application/x-www-form-urlencoded');
+    form.setAttribute('target', '_self');
+    input.required = true;
+    element.type = 'submit';
+    element.textContent = 'Submit';
+    element.formAction = '/override';
+    element.formMethod = 'post';
+    element.formEnctype = 'multipart/form-data';
+    element.formTarget = '_blank';
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      submissions.push({
+        action: form.getAttribute('action'),
+        enctype: form.getAttribute('enctype'),
+        method: form.getAttribute('method'),
+        noValidate: form.noValidate,
+        target: form.getAttribute('target'),
+      });
+    });
+    form.append(input, element);
+    document.body.append(form);
+    await element.updateComplete;
+
+    await page.getByRole('button', { name: 'Submit' }).click();
+    expect(submissions).toEqual([]);
+
+    element.formNoValidate = true;
+    await element.updateComplete;
+    await page.getByRole('button', { name: 'Submit' }).click();
+
+    expect(submissions).toEqual([
+      {
+        action: '/override',
+        enctype: 'multipart/form-data',
+        method: 'post',
+        noValidate: true,
+        target: '_blank',
+      },
+    ]);
+    expect(form.getAttribute('action')).toBe('/original');
+    expect(form.getAttribute('enctype')).toBe('application/x-www-form-urlencoded');
+    expect(form.getAttribute('method')).toBe('get');
+    expect(form.noValidate).toBe(false);
+    expect(form.getAttribute('target')).toBe('_self');
   });
 
   it('仅在激活时提交当前按钮的 name 和 value / submits only the activated button name and value during submission', async () => {
@@ -154,6 +236,42 @@ describe('rc-button browser behavior', () => {
 
     expect(onSubmit).not.toHaveBeenCalled();
     expect(onReset).not.toHaveBeenCalled();
+  });
+
+  it('使用真实链接控件并退出表单提交 / uses a real link control and opts out of form submission', async () => {
+    const form = document.createElement('form');
+    const element = document.createElement('rc-button') as RcButton;
+    const onSubmit = vi.fn((event: SubmitEvent) => event.preventDefault());
+    element.type = 'submit';
+    element.href = '#profile';
+    element.target = '_self';
+    element.download = 'profile.txt';
+    element.textContent = 'Profile';
+    form.addEventListener('submit', onSubmit);
+    form.append(element);
+    document.body.append(form);
+    await element.updateComplete;
+
+    const anchor = element.shadowRoot?.querySelector('a');
+    const onAnchorClick = vi.fn((event: MouseEvent) => event.preventDefault());
+    anchor?.addEventListener('click', onAnchorClick);
+    element.click();
+
+    expect(element.shadowRoot?.querySelector('button')).toBeNull();
+    expect(anchor?.getAttribute('href')).toBe('#profile');
+    expect(anchor?.getAttribute('target')).toBe('_self');
+    expect(anchor?.getAttribute('download')).toBe('profile.txt');
+    expect(onAnchorClick).toHaveBeenCalledOnce();
+    expect(onSubmit).not.toHaveBeenCalled();
+    expect(element.willValidate).toBe(false);
+    expect(element.shadowRoot?.activeElement).toBe(anchor);
+
+    element.disabled = true;
+    await element.updateComplete;
+    const disabledAnchor = element.shadowRoot?.querySelector('a');
+    expect(disabledAnchor?.hasAttribute('href')).toBe(false);
+    expect(disabledAnchor?.getAttribute('aria-disabled')).toBe('true');
+    expect(disabledAnchor?.tabIndex).toBe(-1);
   });
 
   it('重置表单并允许 click preventDefault 取消 / resets the form and allows click preventDefault to cancel', async () => {
@@ -289,6 +407,7 @@ describe('rc-button browser behavior', () => {
     const label = document.createElement('label');
     const element = document.createElement('rc-button') as RcButton;
     const onClick = vi.fn();
+    const onInnerClick = vi.fn();
     label.htmlFor = 'save-button';
     label.textContent = 'Save profile';
     element.id = 'save-button';
@@ -296,11 +415,87 @@ describe('rc-button browser behavior', () => {
     element.addEventListener('click', onClick);
     document.body.append(label, element);
     await element.updateComplete;
+    element.shadowRoot?.querySelector('button')?.addEventListener('click', onInnerClick);
 
     expect([...element.labels]).toEqual([label]);
 
     await page.getByText('Save profile').click();
 
     expect(onClick).toHaveBeenCalledOnce();
+    expect(onInnerClick).toHaveBeenCalledOnce();
+    expect(element.shadowRoot?.activeElement).toBe(element.shadowRoot?.querySelector('button'));
+  });
+
+  it('从 host 所在 tree root 解析并执行 dialog command / resolves and performs dialog commands from the host tree root', async () => {
+    const dialog = document.createElement('dialog');
+    const element = document.createElement('rc-button') as RcButton;
+    let receivedCommand = '';
+    let receivedSource: Element | null = null;
+    dialog.id = 'settings';
+    element.command = 'show-modal';
+    element.commandFor = dialog.id;
+    element.textContent = 'Open settings';
+    dialog.addEventListener('command', (event) => {
+      receivedCommand = Reflect.get(event, 'command');
+      receivedSource = Reflect.get(event, 'source');
+    });
+    document.body.append(element, dialog);
+    await element.updateComplete;
+
+    await page.getByRole('button', { name: 'Open settings' }).click();
+
+    expect(dialog.open).toBe(true);
+    expect(receivedCommand).toBe('show-modal');
+    expect(receivedSource).toBe(element);
+
+    element.command = 'close';
+    await element.updateComplete;
+    element.shadowRoot?.querySelector('button')?.click();
+    expect(dialog.open).toBe(false);
+
+    dialog.addEventListener('command', (event) => event.preventDefault(), { once: true });
+    element.command = 'show-modal';
+    await element.updateComplete;
+    element.shadowRoot?.querySelector('button')?.click();
+    expect(dialog.open).toBe(false);
+
+    const form = document.createElement('form');
+    const onSubmit = vi.fn((event: SubmitEvent) => event.preventDefault());
+    form.addEventListener('submit', onSubmit);
+    form.append(element);
+    document.body.append(form);
+    element.type = 'submit';
+    await element.updateComplete;
+    element.shadowRoot?.querySelector('button')?.click();
+    expect(onSubmit).toHaveBeenCalledOnce();
+    expect(dialog.open).toBe(false);
+  });
+
+  it('跨越按钮内部 Shadow DOM 控制 host tree root 中的 popover / controls a popover in the host tree root across the button shadow boundary', async () => {
+    const container = document.createElement('div');
+    const root = container.attachShadow({ mode: 'open' });
+    const popover = document.createElement('div');
+    const element = document.createElement('rc-button') as RcButton;
+    popover.id = 'actions';
+    popover.setAttribute('popover', 'manual');
+    element.popoverTarget = popover.id;
+    element.popoverTargetAction = 'show';
+    element.textContent = 'Actions';
+    root.append(element, popover);
+    document.body.append(container);
+    await element.updateComplete;
+
+    element.shadowRoot?.querySelector('button')?.click();
+    expect(popover.matches(':popover-open')).toBe(true);
+
+    element.popoverTargetAction = 'hide';
+    await element.updateComplete;
+    element.shadowRoot?.querySelector('button')?.click();
+    expect(popover.matches(':popover-open')).toBe(false);
+
+    element.popoverTargetAction = 'toggle';
+    await element.updateComplete;
+    element.shadowRoot?.querySelector('button')?.click();
+    expect(popover.matches(':popover-open')).toBe(true);
   });
 });

@@ -1,0 +1,15 @@
+<!--
+title: 表单操作 / Form actions
+description: 展示提交、重置、submitter name/value 和 formnovalidate 行为。 / Shows submit, reset, submitter name/value, and formnovalidate behavior.
+-->
+<form class="rc-demo" onsubmit="event.preventDefault()">
+  <label>
+    名称 / Name
+    <input name="name" required />
+  </label>
+  <rc-button type="submit" name="intent" value="save">保存 / Save</rc-button>
+  <rc-button type="submit" name="intent" value="draft" formnovalidate variant="subtle">
+    保存草稿 / Save draft
+  </rc-button>
+  <rc-button type="reset" variant="outline">重置 / Reset</rc-button>
+</form>
