@@ -7,6 +7,7 @@ import { RcStyledElement } from '../../../internal/styled-element';
 import { mixinDelegatesAria, type ARIAMixinStrict } from '../../../internal/mixin-delegates-aria';
 import { mixinElementInternals } from '../../../internal/mixin-element-internals';
 import {
+  formDisabled,
   getFormState,
   getFormValue,
   mixinFormAssociated,
@@ -154,7 +155,7 @@ export class RcRadio extends radioBase {
 
   #select() {
     const context = this.#radioGroupContext.value;
-    if (this.disabled || context?.disabled || this.#effectiveChecked()) return;
+    if (this[formDisabled] || context?.disabled || this.#effectiveChecked()) return;
     if (context) context.select(this.value);
     else this.checked = true;
     this.dispatchEvent(
@@ -169,7 +170,7 @@ export class RcRadio extends radioBase {
     const { ariaLabel, role } = this as ARIAMixinStrict;
     const context = this.#radioGroupContext.value;
     const checked = this.#effectiveChecked();
-    const disabled = this.disabled || Boolean(context?.disabled);
+    const disabled = this[formDisabled] || Boolean(context?.disabled);
 
     return html`
       <button part="control"

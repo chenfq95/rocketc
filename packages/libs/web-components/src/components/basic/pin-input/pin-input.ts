@@ -5,6 +5,7 @@ import { RcStyledElement } from '../../../internal/styled-element';
 
 import { mixinElementInternals } from '../../../internal/mixin-element-internals';
 import {
+  formDisabled,
   getFormValue,
   mixinFormAssociated,
   type FormRestoreReason,
@@ -53,7 +54,7 @@ export class RcPinInput extends base {
         box-shadow: 0 0 0 3px color-mix(in oklab, var(--rc-color-border-focus) 30%, transparent);
       }
       
-      :host([disabled]) input {
+      :host(:disabled) input {
         opacity: var(--rc-opacity-disabled);
       }
     `,
@@ -139,7 +140,7 @@ export class RcPinInput extends base {
               inputmode="numeric"
               maxlength="1"
               .value=${digit}
-              ?disabled=${this.disabled}
+              ?disabled=${this[formDisabled]}
               ?required=${this.required && index === 0}
               aria-label=${`Digit ${index + 1}`}
               @input=${(e: Event) => this.#onInput(index, e)}

@@ -6,6 +6,7 @@ import { RcStyledElement } from '../../../internal/styled-element';
 import { mixinDelegatesAria, type ARIAMixinStrict } from '../../../internal/mixin-delegates-aria';
 import { mixinElementInternals } from '../../../internal/mixin-element-internals';
 import {
+  formDisabled,
   getFormValue,
   mixinFormAssociated,
   type FormRestoreReason,
@@ -85,7 +86,7 @@ export class RcNumberInput extends base {
         opacity: var(--rc-opacity-disabled);
       }
       
-      :host([disabled]) .root {
+      :host(:disabled) .root {
         opacity: var(--rc-opacity-disabled);
       }
     `,
@@ -146,7 +147,7 @@ export class RcNumberInput extends base {
   }
 
   #stepBy(dir: 1 | -1) {
-    if (this.disabled || this.readonly) return;
+    if (this[formDisabled] || this.readonly) return;
     const step = Number.isFinite(this.step) && this.step !== 0 ? this.step : 1;
     this.value = String(this.#clamp(this.#num() + dir * step));
     this.#emit('input');
@@ -179,7 +180,7 @@ export class RcNumberInput extends base {
           type="button"
           tabindex="-1"
           aria-label="Decrement"
-          ?disabled=${this.disabled || this.readonly || atMin}
+          ?disabled=${this[formDisabled] || this.readonly || atMin}
           @click=${() => this.#stepBy(-1)}
         >
           −
@@ -194,7 +195,7 @@ export class RcNumberInput extends base {
           aria-label=${ariaLabel || nothing}
           ?readonly=${this.readonly}
           ?required=${this.required}
-          ?disabled=${this.disabled}
+          ?disabled=${this[formDisabled]}
           @input=${this.#onInput}
           @change=${this.#onChange}
         />
@@ -202,7 +203,7 @@ export class RcNumberInput extends base {
           type="button"
           tabindex="-1"
           aria-label="Increment"
-          ?disabled=${this.disabled || this.readonly || atMax}
+          ?disabled=${this[formDisabled] || this.readonly || atMax}
           @click=${() => this.#stepBy(1)}
         >
           +

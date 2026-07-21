@@ -5,6 +5,7 @@ import { RcStyledElement } from '../../../internal/styled-element';
 
 import { mixinElementInternals } from '../../../internal/mixin-element-internals';
 import {
+  formDisabled,
   getFormValue,
   mixinFormAssociated,
   type FormRestoreReason,
@@ -120,7 +121,7 @@ export class RcFileUpload extends base {
   #onDrop(event: DragEvent) {
     event.preventDefault();
     this.removeAttribute('data-drag');
-    if (this.disabled) return;
+    if (this[formDisabled]) return;
     this.#setFiles(event.dataTransfer?.files ?? null);
   }
 
@@ -149,7 +150,7 @@ export class RcFileUpload extends base {
           accept=${this.accept || nothing}
           ?multiple=${this.multiple}
           ?required=${this.required}
-          ?disabled=${this.disabled}
+          ?disabled=${this[formDisabled]}
           @change=${(e: Event) => this.#setFiles((e.target as HTMLInputElement).files)}
         />
       </label>

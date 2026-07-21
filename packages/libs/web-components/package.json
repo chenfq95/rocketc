@@ -45,7 +45,9 @@
     "format": "oxfmt",
     "test": "vitest run",
     "test:browser": "vitest run --config vitest.browser.config.ts",
-    "typecheck": "tsc --project tsconfig.lib.json --pretty false"
+    "typecheck": "bun run typecheck:lib && bun run typecheck:test",
+    "typecheck:lib": "tsc --project tsconfig.lib.json --pretty false",
+    "typecheck:test": "tsc --project tsconfig.test.json --pretty false"
   },
   "dependencies": {
     "@babel/runtime": "^7.29.0",

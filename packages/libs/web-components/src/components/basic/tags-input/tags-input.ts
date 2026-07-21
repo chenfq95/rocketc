@@ -5,6 +5,7 @@ import { RcStyledElement } from '../../../internal/styled-element';
 
 import { mixinElementInternals } from '../../../internal/mixin-element-internals';
 import {
+  formDisabled,
   getFormValue,
   mixinFormAssociated,
   type FormRestoreReason,
@@ -160,7 +161,7 @@ export class RcTagsInput extends base {
               <button part="control remove"
                 type="button"
                 aria-label=${`Remove ${tag}`}
-                ?disabled=${this.disabled}
+                ?disabled=${this[formDisabled]}
                 @click=${(e: Event) => {
                   e.stopPropagation();
                   this.#remove(tag);
@@ -174,7 +175,7 @@ export class RcTagsInput extends base {
         <input part="control input"
           .value=${this.#draft}
           placeholder=${this.tags.length ? nothing : this.placeholder}
-          ?disabled=${this.disabled}
+          ?disabled=${this[formDisabled]}
           ?required=${this.required && !this.tags.length}
           @input=${(e: Event) => {
             this.#draft = (e.target as HTMLInputElement).value;

@@ -6,6 +6,7 @@ import { RcStyledElement } from '../../../internal/styled-element';
 import { mixinDelegatesAria, type ARIAMixinStrict } from '../../../internal/mixin-delegates-aria';
 import { mixinElementInternals } from '../../../internal/mixin-element-internals';
 import {
+  formDisabled,
   getFormState,
   getFormValue,
   mixinFormAssociated,
@@ -143,7 +144,7 @@ export class RcCheckbox extends checkboxBase {
   }
 
   #toggle() {
-    if (this.disabled) return;
+    if (this[formDisabled]) return;
     this.indeterminate = false;
     this.checked = !this.checked;
     this.dispatchEvent(
@@ -163,7 +164,7 @@ export class RcCheckbox extends checkboxBase {
         aria-checked=${ariaChecked}
         aria-label=${ariaLabel || nothing}
         aria-required=${this.required ? 'true' : nothing}
-        ?disabled=${this.disabled}
+        ?disabled=${this[formDisabled]}
         role=${role || 'checkbox'}
         type="button"
         @click=${this.#toggle}

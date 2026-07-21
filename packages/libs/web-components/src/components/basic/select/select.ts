@@ -6,6 +6,7 @@ import { RcStyledElement } from '../../../internal/styled-element';
 import { mixinDelegatesAria, type ARIAMixinStrict } from '../../../internal/mixin-delegates-aria';
 import { mixinElementInternals } from '../../../internal/mixin-element-internals';
 import {
+  formDisabled,
   getFormValue,
   mixinFormAssociated,
   type FormRestoreReason,
@@ -156,7 +157,7 @@ export class RcSelect extends selectBase {
         aria-invalid=${ariaInvalid || nothing}
         aria-label=${ariaLabel || nothing}
         aria-required=${ariaRequired || nothing}
-        ?disabled=${this.disabled}
+        ?disabled=${this[formDisabled]}
         ?multiple=${this.multiple}
         ?required=${this.required}
         name=${this.name}

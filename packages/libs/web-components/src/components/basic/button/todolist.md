@@ -8,18 +8,19 @@
 
 ## 2. 实现表单关联 / Implement form association
 
-- [ ] 使用 `mixinElementInternals` 和 `mixinFormAssociated` 让 host 成为 form-associated custom element。 / Use `mixinElementInternals` and `mixinFormAssociated` to make the host a form-associated custom element.
-- [ ] 将 `form` API 调整为只读的 `HTMLFormElement | null`。 / Change the `form` API to a readonly `HTMLFormElement | null`.
-- [ ] 支持 disabled fieldset 对按钮状态的影响。 / Support disabled fieldsets affecting the button state.
-- [ ] 验证 `labels` 和外部 `<label>` 激活行为。 / Verify `labels` and activation from external `<label>` elements.
+- [x] 使用 `mixinElementInternals` 和 `mixinFormAssociated` 让 host 成为 form-associated custom element。 / Use `mixinElementInternals` and `mixinFormAssociated` to make the host a form-associated custom element.
+- [x] 将 `form` API 调整为只读的 `HTMLFormElement | null`。 / Change the `form` API to a readonly `HTMLFormElement | null`.
+- [x] 支持 disabled fieldset 对按钮状态的影响。 / Support disabled fieldsets affecting the button state.
+- [x] 验证 `labels` 和外部 `<label>` 激活行为。 / Verify `labels` and activation from external `<label>` elements.
+- [x] 补齐约束校验状态、方法和自定义错误 API。 / Add constraint-validation state, methods, and the custom-error API.
 
 ## 3. 实现 submitter 行为 / Implement submitter behavior
 
-- [ ] 新增可复用的 form-submitter mixin。 / Add a reusable form-submitter mixin.
-- [ ] 支持 `type="submit"`、`type="reset"` 和 `type="button"`。 / Support `type="submit"`, `type="reset"`, and `type="button"`.
-- [ ] 提交时仅包含被激活按钮的 `name` 和 `value`。 / Include the activated button's `name` and `value` only during submission.
-- [ ] 确保 `preventDefault()` 可以阻止提交或重置。 / Ensure that `preventDefault()` can cancel submission or reset.
-- [ ] 确保 `SubmitEvent.submitter` 指向 `rc-button`。 / Ensure that `SubmitEvent.submitter` points to the `rc-button` element.
+- [x] 新增可复用的 form-submitter mixin。 / Add a reusable form-submitter mixin.
+- [x] 支持 `type="submit"`、`type="reset"` 和 `type="button"`。 / Support `type="submit"`, `type="reset"`, and `type="button"`.
+- [x] 提交时仅包含被激活按钮的 `name` 和 `value`。 / Include the activated button's `name` and `value` only during submission.
+- [x] 确保 `preventDefault()` 可以阻止提交或重置。 / Ensure that `preventDefault()` can cancel submission or reset.
+- [x] 确保 `SubmitEvent.submitter` 指向 `rc-button`。 / Ensure that `SubmitEvent.submitter` points to the `rc-button` element.
 
 ## 4. 对齐激活与焦点 / Align activation and focus
 

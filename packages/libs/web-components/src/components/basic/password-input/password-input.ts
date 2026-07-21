@@ -6,6 +6,7 @@ import { RcStyledElement } from '../../../internal/styled-element';
 import { mixinDelegatesAria, type ARIAMixinStrict } from '../../../internal/mixin-delegates-aria';
 import { mixinElementInternals } from '../../../internal/mixin-element-internals';
 import {
+  formDisabled,
   getFormValue,
   mixinFormAssociated,
   type FormRestoreReason,
@@ -80,7 +81,7 @@ export class RcPasswordInput extends base {
         background: var(--rc-color-action-bg-hover);
       }
       
-      :host([disabled]) {
+      :host(:disabled) {
         opacity: var(--rc-opacity-disabled);
       }
     `,
@@ -137,7 +138,7 @@ export class RcPasswordInput extends base {
           aria-label=${ariaLabel || nothing}
           ?readonly=${this.readonly}
           ?required=${this.required}
-          ?disabled=${this.disabled}
+          ?disabled=${this[formDisabled]}
           @input=${this.#onInput}
           @change=${this.#onChange}
         />
@@ -146,7 +147,7 @@ export class RcPasswordInput extends base {
           tabindex="-1"
           aria-label=${this.revealed ? 'Hide password' : 'Show password'}
           aria-pressed=${this.revealed ? 'true' : 'false'}
-          ?disabled=${this.disabled}
+          ?disabled=${this[formDisabled]}
           @click=${() => {
             this.revealed = !this.revealed;
           }}

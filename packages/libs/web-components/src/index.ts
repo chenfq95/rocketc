@@ -152,6 +152,11 @@ export {
   type FormValue,
 } from './internal/mixin-form-associated';
 export {
+  mixinFormSubmitter,
+  type FormSubmitter,
+  type FormSubmitterType,
+} from './internal/mixin-form-submitter';
+export {
   rcStyleProperties,
   type RcBorderWidthValue,
   type RcFontWeightValue,

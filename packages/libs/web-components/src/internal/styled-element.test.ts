@@ -66,7 +66,7 @@ describe('RcStyledElement', () => {
       source.includes('@element rc-'),
     );
 
-    expect(elements).toHaveLength(76);
+    expect(elements).toHaveLength(77);
     expect(elements.filter(([, source]) => !source.includes('RcStyledElement'))).toEqual([]);
   });
 

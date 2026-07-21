@@ -2,6 +2,19 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { RcButton } from './button';
 
+if (!HTMLElement.prototype.attachInternals) {
+  Object.defineProperty(HTMLElement.prototype, 'attachInternals', {
+    configurable: true,
+    value() {
+      return {
+        form: null,
+        labels: document.querySelectorAll(':not(*)'),
+        setFormValue: vi.fn(),
+      } as unknown as ElementInternals;
+    },
+  });
+}
+
 if (!customElements.get('rc-button')) customElements.define('rc-button', RcButton);
 
 afterEach(() => {
@@ -40,6 +53,23 @@ describe('rc-button', () => {
     expect(onClick).not.toHaveBeenCalled();
   });
 
+  it('使用表单关联的有效禁用状态且不改写 disabled / uses form-associated effective disabled state without mutating disabled', async () => {
+    const element = document.createElement('rc-button') as RcButton;
+    document.body.append(element);
+
+    element.formDisabledCallback(true);
+    await element.updateComplete;
+
+    expect(element.disabled).toBe(false);
+    expect(element.shadowRoot?.querySelector('button')?.disabled).toBe(true);
+
+    element.formDisabledCallback(false);
+    await element.updateComplete;
+
+    expect(element.disabled).toBe(false);
+    expect(element.shadowRoot?.querySelector('button')?.disabled).toBe(false);
+  });
+
   it('loading 时禁用按钮并保留内容 / disables the button and preserves content while loading', async () => {
     const element = document.createElement('rc-button') as RcButton;
     element.loading = true;
@@ -60,7 +90,7 @@ describe('rc-button', () => {
     element.type = 'submit';
     element.name = 'intent';
     element.value = 'save';
-    element.form = 'profile';
+    element.setAttribute('form', 'profile');
     element.formAction = '/profiles';
     element.formEnctype = 'multipart/form-data';
     element.formMethod = 'post';
@@ -77,7 +107,6 @@ describe('rc-button', () => {
     expect(button?.getAttributeNames().sort()).toEqual([
       'autofocus',
       'disabled',
-      'form',
       'formaction',
       'formenctype',
       'formmethod',
@@ -91,7 +120,8 @@ describe('rc-button', () => {
     expect(button?.getAttribute('type')).toBe('submit');
     expect(button?.getAttribute('name')).toBe('intent');
     expect(button?.getAttribute('value')).toBe('save');
-    expect(button?.getAttribute('form')).toBe('profile');
+    expect(element.getAttribute('form')).toBe('profile');
+    expect(button?.hasAttribute('form')).toBe(false);
     expect(button?.getAttribute('formaction')).toBe('/profiles');
     expect(button?.getAttribute('formenctype')).toBe('multipart/form-data');
     expect(button?.getAttribute('formmethod')).toBe('post');
@@ -125,7 +155,6 @@ describe('rc-button', () => {
     for (const attribute of [
       'command',
       'commandfor',
-      'form',
       'formaction',
       'formenctype',
       'formmethod',

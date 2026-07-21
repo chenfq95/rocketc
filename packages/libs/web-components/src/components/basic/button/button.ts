@@ -2,6 +2,13 @@ import { LitElement, css, html, nothing, type TemplateResult } from 'lit';
 import { property } from 'lit/decorators.js';
 
 import { RcStyledElement } from '../../../internal/styled-element';
+import { mixinElementInternals } from '../../../internal/mixin-element-internals';
+import {
+  formDisabled,
+  formValidationCandidate,
+  mixinFormAssociated,
+} from '../../../internal/mixin-form-associated';
+import { mixinFormSubmitter } from '../../../internal/mixin-form-submitter';
 
 import {
   delegateAria,
@@ -12,7 +19,9 @@ import {
 export type RcButtonVariant = 'solid' | 'subtle' | 'outline' | 'ghost' | 'destructive';
 export type RcButtonSize = 'sm' | 'md' | 'lg';
 
-const buttonBase = mixinDelegatesAria(RcStyledElement);
+const buttonBase = mixinDelegatesAria(
+  mixinFormSubmitter(mixinFormAssociated(mixinElementInternals(RcStyledElement))),
+);
 
 /**
  * Primary action control. Visuals resolve through `color.control.*` /
@@ -294,18 +303,6 @@ export class RcButton extends buttonBase {
   @property({ type: String, reflect: true })
   accessor size: RcButtonSize = 'md';
 
-  @property({ type: String, reflect: true })
-  accessor type: 'button' | 'submit' | 'reset' = 'button';
-
-  @property({ type: String, reflect: true })
-  accessor name: string = '';
-
-  @property({ type: String, reflect: true })
-  accessor value: string = '';
-
-  @property({ type: String, reflect: true })
-  accessor form: string = '';
-
   @property({ type: String, attribute: 'formaction', reflect: true })
   accessor formAction: string = '';
 
@@ -334,9 +331,6 @@ export class RcButton extends buttonBase {
   accessor popoverTargetAction: string = '';
 
   @property({ type: Boolean, reflect: true })
-  accessor disabled: boolean = false;
-
-  @property({ type: Boolean, reflect: true })
   accessor loading: boolean = false;
 
   /** Square icon-only control. Prefer an explicit `aria-label`. */
@@ -357,6 +351,10 @@ export class RcButton extends buttonBase {
         <span class="spinner-circle"></span>
       </span>
     `;
+  }
+
+  [formValidationCandidate](): boolean {
+    return this.type === 'submit';
   }
 
   protected renderContent(): TemplateResult {
@@ -397,8 +395,7 @@ export class RcButton extends buttonBase {
         ?autofocus=${this.autofocus}
         command=${this.command || nothing}
         commandfor=${this.commandFor || nothing}
-        ?disabled=${this.disabled || this.loading}
-        form=${this.form || nothing}
+        ?disabled=${this[formDisabled] || this.loading}
         formaction=${this.formAction || nothing}
         formenctype=${this.formEnctype || nothing}
         formmethod=${this.formMethod || nothing}

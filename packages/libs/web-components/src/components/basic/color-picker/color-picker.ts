@@ -5,6 +5,7 @@ import { RcStyledElement } from '../../../internal/styled-element';
 
 import { mixinElementInternals } from '../../../internal/mixin-element-internals';
 import {
+  formDisabled,
   getFormValue,
   mixinFormAssociated,
   type FormRestoreReason,
@@ -99,7 +100,7 @@ export class RcColorPicker extends base {
         <input part="control"
           type="color"
           .value=${this.value}
-          ?disabled=${this.disabled}
+          ?disabled=${this[formDisabled]}
           aria-label="Color"
           @input=${(e: Event) => this.#emit('input', (e.target as HTMLInputElement).value)}
           @change=${(e: Event) => this.#emit('change', (e.target as HTMLInputElement).value)}
@@ -107,7 +108,7 @@ export class RcColorPicker extends base {
         <input part="control"
           type="text"
           .value=${this.value}
-          ?disabled=${this.disabled}
+          ?disabled=${this[formDisabled]}
           aria-label="Hex color"
           spellcheck="false"
           @change=${(e: Event) =>

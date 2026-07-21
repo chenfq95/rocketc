@@ -23,13 +23,27 @@ export const getFormValue = Symbol('getFormValue');
 /** Symbol property to retrieve the form state for an element. */
 export const getFormState = Symbol('getFormState');
 
+/** 表单控件自身或表单上下文导致的有效禁用状态。 / Effective disabled state from the control or its form context. */
+export const formDisabled = Symbol('formDisabled');
+
+/** 表单控件当前是否参与约束校验的可选 hook。 / Optional hook that determines whether the form control participates in constraint validation. */
+export const formValidationCandidate = Symbol('formValidationCandidate');
+
 export interface FormAssociated {
   readonly form: HTMLFormElement | null;
   readonly labels: NodeList;
+  readonly [formDisabled]: boolean;
+  [formValidationCandidate]?(): boolean;
+  readonly validity: ValidityState;
+  readonly validationMessage: string;
+  readonly willValidate: boolean;
   name: string;
   disabled: boolean;
   [getFormValue](): FormValue | null;
   [getFormState](): FormValue | null;
+  checkValidity(): boolean;
+  reportValidity(): boolean;
+  setCustomValidity(error: string): void;
   formDisabledCallback(disabled: boolean): void;
   formResetCallback?(): void;
   formStateRestoreCallback?(state: FormRestoreState | null, reason: FormRestoreReason): void;
@@ -66,12 +80,48 @@ export function mixinFormAssociated<T extends Constructor<LitElement & WithEleme
   abstract class FormAssociatedElement extends base implements FormAssociated {
     static readonly formAssociated = true;
 
+    declare [formValidationCandidate]?: () => boolean;
+
+    #formDisabled = false;
+    #customValidationMessage = '';
+
     get form(): HTMLFormElement | null {
       return this[internals].form;
     }
 
     get labels(): NodeList {
       return this[internals].labels;
+    }
+
+    get [formDisabled](): boolean {
+      return this.disabled || this.#formDisabled;
+    }
+
+    get validity(): ValidityState {
+      if (!this.#isValidationCandidate() && this.#customValidationMessage) {
+        return {
+          badInput: false,
+          customError: true,
+          patternMismatch: false,
+          rangeOverflow: false,
+          rangeUnderflow: false,
+          stepMismatch: false,
+          tooLong: false,
+          tooShort: false,
+          typeMismatch: false,
+          valid: false,
+          valueMissing: false,
+        };
+      }
+      return this[internals].validity;
+    }
+
+    get validationMessage(): string {
+      return this.#isValidationCandidate() ? this[internals].validationMessage : '';
+    }
+
+    get willValidate(): boolean {
+      return this.#isValidationCandidate() && this[internals].willValidate;
     }
 
     /**
@@ -129,6 +179,7 @@ export function mixinFormAssociated<T extends Constructor<LitElement & WithEleme
         return;
       }
       this.#syncFormValue();
+      if (this.#customValidationMessage) this.#syncCustomValidity();
     }
 
     #syncFormValue(): void {
@@ -143,8 +194,34 @@ export function mixinFormAssociated<T extends Constructor<LitElement & WithEleme
       return this[getFormValue]();
     }
 
+    checkValidity(): boolean {
+      return !this.#isValidationCandidate() || this[internals].checkValidity();
+    }
+
+    reportValidity(): boolean {
+      return !this.#isValidationCandidate() || this[internals].reportValidity();
+    }
+
+    setCustomValidity(error: string): void {
+      this.#customValidationMessage = String(error);
+      this.#syncCustomValidity();
+    }
+
+    #syncCustomValidity(): void {
+      if (this.#isValidationCandidate() && this.#customValidationMessage) {
+        this[internals].setValidity({ customError: true }, this.#customValidationMessage);
+        return;
+      }
+      this[internals].setValidity({});
+    }
+
+    #isValidationCandidate(): boolean {
+      return this[formValidationCandidate]?.() ?? true;
+    }
+
     formDisabledCallback(disabled: boolean): void {
-      this.disabled = disabled;
+      this.#formDisabled = disabled;
+      this.requestUpdate();
     }
   }
 

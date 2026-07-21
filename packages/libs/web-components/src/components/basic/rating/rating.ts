@@ -5,6 +5,7 @@ import { RcStyledElement } from '../../../internal/styled-element';
 
 import { mixinElementInternals } from '../../../internal/mixin-element-internals';
 import {
+  formDisabled,
   getFormValue,
   mixinFormAssociated,
   type FormRestoreReason,
@@ -71,16 +72,16 @@ export class RcRating extends base {
       }
       
       :host([readonly]) button,
-      :host([disabled]) button {
+      :host(:disabled) button {
         cursor: default;
       }
       
       :host([readonly]) button:hover,
-      :host([disabled]) button:hover {
+      :host(:disabled) button:hover {
         transform: none;
       }
       
-      :host([disabled]) {
+      :host(:disabled) {
         opacity: var(--rc-opacity-disabled);
       }
     `,
@@ -111,7 +112,7 @@ export class RcRating extends base {
   }
 
   #set(value: number) {
-    if (this.disabled || this.readonly) return;
+    if (this[formDisabled] || this.readonly) return;
     this.value = value;
     this.dispatchEvent(
       new CustomEvent('change', {
@@ -149,7 +150,7 @@ export class RcRating extends base {
               role="radio"
               aria-checked=${this.value >= n ? 'true' : 'false'}
               aria-label=${`${n}`}
-              ?disabled=${this.disabled || this.readonly}
+              ?disabled=${this[formDisabled] || this.readonly}
               @click=${() => this.#set(n)}
             >
               ${this.#starIcon()}

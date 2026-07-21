@@ -6,6 +6,7 @@ import { RcStyledElement } from '../../../internal/styled-element';
 import { mixinDelegatesAria, type ARIAMixinStrict } from '../../../internal/mixin-delegates-aria';
 import { mixinElementInternals } from '../../../internal/mixin-element-internals';
 import {
+  formDisabled,
   getFormValue,
   mixinFormAssociated,
   type FormRestoreReason,
@@ -110,7 +111,7 @@ export class RcSlider extends sliderBase {
         aria-valuemin=${ariaValueMin || String(this.min)}
         aria-valuenow=${ariaValueNow || this.value}
         aria-valuetext=${ariaValueText || nothing}
-        ?disabled=${this.disabled}
+        ?disabled=${this[formDisabled]}
         max=${this.max}
         min=${this.min}
         name=${this.name}

@@ -6,6 +6,7 @@ import { RcStyledElement } from '../../../internal/styled-element';
 import { mixinDelegatesAria, type ARIAMixinStrict } from '../../../internal/mixin-delegates-aria';
 import { mixinElementInternals } from '../../../internal/mixin-element-internals';
 import {
+  formDisabled,
   getFormValue,
   mixinFormAssociated,
   type FormRestoreReason,
@@ -179,7 +180,7 @@ export class RcInput extends inputBase {
         aria-placeholder=${ariaPlaceholder || nothing}
         aria-required=${ariaRequired || nothing}
         autocomplete=${this.autocomplete || nothing}
-        ?disabled=${this.disabled}
+        ?disabled=${this[formDisabled]}
         list=${this.list || nothing}
         max=${this.max || nothing}
         maxlength=${this.maxlength >= 0 ? this.maxlength : nothing}

@@ -6,6 +6,7 @@ import { RcStyledElement } from '../../../internal/styled-element';
 
 import { mixinElementInternals } from '../../../internal/mixin-element-internals';
 import {
+  formDisabled,
   getFormValue,
   mixinFormAssociated,
   type FormRestoreReason,
@@ -157,7 +158,7 @@ export class RcCombobox extends base {
         aria-autocomplete="list"
         .value=${display}
         placeholder=${this.placeholder || nothing}
-        ?disabled=${this.disabled}
+        ?disabled=${this[formDisabled]}
         ?required=${this.required}
         @focus=${() => {
           this.open = true;

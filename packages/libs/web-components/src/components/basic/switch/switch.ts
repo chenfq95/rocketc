@@ -6,6 +6,7 @@ import { RcStyledElement } from '../../../internal/styled-element';
 import { mixinDelegatesAria, type ARIAMixinStrict } from '../../../internal/mixin-delegates-aria';
 import { mixinElementInternals } from '../../../internal/mixin-element-internals';
 import {
+  formDisabled,
   getFormState,
   getFormValue,
   mixinFormAssociated,
@@ -119,7 +120,7 @@ export class RcSwitch extends switchBase {
   }
 
   #toggle() {
-    if (this.disabled) return;
+    if (this[formDisabled]) return;
     this.checked = !this.checked;
     this.dispatchEvent(
       new CustomEvent('change', {
@@ -136,7 +137,7 @@ export class RcSwitch extends switchBase {
       <button part="control"
         aria-checked=${this.checked ? 'true' : 'false'}
         aria-label=${ariaLabel || nothing}
-        ?disabled=${this.disabled}
+        ?disabled=${this[formDisabled]}
         role=${role || 'switch'}
         type="button"
         @click=${this.#toggle}
