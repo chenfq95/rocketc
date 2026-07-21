@@ -1,8 +1,7 @@
-/// <reference types="vitest/config" />
-
 import { defineConfig } from 'vite';
 import babel from '@rolldown/plugin-babel';
 import dts from 'unplugin-dts/vite';
+import { configDefaults } from 'vitest/config';
 
 function decoratorPreset(options: Record<string, unknown>) {
   return {
@@ -45,6 +44,7 @@ export default defineConfig(({ mode }) => {
     ],
     test: {
       environment: 'happy-dom',
+      exclude: [...configDefaults.exclude, 'src/**/*.browser.test.ts'],
     },
     build: {
       target: ['chrome107', 'edge107', 'firefox104', 'safari16'],

@@ -306,6 +306,33 @@ export class RcButton extends buttonBase {
   @property({ type: String, reflect: true })
   accessor form: string = '';
 
+  @property({ type: String, attribute: 'formaction', reflect: true })
+  accessor formAction: string = '';
+
+  @property({ type: String, attribute: 'formenctype', reflect: true })
+  accessor formEnctype: string = '';
+
+  @property({ type: String, attribute: 'formmethod', reflect: true })
+  accessor formMethod: string = '';
+
+  @property({ type: Boolean, attribute: 'formnovalidate', reflect: true })
+  accessor formNoValidate: boolean = false;
+
+  @property({ type: String, attribute: 'formtarget', reflect: true })
+  accessor formTarget: string = '';
+
+  @property({ type: String, reflect: true })
+  accessor command: string = '';
+
+  @property({ type: String, attribute: 'commandfor', reflect: true })
+  accessor commandFor: string = '';
+
+  @property({ type: String, attribute: 'popovertarget', reflect: true })
+  accessor popoverTarget: string = '';
+
+  @property({ type: String, attribute: 'popovertargetaction', reflect: true })
+  accessor popoverTargetAction: string = '';
+
   @property({ type: Boolean, reflect: true })
   accessor disabled: boolean = false;
 
@@ -368,9 +395,18 @@ export class RcButton extends buttonBase {
           ariaLabel: host.ariaLabel || this.defaultAriaLabel || null,
         })}
         ?autofocus=${this.autofocus}
+        command=${this.command || nothing}
+        commandfor=${this.commandFor || nothing}
         ?disabled=${this.disabled || this.loading}
         form=${this.form || nothing}
+        formaction=${this.formAction || nothing}
+        formenctype=${this.formEnctype || nothing}
+        formmethod=${this.formMethod || nothing}
+        ?formnovalidate=${this.formNoValidate}
+        formtarget=${this.formTarget || nothing}
         name=${this.name || nothing}
+        popovertarget=${this.popoverTarget || nothing}
+        popovertargetaction=${this.popoverTargetAction || nothing}
         type=${this.type}
         value=${this.value || nothing}
       >
